@@ -79,6 +79,8 @@ declare interface IUser {
   initiated: boolean
 }
 
+declare type IFullUser = IUser & { iat: number; exp: number }
+
 declare type TAuthType = 'local' | 'google' | 'facebook' | 'apple'
 declare type TUserRole = 'admin' | 'user'
 

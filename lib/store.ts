@@ -4,6 +4,7 @@ import categoryReduce from './reducers/categoryReduce'
 import loadReducer from './reducers/loadReducer'
 import settingsReducer from './reducers/settingsReducer'
 import transactionReducer from './reducers/transactionReducer'
+import userReducer from './reducers/userReducer'
 import walletReducer from './reducers/walletReducer'
 
 export const makeStore = () => {
@@ -15,6 +16,7 @@ export const makeStore = () => {
       category: categoryReduce,
       transaction: transactionReducer,
       budget: budgetReducer,
+      user: userReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
   })

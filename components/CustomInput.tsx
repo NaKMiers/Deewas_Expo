@@ -1,11 +1,11 @@
 import Text from '@/components/Text'
+import { currencies } from '@/constants/settings'
 import { useAppSelector } from '@/hooks/reduxHook'
 import { adjustCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { LucideEye, LucideEyeOff } from 'lucide-react-native'
 import { memo, ReactNode, useCallback, useState } from 'react'
 import { Controller, FieldErrors } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -51,8 +51,9 @@ function CustomInput({
 }: InputProps) {
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
-  const { i18n } = useTranslation()
-  const locale = i18n.language
+
+  // values
+  const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
   // states
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
@@ -70,25 +71,30 @@ function CustomInput({
             name={id}
             control={control}
             rules={{ required }}
-            render={({ field }) => (
+            render={({ field: { onChange: onFieldChange, value } }) => (
               <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
+                onValueChange={(option: any) => {
+                  onFieldChange(option.value)
+                  if (onChange) onChange(option.value)
+                }}
+                defaultValue={value}
               >
                 <SelectTrigger
-                  className={cn('border', errors[id]?.message ? 'border-rose-500' : 'border-dark')}
+                  className={cn(
+                    'border',
+                    className,
+                    errors[id]?.message ? 'border-rose-500' : 'border-dark'
+                  )}
                 >
                   <SelectValue placeholder={label} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="">
                   {options?.map(option => (
                     <SelectItem
-                      key={option.value}
                       value={option.value}
                       label={option.label}
-                    >
-                      {option.label}
-                    </SelectItem>
+                      key={option.value}
+                    />
                   ))}
                 </SelectContent>
               </Select>
@@ -106,13 +112,13 @@ function CustomInput({
                 id={id}
                 className={cn(
                   'peer block h-full w-full touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
+                  className,
                   errors[id]?.message ? 'border-rose-500' : 'border-dark'
                 )}
                 editable={!disabled}
                 keyboardType="numeric"
                 value={adjustCurrency(value || '', locale)}
                 onChangeText={text => {
-                  const cleanValue = text.replace(/[^0-9]/g, '')
                   onFieldChange(text)
                   if (onChange) onChange(text)
                 }}
@@ -134,6 +140,7 @@ function CustomInput({
                   id={id}
                   className={cn(
                     'peer block h-full w-full touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
+                    className,
                     errors[id]?.message ? 'border-rose-500' : 'border-dark',
                     type === 'password' ? 'pr-10' : ''
                   )}
@@ -175,14 +182,23 @@ function CustomInput({
           </>
         )
     }
-  }, [])
+  }, [
+    control,
+    errors,
+    id,
+    isShowPassword,
+    label,
+    locale,
+    onChange,
+    options,
+    required,
+    rest,
+    showPassword,
+    type,
+  ])
 
   return (
-    <TouchableOpacity
-      className={cn(className)}
-      // onPress={onClick}
-      // onFocus={onFocus}
-    >
+    <TouchableOpacity>
       <Label
         htmlFor={id}
         className={cn('ml-1 text-xs font-semibold', labelClassName, errors[id] ? 'text-rose-500' : '')}
@@ -211,7 +227,7 @@ function CustomInput({
 
       {/* MARK: Error */}
       {errors[id]?.message && (
-        <Text className="ml-1 mt-0.5 text-xs text-rose-500 drop-shadow-lg">
+        <Text className="mt ml-1 mt-4 text-sm text-rose-500 drop-shadow-lg">
           {errors[id]?.message?.toString()}
         </Text>
       )}

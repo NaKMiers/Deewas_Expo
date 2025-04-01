@@ -1,15 +1,15 @@
 import { currencies } from '@/constants/settings'
-import { IUser } from '@/models/UserModel'
 import {
   LucideArrowRightLeft,
-  LucideChartNoAxesCombined,
+  LucideBarChart4,
   LucideForward,
   LucideHandCoins,
   LucideTrendingDown,
   LucideTrendingUp,
   LucideWalletCards,
-} from 'lucide-react'
+} from 'lucide-react-native'
 import * as locales from 'date-fns/locale'
+import { IUser } from '@/types/type'
 
 export const shortName = (user: IUser) => {
   if (user?.firstName) {
@@ -91,7 +91,7 @@ export const tranOptions = {
     hex: '#eab308',
   },
   invest: {
-    Icon: LucideChartNoAxesCombined,
+    Icon: LucideBarChart4,
     color: 'text-violet-500',
     background: 'bg-violet-950',
     border: 'border-violet-500',

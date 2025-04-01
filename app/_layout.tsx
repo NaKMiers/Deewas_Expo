@@ -1,7 +1,6 @@
 import '@/global.scss'
 
 import StoreProvider from '@/components/providers/StoreProvider'
-import { ThemeToggle } from '@/components/ThemeToggle'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
 import { NAV_THEME } from '@/lib/constants'
 import { useColorScheme } from '@/lib/useColorScheme'
@@ -12,6 +11,8 @@ import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
+import 'react-native-gesture-handler'
+import Toast from 'react-native-toast-message'
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -87,25 +88,16 @@ function RootLayout() {
       <StoreProvider>
         <>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <Stack>
-            <Stack.Screen
-              name="(home)"
-              options={{
-                //  headerShown: false,
-                headerRight: () => <ThemeToggle />,
-              }}
-            />
-            <Stack.Screen
-              name="(auth)"
-              options={{
-                //  headerShown: false,
-                headerRight: () => <ThemeToggle />,
-              }}
-            />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(home)" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="wizard" />
           </Stack>
           <PortalHost />
         </>
       </StoreProvider>
+
+      <Toast />
     </ThemeProvider>
   )
 }
