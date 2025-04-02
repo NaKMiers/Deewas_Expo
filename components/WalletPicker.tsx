@@ -146,7 +146,6 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
                   onPress={() => {
                     setOpen(false)
                     setSelectedWallet(wallet)
-                    console.log('onChange', onChange)
                     onChange(wallet)
                     closeDrawer2()
                   }}
@@ -166,7 +165,7 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
   )
 }
 
-interface WalletPickerProps {
+interface WalletPickerNodeProps {
   wallet?: IWallet
   onChange: (wallet: IWallet | null) => void
   isAllowedAll?: boolean
@@ -174,7 +173,7 @@ interface WalletPickerProps {
   [key: string]: any
 }
 
-const Node = ({ wallet, isAllowedAll, onChange, className, ...rest }: WalletPickerProps) => {
+const Node = ({ wallet, isAllowedAll, onChange, className, ...rest }: WalletPickerNodeProps) => {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletPicker.' + key)

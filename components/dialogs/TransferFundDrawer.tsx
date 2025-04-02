@@ -46,7 +46,7 @@ function TransferFundDrawer({
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
-  const { curWallet } = useAppSelector(state => state.wallet)
+  const { wallets } = useAppSelector(state => state.wallet)
 
   // values
   const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
@@ -195,10 +195,8 @@ function TransferFundDrawer({
                   'w-full justify-normal',
                   errors.fromWalletId?.message && 'border-rose-500'
                 )}
-                onChange={(wallet: IWallet | null) => {
-                  console.log('wallet', wallet)
-                }}
-                wallet={initFromWallet}
+                onChange={(wallet: IWallet | null) => wallet && setValue('fromWalletId', wallet._id)}
+                wallet={wallets.find(w => w._id === form.fromWalletId) || initToWallet}
               />
             </Pressable>
             {errors.fromWalletId?.message && (
@@ -217,7 +215,7 @@ function TransferFundDrawer({
               <WalletPicker
                 className={cn('w-full justify-normal', errors.toWalletId?.message && 'border-rose-500')}
                 onChange={(wallet: IWallet | null) => wallet && setValue('toWalletId', wallet._id)}
-                wallet={initToWallet}
+                wallet={wallets.find(w => w._id === form.toWalletId)}
               />
             </Pressable>
             {errors.toWalletId?.message && (

@@ -221,10 +221,10 @@ function History({ className = '' }: HistoryProps) {
       <View className="flex flex-row items-center justify-between">
         <Text className="text-lg font-bold">{t('History')}</Text>
 
-        {/* <DateRangePicker
+        <DateRangePicker
           values={dateRange}
           update={({ from, to }) => setDateRange({ from, to })}
-        /> */}
+        />
       </View>
 
       <View className="mt-1.5 rounded-lg border border-muted-foreground/50 px-0">

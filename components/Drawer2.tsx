@@ -37,7 +37,10 @@ function Drawer2() {
       }}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback
+          className="flex-1"
+          onPress={Keyboard.dismiss}
+        >
           <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
             <ScrollView>{content2}</ScrollView>
           </SafeAreaView>

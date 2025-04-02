@@ -1,9 +1,11 @@
 'use client'
 
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
 import SettingsBox from '@/components/SettingsBox'
 import Text from '@/components/Text'
+import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { refetching } from '@/lib/reducers/loadReducer'
@@ -20,12 +22,12 @@ import {
 } from 'lucide-react-native'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function AccountPage({ navigation }: any) {
   // hooks
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('accountPage.', key)
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme()
@@ -198,7 +200,7 @@ function AccountPage({ navigation }: any) {
           </View>
 
           {/* MARK: Danger */}
-          {/* <ConfirmDialog
+          <ConfirmDialog
             label={t('Delete All Data')}
             desc={t('Are you sure you want to delete all your data? This action is irreversible')}
             confirmLabel={t('Delete')}
@@ -208,37 +210,33 @@ function AccountPage({ navigation }: any) {
               !deleting ? (
                 <Button
                   variant="outline"
-                  className="mt-8 w-full border-rose-500 text-sm font-semibold capitalize text-rose-500"
+                  className="mt-8 w-full border-rose-500"
                 >
-                  {t('Delete All Data')}
+                  <Text className="text-sm font-semibold capitalize text-rose-500">
+                    {t('Delete All Data')}
+                  </Text>
                 </Button>
               ) : (
-                <Button
-                  disabled
-                  variant="outline"
-                  className="mt-8 w-full border-rose-500 text-sm font-semibold capitalize text-rose-500"
-                >
-                  <LucideLoaderCircle className="animate-spin" />
-                </Button>
+                <ActivityIndicator />
               )
             }
-          /> */}
+          />
 
-          {/* <ConfirmDialog
+          <ConfirmDialog
             label={t('Log Out')}
             desc={t('Are you sure you want to log out?')}
             confirmLabel={t('Log Out')}
             cancelLabel="Cancel"
-            onConfirm={signOut}
+            onConfirm={logout}
             trigger={
               <Button
                 variant="outline"
-                className="mt-8 w-full border-rose-500 text-sm font-semibold capitalize text-rose-500"
+                className="mt-8 w-full border-rose-500"
               >
-                {t('Log Out')}
+                <Text className="font-semibold capitalize text-rose-500">{t('Log Out')}</Text>
               </Button>
             }
-          /> */}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
