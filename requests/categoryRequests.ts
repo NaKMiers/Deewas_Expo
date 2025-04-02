@@ -29,6 +29,10 @@ export const createCategoryApi = async (data: any) => {
   if (!token) throw new Error('No token found')
 
   const res = await fetch(API + '/create', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
     method: 'POST',
     body: JSON.stringify(data),
   })
@@ -47,6 +51,10 @@ export const updateCategoryApi = async (id: string, data: any) => {
   if (!token) throw new Error('No token found')
 
   const res = await fetch(API + `/${id}/update`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
     method: 'PUT',
     body: JSON.stringify(data),
   })
@@ -65,6 +73,10 @@ export const deleteCategoryApi = async (id: string) => {
   if (!token) throw new Error('No token found')
 
   const res = await fetch(API + `/${id}/delete`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
     method: 'DELETE',
   })
 

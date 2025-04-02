@@ -224,7 +224,8 @@
     "Select Date": "Select Date",
     "When did this transaction happen?": "When did this transaction happen?",
     "Cancel": "Cancel",
-    "Save": "Save"
+    "Save": "Save",
+    "Transaction name": "Transaction name"
   },
   "createWalletDrawer": {
     "Name is required": "Name is required",
@@ -238,6 +239,7 @@
     "Icon will be used to represent your wallet": "Icon will be used to represent your wallet",
     "This is how your wallet will appear in the app": "This is how your wallet will appear in the app",
     "Cancel": "Cancel",
+    "Wallet name": "Wallet name",
     "Save": "Save"
   },
   "updateBudgetDrawer": {
@@ -539,7 +541,10 @@
     "This Month": "This Month",
     "Last Month": "Last Month",
     "Update": "Update",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Confirm": "Confirm",
+    "From Date": "From Date",
+    "To Date": "To Date"
   },
   "settingsBox": {
     "Set your currency": "Set your currency",
@@ -564,7 +569,9 @@
     "Category deleted": "Category deleted",
     "Transaction deleted": "Transaction deleted",
     "Transaction duplicated": "Transaction duplicated",
-    "Wallet deleted": "Wallet deleted"
+    "Wallet deleted": "Wallet deleted",
+    "Wallet created": "Wallet created",
+    "Transferred fund": "Transferred fund"
   },
   "error": {
     "Login Failed": "Login Failed",
@@ -583,6 +590,8 @@
     "Failed to delete transaction": "Failed to delete transaction",
     "Failed to duplicate transaction": "Failed to duplicate transaction",
     "Failed to delete wallet": "Failed to delete wallet",
-    "Failed to get categories": "Failed to get categories"
+    "Failed to get categories": "Failed to get categories",
+    "Failed to create wallet": "Failed to create wallet",
+    "Failed to transfer": "Failed to transfer"
   }
 }

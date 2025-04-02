@@ -2,13 +2,14 @@
 
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refetching } from '@/lib/reducers/loadReducer'
+import { setWallets } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
 import { IWallet } from '@/types/type'
-import { LucideRefreshCw } from 'lucide-react-native'
+import { LucideLoaderCircle, LucidePlusSquare, LucideRefreshCw } from 'lucide-react-native'
 import { memo, ReactNode, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, FlatList, View } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import CreateWalletDrawer from './dialogs/CreateWalletDrawer'
 import Icon from './Icon'
 import NoItemsFound from './NoItemsFound'
 import Text from './Text'
@@ -46,7 +47,7 @@ function Wallets({ className = '' }: WalletProps) {
           <Button
             variant="outline"
             size="icon"
-            className="group h-8"
+            className="group h-10 w-10"
             onPress={() => dispatch(refetching())}
           >
             <Icon
@@ -57,29 +58,28 @@ function Wallets({ className = '' }: WalletProps) {
           </Button>
 
           {/* MARK: Create Wallet */}
-          {/* <CreateWalletDrawer
+          <CreateWalletDrawer
             update={wallet => dispatch(setWallets([wallet, ...wallets]))}
             load={setCreating}
             trigger={
-              <Button
-                disabled={creating}
-                variant="outline"
-                className="h-8 px-3 text-xs font-semibold"
-              >
+              <View className="flex h-10 flex-row items-center gap-2 rounded-lg border border-secondary px-4">
                 {!creating ? (
                   <>
-                    {t('New Wallet')}
-                    <LucidePlusCircle
-                      size={16}
-                      className=""
+                    <Text className="font-semibold">{t('New Wallet')}</Text>
+                    <Icon
+                      render={LucidePlusSquare}
+                      size={18}
                     />
                   </>
                 ) : (
-                  <LucideLoaderCircle className="animate-spin" />
+                  <Icon
+                    render={LucideLoaderCircle}
+                    className="animate-spin"
+                  />
                 )}
-              </Button>
+              </View>
             }
-          /> */}
+          />
         </View>
       </View>
 

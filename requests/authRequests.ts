@@ -5,14 +5,7 @@ const API = BASE_URL + '/api/auth'
 
 // [POST]: /auth/signin/credentials
 export const signInCredentialsApi = async (data: any) => {
-  const token = await getToken()
-  if (!token) throw new Error('No token found')
-
   const res = await fetch(API + '/signin/credentials', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
     method: 'POST',
     body: JSON.stringify(data),
   })

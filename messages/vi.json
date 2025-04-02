@@ -222,7 +222,8 @@
     "Select Date": "Chọn ngày",
     "When did this transaction happen?": "Bạn đã thực hiện giao dịch này vào lúc nào?",
     "Cancel": "Hủy",
-    "Save": "Lưu"
+    "Save": "Lưu",
+    "Transaction name": "Tên giao dịch"
   },
   "createWalletDrawer": {
     "Name is required": "Tên ví không được trống",
@@ -537,7 +538,8 @@
     "This Month": "Tháng này",
     "Last Month": "Tháng trước",
     "Update": "Áp dụng",
-    "Cancel": "Hủy"
+    "Cancel": "Hủy",
+    "Confirm": "Xác nhận"
   },
   "settingsBox": {
     "Set your currency": "Thiết lập tiền tệ",

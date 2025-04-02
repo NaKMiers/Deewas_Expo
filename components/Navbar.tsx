@@ -71,7 +71,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
     >
       <View className="flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary">
         {routes.map(route => {
-          const isFocused = state.routes[state.index]?.name === route.label
+          const isFocused = state.routes[state.index]?.name === route.label.toLowerCase()
 
           return (
             <TouchableOpacity

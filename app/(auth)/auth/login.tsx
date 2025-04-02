@@ -104,7 +104,7 @@ function LoginPage() {
 
       router.replace('/wizard')
     } catch (err: any) {
-      console.log('Login error:', err)
+      console.log(err)
       Toast.show({
         type: 'error',
         text1: tError('Login Failed'),

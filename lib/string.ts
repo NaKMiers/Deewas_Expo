@@ -1,15 +1,15 @@
 import { currencies } from '@/constants/settings'
+import { IUser } from '@/types/type'
+import * as locales from 'date-fns/locale'
 import {
   LucideArrowRightLeft,
   LucideBarChart4,
-  LucideForward,
   LucideHandCoins,
   LucideTrendingDown,
   LucideTrendingUp,
   LucideWalletCards,
 } from 'lucide-react-native'
-import * as locales from 'date-fns/locale'
-import { IUser } from '@/types/type'
+import 'intl'
 
 export const shortName = (user: IUser) => {
   if (user?.firstName) {
@@ -143,13 +143,12 @@ export const adjustCurrency = (input: string, locale: string) => {
 }
 
 export const revertAdjustedCurrency = (input: string, locale: string) => {
-  const formatter = new Intl.NumberFormat(locale)
-  const parts = formatter.formatToParts(1234.56)
+  const decimalSeparator = locale === 'en-US' ? '.' : ','
+  const groupSeparator = locale === 'en-US' ? ',' : '.'
 
-  const groupSeparator = parts.find(p => p.type === 'group')?.value || ','
-  const decimalSeparator = parts.find(p => p.type === 'decimal')?.value || '.'
+  const cleanValue = input
+    .replace(new RegExp(`\\${groupSeparator}`, 'g'), '')
+    .replace(decimalSeparator, '.')
 
-  return (
-    Number(input.replace(new RegExp(`\\${groupSeparator}`, 'g'), '').replace(decimalSeparator, '.')) || 0
-  )
+  return Number(cleanValue) || 0
 }

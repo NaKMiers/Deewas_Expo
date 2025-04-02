@@ -90,7 +90,10 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
               label: '10',
             }}
           >
-            <SelectTrigger className="h-8 max-w-max gap-1.5 text-sm">
+            <SelectTrigger
+              className="max-w-max gap-1.5 text-sm"
+              style={{ height: 36 }}
+            >
               <SelectValue
                 className="text-primary"
                 placeholder="Select..."
@@ -110,11 +113,12 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
         </View>
 
         <Button
-          variant="link"
+          variant="outline"
           className="h-8"
           onPress={() => router.push('/transactions')}
+          style={{ height: 36 }}
         >
-          <Text>{t('All')}</Text>
+          <Text className="font-semibold">{t('All')}</Text>
         </Button>
       </View>
 
@@ -246,7 +250,7 @@ export function Transaction({ transaction, update, remove, refetch, className = 
         <View className="flex flex-row items-center gap-1">
           {currency && (
             <View className="flex flex-col items-end">
-              <Text className="text-xs text-muted-foreground">
+              <Text className="text-muted-foreground">
                 {formatDate(
                   moment(transaction.date).toDate(),
                   currencies.find(c => c.value === currency)?.locale

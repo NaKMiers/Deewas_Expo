@@ -1,20 +1,20 @@
-import * as SwitchPrimitives from '@rn-primitives/switch';
-import * as React from 'react';
-import { Platform } from 'react-native';
+import * as SwitchPrimitives from '@rn-primitives/switch'
+import * as React from 'react'
+import { Platform } from 'react-native'
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
-} from 'react-native-reanimated';
-import { useColorScheme } from '@/lib/useColorScheme';
-import { cn } from '@/lib/utils';
+} from 'react-native-reanimated'
+import { useColorScheme } from '@/lib/useColorScheme'
+import { cn } from '@/lib/utils'
 
 const SwitchWeb = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives.RootProps>(
   ({ className, ...props }, ref) => (
     <SwitchPrimitives.Root
       className={cn(
-        'peer flex-row h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed',
+        'peer h-6 w-11 shrink-0 cursor-pointer flex-row items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed',
         props.checked ? 'bg-primary' : 'bg-input',
         props.disabled && 'opacity-50',
         className
@@ -30,9 +30,9 @@ const SwitchWeb = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives.Ro
       />
     </SwitchPrimitives.Root>
   )
-);
+)
 
-SwitchWeb.displayName = 'SwitchWeb';
+SwitchWeb.displayName = 'SwitchWeb'
 
 const RGB_COLORS = {
   light: {
@@ -43,12 +43,12 @@ const RGB_COLORS = {
     primary: 'rgb(250, 250, 250)',
     input: 'rgb(39, 39, 42)',
   },
-} as const;
+} as const
 
 const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives.RootProps>(
   ({ className, ...props }, ref) => {
-    const { colorScheme } = useColorScheme();
-    const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
+    const { colorScheme } = useColorScheme()
+    const translateX = useDerivedValue(() => (props.checked ? 18 : 0))
     const animatedRootStyle = useAnimatedStyle(() => {
       return {
         backgroundColor: interpolateColor(
@@ -56,11 +56,11 @@ const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives
           [0, 18],
           [RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary]
         ),
-      };
-    });
+      }
+    })
     const animatedThumbStyle = useAnimatedStyle(() => ({
       transform: [{ translateX: withTiming(translateX.value, { duration: 200 }) }],
-    }));
+    }))
     return (
       <Animated.View
         style={animatedRootStyle}
@@ -68,7 +68,7 @@ const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives
       >
         <SwitchPrimitives.Root
           className={cn(
-            'flex-row h-8 w-[46px] shrink-0 items-center rounded-full border-2 border-transparent',
+            'h-8 w-[46px] shrink-0 flex-row items-center rounded-full border-2 border-transparent',
             props.checked ? 'bg-primary' : 'bg-input',
             className
           )}
@@ -82,14 +82,14 @@ const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives
           </Animated.View>
         </SwitchPrimitives.Root>
       </Animated.View>
-    );
+    )
   }
-);
-SwitchNative.displayName = 'SwitchNative';
+)
+SwitchNative.displayName = 'SwitchNative'
 
 const Switch = Platform.select({
   web: SwitchWeb,
   default: SwitchNative,
-});
+})
 
-export { Switch };
+export { Switch }

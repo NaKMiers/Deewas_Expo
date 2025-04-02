@@ -1,80 +1,58 @@
 'use client'
 
+import { cn } from '@/lib/utils'
 import { deleteCategoryApi, getMyCategoriesApi } from '@/requests/categoryRequests'
 import { ICategory, TransactionType } from '@/types/type'
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { LucideChevronsUpDown, LucideX } from 'lucide-react-native'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, TouchableOpacity, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import ConfirmDialog from './dialogs/ConfirmDialog'
+import Icon from './Icon'
+import { useDrawer } from './providers/DrawerProvider'
 import Text from './Text'
+import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
+import { Skeleton } from './ui/skeleton'
+import { category } from '@/lib/reducers/categoryReduce'
 
 interface CategoryPickerProps {
-  category?: ICategory
+  categories: ICategory[]
+  setCategories: Dispatch<SetStateAction<ICategory[]>>
   type: TransactionType
   onChange: (value: string) => void
   className?: string
+  selectedCategory: ICategory | null
+  setSelectedCategory: Dispatch<SetStateAction<ICategory | null>>
+  [key: string]: any
 }
 
-function CategoryPicker({ category, type, onChange, className = '' }: CategoryPickerProps) {
+function CategoryPicker({
+  setCategories,
+  categories,
+  type,
+  onChange,
+  selectedCategory,
+  setSelectedCategory,
+  className = '',
+}: CategoryPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryPicker.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
+  const { closeDrawer2 } = useDrawer()
 
   // states
-  const [open, setOpen] = useState<boolean>(false)
-  const [categories, setCategories] = useState<ICategory[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(category || null)
-
-  const [getting, setGetting] = useState<boolean>(true)
   const [deleting, setDeleting] = useState<string>('')
-
-  // ref
-  const bottomSheetRef = useRef<BottomSheet>(null)
-
-  // values
-  const snapPoints = useMemo(() => ['25%', '50%', '75%'], [])
+  const [filterText, setFilterText] = useState<string>('')
 
   // reset selected category when type changes
   useEffect(() => {
     setSelectedCategory(null)
   }, [type])
-
-  // auto select category when category is passed
-  useEffect(() => {
-    if (category) setSelectedCategory(category)
-  }, [category])
-
-  // get user categories
-  const getUserCategories = useCallback(async () => {
-    // start loading
-    setGetting(true)
-
-    try {
-      const { categories } = await getMyCategoriesApi()
-
-      setCategories(categories)
-    } catch (err: any) {
-      console.error(err)
-      Toast.show({
-        type: 'error',
-        text1: tError('Failed to get categories'),
-      })
-    } finally {
-      // stop loading
-      setGetting(false)
-    }
-  }, [t])
-
-  // initially get user categories
-  useEffect(() => {
-    getUserCategories()
-  }, [getUserCategories])
 
   // delete category
   const handleDeleteCategory = useCallback(
@@ -84,8 +62,7 @@ function CategoryPicker({ category, type, onChange, className = '' }: CategoryPi
       setDeleting(id)
 
       try {
-        const { category: c, message } = await deleteCategoryApi(id)
-
+        const { category: c } = await deleteCategoryApi(id)
         setCategories(categories.filter(category => category._id !== c._id))
 
         if (selectedCategory?._id === c._id) setSelectedCategory(null)
@@ -104,92 +81,222 @@ function CategoryPicker({ category, type, onChange, className = '' }: CategoryPi
         setDeleting('')
       }
     },
-    [categories, selectedCategory?._id]
+    [categories, setCategories, selectedCategory?._id]
   )
 
   return (
-    <BottomSheet
-      snapPoints={snapPoints}
-      ref={bottomSheetRef}
-      index={3}
-    >
-      <BottomSheetView>
-        <SafeAreaView>
-          <View className="mx-auto w-full max-w-sm px-21/2">
-            <View>
-              <Text className="text-center text-lg font-semibold text-secondary">
-                {t('Select Category')}
-              </Text>
-              <Text className="text-center text-muted-foreground">
-                {t('Categories are used to group your transactions')}
-              </Text>
-            </View>
+    <View className={cn('w-full', className)}>
+      <View className="mx-auto w-full max-w-sm px-21/2">
+        <View>
+          <Text className="text-center text-xl font-semibold">{t('Select Category')}</Text>
+          <Text className="text-center text-muted-foreground">
+            {t('Categories are used to group your transactions')}
+          </Text>
+        </View>
 
-            <View
-              className="rounded-lg border"
-              style={{ marginTop: 28 }}
-            >
-              <Input
-                autoFocus={false}
-                className="text-base md:text-sm"
-                placeholder={t('Find a category') + '...'}
-              />
+        {/* Search Bar */}
+        <View className="mt-6 rounded-lg border border-primary p-1">
+          <Input
+            autoFocus={false}
+            className="text-base md:text-sm"
+            placeholder={t('Find a category') + '...'}
+            value={filterText}
+            onChangeText={text => setFilterText(text)}
+          />
 
-              {/* <CreateCategoryDrawer
-                  update={category => {
-                    // update categories picker list
-                    setCategories([...categories, category])
+          {/* MARK: Create Category */}
+          {/* <CreateCategoryDrawer
+            update={category => {
+              // update categories picker list
+              setCategories([...categories, category])
+              setSelectedCategory(category)
+
+              // update parent component
+              onChange(category._id)
+
+              // close
+              setOpen(false)
+            }}
+            type={type}
+            trigger={
+              <Button
+                variant="ghost"
+                className="mb-0.5 flex w-full justify-start gap-2 rounded-none text-left text-sm"
+              >
+                <LucidePlusSquare size={18} />
+                {t('Create Category')}
+              </Button>
+            }
+          /> */}
+          <ScrollView style={{ maxHeight: 400 }}>
+            {categories
+              .filter(c => c.type === type)
+              .filter(category => {
+                const key =
+                  category.name.toLowerCase() + category.icon.toLowerCase() + category.type.toLowerCase()
+                return key.includes(filterText.toLowerCase())
+              })
+              .map(category => (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  className="flex h-10 w-full flex-row items-center justify-between gap-2 px-4 py-2"
+                  onPress={() => {
                     setSelectedCategory(category)
-
-                    // update parent component
                     onChange(category._id)
-
-                    // close
-                    setOpen(false)
+                    closeDrawer2()
                   }}
-                  type={type}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="mb-0.5 flex w-full justify-start gap-2 rounded-none text-left text-sm"
-                    >
-                      <LucidePlusSquare size={18} />
-                      {t('Create Category')}
-                    </Button>
-                  }
-                /> */}
+                  disabled={false}
+                  key={category._id}
+                >
+                  <View className="flex-row items-center gap-2">
+                    <Text className="text-base">{category.icon}</Text>
+                    <Text className="text-base font-semibold">{category.name}</Text>
+                  </View>
 
-              <ScrollView style={{ maxHeight: 400 }}>
-                {categories
-                  .filter(c => c.type === type)
-                  .map(category => (
-                    <TouchableOpacity
-                      className="flex w-full flex-row items-center gap-1 bg-green-200 px-3 py-2"
-                      onPress={() => {
-                        setOpen(false)
-                        setSelectedCategory(category)
-                        onChange(category._id)
+                  {/* MARK: Update Category */}
+                  {/* {category.deletable && (
+                    <UpdateCategoryDrawer
+                      category={category}
+                      update={(category: ICategory) => {
+                        setCategories(categories.map(c => (c._id === category._id ? category : c)))
                       }}
-                      disabled={false}
-                    >
-                      <Text className="text-secondary">{category.icon}</Text>
-                      <Text
-                        className="font-semibold text-secondary"
-                        style={{ marginLeft: 8 }}
-                      >
-                        {category.name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-              </ScrollView>
-            </View>
+                      trigger={
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                        >
+                          <Icon render={LucidePencil} />
+                        </Button>
+                      }
+                    />
+                  )} */}
 
-            <Separator className="my-8" />
-          </View>
-        </SafeAreaView>
-      </BottomSheetView>
-    </BottomSheet>
+                  {/* MARK: Delete Category */}
+                  {category.deletable && (
+                    <ConfirmDialog
+                      label={t('Delete category')}
+                      desc={`${t('Are you sure you want to delete')} ${category.name}?`}
+                      confirmLabel={t('Delete')}
+                      cancelLabel={t('Cancel')}
+                      onConfirm={() => handleDeleteCategory(category._id)}
+                      disabled={deleting === category._id}
+                      className="!h-auto !w-auto"
+                      trigger={
+                        <Button
+                          disabled={deleting === category._id}
+                          variant="ghost"
+                          className="trans-200 h-full w-8 flex-shrink-0 rounded-md px-21/2 py-1.5 text-start text-sm font-semibold hover:bg-slate-200/30"
+                        >
+                          {deleting === category._id ? (
+                            <ActivityIndicator />
+                          ) : (
+                            <Icon
+                              render={LucideX}
+                              size={18}
+                            />
+                          )}
+                        </Button>
+                      }
+                    />
+                  )}
+                </TouchableOpacity>
+              ))}
+          </ScrollView>
+        </View>
+
+        <Separator className="my-8" />
+      </View>
+    </View>
   )
 }
 
-export default memo(CategoryPicker)
+interface NodeProps {
+  category?: ICategory
+  type: TransactionType
+  onChange: (value: string) => void
+  initCategories?: ICategory[]
+  className?: string
+}
+
+const Node = ({ category, type, onChange, initCategories, className = '' }: NodeProps) => {
+  // hooks
+  const { t: translate } = useTranslation()
+  const t = (key: string) => translate('categoryPicker.' + key)
+  const tError = (key: string) => translate('error.' + key)
+  const { openDrawer2 } = useDrawer()
+
+  // states
+  const [categories, setCategories] = useState<ICategory[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(category || null)
+
+  const [getting, setGetting] = useState<boolean>(true)
+
+  // get user categories
+  const getUserCategories = useCallback(async () => {
+    // start loading
+    setGetting(true)
+
+    try {
+      const { categories } = await getMyCategoriesApi()
+      setCategories(categories)
+    } catch (err: any) {
+      console.error(err)
+
+      Toast.show({
+        type: 'error',
+        text1: tError('Failed to get categories'),
+      })
+    } finally {
+      // stop loading
+      setGetting(false)
+    }
+  }, [])
+
+  // initially get user categories
+  useEffect(() => {
+    getUserCategories()
+  }, [getUserCategories])
+
+  // auto select category when category is passed
+  useEffect(() => {
+    if (category) setSelectedCategory(category)
+  }, [category])
+
+  return !getting ? (
+    <Button
+      variant="outline"
+      className="flex h-10 flex-row items-center justify-between gap-2 border border-primary bg-white"
+      onPress={() =>
+        openDrawer2(
+          <CategoryPicker
+            categories={categories}
+            setCategories={setCategories}
+            type={type}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            className={cn('w-full', className)}
+            onChange={onChange}
+          />
+        )
+      }
+    >
+      {selectedCategory ? (
+        <View className="flex flex-row items-center gap-2">
+          <Text className="text-base text-black">{selectedCategory.icon}</Text>
+          <Text className="text-base font-semibold text-black">{selectedCategory.name}</Text>
+        </View>
+      ) : (
+        <Text className="text-base font-semibold text-black">{t('Select Category')}</Text>
+      )}
+      <Icon
+        render={LucideChevronsUpDown}
+        size={18}
+        color="black"
+      />
+    </Button>
+  ) : (
+    <Skeleton className="h-9 rounded-md" />
+  )
+}
+
+export default Node

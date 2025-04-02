@@ -13,6 +13,8 @@
     "postinstall": "npx tailwindcss -i ./global.scss -o ./node_modules/.cache/nativewind/global.css"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@formatjs/intl": "^3.1.4",
     "@gorhom/bottom-sheet": "^5.1.2",
     "@react-native-async-storage/async-storage": "^2.1.2",
@@ -59,6 +61,7 @@
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.7",
     "i18next": "^24.2.3",
+    "intl": "^1.2.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.482.0",
     "lucide-react-native": "^0.378.0",
@@ -72,6 +75,9 @@
     "react-i18next": "^15.4.1",
     "react-intl": "^7.1.6",
     "react-native": "0.76.7",
+    "react-native-chart-kit": "^6.12.0",
+    "react-native-date-picker": "^5.0.11",
+    "react-native-emoji-selector": "^0.2.0",
     "react-native-gesture-handler": "^2.25.0",
     "react-native-localize": "^3.4.1",
     "react-native-reanimated": "~3.16.1",

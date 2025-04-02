@@ -50,10 +50,7 @@ function TransactionCategoryGroup({
             <View className="flex flex-col">
               <Text className="text-sm font-semibold">{category.name}</Text>
               <Text
-                className={cn(
-                  '-mb-1 -mt-0.5 ml-0.5 text-xs tracking-tight',
-                  checkTranType(category.type).color
-                )}
+                className={cn('-mb-1 -mt-0.5 ml-0.5 tracking-tight', checkTranType(category.type).color)}
               >
                 {formatCurrency(currency, category.amount)}
               </Text>
@@ -68,7 +65,7 @@ function TransactionCategoryGroup({
           trigger={
             <Button
               variant="outline"
-              className="flex flex-row h-7 items-center gap-1.5 rounded-md px-2 text-xs"
+              className="flex flex-row h-7 items-center gap-1.5 rounded-md px-2 "
             >
               <LucidePlusSquare />
               {t('Add Transaction')}
@@ -178,7 +175,7 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
       <View className="flex flex-row items-center gap-1">
         {currency && (
           <View className="flex flex-col items-end">
-            <Text className="text-xs text-muted-foreground">
+            <Text className="text-muted-foreground">
               {formatDate(
                 moment(transaction.date).toDate(),
                 currencies.find(c => c.value === currency)?.locale

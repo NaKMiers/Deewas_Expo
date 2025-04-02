@@ -143,7 +143,7 @@ function RegisterPage() {
 
       router.replace('/wizard')
     } catch (err: any) {
-      console.log('Register error:', err)
+      console.log(err)
       Toast.show({
         type: 'error',
         text1: tError('Register Failed'),

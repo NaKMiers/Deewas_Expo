@@ -1,5 +1,4 @@
-'use client'
-
+import DateRangePicker from '@/components/DateRangePicker'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import TransactionTypeGroup from '@/components/TransactionTypeGroup'
@@ -72,7 +71,7 @@ function TransactionsPage() {
   // initial fetch
   useEffect(() => {
     getMyTransactions()
-  }, [getMyTransactions])
+  }, [getMyTransactions, rfc])
 
   // auto group categories by type
   useEffect(() => {
@@ -130,7 +129,10 @@ function TransactionsPage() {
             <WalletPicker
               wallet={wallet as IWallet}
               isAllowedAll
-              onChange={(wallet: IWallet | null) => setWallet(wallet)}
+              onChange={(wallet: IWallet | null) => {
+                setWallet(wallet)
+                console.log('ssss', wallet)
+              }}
             />
           </View>
 
@@ -140,7 +142,7 @@ function TransactionsPage() {
             <Button
               variant="outline"
               size="icon"
-              className="group h-8"
+              className="group h-10 w-10"
               onPress={() => dispatch(refetching())}
             >
               <Icon
@@ -149,25 +151,10 @@ function TransactionsPage() {
                 className="trans-300 group-hover:rotate-180"
               />
             </Button>
-
-            {/* <DateRangePicker
-              initialDateFrom={dateRange.from}
-              initialDateTo={dateRange.to}
-              showCompare={false}
-              onUpdate={values => {
-                const { from, to } = values.range
-    
-                if (!from || !to) return
-                if (differenceInDays(to, from) > +90) {
-                  toast.error(
-                    `${t('The selected date range is too large')}. ${t('Max allowed range is')} ${90} ${t('days!')}`
-                  )
-                  return
-                }
-    
-                setDateRange({ from, to })
-              }}
-            /> */}
+            <DateRangePicker
+              values={dateRange}
+              update={({ from, to }) => setDateRange({ from, to })}
+            />
           </View>
 
           {/* MARK: Search & Calendar */}
@@ -183,14 +170,17 @@ function TransactionsPage() {
                 className="flex-shrink-0 rounded-r-none"
                 style={{ width: 42, height: 42 }}
               >
-                <Icon render={LucideSearch} />
+                <Icon
+                  render={LucideSearch}
+                  size={18}
+                />
               </Button>
 
               <Input
                 className="flex-1 rounded-l-none border border-l-0 pr-10 text-base !ring-0 md:text-sm"
                 placeholder={t('Search') + '...'}
                 value={search}
-                // onChange={value => setSearch(value)}
+                onChangeText={value => setSearch(value)}
               />
 
               {search.trim() && (

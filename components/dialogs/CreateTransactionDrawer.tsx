@@ -1,30 +1,37 @@
+'use client'
+
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { checkTranType, revertAdjustedCurrency } from '@/lib/string'
+import { refetching } from '@/lib/reducers/loadReducer'
+import { checkTranType, formatSymbol, revertAdjustedCurrency } from '@/lib/string'
+import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
+import { createTransactionApi } from '@/requests'
 import { ICategory, IFullTransaction, IWallet, TransactionType } from '@/types/type'
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
-import { LucideLoaderCircle, TouchpadOff } from 'lucide-react'
+import { LucideCircle } from 'lucide-react-native'
 import moment from 'moment'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, TouchableOpacity, View } from 'react-native'
-import CustomInput from '../CustomInput'
-import Icon from '../Icon'
-import { Button } from '../ui/button'
-import { Text } from '../ui/text'
-import { createTransactionApi } from '@/requests'
-import { toUTC } from '@/lib/time'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { ActivityIndicator, Pressable, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import CategoryPicker from '../CategoryPicker'
+import CustomInput from '../CustomInput'
+import Icon from '../Icon'
+import { useDrawer } from '../providers/DrawerProvider'
+import Text from '../Text'
+import { Button } from '../ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
+import WalletPicker from '../WalletPicker'
+import DateTimePicker from '../DateTimePicker'
+import { Separator } from '../ui/separator'
 
 interface CreateTransactionDrawerProps {
   type?: TransactionType
   initWallet?: IWallet
   initCategory?: ICategory
   initDate?: string
+  trigger: ReactNode
   refetch?: () => void
   update?: (transaction: IFullTransaction) => void
   className?: string
@@ -40,31 +47,27 @@ function CreateTransactionDrawer({
   className = '',
 }: CreateTransactionDrawerProps) {
   // hooks
-  let { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('createTransactionDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
+  const { closeDrawer } = useDrawer()
   const dispatch = useAppDispatch()
 
-  // // store
+  // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
   const { curWallet } = useAppSelector(state => state.wallet)
 
-  // // values
+  // values
   const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
   // states
-  const [open, setOpen] = useState<boolean>(true)
+  const [openType, setOpenType] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
-
-  // ref
-  const bottomSheetRef = useRef<BottomSheet>(null)
-
-  // values
-  const snapPoints = useMemo(() => ['25%', '50%', '75%'], [])
 
   // form
   const {
+    register,
     handleSubmit,
     formState: { errors },
     setError,
@@ -162,11 +165,13 @@ function CreateTransactionDrawer({
       // validate form
       if (!handleValidate(data)) return
 
+      console.log('data', data)
+
       // start loading
       setSaving(true)
 
       try {
-        const { transaction, message } = await createTransactionApi({
+        const { transaction } = await createTransactionApi({
           ...data,
           date: toUTC(data.date),
           amount: revertAdjustedCurrency(data.amount, locale),
@@ -177,240 +182,222 @@ function CreateTransactionDrawer({
         if (refetch) refetch()
         if (update) update(transaction)
 
-        // show success message
         Toast.show({
           type: 'success',
           text1: tSuccess('Transaction created'),
         })
 
-        setOpen(false)
         reset()
       } catch (err: any) {
         Toast.show({
           type: 'error',
           text1: tError('Failed to create transaction'),
         })
+
         console.log(err)
       } finally {
         // stop loading
         setSaving(false)
       }
     },
-    [handleValidate, reset, refetch, update, dispatch, locale, t]
+    [handleValidate, reset, refetch, update, dispatch, locale]
   )
 
   return (
-    <BottomSheet
-      snapPoints={snapPoints}
-      ref={bottomSheetRef}
-      index={3}
-    >
-      <BottomSheetView>
-        <SafeAreaView>
-          <View className="mx-auto flex w-full max-w-[500px] items-center px-21/2 pb-21">
-            <View>
-              <Text className="text-center text-xl font-semibold text-secondary">
-                {t('Create')}{' '}
-                {form.type && (
-                  <Text className={cn('text-xl', checkTranType(form.type).color)}>{t(form.type)}</Text>
-                )}{' '}
-                {t('transaction')}
-              </Text>
-              <Text className="text-center text-muted-foreground">
-                {t('Transactions keep track of your finances effectively')}
-              </Text>
-            </View>
+    <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>
+      <View className="mx-auto w-full max-w-sm px-21/2">
+        <View>
+          <Text className="text-center text-xl font-semibold text-primary">
+            {t('Create')}{' '}
+            {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}{' '}
+            {t('transaction')}
+          </Text>
+          <Text className="text-center text-muted-foreground">
+            {t('Transactions keep track of your finances effectively')}
+          </Text>
+        </View>
 
-            <View
-              className="flex w-full gap-8"
-              style={{ marginTop: 20 }}
+        <View className="mt-6 flex flex-col gap-6">
+          {/* MARK: Name */}
+          <CustomInput
+            id="name"
+            label={t('Name')}
+            register={register}
+            errors={errors}
+            type="text"
+            control={control}
+            className="bg-white text-black"
+            onFocus={() => clearErrors('name')}
+            placeholder={t('Transaction name') + '...'}
+          />
+
+          {/* MARK: Amount */}
+          {currency && (
+            <CustomInput
+              id="amount"
+              label={t('Amount')}
+              disabled={saving}
+              errors={errors}
+              type="currency"
+              control={control}
+              className="bg-white text-black"
+              onFocus={() => clearErrors('amount')}
+              iconClassName="bg-white"
+              icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
+            />
+          )}
+
+          {/* MARK: Type */}
+          {!initCategory && !type && (
+            <Collapsible
+              open={openType}
+              onOpenChange={setOpenType}
             >
-              {/* MARK: Name */}
-              <CustomInput
-                id="name"
-                label={t('Name')}
-                type="text"
-                control={control}
-                errors={errors}
-                labelClassName="text-black"
-                className="bg-white text-black"
-                onFocus={() => clearErrors('name')}
-              />
-
-              {/* MARK: Amount */}
-              {/* {currency && ( */}
-              <CustomInput
-                id="amount"
-                label={t('Amount')}
-                type="currency"
-                control={control}
-                errors={errors}
-                labelClassName="text-black"
-                className="bg-white text-black"
-                onFocus={() => clearErrors('amount')}
-              />
-              {/* )} */}
-
-              {/* MARK: Type */}
-              {!initCategory && !type && (
-                <CustomInput
-                  id="type"
-                  label={t('Type')}
-                  disabled={saving}
-                  errors={errors}
-                  type="select"
-                  control={control}
-                  labelClassName="text-black"
-                  className="bg-white text-black"
-                  options={[
-                    {
-                      label: t('Expense'),
-                      value: 'expense',
-                    },
-                    {
-                      label: t('Income'),
-                      value: 'income',
-                    },
-                    {
-                      label: t('Saving'),
-                      value: 'saving',
-                    },
-                    {
-                      label: t('Invest'),
-                      value: 'invest',
-                    },
-                  ]}
-                  onFocus={() => clearErrors('type')}
-                />
-              )}
-
-              {/* MARK: Category */}
-              <View className="mt-1.5 flex flex-1 flex-col">
-                <Text
-                  className={cn(
-                    'mb-1 text-xs font-semibold',
-                    errors.categoryId?.message && 'text-rose-500'
-                  )}
-                >
-                  {t('Category')}
-                </Text>
-                <TouchableOpacity onFocus={() => clearErrors('categoryId')}>
-                  <CategoryPicker
-                    category={initCategory}
-                    onChange={(categoryId: string) => setValue('categoryId', categoryId)}
-                    type={form.type}
-                  />
-                </TouchableOpacity>
-                {errors.categoryId?.message && (
-                  <Text className="ml-1 mt-0.5 text-xs italic text-rose-400">
-                    {errors.categoryId?.message?.toString()}
-                  </Text>
-                )}
-              </View>
-
-              {/* MARK: Wallet */}
-              <View className="mt-1.5">
-                <Text
-                  className={cn(
-                    'mb-1 text-xs font-semibold',
-                    errors.walletId?.message && 'text-rose-500'
-                  )}
-                >
-                  {t('Wallet')}
-                </Text>
-                {/* <Presss onFocus={() => clearErrors('walletId')}>
-                    <WalletPicker
-                      className={cn('w-full justify-normal', errors.walletId?.message && 'border-rose-500')}
-                      wallet={initWallet || curWallet}
-                      onChange={(wallet: IWallet | null) => wallet && setValue('walletId', wallet._id)}
-                    />
-                  </Presss> */}
-                {errors.walletId?.message && (
-                  <Text className="ml-1 mt-0.5 block text-xs italic text-rose-400">
-                    {errors.walletId?.message?.toString()}
-                  </Text>
-                )}
-              </View>
-
-              {/* MARK: Date */}
-              {/* <View className="mt-1.5 flex flex-1 flex-col">
-                  <p className="mb-1 text-xs font-semibold">{t('Date')}</p>
-                  <View onFocus={() => clearErrors('date')}>
-                    <Drawer>
-                      <DrawerTrigger className="w-full">
-                        <button className="flex h-9 w-full items-center justify-between gap-2 rounded-md border px-21/2 text-start text-sm font-semibold">
-                          {moment(form.date).format('MMM DD, YYYY')}
-                          <LucideCalendar size={18} />
-                        </button>
-                      </DrawerTrigger>
-    
-                      <DrawerContent className="w-full overflow-hidden rounded-md p-0 outline-none">
-                        <DrawerHeader>
-                          <DrawerTitle className="text-center">{t('Select Date')}</DrawerTitle>
-                          <DrawerDescription className="text-center">
-                            {t('When did this transaction happen?')}
-                          </DrawerDescription>
-                        </DrawerHeader>
-    
-                        <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
-                          <Calendar
-                            mode="single"
-                            selected={form.date}
-                            onSelect={date => {
-                              setValue('date', date)
-                              clearErrors('date')
-                            }}
-                            initialFocus
-                          />
-                        </View>
-    
-                        <View className="pt-8" />
-                      </DrawerContent>
-                    </Drawer>
-                  </View>
-                  {errors.date?.message && (
-                    <Text className="ml-1 mt-0.5 text-xs italic text-rose-400">
-                      {errors.date?.message?.toString()}
-                    </Text>
-                  )}
-                </View> */}
-            </View>
-
-            <View className="mt-3 flex w-full flex-row items-center justify-end gap-21/2">
-              <View>
-                <Button
-                  variant="default"
-                  className="h-10 rounded-md px-21/2 text-[13px] font-semibold"
-                  onPress={() => {
-                    setOpen(false)
-                    reset()
-                  }}
-                >
-                  <Text>{t('Cancel')}</Text>
-                </Button>
-              </View>
-              <Button
-                variant="secondary"
-                disabled={saving}
-                className="h-10 min-w-[60px] rounded-md px-21/2 text-[13px] font-semibold"
-                // onClick={handleSubmit(handleCreateTransaction)}
-              >
-                {saving ? (
+              <CollapsibleTrigger>
+                <Text className="px-1 font-semibold text-primary">Type</Text>
+                <View className="mt-2 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3">
                   <Icon
-                    render={LucideLoaderCircle}
-                    size={20}
-                    className="animate-spin text-muted-foreground"
+                    render={LucideCircle}
+                    size={18}
+                    color={checkTranType(form.type).hex}
                   />
-                ) : (
-                  <Text>{t('Save')}</Text>
-                )}
+                  <Text
+                    className={cn('font-semibold capitalize text-black', checkTranType(form.type).color)}
+                  >
+                    {form.type}
+                  </Text>
+                </View>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="overflow-hidden rounded-lg">
+                {['expense', 'income', 'saving', 'invest'].map(tranType => (
+                  <Button
+                    variant="default"
+                    className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary bg-white"
+                    onPress={() => {
+                      setValue('type', tranType as TransactionType)
+                      setOpenType(false)
+                    }}
+                    key={tranType}
+                  >
+                    <Icon
+                      render={LucideCircle}
+                      size={18}
+                      color={checkTranType(tranType as any).hex}
+                    />
+                    <Text
+                      className={cn('font-semibold capitalize', checkTranType(tranType as any).color)}
+                    >
+                      {t(tranType)}
+                    </Text>
+                  </Button>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
+          )}
+
+          {/* MARK: Category */}
+          <View className="flex flex-1 flex-col">
+            <Text className={cn('mb-2 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
+              {t('Category')}
+            </Text>
+            <CategoryPicker
+              category={initCategory}
+              onChange={(categoryId: string) => {
+                setValue('categoryId', categoryId)
+                clearErrors('categoryId')
+              }}
+              type={form.type}
+            />
+            {errors.categoryId?.message && (
+              <Text className="ml-1 mt-0.5 italic text-rose-400">
+                {errors.categoryId?.message?.toString()}
+              </Text>
+            )}
+          </View>
+
+          {/* MARK: Wallet */}
+          <View>
+            <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+              {t('Wallet')}
+            </Text>
+            <Pressable onFocus={() => clearErrors('walletId')}>
+              <WalletPicker
+                className={cn('w-full justify-normal', errors.walletId?.message && 'border-rose-500')}
+                wallet={initWallet || curWallet}
+                onChange={(wallet: IWallet | null) => wallet && setValue('walletId', wallet._id)}
+              />
+            </Pressable>
+            {errors.walletId?.message && (
+              <Text className="ml-1 mt-0.5 block italic text-rose-400">
+                {errors.walletId?.message?.toString()}
+              </Text>
+            )}
+          </View>
+
+          {/* MARK: Date */}
+          <View className="flex flex-1 flex-col">
+            <Pressable
+              onFocus={() => clearErrors('date')}
+              style={{ marginTop: -30 }}
+            >
+              <View className="mx-auto flex w-full max-w-sm scale-90 flex-col items-center px-21/2">
+                <DateTimePicker
+                  display="inline"
+                  currentDate={moment(form.date).toDate()}
+                  onChange={date => setValue('date', date)}
+                />
+              </View>
+            </Pressable>
+            {errors.date?.message && (
+              <Text className="ml-1 mt-0.5 italic text-rose-400">
+                {errors.date?.message?.toString()}
+              </Text>
+            )}
+          </View>
+        </View>
+
+        {/* MARK: Footer */}
+        <View className="mb-21 px-0">
+          <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
+            <View>
+              <Button
+                variant="default"
+                className="h-10 rounded-md px-21/2"
+                onPress={() => {
+                  reset()
+                  closeDrawer()
+                }}
+              >
+                <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
               </Button>
             </View>
+            <Button
+              variant="secondary"
+              className="h-10 min-w-[60px] rounded-md px-21/2"
+              onPress={handleSubmit(handleCreateTransaction)}
+            >
+              {saving ? <ActivityIndicator /> : <Text className="font-semibold">{t('Save')}</Text>}
+            </Button>
           </View>
-        </SafeAreaView>
-      </BottomSheetView>
-    </BottomSheet>
+        </View>
+
+        <Separator className="my-8 h-0" />
+      </View>
+    </View>
   )
 }
 
-export default CreateTransactionDrawer
+const Node = (props: CreateTransactionDrawerProps) => {
+  const { openDrawer } = useDrawer()
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => openDrawer(<CreateTransactionDrawer {...props} />)}
+    >
+      {props.trigger}
+    </TouchableOpacity>
+  )
+}
+
+export default Node

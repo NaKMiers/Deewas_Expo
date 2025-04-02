@@ -231,7 +231,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 const DropdownMenuShortcut = ({ className, ...props }: TextProps) => {
   return (
     <Text
-      className={cn('native:text-sm ml-auto text-xs tracking-widest text-muted-foreground', className)}
+      className={cn('native:text-sm ml-auto tracking-widest text-muted-foreground', className)}
       {...props}
     />
   )

@@ -1,17 +1,20 @@
 import { useAppSelector } from '@/hooks/reduxHook'
-import { formatCurrency, parseCurrency } from '@/lib/string'
+import { capitalize, formatCurrency, parseCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { getHistoryApi } from '@/requests'
 import { IFullTransaction, ITransaction, TransactionType } from '@/types/type'
 import moment from 'moment-timezone'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, ReactNode, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
-import { ChartDatum } from './Chart'
+import Chart, { ChartDatum } from './Chart'
+import DateRangePicker from './DateRangePicker'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
-import DateRangePicker from './DateRangePicker'
+import { Button } from './ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
 interface HistoryProps {
   className?: string
@@ -27,7 +30,7 @@ function History({ className = '' }: HistoryProps) {
   const locale = i18n.language
 
   const types: TransactionType[] = ['balance', 'income', 'expense', 'saving', 'invest']
-  const charts = ['bar', 'line', 'area', 'radar', 'pie']
+  const charts = ['pie', 'bar', 'line']
 
   // store
   const { refetching } = useAppSelector(state => state.load)
@@ -215,73 +218,63 @@ function History({ className = '' }: HistoryProps) {
   return (
     <View className={cn('px-21/2 md:px-21', className)}>
       {/* Top */}
-      <View className="flex items-center justify-between">
+      <View className="flex flex-row items-center justify-between">
         <Text className="text-lg font-bold">{t('History')}</Text>
 
         {/* <DateRangePicker
-          locale={locale}
-          initialDateFrom={dateRange.from}
-          initialDateTo={dateRange.to}
-          showCompare={false}
-          onUpdate={values => {
-            const { from, to } = values.range
-
-            if (!from || !to) return
-            if (differenceInDays(to, from) > +90) {
-              toast.error(`The selected date range is too large. Max allowed range is ${90} days!`)
-              return
-            }
-            setDateRange({ from, to })
-          }}
+          values={dateRange}
+          update={({ from, to }) => setDateRange({ from, to })}
         /> */}
-
-        <DateRangePicker />
       </View>
 
       <View className="mt-1.5 rounded-lg border border-muted-foreground/50 px-0">
-        <View className="flex flex-wrap justify-end gap-21/2 p-21/2">
-          {/* <MultipleSelection
+        <View className="flex flex-row flex-wrap justify-end gap-21/2 p-21/2">
+          <MultipleSelection
             trigger={
               <Button
                 variant="outline"
-                className="h-9 px-21/2 text-sm font-semibold"
+                className="h-9 px-21/2"
               >
-                {selectedTypes.length} {selectedTypes.length !== 1 ? t('types') : t('type')}
+                <Text>
+                  {selectedTypes.length} {selectedTypes.length !== 1 ? t('types') : t('type')}
+                </Text>
               </Button>
             }
             list={types}
             selected={selectedTypes}
             onChange={(list: any[]) => setSelectedTypes(list)}
-          /> */}
+          />
 
-          {/* <Select
-            value={chart}
-            onValueChange={setChart}
+          <Select
+            value={{ label: chart, value: chart }}
+            onValueChange={option => setChart(option?.value || chart)}
           >
-            <SelectTrigger className="max-w-max gap-1.5 font-semibold capitalize !ring-0">
-              <SelectValue placeholder="Select Chart" />
+            <SelectTrigger className="min-w-[100px] gap-1.5">
+              <SelectValue
+                placeholder="Select Chart"
+                className="capitalize text-primary"
+                style={{ minWidth: 40 }}
+              />
             </SelectTrigger>
-            <SelectContent className="">
+            <SelectContent className="mt-1 shadow-none">
               {charts.map(chart => (
                 <SelectItem
-                  key={chart}
                   value={chart}
-                  className="cursor-pointer capitalize"
-                >
-                  {t(chart)}
-                </SelectItem>
+                  label={capitalize(t(chart))}
+                  key={chart}
+                />
               ))}
             </SelectContent>
-          </Select> */}
+          </Select>
         </View>
 
-        {/* <Chart
+        <Chart
           maxKey={findMaxKey(transactions)}
           chart={chart}
           types={selectedTypes}
           data={data}
           className="-ml-21 pr-21/2"
-        /> */}
+        />
       </View>
     </View>
   )
@@ -289,69 +282,70 @@ function History({ className = '' }: HistoryProps) {
 
 export default memo(History)
 
-// interface MultiSelectionProps {
-//   trigger: ReactNode
-//   list: any[]
-//   selected: any[]
-//   onChange: (value: any) => void
-// }
+interface MultiSelectionProps {
+  trigger: ReactNode
+  list: any[]
+  selected: any[]
+  onChange: (value: any) => void
+}
 
-// export function MultipleSelection({ trigger, list, selected, onChange }: MultiSelectionProps) {
-//   // hooks
-//    const {t: translate, i18n} = useTranslation()
-//   const t = (value: string) => translate('multipleSelection.' + value)
+export function MultipleSelection({ trigger, list, selected, onChange }: MultiSelectionProps) {
+  // hooks
+  const { t: translate, i18n } = useTranslation()
+  const t = (value: string) => translate('multipleSelection.' + value)
 
-//   // states
-//   const [open, setOpen] = useState<boolean>(false)
-//   const isObjectItem = typeof list[0] === 'object'
+  // states
+  const isObjectItem = typeof list[0] === 'object'
 
-//   return (
-//     <Popover
-//       open={open}
-//       onOpenChange={setOpen}
-//     >
-//       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-//       <PopoverContent className="z-10 mt-2 flex max-w-max flex-col overflow-hidden rounded-lg p-0">
-//         <Button
-//           variant="outline"
-//           className={cn(
-//             'trans-200 h-8 justify-start rounded-none border-0 px-3 text-left text-sm font-light',
-//             selected.length === list.length && 'border-l-2 border-primary pl-2'
-//           )}
-//           onClick={selected.length === list.length ? () => onChange([]) : () => onChange(list)}
-//         >
-//           <span className="text-nowrap">{t('All')}</span>
-//         </Button>
-//         {list.map((item, index) => (
-//           <Button
-//             variant="outline"
-//             className={cn(
-//               'trans-200 h-8 justify-start rounded-none border-0 px-3 text-left text-sm font-light',
-//               (isObjectItem
-//                 ? selected.some((ele: any) => ele._id.toString() === item._id.toString())
-//                 : selected.includes(item)) && 'border-l-2 border-primary pl-2'
-//             )}
-//             onClick={() => {
-//               if (isObjectItem) {
-//                 if (selected.some((ele: any) => ele._id.toString() === item._id.toString())) {
-//                   return onChange(selected.filter(ele => ele._id.toString() !== item._id.toString()))
-//                 } else {
-//                   return onChange([...selected, item])
-//                 }
-//               } else {
-//                 if (selected.includes(item)) {
-//                   return onChange(selected.filter(ele => ele !== item))
-//                 } else {
-//                   return onChange([...selected, item])
-//                 }
-//               }
-//             }}
-//             key={index}
-//           >
-//             <p className="text-nowrap capitalize">{isObjectItem ? t(item.name) : t(item)}</p>
-//           </Button>
-//         ))}
-//       </PopoverContent>
-//     </Popover>
-//   )
-// }
+  return (
+    <Popover>
+      <PopoverTrigger asChild>{trigger}</PopoverTrigger>
+      <PopoverContent
+        className="z-10 flex flex-col overflow-hidden rounded-lg p-0"
+        style={{ maxWidth: 100 }}
+      >
+        <Button
+          variant="outline"
+          className={cn(
+            'trans-200 flex h-8 flex-row justify-start rounded-none border-0 px-3',
+            selected.length === list.length && 'border-l-2 border-primary pl-2'
+          )}
+          onPress={selected.length === list.length ? () => onChange([]) : () => onChange(list)}
+        >
+          <Text className="text-nowrap font-semibold capitalize">{t('All')}</Text>
+        </Button>
+        {list.map((item, index) => (
+          <Button
+            variant="outline"
+            className={cn(
+              'trans-200 flex h-8 flex-row justify-start rounded-none border-0 px-3',
+              (isObjectItem
+                ? selected.some((ele: any) => ele._id.toString() === item._id.toString())
+                : selected.includes(item)) && 'border-l-2 border-primary pl-2'
+            )}
+            onPress={() => {
+              if (isObjectItem) {
+                if (selected.some((ele: any) => ele._id.toString() === item._id.toString())) {
+                  return onChange(selected.filter(ele => ele._id.toString() !== item._id.toString()))
+                } else {
+                  return onChange([...selected, item])
+                }
+              } else {
+                if (selected.includes(item)) {
+                  return onChange(selected.filter(ele => ele !== item))
+                } else {
+                  return onChange([...selected, item])
+                }
+              }
+            }}
+            key={index}
+          >
+            <Text className="text-nowrap font-semibold capitalize">
+              {isObjectItem ? t(item.name) : t(item)}
+            </Text>
+          </Button>
+        ))}
+      </PopoverContent>
+    </Popover>
+  )
+}

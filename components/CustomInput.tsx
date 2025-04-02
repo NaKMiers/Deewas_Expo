@@ -7,10 +7,10 @@ import { LucideEye, LucideEyeOff } from 'lucide-react-native'
 import { memo, ReactNode, useCallback, useState } from 'react'
 import { Controller, FieldErrors } from 'react-hook-form'
 import { TouchableOpacity, View } from 'react-native'
-import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 
 interface InputProps {
   id: string
@@ -27,6 +27,7 @@ interface InputProps {
 
   className?: string
   labelClassName?: string
+  iconClassName?: string
   // rest
   [key: string]: any
 }
@@ -46,6 +47,7 @@ function CustomInput({
 
   className,
   labelClassName,
+  iconClassName,
   // rest
   ...rest
 }: InputProps) {
@@ -111,7 +113,7 @@ function CustomInput({
               <Input
                 id={id}
                 className={cn(
-                  'peer block h-full w-full touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
+                  'peer block h-full flex-1 touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
                   className,
                   errors[id]?.message ? 'border-rose-500' : 'border-dark'
                 )}
@@ -139,7 +141,7 @@ function CustomInput({
                 <Input
                   id={id}
                   className={cn(
-                    'peer block h-full w-full touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
+                    'peer block h-full flex-1 touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
                     className,
                     errors[id]?.message ? 'border-rose-500' : 'border-dark',
                     type === 'password' ? 'pr-10' : ''
@@ -198,27 +200,30 @@ function CustomInput({
   ])
 
   return (
-    <TouchableOpacity>
+    <View>
       <Label
         htmlFor={id}
-        className={cn('ml-1 text-xs font-semibold', labelClassName, errors[id] ? 'text-rose-500' : '')}
+        className={cn('ml-1 font-semibold', labelClassName, errors[id] ? 'text-rose-500' : '')}
       >
         {label}
       </Label>
 
       <View
         className={cn(
-          'relative mt-0.5 flex h-9 rounded-lg',
+          'relative mt-2 flex h-9 flex-row items-center gap-1 rounded-lg',
           errors[id] ? 'border-rose-500' : 'border-dark'
         )}
       >
         {Icon && (
-          <Button
-            variant="outline"
-            className="mr-1 w-9"
+          <View
+            className={cn(
+              'flex flex-row items-center justify-center rounded-lg border bg-primary',
+              iconClassName
+            )}
+            style={{ height: 42, width: 42 }}
           >
             {Icon}
-          </Button>
+          </View>
         )}
 
         {/* Field */}
@@ -231,7 +236,7 @@ function CustomInput({
           {errors[id]?.message?.toString()}
         </Text>
       )}
-    </TouchableOpacity>
+    </View>
   )
 }
 

@@ -6,13 +6,12 @@ import UseWallets from '@/components/UseWallets'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Redirect } from 'expo-router'
 import { SafeAreaView } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Account from './account'
 import AI from './ai'
 import Budgets from './budgets'
+import Categories from './categories'
 import Home from './index'
 import Transactions from './transactions'
-import Categories from './categories'
 
 const Tab = createBottomTabNavigator()
 
@@ -23,7 +22,7 @@ function HomeLayout() {
   if (!user) return <Redirect href="/auth/login" />
 
   return (
-    <GestureHandlerRootView>
+    <>
       <SafeAreaView className="flex-1">
         <Tab.Navigator
           initialRouteName="home"
@@ -62,18 +61,7 @@ function HomeLayout() {
 
       <UseWallets />
       <UseSettings />
-
-      {/* <CreateTransactionDrawer /> */}
-      {/* <CategoryPicker
-        type="expense"
-        onChange={() => {}}
-      /> */}
-
-      {/* <CategoryPicker
-        type="expense"
-        onChange={() => {}}
-      /> */}
-    </GestureHandlerRootView>
+    </>
   )
 }
 

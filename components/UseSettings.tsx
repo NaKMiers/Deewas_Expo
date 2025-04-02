@@ -21,7 +21,6 @@ function UseSettings() {
 
       try {
         const { settings } = await getMySettingsApi()
-        console.log('settings', settings)
         dispatch(setSettings(settings))
 
         // const { rates } = await getExchangeRatesApi()

@@ -64,7 +64,7 @@ function CategoryGroup({ categories, type, className = '' }: CategoryGroupProps)
               <Button
                 disabled={creating}
                 variant="default"
-                className="md:px-4 flex flex-row h-8 flex-shrink-0 items-center gap-1.5 rounded-md px-2 text-xs font-semibold"
+                className="md:px-4 flex flex-row h-8 flex-shrink-0 items-center gap-1.5 rounded-md px-2  font-semibold"
               >
                 {!creating ? (
                   <>

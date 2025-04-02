@@ -120,7 +120,7 @@ function AccountPage({ navigation }: any) {
             <TouchableOpacity
               // href="/categories"
               onPress={() => navigation.navigate('categories')}
-              className="flex h-8 flex-row items-center gap-2 text-sm"
+              className="flex h-10 flex-row items-center gap-2 text-sm"
             >
               <Icon
                 render={LucideBookCopy}
@@ -177,7 +177,7 @@ function AccountPage({ navigation }: any) {
           <View className="flex flex-col rounded-lg border border-secondary px-21/2 py-2 md:px-21">
             <TouchableOpacity
               // onPress={() => router.push('/about')}
-              className="flex h-8 flex-row items-center gap-2 text-sm"
+              className="flex h-10 flex-row items-center gap-2 text-sm"
             >
               <Icon
                 render={LucideInfo}
@@ -187,7 +187,7 @@ function AccountPage({ navigation }: any) {
             </TouchableOpacity>
             <TouchableOpacity
               // onPress={() => router.push('/help-and-support')}
-              className="flex h-8 flex-row items-center gap-2 text-sm"
+              className="flex h-10 flex-row items-center gap-2 text-sm"
             >
               <Icon
                 render={LucideShieldQuestion}

@@ -1,5 +1,6 @@
 import '@/global.scss'
 
+import DrawerProvider from '@/components/providers/DrawerProvider'
 import StoreProvider from '@/components/providers/StoreProvider'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
 import { NAV_THEME } from '@/lib/constants'
@@ -86,15 +87,17 @@ function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StoreProvider>
-        <>
+        <DrawerProvider>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(home)" />
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="wizard" />
           </Stack>
+
           <PortalHost />
-        </>
+        </DrawerProvider>
       </StoreProvider>
 
       <Toast />

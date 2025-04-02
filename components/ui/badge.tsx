@@ -1,9 +1,9 @@
-import * as Slot from '@rn-primitives/slot';
-import type { SlottableViewProps } from '@rn-primitives/types';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { View } from 'react-native';
-import { cn } from '@/lib/utils';
-import { TextClassContext } from '@/components/ui/text';
+import * as Slot from '@rn-primitives/slot'
+import type { SlottableViewProps } from '@rn-primitives/types'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { View } from 'react-native'
+import { cn } from '@/lib/utils'
+import { TextClassContext } from '@/components/ui/text'
 
 const badgeVariants = cva(
   'web:inline-flex items-center rounded-full border border-border px-2.5 py-0.5 web:transition-colors web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2',
@@ -20,9 +20,9 @@ const badgeVariants = cva(
       variant: 'default',
     },
   }
-);
+)
 
-const badgeTextVariants = cva('text-xs font-semibold ', {
+const badgeTextVariants = cva(' font-semibold ', {
   variants: {
     variant: {
       default: 'text-primary-foreground',
@@ -34,18 +34,21 @@ const badgeTextVariants = cva('text-xs font-semibold ', {
   defaultVariants: {
     variant: 'default',
   },
-});
+})
 
-type BadgeProps = SlottableViewProps & VariantProps<typeof badgeVariants>;
+type BadgeProps = SlottableViewProps & VariantProps<typeof badgeVariants>
 
 function Badge({ className, variant, asChild, ...props }: BadgeProps) {
-  const Component = asChild ? Slot.View : View;
+  const Component = asChild ? Slot.View : View
   return (
     <TextClassContext.Provider value={badgeTextVariants({ variant })}>
-      <Component className={cn(badgeVariants({ variant }), className)} {...props} />
+      <Component
+        className={cn(badgeVariants({ variant }), className)}
+        {...props}
+      />
     </TextClassContext.Provider>
-  );
+  )
 }
 
-export { Badge, badgeTextVariants, badgeVariants };
-export type { BadgeProps };
+export { Badge, badgeTextVariants, badgeVariants }
+export type { BadgeProps }

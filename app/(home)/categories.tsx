@@ -1,6 +1,5 @@
 import CategoryGroup from '@/components/CategoryGroup'
 import Text from '@/components/Text'
-import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'

@@ -69,7 +69,7 @@ function Category({ category, className = '' }: CategoryProps) {
   return (
     <View
       className={cn(
-        'border-200/30 relative flex h-10 flex-row justify-end overflow-hidden rounded-md bg-primary text-secondary',
+        'border-200/30 relative flex h-11 flex-row justify-end overflow-hidden rounded-md bg-primary text-secondary',
         className
       )}
     >
@@ -99,7 +99,7 @@ function Category({ category, className = '' }: CategoryProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 rounded-none hover:bg-primary hover:text-secondary"
+                  className="h-12 rounded-none hover:bg-primary hover:text-secondary"
                 >
                   <Icon render={LucideEllipsisVertical} />
                 </Button>

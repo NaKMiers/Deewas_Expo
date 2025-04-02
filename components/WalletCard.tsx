@@ -1,21 +1,34 @@
 'use client'
 
+import TransferFundDrawer from '@/components/dialogs/TransferFundDrawer'
+import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
+import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi, updateWalletApi } from '@/requests/walletRequests'
 import { IWallet, TransactionType } from '@/types/type'
 import { useRouter } from 'expo-router'
-import { LucideChevronDown } from 'lucide-react-native'
+import {
+  LucideArrowRightLeft,
+  LucideChevronDown,
+  LucideEllipsis,
+  LucidePencil,
+  LucidePlus,
+  LucideTrash,
+} from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ActivityIndicator, Pressable, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import ConfirmDialog from './dialogs/ConfirmDialog'
+import CreateTransactionDrawer from './dialogs/CreateTransactionDrawer'
 import Icon from './Icon'
 import Text from './Text'
 import { Button } from './ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Card, CardContent, CardHeader } from './ui/card'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { Switch } from './ui/switch'
 
 interface WalletCardProps {
   wallet: IWallet
@@ -88,181 +101,183 @@ function WalletCard({ wallet, className = '' }: WalletCardProps) {
   )
 
   return (
-    <Card
-      className={cn('cursor-pointer select-none overflow-hidden', className)}
-      // onPress={() => {
-      //   dispatch(setCurWallet(wallet))
-      //   router.push('/transactions', { locale })
-      // }}
-    >
-      <CardHeader className="py-21/2">
-        <CardTitle className="flex flex-row items-center justify-between gap-2">
-          <View className="flex flex-row items-center gap-2 text-lg">
-            <Text className="text-xl">{wallet.icon}</Text>
-            <Text className="text-xl font-semibold">{wallet.name}</Text>
-          </View>
+    <Card className={cn('cursor-pointer select-none overflow-hidden', className)}>
+      <Pressable
+        onPress={() => {
+          dispatch(setCurWallet(wallet))
+          router.push('/transactions')
+        }}
+      >
+        <CardHeader className="py-21/2">
+          <View className="flex flex-row flex-nowrap items-center justify-between gap-2">
+            <View className="flex flex-row items-center gap-2 text-lg">
+              <Text className="text-xl">{wallet.icon}</Text>
+              <Text className="text-xl font-semibold">{wallet.name}</Text>
+            </View>
 
-          {/* {!deleting && !updating ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                >
-                  <LucideEllipsis />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent onPress={e => e.stopPropagation()}>
-                <Button
-                  variant="ghost"
-                  className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-violet-500"
-                >
-                  <Switch
-                    checked={hide}
-                    onCheckedChange={handleChangeHide}
-                    className="bg-gray-300 data-[state=checked]:bg-violet-500"
+            {!deleting && !updating ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                  >
+                    <Icon render={LucideEllipsis} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent onPress={e => e.stopPropagation()}>
+                  <Button
+                    variant="ghost"
+                    className="flex h-8 w-full flex-row items-center justify-start gap-2 px-1 text-violet-500"
+                  >
+                    <Switch
+                      checked={hide}
+                      onCheckedChange={handleChangeHide}
+                      className="scale-90 bg-indigo-500"
+                      style={{ transform: [{ scale: 0.9 }] }}
+                    />
+                    <Text className="font-semibold">{t('Hide')}</Text>
+                  </Button>
+
+                  {wallets.length > 1 && (
+                    <TransferFundDrawer
+                      initFromWallet={wallet}
+                      trigger={
+                        <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                          <Icon
+                            render={LucideArrowRightLeft}
+                            size={16}
+                            color="#6366f1"
+                          />
+                          <Text className="font-semibold text-indigo-500">{t('Transfer')}</Text>
+                        </View>
+                      }
+                    />
+                  )}
+
+                  <CreateTransactionDrawer
+                    initWallet={wallet}
+                    trigger={
+                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                        <Icon
+                          render={LucidePlus}
+                          size={16}
+                        />
+                        <Text className="font-semibold">{t('Add Transaction')}</Text>
+                      </View>
+                    }
                   />
-                  {t('Hide')}
-                </Button>
 
-                {wallets.length > 1 && (
-                  <TransferFundDrawer
-                    initFromWallet={wallet}
+                  <UpdateWalletDrawer
+                    update={wallet => dispatch(updateWallet(wallet))}
+                    wallet={wallet}
+                    load={setUpdating}
+                    trigger={
+                      <View className="fle h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                        <Icon
+                          render={LucidePencil}
+                          size={16}
+                          color="#0ea5e9"
+                        />
+                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                      </View>
+                    }
+                  />
+
+                  <ConfirmDialog
+                    label={t('Delete Wallet')}
+                    desc={
+                      wallets.length > 1
+                        ? t('Are you sure you want to delete this wallet?')
+                        : t('deleteOnlyWalletMessage')
+                    }
+                    confirmLabel={wallets.length > 1 ? 'Delete' : 'Clear'}
+                    onConfirm={handleDeleteWallet}
                     trigger={
                       <Button
                         variant="ghost"
-                        className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-indigo-500"
+                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
                       >
-                        <LucideArrowRightLeft size={16} />
-                        {t('Transfer')}
+                        <Icon
+                          render={LucideTrash}
+                          size={16}
+                          color="#f43f5e"
+                        />
+                        <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
                       </Button>
                     }
                   />
-                )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <ActivityIndicator />
+            )}
+          </View>
+        </CardHeader>
 
-                <CreateTransactionDrawer
-                  initWallet={wallet}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2"
-                    >
-                      <LucidePlus size={16} />
-                      {t('Add Transaction')}
-                    </Button>
-                  }
-                />
+        {/* Content */}
+        <CardContent className="flex flex-col gap-2 px-4 pb-2">
+          <Item
+            title={t('Balance')}
+            value={wallet.income + wallet.saving + wallet.invest + wallet.transfer - wallet.expense}
+            type="balance"
+          />
+          <View
+            className="trans-300 flex flex-col gap-2 overflow-hidden"
+            style={{
+              maxHeight: collapsed ? 400 : 0,
+            }}
+          >
+            <Item
+              title={t('Income')}
+              value={wallet.income}
+              type="income"
+            />
+            <Item
+              title={t('Expense')}
+              value={wallet.expense}
+              type="expense"
+            />
+            <Item
+              title={t('Saving')}
+              value={wallet.saving}
+              type="saving"
+            />
+            <Item
+              title={t('Invest')}
+              value={wallet.invest}
+              type="invest"
+            />
+            <Item
+              title={t('Transfer')}
+              value={wallet.transfer}
+              type="transfer"
+            />
+          </View>
+        </CardContent>
 
-                <UpdateWalletDrawer
-                  update={wallet => dispatch(updateWallet(wallet))}
-                  wallet={wallet}
-                  load={setUpdating}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-sky-500"
-                    >
-                      <LucidePencil size={16} />
-                      {t('Edit')}
-                    </Button>
-                  }
-                />
-
-                <ConfirmDialog
-                  label={t('Delete Wallet')}
-                  desc={
-                    wallets.length > 1
-                      ? t('Are you sure you want to delete this wallet?')
-                      : t('deleteOnlyWalletMessage')
-                  }
-                  confirmLabel={wallets.length > 1 ? 'Delete' : 'Clear'}
-                  onConfirm={handleDeleteWallet}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-rose-500"
-                    >
-                      <LucideTrash size={16} />
-                      {t('Delete')}
-                    </Button>
-                  }
-                />
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              disabled
-              variant="ghost"
-              size="icon"
-            >
-              <LucideLoaderCircle className="animate-spin" />
-            </Button>
-          )} */}
-        </CardTitle>
-      </CardHeader>
-
-      {/* Content */}
-      <CardContent className="flex flex-col gap-2 px-4 pb-2">
-        <Item
-          title={t('Balance')}
-          value={wallet.income + wallet.saving + wallet.invest + wallet.transfer - wallet.expense}
-          type="balance"
-        />
-        <View
-          className="trans-300 flex flex-col gap-2 overflow-hidden"
-          style={{
-            maxHeight: collapsed ? 400 : 0,
+        {/* Collapse Button */}
+        <Button
+          className={cn(
+            'flex w-full flex-row items-center justify-center rounded-none bg-primary py-1 text-secondary'
+          )}
+          style={{ height: 28 }}
+          onPress={e => {
+            e.stopPropagation()
+            setCollapsed(!collapsed)
           }}
         >
-          <Item
-            title={t('Income')}
-            value={wallet.income}
-            type="income"
+          <Icon
+            render={LucideChevronDown}
+            size={26}
+            reverse
+            className="trans-200"
+            style={{
+              transform: collapsed ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }],
+            }}
           />
-          <Item
-            title={t('Expense')}
-            value={wallet.expense}
-            type="expense"
-          />
-          <Item
-            title={t('Saving')}
-            value={wallet.saving}
-            type="saving"
-          />
-          <Item
-            title={t('Invest')}
-            value={wallet.invest}
-            type="invest"
-          />
-          <Item
-            title={t('Transfer')}
-            value={wallet.transfer}
-            type="transfer"
-          />
-        </View>
-      </CardContent>
-
-      {/* Collapse Button */}
-      <Button
-        className={cn(
-          'flex w-full flex-row items-center justify-center rounded-none bg-primary py-1 text-secondary'
-        )}
-        style={{ height: 28 }}
-        onPress={e => {
-          e.stopPropagation()
-          setCollapsed(!collapsed)
-        }}
-      >
-        <Icon
-          render={LucideChevronDown}
-          size={26}
-          reverse
-          className="trans-200"
-          style={{
-            transform: collapsed ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }],
-          }}
-        />
-      </Button>
+        </Button>
+      </Pressable>
     </Card>
   )
 }
