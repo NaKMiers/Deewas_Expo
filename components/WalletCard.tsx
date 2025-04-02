@@ -27,7 +27,7 @@ function WalletCard({ wallet, className = '' }: WalletCardProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
-  const t = (value: string) => translate('walletCard.' + value)
+  const t = (key: string) => translate('walletCard.' + key)
 
   // store
   const { wallets } = useAppSelector(state => state.wallet)

@@ -1,12 +1,14 @@
+import LatestTransactions from '@/components/LatestTransactions'
+import OverviewCard from '@/components/OverviewCard'
 import { Separator } from '@/components/ui/separator'
 import Wallets from '@/components/Wallets'
 import React from 'react'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 function HomePage() {
   return (
-    <View className="container pb-32">
-      {/* <OverviewCard /> */}
+    <ScrollView className="container">
+      <OverviewCard />
 
       <Separator className="my-4 h-0" />
 
@@ -16,12 +18,14 @@ function HomePage() {
 
       {/* <History /> */}
 
-      {/* <Separator className="my-8 h-0" /> */}
+      <Separator className="my-8 h-0" />
 
-      {/* <LatestTransactions /> */}
+      <LatestTransactions />
+
+      <Separator className="my-16 h-0" />
 
       {/* <Creations /> */}
-    </View>
+    </ScrollView>
   )
 }
 

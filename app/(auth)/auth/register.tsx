@@ -31,9 +31,9 @@ function RegisterPage() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   let { t: translate, i18n } = useTranslation()
-  const t = (value: string) => translate('registerPage.' + value)
-  const tSuccess = (value: string) => translate('success.' + value)
-  const tError = (value: string) => translate('error.' + value)
+  const t = (key: string) => translate('registerPage.' + key)
+  const tSuccess = (key: string) => translate('success.' + key)
+  const tError = (key: string) => translate('error.' + key)
 
   // states
   const [loading, setLoading] = useState<boolean>(false)

@@ -27,7 +27,7 @@ function Wallets({ className = '' }: WalletProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
-  const t = (value: string) => translate('wallets.' + value)
+  const t = (key: string) => translate('wallets.' + key)
 
   // store
   const { wallets, loading } = useAppSelector(state => state.wallet)

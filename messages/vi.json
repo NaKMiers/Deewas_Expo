@@ -19,7 +19,9 @@
     "Register": "Đăng ký ngay",
     "Logging in": "Đang đăng nhập",
     "Login Successfully!": "Đăng nhập thành công!",
-    "Login Failed!": "Đăng nhập thất bại!"
+    "Login Failed!": "Đăng nhập thất bại!",
+    "Username or email is required": "Tên người dùng hoặc email là bắt buộc",
+    "Password is required": "Mật khẩu là bắt buộc"
   },
   "registerPage": {
     "Register - Deewas": "Đăng ký - Deewas",
@@ -37,7 +39,13 @@
     "Failed to register": "Đăng ký thất bại",
     "Username must be at least 5 characters": "Tên người dùng phải có ít nhất 5 ký tự",
     "Invalid email": "Email không hợp lệ",
-    "Password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number": "Mật khẩu phải có ít nhất 6 ký tự và chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số"
+    "Password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number": "Mật khẩu phải có ít nhất 6 ký tự và chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số",
+    "Login with Google": "Đăng nhập với Google",
+    "Login with Facebook": "Đăng nhập với Facebook",
+    "Login with Apple": "Đăng nhập với Apple",
+    "Username is required": "Tên người dùng không được trống",
+    "Email is required": "Email không được trống",
+    "Password is required": "Mật khẩu không được trống"
   },
   "forgotPasswordPage": {
     "Forgot Password - Deewas": "Quên mật khẩu - Deewas",
@@ -50,7 +58,9 @@
     "Register": "Đăng ký ngay",
     "Sending reset link": "Đang gửi liên kết",
     "Reset link sent! Check your email": "Liên kết đã được gửi! Vui lòng kiểm tra email của bạn",
-    "Something went wrong": "Có lỗi xảy ra"
+    "Something went wrong": "Có lỗi xảy ra",
+    "Email is required": "Email không được trống",
+    "Invalid email": "Email không hợp lệ"
   },
   "resetPasswordPage": {
     "Reset Your Password": "Đặt lại mật khẩu của bạn",
@@ -435,6 +445,7 @@
   "navbar": {
     "Home": "Trang chủ",
     "Transactions": "Giao dịch",
+    "AI": "AI",
     "Budgets": "Ngân sách",
     "Account": "Tài khoản",
     "Welcome to Deewas": "Chào mừng đến với Deewas",

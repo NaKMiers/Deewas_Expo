@@ -19,7 +19,9 @@
     "Register": "Register",
     "Logging in": "Logging in",
     "Login Successfully!": "Login Successfully!",
-    "Login Failed": "Login Failed"
+    "Login Failed": "Login Failed",
+    "Username or email is required": "Username or email is required",
+    "Password is required": "Password is required"
   },
   "registerPage": {
     "Register - Deewas": "Register - Deewas",
@@ -37,7 +39,13 @@
     "Failed to register": "Failed to register",
     "Username must be at least 5 characters": "Username must be at least 5 characters",
     "Invalid email": "Invalid email",
-    "Password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number": "Password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number"
+    "Password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number": "Password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number",
+    "Login with Google": "Login with Google",
+    "Login with Facebook": "Login with Facebook",
+    "Login with Apple": "Login with Apple",
+    "Username is required": "Username is required",
+    "Email is required": "Email is required",
+    "Password is required": "Password is required"
   },
   "forgotPasswordPage": {
     "Forgot Password - Deewas": "Forgot Password - Deewas",
@@ -50,7 +58,9 @@
     "Register": "Register",
     "Sending reset link": "Sending reset link",
     "Reset link sent! Check your email": "Reset link sent! Check your email",
-    "Something went wrong": "Something went wrong"
+    "Something went wrong": "Something went wrong",
+    "Email is required": "Email is required",
+    "Invalid email": "Invalid email"
   },
   "resetPasswordPage": {
     "Reset Your Password": "Reset Your Password",
@@ -437,6 +447,7 @@
   "navbar": {
     "Home": "Home",
     "Transactions": "Transactions",
+    "AI": "AI",
     "Budgets": "Budgets",
     "Account": "Account",
     "Welcome to Deewas": "Welcome to Deewas",
@@ -541,5 +552,37 @@
   },
   "montYearPicker": {
     "Apply": "Apply"
+  },
+  "success": {
+    "Login Success": "Login Success",
+    "You have successfully logged in": "You have successfully logged in",
+    "Register Success": "Register Success",
+    "You have successfully registered": "You have successfully registered",
+    "Reset link sent": "Reset link sent",
+    "Reset password link has been sent to your email, please check your inbox": "Reset password link has been sent to your email, please check your inbox",
+    "Transaction created": "Transaction created",
+    "Category deleted": "Category deleted",
+    "Transaction deleted": "Transaction deleted",
+    "Transaction duplicated": "Transaction duplicated",
+    "Wallet deleted": "Wallet deleted"
+  },
+  "error": {
+    "Login Failed": "Login Failed",
+    "Incorrect username or email": "Incorrect username or email",
+    "Register Failed": "Register Failed",
+    "Username or email exists": "Username or email exists",
+    "Something went wrong": "Something went wrong",
+    "This account is authenticated by google, you can't reset password": "This account is authenticated by google, you can't reset password",
+    "This account is authenticated by facebook, you can't reset password": "This account is authenticated by facebook, you can't reset password",
+    "This account is authenticated by apple, you can't reset password": "This account is authenticated by apple, you can't reset password",
+    "Failed to create transaction": "Failed to create transaction",
+    "Failed to delete category": "Failed to delete category",
+    "The selected date range is too large": "The selected date range is too large",
+    "Max allowed range is 90 days!": "Max allowed range is 90 days!",
+    "Failed to fetch transactions": "Failed to fetch transactions",
+    "Failed to delete transaction": "Failed to delete transaction",
+    "Failed to duplicate transaction": "Failed to duplicate transaction",
+    "Failed to delete wallet": "Failed to delete wallet",
+    "Failed to get categories": "Failed to get categories"
   }
 }

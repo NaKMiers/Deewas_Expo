@@ -4,16 +4,14 @@ import { currencies, languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setSettings } from '@/lib/reducers/settingsReducer'
 import { cn } from '@/lib/utils'
-import { memo, useCallback, useState } from 'react'
-import { Button } from './ui/button'
 import { updateMySettingsApi } from '@/requests'
 import { usePathname, useRouter } from 'expo-router'
-import { LucideChevronsUpDown } from 'lucide-react-native'
+import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import Text from './Text'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select'
 
 interface SettingsBoxProps {
   className?: string
@@ -23,7 +21,7 @@ interface SettingsBoxProps {
 function SettingsBox({ isRequireInit, className = '' }: SettingsBoxProps) {
   // hooks
   const { t: translate, i18n } = useTranslation()
-  const t = (value: string) => translate('settingsBox.' + value)
+  const t = (key: string) => translate('settingsBox.' + key)
   const locale = i18n.language
 
   // store
@@ -37,7 +35,7 @@ function SettingsBox({ isRequireInit, className = '' }: SettingsBoxProps) {
           <Box
             type="currency"
             desc={t('Set your currency')}
-            list={currencies}
+            list={currencies.sort((a, b) => a.label.localeCompare(b.label))}
             init={currencies.find(c => c.value === currency)}
           />
         ) : null
@@ -45,7 +43,7 @@ function SettingsBox({ isRequireInit, className = '' }: SettingsBoxProps) {
         <Box
           type="currency"
           desc={t('Set your currency')}
-          list={currencies}
+          list={currencies.sort((a, b) => a.label.localeCompare(b.label))}
           init={currencies.find(c => c.value === 'USD')}
         />
       )}
@@ -75,7 +73,7 @@ function Box({ type, desc, list, init, className = '' }: BoxProps) {
   const pathname = usePathname()
   const router = useRouter()
   const { t: translate, i18n } = useTranslation()
-  const t = (value: string) => translate('settingsBox.' + value)
+  const t = (key: string) => translate('settingsBox.' + key)
 
   // states
   const [open, setOpen] = useState<boolean>(false)
@@ -121,63 +119,50 @@ function Box({ type, desc, list, init, className = '' }: BoxProps) {
   const handleChangeLanguage = useCallback(
     (nextLocale: string) => {
       i18n.changeLanguage(nextLocale)
+      Toast.show({
+        type: 'success',
+        text1: 'Language changed to ' + languages.find(l => l.value === nextLocale)?.label,
+      })
     },
     [router, pathname]
   )
 
   return (
-    <View
-      className={cn('relative w-full items-center justify-center rounded-lg border p-21', className)}
-    >
+    <View className={cn('w-full justify-center rounded-lg border border-secondary p-21', className)}>
       <Text className="font-bold capitalize">{t(type)}</Text>
       <Text className="mb-3 text-sm text-muted-foreground">{desc}</Text>
 
-      <Popover
-      // open={open}
-      // onOpenChange={setOpen}
-      >
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full justify-between"
-          >
-            <Text>{selected ? selected.label : `${t('Select')} ${t(type)}`}</Text>
+      <Select
+        value={selected?.value}
+        defaultValue={init?.value}
+        onValueChange={option => {
+          if (!option) return
 
-            <LucideChevronsUpDown size={18} />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-full p-0 shadow-md">
-          {/* Search Bar */}
-          {/* <Command className="rounded-lg border shadow-md md:min-w-[450px]">
-            <CommandInput
-              autoFocus={false}
-              className="text-base md:text-sm"
-              placeholder={`${t('Find a')} ${t(type)}...`}
-            />
-            <CommandList>
-              <CommandEmpty>{t('No results found')}.</CommandEmpty>
-              <CommandSeparator />
-              {list.map((item, index) => (
-                <CommandItem
-                  onSelect={() => {
-                    if (type === 'language') {
-                      handleChangeLanguage(item.value)
-                    } else {
-                      handleUpdateSettings(item.value)
-                    }
-                    setSelected(item)
-                    setOpen(false)
-                  }}
-                  className="cursor-pointer font-semibold"
-                  key={index}
-                >
-                  {item.label}
-                </CommandItem>
-              ))}
-            </CommandList>
-          </Command> */}
-        </PopoverContent>
-      </Popover>
+          if (type === 'language') {
+            handleChangeLanguage(option.value)
+          } else {
+            handleUpdateSettings(option.value)
+          }
+          setSelected(option)
+          setOpen(false)
+        }}
+      >
+        <SelectTrigger>
+          <Text>{selected ? selected.label : `${t('Select')} ${t(type)}`}</Text>
+        </SelectTrigger>
+
+        <SelectContent>
+          <ScrollView>
+            {list.map((item, index) => (
+              <SelectItem
+                value={item.value}
+                label={item.label}
+                key={index}
+              />
+            ))}
+          </ScrollView>
+        </SelectContent>
+      </Select>
     </View>
   )
 }

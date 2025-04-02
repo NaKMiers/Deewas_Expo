@@ -22,9 +22,9 @@ interface CategoryPickerProps {
 function CategoryPicker({ category, type, onChange, className = '' }: CategoryPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (value: string) => translate('categoryPicker.' + value)
-  const tSuccess = (value: string) => translate('success.' + value)
-  const tError = (value: string) => translate('error.' + value)
+  const t = (key: string) => translate('categoryPicker.' + key)
+  const tSuccess = (key: string) => translate('success.' + key)
+  const tError = (key: string) => translate('error.' + key)
 
   // states
   const [open, setOpen] = useState<boolean>(false)

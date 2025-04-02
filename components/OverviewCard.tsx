@@ -18,7 +18,7 @@ interface OverviewCardProps {
 function OverviewCard({ className = '' }: OverviewCardProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (value: string) => translate('overviewCard.' + value)
+  const t = (key: string) => translate('overviewCard.' + key)
 
   // store
   const wallets = useAppSelector(state => state.wallet.wallets).filter(wallet => !wallet.hide)
@@ -90,13 +90,13 @@ function OverviewCard({ className = '' }: OverviewCardProps) {
             </View>
           </View>
 
-          <TouchableOpacity className="fle h-12 flex-row items-center justify-center px-21/2 text-muted-foreground">
+          <View className="fle h-12 flex-row items-center justify-center px-21/2 text-muted-foreground">
             <Icon
               render={LucideChevronDown}
               size={18}
               className={`trans-200 ${collapsed ? 'rotate-180' : ''}`}
             />
-          </TouchableOpacity>
+          </View>
         </CardContent>
       </Pressable>
     </Card>
@@ -152,9 +152,7 @@ function Item({ title, type, value, isEye, isShow, toggle, className = '' }: Car
             </Button>
           )}
         </View>
-        <Text className={cn('text-sm font-semibold leading-3 tracking-wide text-muted-foreground')}>
-          {title}
-        </Text>
+        <Text className={cn('text-sm font-semibold tracking-wide text-muted-foreground')}>{title}</Text>
       </View>
     )
   )

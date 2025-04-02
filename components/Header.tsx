@@ -16,7 +16,7 @@ interface HeaderProps {
 function Header({ navigation, className }: HeaderProps) {
   // hooks
   let { t: translate } = useTranslation()
-  const t = (value: string) => translate('header.' + value)
+  const t = (key: string) => translate('header.' + key)
   const { user } = useAuth()
 
   return (

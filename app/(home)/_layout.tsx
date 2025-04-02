@@ -12,6 +12,7 @@ import AI from './ai'
 import Budgets from './budgets'
 import Home from './index'
 import Transactions from './transactions'
+import Categories from './categories'
 
 const Tab = createBottomTabNavigator()
 
@@ -25,31 +26,36 @@ function HomeLayout() {
     <GestureHandlerRootView>
       <SafeAreaView className="flex-1">
         <Tab.Navigator
-          initialRouteName="Home"
+          initialRouteName="home"
           screenOptions={{
             header: ({ navigation }) => <Header navigation={navigation} />,
           }}
           tabBar={props => <Navbar {...props} />}
         >
           <Tab.Screen
-            name="Home"
+            name="home"
             component={Home}
           />
           <Tab.Screen
-            name="Transactions"
+            name="transactions"
             component={Transactions}
           />
           <Tab.Screen
-            name="AI"
+            name="ai"
             component={AI}
           />
           <Tab.Screen
-            name="Budgets"
+            name="budgets"
             component={Budgets}
           />
           <Tab.Screen
-            name="Account"
+            name="account"
             component={Account}
+          />
+
+          <Tab.Screen
+            name="categories"
+            component={Categories}
           />
         </Tab.Navigator>
       </SafeAreaView>

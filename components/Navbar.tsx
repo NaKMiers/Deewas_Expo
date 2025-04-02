@@ -45,7 +45,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
   const pathname = usePathname()
   const router = useRouter()
   // const { t: translate } = useTranslation()
-  // const t = (value: string) => translate('navbar.' + value)
+  // const t = (key: string) => translate('navbar.' + key)
   const { user } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
 
@@ -56,7 +56,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
     })
 
     if (!isFocused && !event.defaultPrevented) {
-      navigation.navigate(route.label)
+      navigation.navigate(route.label.toLowerCase())
     }
 
     if (route.href === '/transactions') {
@@ -67,7 +67,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
   return (
     <View
       className={cn('flex items-center', className)}
-      style={{ maxHeight: 60, paddingRight: 10.5, paddingLeft: 10.5 }}
+      style={{ maxHeight: 48, paddingRight: 10.5, paddingLeft: 10.5 }}
     >
       <View className="flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary">
         {routes.map(route => {

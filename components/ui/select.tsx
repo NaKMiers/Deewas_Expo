@@ -143,13 +143,13 @@ const SelectItem = React.forwardRef<SelectPrimitive.ItemRef, SelectPrimitive.Ite
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        'web:group native:py-2 native:pl-10 relative flex w-full flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent/50 web:focus:bg-accent',
+        'web:group native:py-2 native:pl-2 relative flex w-full flex-row items-center rounded-sm py-1.5 pl-2 pr-2 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent/50 web:focus:bg-accent',
         props.disabled && 'opacity-50 web:pointer-events-none',
         className
       )}
       {...props}
     >
-      <View className="native:left-3.5 native:pt-px absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      {/* <View className="native:left-3.5 native:pt-px absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
           <Check
             size={16}
@@ -157,7 +157,7 @@ const SelectItem = React.forwardRef<SelectPrimitive.ItemRef, SelectPrimitive.Ite
             className="text-popover-foreground"
           />
         </SelectPrimitive.ItemIndicator>
-      </View>
+      </View> */}
       <SelectPrimitive.ItemText className="native:text-lg native:text-base text-sm text-popover-foreground web:group-focus:text-accent-foreground" />
     </SelectPrimitive.Item>
   )

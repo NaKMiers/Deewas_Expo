@@ -41,9 +41,9 @@ function CreateTransactionDrawer({
 }: CreateTransactionDrawerProps) {
   // hooks
   let { t: translate, i18n } = useTranslation()
-  const t = (value: string) => translate('createTransactionDrawer.' + value)
-  const tSuccess = (value: string) => translate('success.' + value)
-  const tError = (value: string) => translate('error.' + value)
+  const t = (key: string) => translate('createTransactionDrawer.' + key)
+  const tSuccess = (key: string) => translate('success.' + key)
+  const tError = (key: string) => translate('error.' + key)
   const dispatch = useAppDispatch()
 
   // // store

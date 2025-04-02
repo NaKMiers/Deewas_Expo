@@ -3,35 +3,16 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addWallet, deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
-import { IWallet } from '@/models/WalletModel'
-import { deleteWalletApi } from '@/requests'
 import { LucidePencil, LucidePlusSquare, LucideX } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 import { memo, useCallback, useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
-import { LuChevronsUpDown, LuLoaderCircle } from 'react-icons/lu'
-import ConfirmDialog from './dialogs/ConfirmDialog'
-import CreateWalletDrawer from './dialogs/CreateWalletDrawer'
-import UpdateWalletDrawer from './dialogs/UpdateWalletDrawer'
 import { Button } from './ui/button'
-import {
-  Command,
-  CommandEmpty,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from './ui/command'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from './ui/drawer'
 import { Separator } from './ui/separator'
 import { Skeleton } from './ui/skeleton'
+import { useTranslation } from 'react-i18next'
+import { IWallet } from '@/types/type'
+import { deleteWalletApi } from '@/requests/walletRequests'
+import Toast from 'react-native-toast-message'
+import { View } from 'react-native'
 
 interface WalletPickerProps {
   wallet?: IWallet
@@ -42,7 +23,8 @@ interface WalletPickerProps {
 
 function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: WalletPickerProps) {
   // hooks
-  const t = useTranslations('walletPicker')
+  const { t: translate } = useTranslation()
+  const t = (key: string) => translate('walletPicker.' + key)
   const dispatch = useAppDispatch()
 
   // store
@@ -64,7 +46,6 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
     async (id: string) => {
       // start deleting
       setDeleting(id)
-      toast.loading(t('Deleting wallet') + '...', { id: 'delete-wallet' })
 
       try {
         const { wallet: w, message } = await deleteWalletApi(id)
@@ -74,9 +55,16 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
         } else {
           dispatch(updateWallet(w))
         }
-        toast.success(message, { id: 'delete-wallet' })
+
+        Toast.show({
+          type: 'success',
+          text1: t('Wallet deleted'),
+        })
       } catch (err: any) {
-        toast.error(err.message, { id: 'delete-wallet' })
+        Toast.show({
+          type: 'error',
+          text1: t('Failed to delete wallet'),
+        })
         console.log(err)
       } finally {
         // stop deleting
@@ -87,8 +75,8 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
   )
 
   return (
-    <div className={`relative ${className}`}>
-      <Drawer
+    <View className={`relative ${className}`}>
+      {/* <Drawer
         open={open}
         onOpenChange={setOpen}
       >
@@ -116,7 +104,7 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
           )}
         </DrawerTrigger>
         <DrawerContent className="w-full p-0 shadow-md">
-          <div className="mx-auto w-full max-w-sm px-21/2">
+          <View className="mx-auto w-full max-w-sm px-21/2">
             <DrawerHeader>
               <DrawerTitle className="text-center">{t('Select Wallet')}</DrawerTitle>
               <DrawerDescription className="text-center">
@@ -124,7 +112,6 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
               </DrawerDescription>
             </DrawerHeader>
 
-            {/* Search Bar */}
             <Command className="rounded-lg border shadow-md">
               <CommandInput
                 autoFocus={false}
@@ -132,7 +119,6 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
                 placeholder={t('Find a wallet') + '...'}
               />
 
-              {/* MARK: Create Wallet */}
               <CreateWalletDrawer
                 update={wallet => dispatch(addWallet(wallet))}
                 trigger={
@@ -183,7 +169,6 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
                       <span>{wallet.icon}</span> {wallet.name}
                     </Button>
 
-                    {/* MARK: Update Wallet */}
                     <UpdateWalletDrawer
                       wallet={wallet}
                       update={(wallet: IWallet) => dispatch(updateWallet(wallet))}
@@ -197,7 +182,6 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
                       }
                     />
 
-                    {/* MARK: Delete Wallet */}
                     <ConfirmDialog
                       label={t('Delete wallet')}
                       desc={`${t('Are you sure you want to delete')} ${wallet.name}?`}
@@ -229,10 +213,10 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: Wallet
             </Command>
 
             <Separator className="my-8" />
-          </div>
+          </View>
         </DrawerContent>
-      </Drawer>
-    </div>
+      </Drawer> */}
+    </View>
   )
 }
 
