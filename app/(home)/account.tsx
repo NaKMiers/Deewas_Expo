@@ -1,5 +1,3 @@
-'use client'
-
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
@@ -7,11 +5,11 @@ import SettingsBox from '@/components/SettingsBox'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
-import { useAppDispatch } from '@/hooks/reduxHook'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { Separator } from '@/components/ui/separator'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { deleteAllDataApi } from '@/requests'
-import { useRouter } from 'expo-router'
 import {
   LucideBookCopy,
   LucideChevronRight,
@@ -23,6 +21,7 @@ import {
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { RefreshControl } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
 function AccountPage({ navigation }: any) {
@@ -32,7 +31,9 @@ function AccountPage({ navigation }: any) {
   const t = (key: string) => translate('accountPage.', key)
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme()
   const dispatch = useAppDispatch()
-  const router = useRouter()
+
+  // store
+  const { refreshing } = useAppSelector(state => state.load)
 
   // states
   const [deleting, setDeleting] = useState<boolean>(false)
@@ -49,7 +50,7 @@ function AccountPage({ navigation }: any) {
         text1: message,
       })
 
-      dispatch(refetching())
+      dispatch(refresh())
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -59,15 +60,23 @@ function AccountPage({ navigation }: any) {
     } finally {
       // stop loading
       setDeleting(false)
+      dispatch(setRefreshing(false))
     }
   }, [dispatch, t])
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View className="container flex flex-col gap-21/2 px-21/2 pb-32 pt-21/2 md:gap-21 md:px-21 md:pt-21">
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => dispatch(refresh())}
+          />
+        }
+      >
+        <View className="flex flex-col gap-21/2 p-21/2 md:p-21">
           {/* MARK: Account */}
-          <View className="p2 overflow-auto rounded-md border border-secondary p-2">
+          <View className="overflow-auto rounded-md border border-border p-2">
             <View className="flex w-full flex-row items-center gap-2 pb-2">
               <View className="aspect-square max-w-[40px] flex-shrink-0 overflow-hidden rounded-full shadow-sm">
                 <Image
@@ -91,13 +100,13 @@ function AccountPage({ navigation }: any) {
                 </Text>
               </View>
             </View>
-            <View className="border-t border-secondary py-2 text-center font-semibold capitalize">
+            <View className="border-t border-border px-21/2 py-2 text-center font-semibold capitalize">
               <Text>{t('Free Account')}</Text>
             </View>
           </View>
 
           {/* MARK: Ads */}
-          <View className="flex flex-col gap-2 rounded-md border border-secondary px-21/2 py-2">
+          <View className="flex flex-col gap-2 rounded-md border border-border px-21/2 py-2">
             <View className="flex flex-row justify-between gap-2">
               <Text className="font-semibold">{t('Flash Sale')}</Text>
               {/* <Countdown
@@ -118,7 +127,7 @@ function AccountPage({ navigation }: any) {
           </View>
 
           {/* MARK: Categories & Wallets */}
-          <View className="flex flex-col rounded-md border border-secondary px-21/2 py-2 md:px-21">
+          <View className="flex flex-col rounded-md border border-border px-21/2 py-2 md:px-21">
             <TouchableOpacity
               // href="/categories"
               onPress={() => navigation.navigate('categories')}
@@ -127,7 +136,6 @@ function AccountPage({ navigation }: any) {
               <Icon
                 render={LucideBookCopy}
                 size={18}
-                className="cursor-pointer"
               />
               <Text className="font-semibold">{t('Categories')}</Text>
               <View className="flex flex-1 flex-row items-center justify-end">
@@ -140,7 +148,7 @@ function AccountPage({ navigation }: any) {
           </View>
 
           {/* MARK: Theme */}
-          <View className="flex flex-row items-center gap-2 rounded-md border border-secondary px-21/2 py-2 md:px-21">
+          <View className="flex flex-row items-center gap-2 rounded-md border border-border px-21/2 py-2 md:px-21">
             <Text className="font-semibold">{t('Theme')}</Text>
 
             <Select onValueChange={option => setColorScheme(option?.value as 'light' | 'dark')}>
@@ -176,7 +184,7 @@ function AccountPage({ navigation }: any) {
           <SettingsBox isRequireInit />
 
           {/* MARK: More */}
-          <View className="flex flex-col rounded-lg border border-secondary px-21/2 py-2 md:px-21">
+          <View className="flex flex-col rounded-lg border border-border px-21/2 py-2 md:px-21">
             <TouchableOpacity
               // onPress={() => router.push('/about')}
               className="flex h-10 flex-row items-center gap-2 text-sm"
@@ -212,9 +220,7 @@ function AccountPage({ navigation }: any) {
                   variant="outline"
                   className="mt-8 w-full border-rose-500"
                 >
-                  <Text className="text-sm font-semibold capitalize text-rose-500">
-                    {t('Delete All Data')}
-                  </Text>
+                  <Text className="font-semibold capitalize text-rose-500">{t('Delete All Data')}</Text>
                 </Button>
               ) : (
                 <ActivityIndicator />
@@ -238,6 +244,8 @@ function AccountPage({ navigation }: any) {
             }
           />
         </View>
+
+        <Separator className="my-16 h-0" />
       </ScrollView>
     </SafeAreaView>
   )

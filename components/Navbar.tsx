@@ -2,7 +2,7 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { setCurWallet } from '@/lib/reducers/walletReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { usePathname, useRouter } from 'expo-router'
+import { usePathname, router } from 'expo-router'
 import { LucideBrain, LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
 import { memo } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
@@ -43,7 +43,6 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
   // hooks
   const dispatch = useAppDispatch()
   const pathname = usePathname()
-  const router = useRouter()
   // const { t: translate } = useTranslation()
   // const t = (key: string) => translate('navbar.' + key)
   const { user } = useAuth()

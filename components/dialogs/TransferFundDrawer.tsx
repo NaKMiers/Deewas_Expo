@@ -1,6 +1,6 @@
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { formatSymbol, revertAdjustedCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
@@ -24,7 +24,6 @@ interface TransferFundDrawerProps {
   type?: TransactionType
   initFromWallet?: IWallet
   initToWallet?: IWallet
-  trigger: ReactNode
   refetch?: () => void
   className?: string
 }
@@ -32,9 +31,8 @@ interface TransferFundDrawerProps {
 function TransferFundDrawer({
   initFromWallet,
   initToWallet,
-  trigger,
   refetch,
-  className = '',
+  className,
 }: TransferFundDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
@@ -147,7 +145,7 @@ function TransferFundDrawer({
           amount: revertAdjustedCurrency(data.amount, locale),
         })
 
-        dispatch(refetching())
+        dispatch(refresh())
 
         if (refetch) refetch()
 
@@ -168,6 +166,7 @@ function TransferFundDrawer({
       } finally {
         // stop loading
         setSaving(false)
+        dispatch(setRefreshing(false))
       }
     },
     [handleValidate, reset, refetch, dispatch, locale, t]
@@ -183,7 +182,7 @@ function TransferFundDrawer({
           </Text>
         </View>
 
-        <View className="mt-6 flex flex-col gap-3">
+        <View className="mt-6 flex flex-col gap-6">
           {/* MARK: From Wallet */}
           <View className="">
             <Text className={cn('mb-1 font-semibold', errors.fromWalletId?.message && 'text-rose-500')}>
@@ -236,7 +235,7 @@ function TransferFundDrawer({
               type="currency"
               control={control}
               onFocus={() => clearErrors('amount')}
-              icon={<Text>{formatSymbol(currency)}</Text>}
+              icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
             />
           )}
 
@@ -293,15 +292,23 @@ function TransferFundDrawer({
   )
 }
 
-const Node = (props: TransferFundDrawerProps) => {
+interface NodeProps extends TransferFundDrawerProps {
+  disabled?: boolean
+  trigger: ReactNode
+  className?: string
+}
+
+function Node({ disabled, trigger, className, ...props }: NodeProps) {
   const { openDrawer } = useDrawer()
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
+      className={cn(className, disabled && 'opacity-50')}
+      disabled={disabled}
       onPress={() => openDrawer(<TransferFundDrawer {...props} />)}
     >
-      {props.trigger}
+      {trigger}
     </TouchableOpacity>
   )
 }

@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native'
 import Account from './account'
 import AI from './ai'
 import Budgets from './budgets'
+import Calendar from './calendar'
 import Categories from './categories'
 import Home from './index'
 import Transactions from './transactions'
@@ -51,10 +52,13 @@ function HomeLayout() {
             name="account"
             component={Account}
           />
-
           <Tab.Screen
             name="categories"
             component={Categories}
+          />
+          <Tab.Screen
+            name="calendar"
+            component={Calendar}
           />
         </Tab.Navigator>
       </SafeAreaView>

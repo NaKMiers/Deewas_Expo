@@ -5,17 +5,18 @@ import { TransactionType } from '@/types/type'
 import { LucideChevronDown, LucideEye } from 'lucide-react-native'
 import { Dispatch, memo, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Pressable, TouchableOpacity, View } from 'react-native'
+import { TouchableWithoutFeedback, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
 import Icon from './Icon'
 import Text from './Text'
 import { Button } from './ui/button'
-import { Card, CardContent } from './ui/card'
 
-interface OverviewCardProps {
+interface OverviewProps {
   className?: string
 }
 
-function OverviewCard({ className = '' }: OverviewCardProps) {
+// MARK: Overview
+function Overview({ className }: OverviewProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('overviewCard.' + key)
@@ -36,16 +37,11 @@ function OverviewCard({ className = '' }: OverviewCardProps) {
   const totalBalance = totalIncome + totalSaving + totalInvest + totalTransfer - totalExpense
 
   return (
-    <Card
-      className={cn(
-        'cursor-pointer overflow-hidden rounded-b-lg rounded-t-none border px-21/2 py-1 shadow-sm md:px-21',
-        className
-      )}
-    >
-      <Pressable onPress={() => setCollapsed(prev => !prev)}>
-        <CardContent className="flex flex-row justify-between px-0 pb-2">
+    <View className={cn('rounded-lg bg-secondary shadow-md', className)}>
+      <TouchableWithoutFeedback onPress={() => setCollapsed(!collapsed)}>
+        <View className="flex flex-row justify-between p-21/2">
           <View>
-            <Item
+            <OverviewItem
               title={t('Total Balance')}
               value={totalBalance}
               type="balance"
@@ -53,59 +49,60 @@ function OverviewCard({ className = '' }: OverviewCardProps) {
               isShow={showValue}
               toggle={setShowValue}
             />
-            <View
-              className={cn('trans-300 flex flex-col overflow-hidden')}
-              style={{ maxHeight: collapsed ? 300 : 0 }}
-            >
-              <Item
-                title={t('Income')}
-                value={totalIncome}
-                type="income"
-                isShow={showValue}
-              />
-              <Item
-                title={t('Expense')}
-                value={totalExpense}
-                type="expense"
-                isShow={showValue}
-              />
-              <Item
-                title={t('Saving')}
-                value={totalSaving}
-                type="saving"
-                isShow={showValue}
-              />
-              <Item
-                title={t('Invest')}
-                value={totalInvest}
-                type="invest"
-                isShow={showValue}
-              />
-              <Item
-                title={t('Transfer')}
-                value={totalTransfer}
-                type="transfer"
-                isShow={showValue}
-              />
-            </View>
+
+            <Collapsible collapsed={!collapsed}>
+              <View className="flex flex-col">
+                <OverviewItem
+                  title={t('Income')}
+                  value={totalIncome}
+                  type="income"
+                  isShow={showValue}
+                />
+                <OverviewItem
+                  title={t('Expense')}
+                  value={totalExpense}
+                  type="expense"
+                  isShow={showValue}
+                />
+                <OverviewItem
+                  title={t('Saving')}
+                  value={totalSaving}
+                  type="saving"
+                  isShow={showValue}
+                />
+                <OverviewItem
+                  title={t('Invest')}
+                  value={totalInvest}
+                  type="invest"
+                  isShow={showValue}
+                />
+                <OverviewItem
+                  title={t('Transfer')}
+                  value={totalTransfer}
+                  type="transfer"
+                  isShow={showValue}
+                />
+              </View>
+            </Collapsible>
           </View>
 
-          <View className="fle h-12 flex-row items-center justify-center px-21/2 text-muted-foreground">
+          <View className="flex h-12 flex-row items-center justify-center px-21/2">
             <Icon
               render={LucideChevronDown}
-              size={18}
+              size={22}
               className={`trans-200 ${collapsed ? 'rotate-180' : ''}`}
             />
           </View>
-        </CardContent>
-      </Pressable>
-    </Card>
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
   )
 }
 
-export default memo(OverviewCard)
+export default memo(Overview)
 
-interface CardProps {
+// MARK: Overview Item
+interface OverviewItemProps {
   title: string
   value: number
   type: TransactionType | 'balance'
@@ -114,7 +111,7 @@ interface CardProps {
   toggle?: Dispatch<SetStateAction<boolean>>
   className?: string
 }
-function Item({ title, type, value, isEye, isShow, toggle, className = '' }: CardProps) {
+function OverviewItem({ title, type, value, isEye, isShow, toggle, className }: OverviewItemProps) {
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
@@ -134,16 +131,14 @@ function Item({ title, type, value, isEye, isShow, toggle, className = '' }: Car
           {isShow ? (
             <Text className="text-xl font-semibold">{formatCurrency(currency, value)}</Text>
           ) : (
-            <Text className="text-xl font-bold tracking-widest">*******</Text>
+            <Text className="text-2xl font-bold leading-7 tracking-widest">*******</Text>
           )}
 
           {isEye && (
             <Button
               variant="ghost"
               size="icon"
-              onPress={e => {
-                if (toggle) toggle(prev => !prev)
-              }}
+              onPress={() => toggle && toggle(prev => !prev)}
             >
               <Icon
                 render={LucideEye}

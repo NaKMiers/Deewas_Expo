@@ -1,11 +1,12 @@
-import * as SelectPrimitive from '@rn-primitives/select'
-import * as React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
-import { Check } from '@/lib/icons/Check'
 import { ChevronDown } from '@/lib/icons/ChevronDown'
 import { ChevronUp } from '@/lib/icons/ChevronUp'
+import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
+import * as SelectPrimitive from '@rn-primitives/select'
+import { LucideChevronDown } from 'lucide-react-native'
+import * as React from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 type Option = SelectPrimitive.Option
 
@@ -16,24 +17,29 @@ const SelectGroup = SelectPrimitive.Group
 const SelectValue = SelectPrimitive.Value
 
 const SelectTrigger = React.forwardRef<SelectPrimitive.TriggerRef, SelectPrimitive.TriggerProps>(
-  ({ className, children, ...props }, ref) => (
-    <SelectPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        'native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
-        props.disabled && 'opacity-50 web:cursor-not-allowed',
-        className
-      )}
-      {...props}
-    >
-      <>{children}</>
-      <ChevronDown
-        size={16}
-        aria-hidden={true}
-        className="text-foreground opacity-50"
-      />
-    </SelectPrimitive.Trigger>
-  )
+  ({ className, children, ...props }, ref) => {
+    const { isDarkColorScheme } = useColorScheme()
+
+    return (
+      <SelectPrimitive.Trigger
+        ref={ref}
+        className={cn(
+          'native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
+          props.disabled && 'opacity-50 web:cursor-not-allowed',
+          className
+        )}
+        {...props}
+      >
+        <>{children}</>
+        <LucideChevronDown
+          size={16}
+          aria-hidden={true}
+          color={isDarkColorScheme ? '#fff' : '#111'}
+          className="opacity-70"
+        />
+      </SelectPrimitive.Trigger>
+    )
+  }
 )
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 

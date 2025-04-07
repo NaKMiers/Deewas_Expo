@@ -111,7 +111,7 @@
   "transactionPage": {
     "Failed to fetch transactions": "Failed to fetch transactions",
     "Transactions": "Transactions",
-    "of wallet": "of wallet",
+    "of": "of",
     "The selected date range is too large": "The selected date range is too large",
     "Max allowed range is": "Max allowed range is",
     "days!": "days!",
@@ -122,7 +122,7 @@
   "wizardPage": {
     "Welcome": "Welcome",
     "Let's start with some simple settings": "Let's start with some simple settings",
-    "You can change these setting at any time": "You can change these setting at any time",
+    "You can change these settings at any time": "You can change these settings at any time",
     "I'm done! Take me to the dashboard": "I'm done! Take me to the dashboard"
   },
   "aiPage": {
@@ -191,7 +191,8 @@
     "Select Icon": "Select Icon",
     "Icon will be used to represent your category": "Icon will be used to represent your category",
     "Cancel": "Cancel",
-    "Save": "Save"
+    "Save": "Save",
+    "Category name": "Category name"
   },
   "createTransactionDrawer": {
     "Wallet is required": "Wallet is required",
@@ -375,7 +376,17 @@
     "Categories": "Categories",
     "Sorted by name": "Sorted by name",
     "New Category": "New Category",
-    "No categories found!": "No categories found!"
+    "No categories found!": "No categories found!",
+    "income": "income",
+    "Income": "Income",
+    "expense": "expense",
+    "Expense": "Expense",
+    "saving": "saving",
+    "Saving": "Saving",
+    "invest": "invest",
+    "Invest": "Invest",
+    "transfer": "transfer",
+    "Transfer": "Transfer"
   },
   "categoryPicker": {
     "Failed to get categories": "Failed to get categories",
@@ -571,7 +582,13 @@
     "Transaction duplicated": "Transaction duplicated",
     "Wallet deleted": "Wallet deleted",
     "Wallet created": "Wallet created",
-    "Transferred fund": "Transferred fund"
+    "Transferred fund": "Transferred fund",
+    "Transaction updated": "Transaction updated",
+    "Category created": "Category created",
+    "Category updated": "Category updated",
+    "Budget deleted": "Budget deleted",
+    "Budget created": "Budget created",
+    "Budget updated": "Budget updated"
   },
   "error": {
     "Login Failed": "Login Failed",
@@ -592,6 +609,12 @@
     "Failed to delete wallet": "Failed to delete wallet",
     "Failed to get categories": "Failed to get categories",
     "Failed to create wallet": "Failed to create wallet",
-    "Failed to transfer": "Failed to transfer"
+    "Failed to transfer": "Failed to transfer",
+    "Failed to update transaction": "Failed to update transaction",
+    "Failed to create category": "Failed to create category",
+    "Failed to update category": "Failed to update category",
+    "Failed to delete budget": "Failed to delete budget",
+    "Failed to create budget": "Failed to create budget",
+    "Failed to update budget": "Failed to update budget"
   }
 }

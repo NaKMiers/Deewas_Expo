@@ -8,34 +8,10 @@ function AuthLayout() {
   if (user) return <Redirect href="/" />
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="auth/login"
-        options={
-          {
-            // title: 'Login',
-            // headerShown: false
-          }
-        }
-      />
-      <Stack.Screen
-        name="auth/register"
-        options={
-          {
-            // title: 'Login',
-            // headerShown: false
-          }
-        }
-      />
-      <Stack.Screen
-        name="auth/forgot-password"
-        options={
-          {
-            // title: 'Login',
-            // headerShown: false
-          }
-        }
-      />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="login" />
+      <Stack.Screen name="register" />
+      <Stack.Screen name="forgot-password" />
     </Stack>
   )
 }

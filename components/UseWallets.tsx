@@ -1,6 +1,5 @@
-'use client'
-
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { setRefreshing } from '@/lib/reducers/loadReducer'
 import { setCurWallet, setLoading, setWallets } from '@/lib/reducers/walletReducer'
 import { getMyWalletsApi } from '@/requests/walletRequests'
 import { useEffect } from 'react'
@@ -12,7 +11,7 @@ function UseWallets() {
   const { user } = useAuth()
 
   // store
-  const { refetching } = useAppSelector(state => state.load)
+  const { refreshPoint } = useAppSelector(state => state.load)
 
   // get wallets
   useEffect(() => {
@@ -31,11 +30,12 @@ function UseWallets() {
       } finally {
         // stop loading
         dispatch(setLoading(false))
+        dispatch(setRefreshing(false))
       }
     }
 
     getWallets()
-  }, [dispatch, user, refetching])
+  }, [dispatch, user, refreshPoint])
 
   return null
 }

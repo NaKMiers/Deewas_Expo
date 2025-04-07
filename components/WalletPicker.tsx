@@ -1,5 +1,3 @@
-'use client'
-
 import CreateWalletDrawer from '@/components/dialogs/CreateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addWallet, deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
@@ -26,7 +24,7 @@ interface WalletPickerProps {
   className?: string
 }
 
-function WalletPicker({ wallet, isAllowedAll, onChange, className = '' }: WalletPickerProps) {
+function WalletPicker({ wallet, isAllowedAll, onChange, className }: WalletPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletPicker.' + key)

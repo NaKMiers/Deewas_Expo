@@ -1,5 +1,3 @@
-'use client'
-
 import { cn } from '@/lib/utils'
 import { memo, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -13,7 +11,7 @@ interface PriceProps {
   className?: string
 }
 
-function CountDown({ timeType, start, duration, expire, className = '' }: PriceProps) {
+function CountDown({ timeType, start, duration, expire, className }: PriceProps) {
   // states
   const [timeLeft, setTimeLeft] = useState<number[]>([0, 0, 0])
 

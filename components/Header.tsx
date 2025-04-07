@@ -1,8 +1,9 @@
 import { shortName } from '@/lib/string'
 import { cn } from '@/lib/utils'
+import { router } from 'expo-router'
 import { LucideBell, LucideCalendarDays } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { Pressable, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
@@ -21,21 +22,23 @@ function Header({ navigation, className }: HeaderProps) {
 
   return (
     <SafeAreaView className={cn(className)}>
-      <View className="flex w-full flex-row items-center justify-between gap-2 bg-primary px-21/2 py-2">
+      <View className="flex w-full flex-row items-center justify-between gap-2 bg-primary px-21/2 py-2 md:px-21">
         <View className="flex flex-row items-center gap-2 md:gap-4">
           <Button
             variant="secondary"
             size="icon"
-            // onClick={() => router.push('/calendar', { locale })}
+            onPress={() => router.push('/calendar')}
           >
             <Icon
               render={LucideCalendarDays}
               size={22}
             />
           </Button>
-          <Text className="text-nowrap text-lg font-semibold tracking-wide text-secondary">
-            {t('Hello')} {user ? shortName(user) : 'there'}!👋
-          </Text>
+          <Pressable onPress={() => navigation.navigate('home')}>
+            <Text className="text-nowrap text-lg font-semibold tracking-wide text-secondary">
+              {t('Hello')} {user ? shortName(user) : 'there'}!👋
+            </Text>
+          </Pressable>
         </View>
 
         <View className="flex flex-row items-center gap-2">

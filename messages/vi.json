@@ -122,7 +122,7 @@
   "wizardPage": {
     "Welcome": "Chào mừng",
     "Let's start with some simple settings": "Hãy bắt đầu bằng 1 số cài đặt đơn giản",
-    "You can change these setting at any time": "Bạn có thể thay đổi cài đặt này bất cứ lúc nào",
+    "You can change these settings at any time": "Bạn có thể thay đổi cài đặt này bất cứ lúc nào",
     "I'm done! Take me to the dashboard": "Đã xong! Đưa tôi đến trang chủ ngay"
   },
   "aiPage": {
@@ -189,7 +189,8 @@
     "Select Icon": "Chọn Icon",
     "Icon will be used to represent your category": "Icon sẽ được sử dụng để thể hiện cảm xúc cho danh mục của bạn",
     "Cancel": "Hủy",
-    "Save": "Lưu"
+    "Save": "Lưu",
+    "Category name": "Tên danh mục"
   },
   "createTransactionDrawer": {
     "Wallet is required": "Vui lòng chọn ví",
@@ -372,7 +373,17 @@
     "Categories": "Danh mục",
     "Sorted by name": "Sắp xếp theo tên",
     "New Category": "Danh mục mới",
-    "No categories found!": "Không có danh mục nào!"
+    "No categories found!": "Không có danh mục nào!",
+    "income": "thu nhập",
+    "Income": "Thu nhập",
+    "expense": "chi tiêu",
+    "Expense": "Chi tiêu",
+    "saving": "tiết kiệm",
+    "Saving": "Tiết kiệm",
+    "invest": "đầu tư",
+    "Invest": "Đầu tư",
+    "transfer": "chuyển tiền",
+    "Transfer": "Chuyển tiền"
   },
   "categoryPicker": {
     "Failed to get categories": "Không thấy lấy dữ liệu danh mục",

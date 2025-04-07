@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import { registerCredentialsApi } from '@/requests'
 import { IFullUser } from '@/types/type'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useRouter } from 'expo-router'
+import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
 import { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -29,7 +29,6 @@ import Toast from 'react-native-toast-message'
 function RegisterPage() {
   // hooks
   const dispatch = useAppDispatch()
-  const router = useRouter()
   let { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('registerPage.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
@@ -156,117 +155,118 @@ function RegisterPage() {
   }, [])
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
-    >
-      <ScrollView contentContainerClassName="flex w-full items-center justify-center p-2">
-        <View
-          className={cn(
-            'w-full max-w-[400px] overflow-hidden rounded-2xl border border-primary bg-white text-black'
-          )}
-          style={{ marginBottom: 100 }}
-        >
-          <View className="no-scrollbar overflow-y-auto px-10 py-8">
-            {/* MARK: Header */}
-            <Text className="text-center text-lg font-semibold text-black">
-              {t('Register to Deewas')}
-            </Text>
-            <Text className="text-center text-muted-foreground">
-              {t('Welcome! Please fill in the details to get started')}
-            </Text>
+    <ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex h-screen flex-1 items-center justify-center"
+        keyboardVerticalOffset={21}
+      >
+        <View className="flex h-screen w-screen flex-1 items-center justify-center px-21">
+          <View
+            className={cn(
+              'w-full max-w-[400px] overflow-hidden rounded-2xl border border-primary bg-white px-21/2 text-black'
+            )}
+          >
+            <View className="px-10 py-8">
+              {/* MARK: Header */}
+              <Text className="text-center text-lg font-semibold text-black">
+                {t('Register to Deewas')}
+              </Text>
+              <Text className="text-center text-muted-foreground">
+                {t('Welcome! Please fill in the details to get started')}
+              </Text>
 
-            <Separator className="my-6 h-0" />
+              <Separator className="my-6 h-0" />
 
-            {/* MARK: Social Login */}
-            <View className="grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-3">
-              <Button
-                className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10"
-                // onPress={() => signIn('google', { callbackUrl: `/${locale}/wizard` })}
-                onPress={() => i18n.changeLanguage('vi')}
-              >
-                <Image
-                  source={icons.google}
-                  alt="Google"
-                  className="h-5 w-5"
-                  resizeMode="contain"
+              {/* MARK: Social Login */}
+              <View className="grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-3">
+                <Button
+                  className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10"
+                  // onPress={() => signIn('google', { callbackUrl: `/${locale}/wizard` })}
+                  onPress={() => i18n.changeLanguage('vi')}
+                >
+                  <Image
+                    source={icons.google}
+                    alt="Google"
+                    className="h-5 w-5"
+                    resizeMode="contain"
+                  />
+                  <Text className="font-semibold text-black">{t('Login with Google')}</Text>
+                </Button>
+              </View>
+
+              <View className="my-6 flex flex-row items-center gap-3">
+                <View className="h-px flex-1 border border-muted-foreground/10" />
+                <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
+                <View className="h-px flex-1 border border-muted-foreground/10" />
+              </View>
+
+              <View className="flex flex-col gap-6">
+                {/* MARK: Username */}
+                <CustomInput
+                  id="username"
+                  label={t('Username')}
+                  type="text"
+                  control={control}
+                  errors={errors}
+                  onFocus={() => clearErrors('username')}
+                  labelClassName="text-black"
+                  className="bg-white text-black"
                 />
-                <Text className="font-semibold text-black">{t('Login with Google')}</Text>
+
+                {/* MARK: Password */}
+                <CustomInput
+                  id="email"
+                  label={t('Email')}
+                  type="email"
+                  control={control}
+                  errors={errors}
+                  onFocus={() => clearErrors('email')}
+                  labelClassName="text-black"
+                  className="bg-white text-black"
+                />
+
+                {/* MARK: Password */}
+                <CustomInput
+                  id="password"
+                  label={t('Password')}
+                  type="password"
+                  control={control}
+                  errors={errors}
+                  onFocus={() => clearErrors('password')}
+                  labelClassName="text-black"
+                  className="bg-white text-black"
+                />
+              </View>
+
+              {/* MARK: Submit Button */}
+              <Button
+                className="w-full bg-neutral-900"
+                onPress={handleSubmit(onSubmit)}
+                disabled={loading}
+                style={{ marginTop: 36 }}
+              >
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text className="font-semibold text-white">{t('Register')}</Text>
+                )}
               </Button>
             </View>
 
-            <View className="my-6 flex flex-row items-center gap-3">
-              <View className="h-px flex-1 border border-muted-foreground/10" />
-              <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
-              <View className="h-px flex-1 border border-muted-foreground/10" />
-            </View>
-
-            <View className="flex flex-col gap-6">
-              {/* MARK: Username */}
-              <CustomInput
-                id="username"
-                label={t('Username')}
-                type="text"
-                control={control}
-                errors={errors}
-                onFocus={() => clearErrors('username')}
-                labelClassName="text-black"
-                className="bg-white text-black"
-              />
-
-              {/* MARK: Password */}
-              <CustomInput
-                id="email"
-                label={t('Email')}
-                type="email"
-                control={control}
-                errors={errors}
-                onFocus={() => clearErrors('email')}
-                labelClassName="text-black"
-                className="bg-white text-black"
-              />
-
-              {/* MARK: Password */}
-              <CustomInput
-                id="password"
-                label={t('Password')}
-                type="password"
-                control={control}
-                errors={errors}
-                onFocus={() => clearErrors('password')}
-                labelClassName="text-black"
-                className="bg-white text-black"
-              />
-            </View>
-
-            {/* MARK: Submit Button */}
-            <Button
-              className="w-full bg-neutral-900"
-              onPress={handleSubmit(onSubmit)}
-              disabled={loading}
-              style={{ marginTop: 36 }}
-            >
-              {loading ? (
-                <ActivityIndicator />
-              ) : (
-                <Text className="font-semibold text-white">{t('Register')}</Text>
-              )}
-            </Button>
-          </View>
-
-          {/* MARK: Footer */}
-          <View className="border-y border-muted-foreground/50 bg-neutral-100">
-            <View className="flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
-              <Text className="text-black">{t('Already have an account?')}</Text>
-              <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                <Text className="font-semibold text-black underline">{t('Login')}</Text>
-              </TouchableOpacity>
+            {/* MARK: Footer */}
+            <View className="border-y border-muted-foreground/50 bg-neutral-100">
+              <View className="flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
+                <Text className="text-black">{t('Already have an account?')}</Text>
+                <TouchableOpacity onPress={() => router.replace('/auth/login')}>
+                  <Text className="font-semibold text-black underline">{t('Login')}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   )
 }
 

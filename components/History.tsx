@@ -1,4 +1,5 @@
-import { useAppSelector } from '@/hooks/reduxHook'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { setRefreshing } from '@/lib/reducers/loadReducer'
 import { capitalize, formatCurrency, parseCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
@@ -7,7 +8,7 @@ import { IFullTransaction, ITransaction, TransactionType } from '@/types/type'
 import moment from 'moment-timezone'
 import { memo, ReactNode, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Chart, { ChartDatum } from './Chart'
 import DateRangePicker from './DateRangePicker'
 import { useAuth } from './providers/AuthProvider'
@@ -20,7 +21,7 @@ interface HistoryProps {
   className?: string
 }
 
-function History({ className = '' }: HistoryProps) {
+function History({ className }: HistoryProps) {
   // hooks
   const { user } = useAuth()
   const { t: translate, i18n } = useTranslation()
@@ -28,12 +29,13 @@ function History({ className = '' }: HistoryProps) {
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
   const locale = i18n.language
+  const dispatch = useAppDispatch()
 
   const types: TransactionType[] = ['balance', 'income', 'expense', 'saving', 'invest']
   const charts = ['pie', 'bar', 'line']
 
   // store
-  const { refetching } = useAppSelector(state => state.load)
+  const { refreshPoint } = useAppSelector(state => state.load)
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
   // states
@@ -80,13 +82,14 @@ function History({ className = '' }: HistoryProps) {
     } finally {
       // stop loading
       setLoading(false)
+      dispatch(setRefreshing(false))
     }
   }, [user, dateRange])
 
   // initially get history
   useEffect(() => {
     getHistory()
-  }, [getHistory, refetching])
+  }, [getHistory, refreshPoint])
 
   // auto update chart data
   useEffect(() => {
@@ -216,10 +219,10 @@ function History({ className = '' }: HistoryProps) {
   }, [dateRange, transactions, currency])
 
   return (
-    <View className={cn('px-21/2 md:px-21', className)}>
+    <View className={cn(className)}>
       {/* Top */}
       <View className="flex flex-row items-center justify-between">
-        <Text className="text-lg font-bold">{t('History')}</Text>
+        <Text className="pl-1 text-xl font-bold">{t('History')}</Text>
 
         <DateRangePicker
           values={dateRange}
@@ -227,18 +230,15 @@ function History({ className = '' }: HistoryProps) {
         />
       </View>
 
-      <View className="mt-1.5 rounded-lg border border-muted-foreground/50 px-0">
+      <View className="mt-21/2 rounded-lg bg-secondary shadow-md">
         <View className="flex flex-row flex-wrap justify-end gap-21/2 p-21/2">
           <MultipleSelection
             trigger={
-              <Button
-                variant="outline"
-                className="h-9 px-21/2"
-              >
-                <Text>
+              <TouchableOpacity className="flex h-10 flex-row items-center justify-center rounded-md bg-primary px-3 shadow-md">
+                <Text className="font-semibold text-secondary">
                   {selectedTypes.length} {selectedTypes.length !== 1 ? t('types') : t('type')}
                 </Text>
-              </Button>
+              </TouchableOpacity>
             }
             list={types}
             selected={selectedTypes}
@@ -249,11 +249,15 @@ function History({ className = '' }: HistoryProps) {
             value={{ label: chart, value: chart }}
             onValueChange={option => setChart(option?.value || chart)}
           >
-            <SelectTrigger className="min-w-[100px] gap-1.5">
+            <SelectTrigger
+              className="flex h-10 flex-row items-center justify-center rounded-md bg-primary shadow-md"
+              style={{
+                height: 36,
+              }}
+            >
               <SelectValue
                 placeholder="Select Chart"
-                className="capitalize text-primary"
-                style={{ minWidth: 40 }}
+                className="font-semibold capitalize text-secondary"
               />
             </SelectTrigger>
             <SelectContent className="mt-1 shadow-none">
@@ -291,7 +295,7 @@ interface MultiSelectionProps {
 
 export function MultipleSelection({ trigger, list, selected, onChange }: MultiSelectionProps) {
   // hooks
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (value: string) => translate('multipleSelection.' + value)
 
   // states

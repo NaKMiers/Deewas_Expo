@@ -40,7 +40,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
       } catch (err) {
-        console.log('Failed to load user data:', err)
+        console.log(err)
         await AsyncStorage.removeItem('token')
         dispatch(clearUser())
       } finally {

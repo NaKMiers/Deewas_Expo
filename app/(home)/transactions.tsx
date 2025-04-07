@@ -1,23 +1,25 @@
 import DateRangePicker from '@/components/DateRangePicker'
+import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import TransactionTypeGroup from '@/components/TransactionTypeGroup'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import WalletPicker from '@/components/WalletPicker'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { setTransactions } from '@/lib/reducers/transactionReducer'
 import { toUTC } from '@/lib/time'
 import { getMyTransactionsApi } from '@/requests'
 import { IFullTransaction, IWallet } from '@/types/type'
-import { useRouter } from 'expo-router'
-import { LucideCalendarDays, LucideRefreshCw, LucideSearch, LucideX } from 'lucide-react-native'
+import { router } from 'expo-router'
+import { LucideCalendarDays, LucidePlus, LucideSearch, LucideX } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, View } from 'react-native'
+import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function TransactionsPage() {
@@ -28,12 +30,11 @@ function TransactionsPage() {
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
   const locale = i18n.language
-  const router = useRouter()
 
   // store
   const { curWallet } = useAppSelector(state => state.wallet)
   const { transactions } = useAppSelector(state => state.transaction)
-  const { refetching: rfc } = useAppSelector(state => state.load)
+  const { refreshing, refreshPoint } = useAppSelector(state => state.load)
 
   // states
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
@@ -65,13 +66,14 @@ function TransactionsPage() {
     } finally {
       // stop loading
       setLoading(false)
+      dispatch(setRefreshing(false))
     }
   }, [dispatch, dateRange, wallet])
 
   // initial fetch
   useEffect(() => {
     getMyTransactions()
-  }, [getMyTransactions, rfc])
+  }, [getMyTransactions, refreshPoint])
 
   // auto group categories by type
   useEffect(() => {
@@ -117,40 +119,31 @@ function TransactionsPage() {
   }, [transactions, search])
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View className="container pb-32">
+    <SafeAreaView className="flex-1">
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => dispatch(refresh())}
+          />
+        }
+      >
+        <View className="p-21/2 md:p-21">
           {/* MARK: Top */}
-          <View className="flex flex-row flex-wrap items-center gap-x-2 gap-y-1 px-21/2 py-4 md:px-21">
-            <Text className="text-lg font-bold">
-              {t('Transactions')} <Text className="text-muted-foreground/50">{t('of wallet')}</Text>
+          <View className="flex flex-row flex-wrap items-center gap-x-2.5 gap-y-1">
+            <Text className="pl-1 text-xl font-bold">
+              {t('Transactions')} <Text className="text-muted-foreground/50">{t('of')}</Text>
             </Text>
 
             <WalletPicker
               wallet={wallet as IWallet}
               isAllowedAll
-              onChange={(wallet: IWallet | null) => {
-                setWallet(wallet)
-                console.log('ssss', wallet)
-              }}
+              onChange={(wallet: IWallet | null) => setWallet(wallet)}
             />
           </View>
 
           {/* MARK: Date Range */}
-          <View className="mb-21/2 flex flex-row items-center justify-end gap-2 px-21/2 md:px-21">
-            {/* Mark: Refresh */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="group h-10 w-10"
-              onPress={() => dispatch(refetching())}
-            >
-              <Icon
-                render={LucideRefreshCw}
-                size={18}
-                className="trans-300 group-hover:rotate-180"
-              />
-            </Button>
+          <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
             <DateRangePicker
               values={dateRange}
               update={({ from, to }) => setDateRange({ from, to })}
@@ -158,10 +151,10 @@ function TransactionsPage() {
           </View>
 
           {/* MARK: Search & Calendar */}
-          <View className="mb-21/2 flex flex-row items-center justify-end gap-2 px-21/2 md:px-21">
+          <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
             {/* Search */}
             <View
-              className="relative flex w-full flex-1 flex-row overflow-hidden rounded-md shadow-sm"
+              className="flex w-full flex-1 flex-row"
               style={{ height: 42 }}
             >
               <Button
@@ -200,7 +193,7 @@ function TransactionsPage() {
               variant="outline"
               size="icon"
               className="h-12 w-12 flex-shrink-0"
-              // onPress={() => router.push('/calendar', { locale })}
+              onPress={() => router.push('/calendar')}
             >
               <Icon
                 render={LucideCalendarDays}
@@ -211,7 +204,7 @@ function TransactionsPage() {
 
           {/* MARK: Groups */}
           {!loading ? (
-            <View className="flex flex-col gap-2 px-21/2 md:px-21">
+            <View className="mt-21/2 flex flex-col gap-2">
               {groups.length > 0 ? (
                 groups.map(([type, group]) => (
                   <TransactionTypeGroup
@@ -229,7 +222,7 @@ function TransactionsPage() {
               )}
             </View>
           ) : (
-            <View className="flex flex-col gap-2 px-21/2 md:px-21">
+            <View className="mt-21/2 flex flex-col gap-2">
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton
                   className="h-[300px]"
@@ -238,22 +231,25 @@ function TransactionsPage() {
               ))}
             </View>
           )}
-
-          {/* MARK: Create Transaction */}
-          {/* <CreateTransactionDrawer
-            initWallet={wallet || curWallet}
-            trigger={
-              <Button
-                variant="default"
-                className="fixed bottom-[calc(78px)] right-2 z-20 h-10 rounded-full xl:right-[calc(50%-640px+21px)]"
-              >
-                <LucidePlus size={24} />
-                {t('Add Transaction')}
-              </Button>
-            }
-          /> */}
         </View>
+
+        <Separator className="my-16 h-0" />
       </ScrollView>
+
+      {/* MARK: Create Transaction */}
+      <CreateTransactionDrawer
+        initWallet={wallet || curWallet}
+        trigger={
+          <View className="absolute bottom-2.5 right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4">
+            <Icon
+              render={LucidePlus}
+              size={20}
+              reverse
+            />
+            <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
+          </View>
+        }
+      />
     </SafeAreaView>
   )
 }

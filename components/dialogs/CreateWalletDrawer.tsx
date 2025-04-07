@@ -14,15 +14,15 @@ import Icon from '../Icon'
 import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
+import { Separator } from '../ui/separator'
 
 interface CreateWalletDrawerProps {
-  trigger: ReactNode
   update?: (wallet: IWallet) => void
   load?: Dispatch<SetStateAction<boolean>>
   className?: string
 }
 
-function CreateWalletDrawer({ update, load, className = '' }: CreateWalletDrawerProps) {
+function CreateWalletDrawer({ update, load, className }: CreateWalletDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('createWalletDrawer.' + key)
@@ -115,7 +115,7 @@ function CreateWalletDrawer({ update, load, className = '' }: CreateWalletDrawer
   )
 
   return (
-    <View className={cn('mx-auto w-full max-w-sm', className)}>
+    <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>
       <View>
         <Text className="text-center text-xl font-semibold text-primary">{t('Create wallet')}</Text>
         <Text className="text-center text-muted-foreground">
@@ -135,7 +135,7 @@ function CreateWalletDrawer({ update, load, className = '' }: CreateWalletDrawer
           onFocus={() => clearErrors('name')}
         />
 
-        <View className="mt-3">
+        <View>
           <Text className="font-semibold">
             Icon <Text className="font-normal">({t('optional')})</Text>
           </Text>
@@ -201,7 +201,7 @@ function CreateWalletDrawer({ update, load, className = '' }: CreateWalletDrawer
         </View>
       </View>
 
-      <View className="mb-21 px-0">
+      <View className="mb-21 mt-6 px-0">
         <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
           <View>
             <Button
@@ -224,22 +224,30 @@ function CreateWalletDrawer({ update, load, className = '' }: CreateWalletDrawer
           </Button>
         </View>
       </View>
+
+      <Separator className="my-8 h-0" />
     </View>
   )
 }
 
-function Node(props: CreateWalletDrawerProps) {
+interface NodeProps extends CreateWalletDrawerProps {
+  disabled?: boolean
+  trigger: ReactNode
+  className?: string
+}
+
+function Node({ disabled, trigger, className, ...props }: NodeProps) {
   const { openDrawer } = useDrawer()
 
   return (
-    <>
-      <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={() => openDrawer(<CreateWalletDrawer {...props} />)}
-      >
-        {props.trigger}
-      </TouchableOpacity>
-    </>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      className={cn(className, disabled && 'opacity-50')}
+      disabled={disabled}
+      onPress={() => openDrawer(<CreateWalletDrawer {...props} />)}
+    >
+      {trigger}
+    </TouchableOpacity>
   )
 }
 

@@ -33,7 +33,7 @@ function ConfirmDialog({
   cancelLabel = 'Cancel',
   onConfirm,
   disabled = false,
-  className = '',
+  className,
 }: ConfirmDialogProps) {
   return (
     <AlertDialog>

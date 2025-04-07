@@ -1,5 +1,3 @@
-'use client'
-
 import TransferFundDrawer from '@/components/dialogs/TransferFundDrawer'
 import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
@@ -8,7 +6,7 @@ import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi, updateWalletApi } from '@/requests/walletRequests'
 import { IWallet, TransactionType } from '@/types/type'
-import { useRouter } from 'expo-router'
+import { router } from 'expo-router'
 import {
   LucideArrowRightLeft,
   LucideChevronDown,
@@ -20,13 +18,13 @@ import {
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Pressable, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import CreateTransactionDrawer from './dialogs/CreateTransactionDrawer'
 import Icon from './Icon'
 import Text from './Text'
 import { Button } from './ui/button'
-import { Card, CardContent, CardHeader } from './ui/card'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Switch } from './ui/switch'
 
@@ -35,9 +33,8 @@ interface WalletCardProps {
   className?: string
 }
 
-function WalletCard({ wallet, className = '' }: WalletCardProps) {
+function WalletCard({ wallet, className }: WalletCardProps) {
   // hooks
-  const router = useRouter()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletCard.' + key)
@@ -101,14 +98,15 @@ function WalletCard({ wallet, className = '' }: WalletCardProps) {
   )
 
   return (
-    <Card className={cn('cursor-pointer select-none overflow-hidden', className)}>
+    <View className={cn('rounded-lg bg-secondary shadow-md', className)}>
       <Pressable
         onPress={() => {
           dispatch(setCurWallet(wallet))
           router.push('/transactions')
         }}
+        className="overflow-hidden rounded-lg"
       >
-        <CardHeader className="py-21/2">
+        <View className="px-21 py-2">
           <View className="flex flex-row flex-nowrap items-center justify-between gap-2">
             <View className="flex flex-row items-center gap-2 text-lg">
               <Text className="text-xl">{wallet.icon}</Text>
@@ -213,54 +211,49 @@ function WalletCard({ wallet, className = '' }: WalletCardProps) {
               <ActivityIndicator />
             )}
           </View>
-        </CardHeader>
+        </View>
 
         {/* Content */}
-        <CardContent className="flex flex-col gap-2 px-4 pb-2">
+        <View className="flex flex-col gap-2 px-4 pb-2">
           <Item
             title={t('Balance')}
             value={wallet.income + wallet.saving + wallet.invest + wallet.transfer - wallet.expense}
             type="balance"
           />
-          <View
-            className="trans-300 flex flex-col gap-2 overflow-hidden"
-            style={{
-              maxHeight: collapsed ? 400 : 0,
-            }}
-          >
-            <Item
-              title={t('Income')}
-              value={wallet.income}
-              type="income"
-            />
-            <Item
-              title={t('Expense')}
-              value={wallet.expense}
-              type="expense"
-            />
-            <Item
-              title={t('Saving')}
-              value={wallet.saving}
-              type="saving"
-            />
-            <Item
-              title={t('Invest')}
-              value={wallet.invest}
-              type="invest"
-            />
-            <Item
-              title={t('Transfer')}
-              value={wallet.transfer}
-              type="transfer"
-            />
-          </View>
-        </CardContent>
+          <Collapsible collapsed={!collapsed}>
+            <View className="flex flex-col gap-2">
+              <Item
+                title={t('Income')}
+                value={wallet.income}
+                type="income"
+              />
+              <Item
+                title={t('Expense')}
+                value={wallet.expense}
+                type="expense"
+              />
+              <Item
+                title={t('Saving')}
+                value={wallet.saving}
+                type="saving"
+              />
+              <Item
+                title={t('Invest')}
+                value={wallet.invest}
+                type="invest"
+              />
+              <Item
+                title={t('Transfer')}
+                value={wallet.transfer}
+                type="transfer"
+              />
+            </View>
+          </Collapsible>
+        </View>
 
         {/* Collapse Button */}
         <Button
-          className={cn(
-            'flex w-full flex-row items-center justify-center rounded-none bg-primary py-1 text-secondary'
-          )}
+          className={cn('flex w-full flex-row items-center justify-center rounded-none')}
           style={{ height: 28 }}
           onPress={e => {
             e.stopPropagation()
@@ -271,26 +264,23 @@ function WalletCard({ wallet, className = '' }: WalletCardProps) {
             render={LucideChevronDown}
             size={26}
             reverse
-            className="trans-200"
-            style={{
-              transform: collapsed ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }],
-            }}
+            className={cn('trans-200', collapsed ? 'rotate-180' : 'rotate-0')}
           />
         </Button>
       </Pressable>
-    </Card>
+    </View>
   )
 }
 
 export default memo(WalletCard)
 
-interface CardProps {
+interface Itemprops {
   title: string
   value: number
   type: TransactionType | 'balance'
   className?: string
 }
-function Item({ title, type, value }: CardProps) {
+function Item({ title, type, value }: Itemprops) {
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
@@ -299,7 +289,7 @@ function Item({ title, type, value }: CardProps) {
 
   return (
     <View
-      className={`flex w-full flex-row items-center gap-21/2 rounded-lg border bg-secondary px-21/2 py-1`}
+      className={`flex w-full flex-row items-center gap-21/2 rounded-lg border border-primary bg-secondary px-21/2 py-1`}
     >
       <View
         className={cn(
@@ -311,12 +301,11 @@ function Item({ title, type, value }: CardProps) {
         <Icon
           render={renderIcon}
           color="white"
-          size={24}
+          size={22}
         />
       </View>
       <View className="flex flex-col">
         <Text className="font-body tracking-wider">{title}</Text>
-
         <Text className="text-xl font-semibold">{currency && formatCurrency(currency, value)}</Text>
       </View>
     </View>

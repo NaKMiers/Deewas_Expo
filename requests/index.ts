@@ -9,3 +9,12 @@ export * from './settingsRequests'
 
 // Transactions
 export * from './transactionRequests'
+
+// Budgets
+export * from './budgetRequests'
+
+// Categories
+export * from './categoryRequests'
+
+// Wallets
+export * from './walletRequests'

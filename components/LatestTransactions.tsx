@@ -1,34 +1,41 @@
-'use client'
-
+import UpdateTransactionDrawer from '@/components/dialogs/UpdateTransactionDrawer'
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi, getMyTransactionsApi } from '@/requests'
 import { IFullTransaction } from '@/types/type'
-import { useRouter } from 'expo-router'
-import { LucideChevronDown, LucideChevronUp } from 'lucide-react-native'
+import { router } from 'expo-router'
+import {
+  LucideChevronDown,
+  LucideChevronUp,
+  LucideEllipsisVertical,
+  LucideLayers2,
+  LucidePencil,
+  LucideTrash,
+} from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import NoItemsFound from './NoItemsFound'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
 import { Button } from './ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
 interface LatestTransactionsProps {
   className?: string
 }
 
-function LatestTransactions({ className = '' }: LatestTransactionsProps) {
+function LatestTransactions({ className }: LatestTransactionsProps) {
   // hooks
-  const router = useRouter()
   const dispatch = useAppDispatch()
   const { user } = useAuth()
   const { t: translate, i18n } = useTranslation()
@@ -37,7 +44,7 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
   const tError = (key: string) => translate('error.' + key)
 
   // store
-  const { refetching: rfc } = useAppSelector(state => state.load)
+  const { refreshPoint } = useAppSelector(state => state.load)
 
   // states
   const [transactions, setTransactions] = useState<IFullTransaction[]>([])
@@ -64,39 +71,35 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
     } finally {
       // stop loading
       setLoading(false)
+      dispatch(setRefreshing(false))
     }
   }, [user, limit])
 
   // get latest transactions
   useEffect(() => {
     getLatestTransactions()
-  }, [getLatestTransactions, rfc])
+  }, [getLatestTransactions, refreshPoint])
 
   return (
-    <View className={cn('px-21/2 md:px-21', className)}>
+    <View className={cn(className)}>
       {/* Top */}
       <View className="flex flex-row items-center justify-between gap-1">
         <View className="flex flex-row items-center gap-2">
-          <Text className="text-lg font-bold">{t('Latest')}</Text>
+          <Text className="pl-1 text-xl font-bold">{t('Latest')}</Text>
 
           <Select
-            onValueChange={option => {
-              if (option?.value) {
-                setLimit(option.value)
-              }
-            }}
-            defaultValue={{
-              value: '10',
-              label: '10',
-            }}
+            onValueChange={option => option?.value && setLimit(option.value)}
+            defaultValue={{ value: '10', label: '10' }}
           >
             <SelectTrigger
-              className="max-w-max gap-1.5 text-sm"
-              style={{ height: 36 }}
+              className="flex h-10 max-w-max flex-row items-center justify-center gap-1.5 rounded-md bg-secondary text-sm shadow-md"
+              style={{
+                height: 36,
+              }}
             >
               <SelectValue
-                className="text-primary"
-                placeholder="Select..."
+                className="font-semibold text-primary"
+                placeholder={limit}
               />
             </SelectTrigger>
             <SelectContent>
@@ -104,7 +107,6 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
                 <SelectItem
                   value={value.toString()}
                   label={value.toString()}
-                  className="cursor-pointer"
                   key={value}
                 />
               ))}
@@ -112,18 +114,18 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
           </Select>
         </View>
 
-        <Button
-          variant="outline"
-          className="h-8"
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className="flex h-8 flex-row items-center justify-center rounded-md border border-border bg-secondary px-4 font-semibold shadow-md"
           onPress={() => router.push('/transactions')}
           style={{ height: 36 }}
         >
           <Text className="font-semibold">{t('All')}</Text>
-        </Button>
+        </TouchableOpacity>
       </View>
 
       {/* MARK: Transaction List */}
-      <View className="mt-2 flex flex-col gap-2 rounded-lg border border-secondary p-21/2">
+      <View className="mt-21/2 flex flex-col gap-2 rounded-lg bg-secondary p-21/2 shadow-md">
         {transactions.slice(0, +limit).length > 0 ? (
           transactions.slice(0, +limit).map((tx, index) => (
             <View key={tx._id}>
@@ -131,7 +133,7 @@ function LatestTransactions({ className = '' }: LatestTransactionsProps) {
                 transaction={tx}
                 update={(transaction: IFullTransaction) => {
                   setTransactions(transactions.map(t => (t._id === transaction._id ? transaction : t)))
-                  dispatch(refetching())
+                  dispatch(refresh())
                 }}
                 refetch={() => getLatestTransactions()}
               />
@@ -155,7 +157,7 @@ interface TransactionProps {
   className?: string
 }
 
-export function Transaction({ transaction, update, remove, refetch, className = '' }: TransactionProps) {
+export function Transaction({ transaction, update, remove, refetch, className }: TransactionProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (value: string) => translate('transaction.' + value)
@@ -242,7 +244,9 @@ export function Transaction({ transaction, update, remove, refetch, className = 
           </Text>
 
           <View className="flex flex-row flex-wrap items-center gap-x-2">
-            <Text className="font-semibold">{transaction.name}</Text>
+            <Text className="line-clamp-1 max-w-[200px] text-ellipsis text-base font-semibold">
+              {transaction.name}
+            </Text>
           </View>
         </View>
 
@@ -250,7 +254,7 @@ export function Transaction({ transaction, update, remove, refetch, className = 
         <View className="flex flex-row items-center gap-1">
           {currency && (
             <View className="flex flex-col items-end">
-              <Text className="text-muted-foreground">
+              <Text className="text-sm text-muted-foreground">
                 {formatDate(
                   moment(transaction.date).toDate(),
                   currencies.find(c => c.value === currency)?.locale
@@ -270,24 +274,30 @@ export function Transaction({ transaction, update, remove, refetch, className = 
                     color={hex}
                   />
                 )}
-                <Text className={cn('text-sm font-semibold', color)}>
+                <Text className={cn('text-base font-semibold', color)}>
                   {formatCurrency(currency, transaction.amount)}
                 </Text>
               </View>
             </View>
           )}
 
-          {/* {!deleting && !duplicating ? (
+          {/* Dropdown */}
+          {!deleting && !duplicating ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
+                  className="w-9"
                 >
-                  <Icon render={LucideEllipsisVertical} />
+                  <Icon
+                    render={LucideEllipsisVertical}
+                    size={20}
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                {/* MARK: Duplicate */}
                 <ConfirmDialog
                   label={t('Duplicate Transaction')}
                   desc={t('Are you sure you want to duplicate this transaction?')}
@@ -297,29 +307,36 @@ export function Transaction({ transaction, update, remove, refetch, className = 
                   trigger={
                     <Button
                       variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-violet-500"
+                      className="flex w-full flex-row items-center justify-start gap-2 px-2"
                     >
-                      <LucideLayers2 size={16} />
-                      {t('Duplicate')}
+                      <Icon
+                        render={LucideLayers2}
+                        size={16}
+                        color="#8b5cf6"
+                      />
+                      <Text className="font-semibold text-violet-500">{t('Duplicate')}</Text>
                     </Button>
                   }
                 />
 
+                {/* MARK: Update */}
                 <UpdateTransactionDrawer
                   transaction={transaction}
                   update={update}
                   refetch={refetch}
                   trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-sky-500"
-                    >
-                      <LucidePencil size={16} />
-                      {t('Edit')}
-                    </Button>
+                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4">
+                      <Icon
+                        render={LucidePencil}
+                        size={16}
+                        color="#0ea5e9"
+                      />
+                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                    </View>
                   }
                 />
 
+                {/* MARK: Delete */}
                 <ConfirmDialog
                   label={t('Delete Transaction')}
                   desc={t('Are you sure you want to delete this transaction?')}
@@ -328,27 +345,24 @@ export function Transaction({ transaction, update, remove, refetch, className = 
                   trigger={
                     <Button
                       variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-rose-500"
+                      className="flex w-full flex-row items-center justify-start gap-2 px-2"
                     >
-                      <LucideTrash size={16} />
-                      {t('Delete')}
+                      <Icon
+                        render={LucideTrash}
+                        size={16}
+                        color="#f43f5e"
+                      />
+                      <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
                     </Button>
                   }
                 />
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button
-              disabled
-              variant="ghost"
-              size="icon"
-            >
-              <Icon
-                render={LucideLoaderCircle}
-                className="animate-spin"
-              />
-            </Button>
-          )} */}
+            <View className="flex h-9 w-9 flex-row items-center justify-center">
+              <ActivityIndicator />
+            </View>
+          )}
         </View>
       </View>
     </View>

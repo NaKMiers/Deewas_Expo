@@ -1,15 +1,18 @@
+import CreateCategoryDrawer from '@/components/dialogs/CreateCategoryDrawer'
 import { useAppDispatch } from '@/hooks/reduxHook'
+import { addCategory } from '@/lib/reducers/categoryReduce'
 import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { ICategory, TransactionType } from '@/types/type'
+import { LucidePlusSquare } from 'lucide-react-native'
 import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import Category from './Category'
+import Icon from './Icon'
 import NoItemsFound from './NoItemsFound'
 import Text from './Text'
 import { TabsContent } from './ui/tabs'
-import Icon from './Icon'
 
 interface CategoryGroupProps {
   categories: ICategory[]
@@ -17,7 +20,7 @@ interface CategoryGroupProps {
   className?: string
 }
 
-function CategoryGroup({ categories, type, className = '' }: CategoryGroupProps) {
+function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
@@ -35,7 +38,7 @@ function CategoryGroup({ categories, type, className = '' }: CategoryGroupProps)
       value={type}
       className={cn(className)}
     >
-      <View className="rounded-lg border border-neutral-300 bg-secondary text-primary">
+      <View className="rounded-lg border border-primary text-primary">
         <View className="flex flex-row items-center gap-21/2 border-b border-slate-200/30 p-2.5">
           <View
             className={cn(
@@ -51,32 +54,31 @@ function CategoryGroup({ categories, type, className = '' }: CategoryGroupProps)
             />
           </View>
           <View className="flex flex-1 flex-col">
-            <Text className="font-semibold capitalize md:text-2xl">
-              {type} {t('Categories')}
-            </Text>
+            <Text className="font-semibold capitalize md:text-2xl">{t(type)}</Text>
             <Text className="text-sm font-semibold text-muted-foreground">{t('Sorted by name')}</Text>
           </View>
-          {/* <CreateCategoryDrawer
+
+          {/* Create Category */}
+          <CreateCategoryDrawer
             type={type}
             update={category => dispatch(addCategory(category))}
             load={setCreating}
+            disabled={creating}
             trigger={
-              <Button
-                disabled={creating}
-                variant="default"
-                className="md:px-4 flex flex-row h-8 flex-shrink-0 items-center gap-1.5 rounded-md px-2  font-semibold"
-              >
-                {!creating ? (
-                  <>
-                    <Icon render={LucidePlusSquare} />
-                    {t('New Category')}
-                  </>
-                ) : (
-                  <Icon render={LucideLoaderCircle} className="animate-spin" />
-                )}
-              </Button>
+              !creating ? (
+                <View className="flex h-10 flex-shrink-0 flex-row items-center gap-1.5 rounded-md border border-secondary bg-primary px-2 md:px-4">
+                  <Icon
+                    render={LucidePlusSquare}
+                    size={18}
+                    reverse
+                  />
+                  <Text className="font-semibold text-secondary">{t('New Category')}</Text>
+                </View>
+              ) : (
+                <ActivityIndicator />
+              )
             }
-          /> */}
+          />
         </View>
 
         <View className="flex flex-col gap-1 p-21/2">

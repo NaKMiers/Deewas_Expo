@@ -1,14 +1,13 @@
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh } from '@/lib/reducers/loadReducer'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatSymbol, revertAdjustedCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
-import { createTransactionApi } from '@/requests'
-import { ICategory, IFullTransaction, IWallet, TransactionType } from '@/types/type'
-import { LucideCircle } from 'lucide-react-native'
+import { updateTransactionApi } from '@/requests'
+import { IFullTransaction, IWallet } from '@/types/type'
 import moment from 'moment'
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Pressable, TouchableOpacity, View } from 'react-native'
@@ -16,36 +15,28 @@ import Toast from 'react-native-toast-message'
 import CategoryPicker from '../CategoryPicker'
 import CustomInput from '../CustomInput'
 import DateTimePicker from '../DateTimePicker'
-import Icon from '../Icon'
 import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
 import { Separator } from '../ui/separator'
 import WalletPicker from '../WalletPicker'
 
-interface CreateTransactionDrawerProps {
-  type?: TransactionType
-  initWallet?: IWallet
-  initCategory?: ICategory
-  initDate?: string
-  refetch?: () => void
+interface UpdateTransactionDrawerProps {
+  transaction: IFullTransaction
   update?: (transaction: IFullTransaction) => void
+  refetch?: () => void
   className?: string
 }
 
-function CreateTransactionDrawer({
-  type,
-  initWallet,
-  initCategory,
-  initDate,
+function UpdateTransactionDrawer({
+  transaction,
   update,
   refetch,
   className,
-}: CreateTransactionDrawerProps) {
+}: UpdateTransactionDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('createTransactionDrawer.' + key)
+  const t = (key: string) => translate('updateTransactionDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
   const { closeDrawer } = useDrawer()
@@ -53,45 +44,34 @@ function CreateTransactionDrawer({
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
-  const { curWallet } = useAppSelector(state => state.wallet)
 
   // values
   const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
   // states
-  const [openType, setOpenType] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
 
-  // form
+  // MARK: form
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setError,
     setValue,
     watch,
-    getValues,
     control,
     clearErrors,
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      walletId: initWallet?._id || curWallet?._id || '',
-      name: '',
-      categoryId: initCategory?._id || '',
-      amount: '',
-      date: initDate ? moment(initDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-      type: initCategory?.type || type || 'expense',
+      walletId: transaction.wallet._id || '',
+      name: transaction.name || '',
+      categoryId: transaction.category._id || '',
+      amount: transaction.amount.toString() || '',
+      date: moment(transaction.date).format('YYYY-MM-DD'),
     },
   })
+
   const form = watch()
-
-  useEffect(() => {
-    if (!getValues('walletId')) {
-      setValue('walletId', initWallet?._id || curWallet?._id)
-    }
-  }, [getValues, setValue, initWallet, curWallet])
-
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
     data => {
@@ -124,15 +104,6 @@ function CreateTransactionDrawer({
         isValid = false
       }
 
-      // type is required
-      if (!data.type) {
-        setError('type', {
-          type: 'manual',
-          message: t('Type is required'),
-        })
-        isValid = false
-      }
-
       // category must be selected
       if (!data.categoryId) {
         setError('categoryId', {
@@ -156,8 +127,8 @@ function CreateTransactionDrawer({
     [setError, t]
   )
 
-  // create transaction
-  const handleCreateTransaction: SubmitHandler<FieldValues> = useCallback(
+  // update transaction
+  const handleUpdateTransaction: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
       if (!handleValidate(data)) return
@@ -166,36 +137,37 @@ function CreateTransactionDrawer({
       setSaving(true)
 
       try {
-        const { transaction } = await createTransactionApi({
+        const { transaction: tx, message } = await updateTransactionApi(transaction._id, {
           ...data,
           date: toUTC(data.date),
           amount: revertAdjustedCurrency(data.amount, locale),
         })
 
-        dispatch(refresh())
-
+        if (update) update(tx)
         if (refetch) refetch()
-        if (update) update(transaction)
+        dispatch(refresh())
 
         Toast.show({
           type: 'success',
-          text1: tSuccess('Transaction created'),
+          text1: tSuccess('Transaction updated'),
         })
 
         reset()
+        closeDrawer()
       } catch (err: any) {
         Toast.show({
           type: 'error',
-          text1: tError('Failed to create transaction'),
+          text1: tError('Failed to update transaction'),
         })
 
         console.log(err)
       } finally {
         // stop loading
         setSaving(false)
+        dispatch(setRefreshing(false))
       }
     },
-    [handleValidate, reset, refetch, update, dispatch, locale]
+    [handleValidate, reset, update, refetch, dispatch, , transaction._id, locale, t]
   )
 
   return (
@@ -203,8 +175,10 @@ function CreateTransactionDrawer({
       <View className="mx-auto w-full max-w-sm px-21/2">
         <View>
           <Text className="text-center text-xl font-semibold text-primary">
-            {t('Create') + ' '}
-            {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
+            {t('Update') + ' '}
+            {transaction.type && (
+              <Text className={cn(checkTranType(transaction.type).color)}>{t(transaction.type)}</Text>
+            )}
             {' ' + t('transaction')}
           </Text>
           <Text className="text-center text-muted-foreground">
@@ -222,7 +196,6 @@ function CreateTransactionDrawer({
             control={control}
             className="bg-white text-black"
             onFocus={() => clearErrors('name')}
-            placeholder={t('Transaction name') + '...'}
           />
 
           {/* MARK: Amount */}
@@ -241,61 +214,13 @@ function CreateTransactionDrawer({
             />
           )}
 
-          {/* MARK: Type */}
-          {!initCategory && !type && (
-            <Collapsible
-              open={openType}
-              onOpenChange={setOpenType}
-            >
-              <CollapsibleTrigger>
-                <Text className="px-1 font-semibold text-primary">Type</Text>
-                <View className="mt-2 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3">
-                  <Icon
-                    render={LucideCircle}
-                    size={18}
-                    color={checkTranType(form.type).hex}
-                  />
-                  <Text
-                    className={cn('font-semibold capitalize text-black', checkTranType(form.type).color)}
-                  >
-                    {form.type}
-                  </Text>
-                </View>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="overflow-hidden rounded-lg">
-                {['expense', 'income', 'saving', 'invest'].map(tranType => (
-                  <Button
-                    variant="default"
-                    className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary bg-white"
-                    onPress={() => {
-                      setValue('type', tranType as TransactionType)
-                      setOpenType(false)
-                    }}
-                    key={tranType}
-                  >
-                    <Icon
-                      render={LucideCircle}
-                      size={18}
-                      color={checkTranType(tranType as any).hex}
-                    />
-                    <Text
-                      className={cn('font-semibold capitalize', checkTranType(tranType as any).color)}
-                    >
-                      {t(tranType)}
-                    </Text>
-                  </Button>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-          )}
-
           {/* MARK: Category */}
           <View className="flex flex-1 flex-col">
-            <Text className={cn('mb-2 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
+            <Text className={cn('mb-1 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
               {t('Category')}
             </Text>
             <CategoryPicker
-              category={initCategory}
+              category={transaction.category}
               onChange={(categoryId: string) => {
                 setValue('categoryId', categoryId)
                 clearErrors('categoryId')
@@ -311,13 +236,11 @@ function CreateTransactionDrawer({
 
           {/* MARK: Wallet */}
           <View>
-            <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
-              {t('Wallet')}
-            </Text>
+            <Text className="mb-1 font-semibold">{t('Wallet')}</Text>
             <Pressable onFocus={() => clearErrors('walletId')}>
               <WalletPicker
                 className={cn('w-full justify-normal', errors.walletId?.message && 'border-rose-500')}
-                wallet={initWallet || curWallet}
+                wallet={transaction.wallet}
                 onChange={(wallet: IWallet | null) => wallet && setValue('walletId', wallet._id)}
               />
             </Pressable>
@@ -350,7 +273,6 @@ function CreateTransactionDrawer({
           </View>
         </View>
 
-        {/* MARK: Footer */}
         <View className="mb-21 px-0">
           <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
             <View>
@@ -368,7 +290,7 @@ function CreateTransactionDrawer({
             <Button
               variant="secondary"
               className="h-10 min-w-[60px] rounded-md px-21/2"
-              onPress={handleSubmit(handleCreateTransaction)}
+              onPress={handleSubmit(handleUpdateTransaction)}
             >
               {saving ? <ActivityIndicator /> : <Text className="font-semibold">{t('Save')}</Text>}
             </Button>
@@ -381,7 +303,7 @@ function CreateTransactionDrawer({
   )
 }
 
-interface NodeProps extends CreateTransactionDrawerProps {
+interface NodeProps extends UpdateTransactionDrawerProps {
   disabled?: boolean
   trigger: ReactNode
   className?: string
@@ -395,7 +317,7 @@ function Node({ disabled, trigger, className, ...props }: NodeProps) {
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer(<CreateTransactionDrawer {...props} />)}
+      onPress={() => openDrawer(<UpdateTransactionDrawer {...props} />)}
     >
       {trigger}
     </TouchableOpacity>

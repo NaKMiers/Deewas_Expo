@@ -1,11 +1,9 @@
-'use client'
-
 import { currencies, languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setSettings } from '@/lib/reducers/settingsReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
-import { usePathname, useRouter } from 'expo-router'
+import { router, usePathname } from 'expo-router'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
@@ -18,7 +16,7 @@ interface SettingsBoxProps {
   isRequireInit?: boolean
 }
 
-function SettingsBox({ isRequireInit, className = '' }: SettingsBoxProps) {
+function SettingsBox({ isRequireInit, className }: SettingsBoxProps) {
   // hooks
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('settingsBox.' + key)
@@ -67,11 +65,10 @@ interface BoxProps {
   className?: string
 }
 
-function Box({ type, desc, list, init, className = '' }: BoxProps) {
+function Box({ type, desc, list, init, className }: BoxProps) {
   // hooks
   const dispatch = useAppDispatch()
   const pathname = usePathname()
-  const router = useRouter()
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('settingsBox.' + key)
 
@@ -128,7 +125,7 @@ function Box({ type, desc, list, init, className = '' }: BoxProps) {
   )
 
   return (
-    <View className={cn('w-full justify-center rounded-lg border border-secondary p-21', className)}>
+    <View className={cn('w-full justify-center rounded-lg border border-border p-21', className)}>
       <Text className="font-bold capitalize">{t(type)}</Text>
       <Text className="mb-3 text-sm text-muted-foreground">{desc}</Text>
 

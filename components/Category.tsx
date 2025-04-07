@@ -1,16 +1,18 @@
-'use client'
-
+import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
+import UpdateCategoryDrawer from '@/components/dialogs/UpdateCategoryDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { updateCategory } from '@/lib/reducers/categoryReduce'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi } from '@/requests/categoryRequests'
 import { ICategory } from '@/types/type'
-import { LucideEllipsisVertical, LucideLoaderCircle } from 'lucide-react-native'
+import { LucideEllipsisVertical, LucidePencil, LucidePlus, LucideTrash } from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import Text from './Text'
 import { Button } from './ui/button'
@@ -22,7 +24,7 @@ interface CategoryProps {
   className?: string
 }
 
-function Category({ category, className = '' }: CategoryProps) {
+function Category({ category, className }: CategoryProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
@@ -52,8 +54,7 @@ function Category({ category, className = '' }: CategoryProps) {
         text1: message,
       })
 
-      // dispatch(deleteCategory(w))
-      dispatch(refetching())
+      dispatch(refresh())
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -63,6 +64,7 @@ function Category({ category, className = '' }: CategoryProps) {
     } finally {
       // stop deleting
       setDeleting(false)
+      dispatch(setRefreshing(false))
     }
   }, [dispatch, category._id, t])
 
@@ -91,7 +93,9 @@ function Category({ category, className = '' }: CategoryProps) {
         </View>
         <View className="flex flex-row items-center gap-2">
           {currency && (
-            <Text className="font-body font-bold">{formatCurrency(currency, category.amount)}</Text>
+            <Text className="font-body text-lg font-bold text-white">
+              {formatCurrency(currency, category.amount)}
+            </Text>
           )}
           {!updating && !deleting ? (
             <DropdownMenu>
@@ -101,52 +105,56 @@ function Category({ category, className = '' }: CategoryProps) {
                   size="icon"
                   className="h-12 rounded-none hover:bg-primary hover:text-secondary"
                 >
-                  <Icon render={LucideEllipsisVertical} />
+                  <Icon
+                    render={LucideEllipsisVertical}
+                    color="white"
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                {/* {category.type === 'expense' && (
+                {category.type === 'expense' && (
                   <CreateTransactionDrawer
                     initCategory={category}
                     trigger={
-                      <Button
-                        variant="ghost"
-                        className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2"
-                      >
-                        <LucideChartPie size={16} />
-                        {t('Add Transaction')}
-                      </Button>
+                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                        <Icon
+                          render={LucidePlus}
+                          size={16}
+                        />
+                        <Text className="font-semibold">{t('Add Transaction')}</Text>
+                      </View>
                     }
                   />
                 )}
 
-                {category.type === 'expense' && (
+                {/* {category.type === 'expense' && (
                   <CreateBudgetDrawer
                     initCategory={category}
                     trigger={
                       <Button
                         variant="ghost"
-                        className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-orange-500"
+                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2 text-orange-500"
                       >
-                        <LucideChartPie size={16} />
-                        {t('Set Budget')}
+                        <Icon render={LucideBarChart2} size={16} color='#f97316'/>
+                        <Text className='text-orange-500 font-semibold'>{t('Set Budget')}</Text>
                       </Button>
                     }
                   />
-                )}
+                )} */}
 
                 <UpdateCategoryDrawer
                   category={category}
                   update={(category: ICategory) => dispatch(updateCategory(category))}
                   load={setUpdating}
                   trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-sky-500"
-                    >
-                      <LucidePencil size={16} />
-                      {t('Edit')}
-                    </Button>
+                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                      <Icon
+                        render={LucidePencil}
+                        size={16}
+                        color="#0ea5e9"
+                      />
+                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                    </View>
                   }
                 />
 
@@ -159,27 +167,22 @@ function Category({ category, className = '' }: CategoryProps) {
                     trigger={
                       <Button
                         variant="ghost"
-                        className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-rose-500"
+                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-4"
                       >
-                        <LucideTrash size={16} />
-                        {t('Delete')}
+                        <Icon
+                          render={LucideTrash}
+                          size={16}
+                          color="#f43f5e"
+                        />
+                        <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
                       </Button>
                     }
                   />
-                )} */}
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button
-              disabled
-              variant="ghost"
-              size="icon"
-            >
-              <Icon
-                render={LucideLoaderCircle}
-                className="animate-spin"
-              />
-            </Button>
+            <ActivityIndicator />
           )}
         </View>
       </View>

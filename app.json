@@ -15,16 +15,27 @@
     },
     "assetBundlePatterns": ["**/*"],
     "extra": {
-      "webServerUrl": "http://localhost:3000"
+      "webServerUrl": "http://localhost:3000",
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f958fd50-8044-4f35-bca1-f336977979ef"
+      }
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anphagroup.deewas",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anphagroup.deewas"
     },
     "web": {
       "bundler": "metro",

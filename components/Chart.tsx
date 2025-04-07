@@ -25,7 +25,7 @@ interface ChartProps {
 
 const screenWidth = Dimensions.get('window').width
 
-function Chart({ maxKey, types, chart, data = [], className = '' }: ChartProps) {
+function Chart({ maxKey, types, chart, data = [], className }: ChartProps) {
   const { isDarkColorScheme } = useColorScheme()
   const currency = useAppSelector(state => state.settings.settings?.currency)
 

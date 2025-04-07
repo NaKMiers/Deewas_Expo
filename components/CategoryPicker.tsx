@@ -1,9 +1,9 @@
-'use client'
-
+import CreateCategoryDrawer from '@/components/dialogs/CreateCategoryDrawer'
+import UpdateCategoryDrawer from '@/components/dialogs/UpdateCategoryDrawer'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi, getMyCategoriesApi } from '@/requests/categoryRequests'
 import { ICategory, TransactionType } from '@/types/type'
-import { LucideChevronsUpDown, LucideX } from 'lucide-react-native'
+import { LucideChevronsUpDown, LucidePencil, LucidePlusSquare, LucideTrash } from 'lucide-react-native'
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -16,7 +16,6 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Skeleton } from './ui/skeleton'
-import { category } from '@/lib/reducers/categoryReduce'
 
 interface CategoryPickerProps {
   categories: ICategory[]
@@ -30,13 +29,13 @@ interface CategoryPickerProps {
 }
 
 function CategoryPicker({
-  setCategories,
   categories,
+  setCategories,
   type,
   onChange,
   selectedCategory,
   setSelectedCategory,
-  className = '',
+  className,
 }: CategoryPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
@@ -105,7 +104,7 @@ function CategoryPicker({
           />
 
           {/* MARK: Create Category */}
-          {/* <CreateCategoryDrawer
+          <CreateCategoryDrawer
             update={category => {
               // update categories picker list
               setCategories([...categories, category])
@@ -115,19 +114,19 @@ function CategoryPicker({
               onChange(category._id)
 
               // close
-              setOpen(false)
+              closeDrawer2()
             }}
             type={type}
             trigger={
-              <Button
-                variant="ghost"
-                className="mb-0.5 flex w-full justify-start gap-2 rounded-none text-left text-sm"
-              >
-                <LucidePlusSquare size={18} />
-                {t('Create Category')}
-              </Button>
+              <View className="mb-0.5 flex h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4">
+                <Icon
+                  render={LucidePlusSquare}
+                  size={18}
+                />
+                <Text className="font-semibold">{t('Create Category')}</Text>
+              </View>
             }
-          /> */}
+          />
           <ScrollView style={{ maxHeight: 400 }}>
             {categories
               .filter(c => c.type === type)
@@ -139,7 +138,7 @@ function CategoryPicker({
               .map(category => (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  className="flex h-10 w-full flex-row items-center justify-between gap-2 px-4 py-2"
+                  className="flex h-10 flex-1 flex-row items-center justify-between gap-2 py-2"
                   onPress={() => {
                     setSelectedCategory(category)
                     onChange(category._id)
@@ -148,57 +147,61 @@ function CategoryPicker({
                   disabled={false}
                   key={category._id}
                 >
-                  <View className="flex-row items-center gap-2">
+                  <View className="flex-1 flex-row items-center gap-2 pl-2">
                     <Text className="text-base">{category.icon}</Text>
                     <Text className="text-base font-semibold">{category.name}</Text>
                   </View>
 
-                  {/* MARK: Update Category */}
-                  {/* {category.deletable && (
-                    <UpdateCategoryDrawer
-                      category={category}
-                      update={(category: ICategory) => {
-                        setCategories(categories.map(c => (c._id === category._id ? category : c)))
-                      }}
-                      trigger={
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                        >
-                          <Icon render={LucidePencil} />
-                        </Button>
-                      }
-                    />
-                  )} */}
-
-                  {/* MARK: Delete Category */}
-                  {category.deletable && (
-                    <ConfirmDialog
-                      label={t('Delete category')}
-                      desc={`${t('Are you sure you want to delete')} ${category.name}?`}
-                      confirmLabel={t('Delete')}
-                      cancelLabel={t('Cancel')}
-                      onConfirm={() => handleDeleteCategory(category._id)}
-                      disabled={deleting === category._id}
-                      className="!h-auto !w-auto"
-                      trigger={
-                        <Button
-                          disabled={deleting === category._id}
-                          variant="ghost"
-                          className="trans-200 h-full w-8 flex-shrink-0 rounded-md px-21/2 py-1.5 text-start text-sm font-semibold hover:bg-slate-200/30"
-                        >
-                          {deleting === category._id ? (
-                            <ActivityIndicator />
-                          ) : (
+                  <View className="flex flex-row items-center justify-end gap-1">
+                    {/* MARK: Update Category */}
+                    {category.deletable && (
+                      <UpdateCategoryDrawer
+                        category={category}
+                        update={(category: ICategory) =>
+                          setCategories(categories.map(c => (c._id === category._id ? category : c)))
+                        }
+                        trigger={
+                          <View>
                             <Icon
-                              render={LucideX}
+                              render={LucidePencil}
                               size={18}
+                              color="#0ea5e9"
                             />
-                          )}
-                        </Button>
-                      }
-                    />
-                  )}
+                          </View>
+                        }
+                      />
+                    )}
+
+                    {/* MARK: Delete Category */}
+                    {category.deletable && (
+                      <ConfirmDialog
+                        label={t('Delete category')}
+                        desc={`${t('Are you sure you want to delete')} ${category.name}?`}
+                        confirmLabel={t('Delete')}
+                        cancelLabel={t('Cancel')}
+                        onConfirm={() => handleDeleteCategory(category._id)}
+                        disabled={deleting === category._id}
+                        className="!h-auto !w-auto"
+                        trigger={
+                          <Button
+                            disabled={deleting === category._id}
+                            variant="ghost"
+                            className="trans-200 h-full w-8 flex-shrink-0 rounded-md px-21/2 py-1.5 text-start text-sm font-semibold hover:bg-slate-200/30"
+                          >
+                            {deleting === category._id ? (
+                              <ActivityIndicator />
+                            ) : (
+                              <Icon
+                                render={LucideTrash}
+                                size={18}
+                                color="#f43f5e"
+                              />
+                            )}
+                          </Button>
+                        }
+                      />
+                    )}
+                  </View>
                 </TouchableOpacity>
               ))}
           </ScrollView>
@@ -218,7 +221,7 @@ interface NodeProps {
   className?: string
 }
 
-const Node = ({ category, type, onChange, initCategories, className = '' }: NodeProps) => {
+const Node = ({ category, type, onChange, className }: NodeProps) => {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryPicker.' + key)

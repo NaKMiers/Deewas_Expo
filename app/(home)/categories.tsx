@@ -1,15 +1,20 @@
 import CategoryGroup from '@/components/CategoryGroup'
+import CreateCategoryDrawer from '@/components/dialogs/CreateCategoryDrawer'
+import Icon from '@/components/Icon'
 import Text from '@/components/Text'
+import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { setCategories } from '@/lib/reducers/categoryReduce'
+import { addCategory, setCategories } from '@/lib/reducers/categoryReduce'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { cn } from '@/lib/utils'
 import { getMyCategoriesApi } from '@/requests/categoryRequests'
 import { ICategory, TransactionType } from '@/types/type'
+import { LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, SafeAreaView, ScrollView, View } from 'react-native'
+import { FlatList, RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function CategoriesPage() {
@@ -22,7 +27,7 @@ function CategoriesPage() {
 
   // store
   const { categories } = useAppSelector(state => state.category)
-  const { refetching: rfc } = useAppSelector(state => state.load)
+  const { refreshing, refreshPoint } = useAppSelector(state => state.load)
 
   // states
   const [loading, setLoading] = useState<boolean>(false)
@@ -48,11 +53,12 @@ function CategoriesPage() {
       } finally {
         // stop loading
         setLoading(false)
+        dispatch(setRefreshing(false))
       }
     }
 
     getCategories()
-  }, [dispatch, rfc])
+  }, [dispatch, refreshPoint])
 
   // auto group categories by type
   useEffect(() => {
@@ -61,9 +67,7 @@ function CategoriesPage() {
       if (!acc[category.type]) {
         acc[category.type] = []
       }
-
       acc[category.type].push(category)
-
       return acc
     }, {})
 
@@ -71,12 +75,19 @@ function CategoriesPage() {
   }, [categories])
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View className="container px-21/2 pb-32 pt-21/2 md:px-21 md:pt-21">
+    <SafeAreaView className="flex-1">
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => dispatch(refresh())}
+          />
+        }
+      >
+        <View className="p-21/2 md:p-21">
           {/* Top */}
           <View className="mb-1 flex-row flex-wrap items-center justify-between gap-2">
-            <Text className="text-lg font-bold">Categories</Text>
+            <Text className="text-xl font-bold">Categories</Text>
           </View>
 
           {/* Categories Groups */}
@@ -88,7 +99,7 @@ function CategoriesPage() {
                 className="w-full"
               >
                 <TabsList
-                  className="flex h-12 flex-row justify-start overflow-y-auto"
+                  className="flex h-12 flex-row justify-start shadow-md"
                   style={{ marginBottom: 12 }}
                 >
                   <FlatList
@@ -104,7 +115,7 @@ function CategoriesPage() {
                         }}
                         key={key}
                       >
-                        <Text className="capitalize">{key}</Text>
+                        <Text className="font-semibold capitalize">{key}</Text>
                       </TabsTrigger>
                     )}
                   />
@@ -137,22 +148,25 @@ function CategoriesPage() {
               ))}
             </View>
           )}
-
-          {/* MARK: Create Category */}
-          {/* <CreateCategoryDrawer
-            update={category => dispatch(addCategory(category))}
-            trigger={
-              <Button
-                variant="default"
-                className="fixed bottom-[calc(78px)] right-2 z-20 h-10 rounded-full xl:right-[calc(50%-640px+21px)]"
-              >
-                <Icon render={LucidePlus} size={24} />
-                {t('Create Category')}
-              </Button>
-            }
-          /> */}
         </View>
+
+        <Separator className="my-16 h-0" />
       </ScrollView>
+
+      {/* MARK: Create Category */}
+      <CreateCategoryDrawer
+        update={category => dispatch(addCategory(category))}
+        trigger={
+          <View className="absolute bottom-2.5 right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4">
+            <Icon
+              render={LucidePlus}
+              size={20}
+              reverse
+            />
+            <Text className="font-semibold text-secondary">{t('Create Category')}</Text>
+          </View>
+        }
+      />
     </SafeAreaView>
   )
 }

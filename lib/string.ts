@@ -1,6 +1,7 @@
 import { currencies } from '@/constants/settings'
 import { IUser } from '@/types/type'
 import * as locales from 'date-fns/locale'
+import 'intl'
 import {
   LucideArrowRightLeft,
   LucideBarChart4,
@@ -9,7 +10,7 @@ import {
   LucideTrendingUp,
   LucideWalletCards,
 } from 'lucide-react-native'
-import 'intl'
+import numeral from 'numeral'
 
 export const shortName = (user: IUser) => {
   if (user?.firstName) {
@@ -51,12 +52,26 @@ export const formatPrice = (price: number = 0) => {
   return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
 }
 
-export function formatCompactNumber(num: number | string, isCurrency: boolean = false): string {
+export const formatCompactNumber = (num: number | string, isCurrency: boolean = false) => {
+  let value: number
   if (isCurrency && typeof num === 'string') {
-    return new Intl.NumberFormat('vi-VN', { notation: 'compact' }).format(parseCurrency(num))
+    value = parseCurrency(num)
+  } else {
+    value = typeof num === 'string' ? parseFloat(num) : num
   }
 
-  return new Intl.NumberFormat('en', { notation: 'compact' }).format(num as number)
+  if (isNaN(value)) return '0'
+
+  const absValue = Math.abs(value)
+  if (absValue >= 1_000_000_000) {
+    return `${(value / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`
+  } else if (absValue >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
+  } else if (absValue >= 1_000) {
+    return `${(value / 1_000).toFixed(1).replace(/\.0$/, '')}K`
+  } else {
+    return value.toFixed(0)
+  }
 }
 
 export const getLocale = (locale: string): locales.Locale => {
@@ -151,4 +166,9 @@ export const revertAdjustedCurrency = (input: string, locale: string) => {
     .replace(decimalSeparator, '.')
 
   return Number(cleanValue) || 0
+}
+
+export const ellipsis = (text: string, length: number = 100) => {
+  if (text.length <= length) return text
+  return `${text.slice(0, length)}...`
 }

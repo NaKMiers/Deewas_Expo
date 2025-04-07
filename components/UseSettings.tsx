@@ -1,5 +1,3 @@
-'use client'
-
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { setLoading, setSettings } from '@/lib/reducers/settingsReducer'
 import { getMySettingsApi } from '@/requests'
@@ -22,9 +20,6 @@ function UseSettings() {
       try {
         const { settings } = await getMySettingsApi()
         dispatch(setSettings(settings))
-
-        // const { rates } = await getExchangeRatesApi()
-        // dispatch(setExchangeRates(rates))
       } catch (err: any) {
         console.log(err)
       } finally {

@@ -30,10 +30,10 @@ function Drawer2() {
         if (index === 0) drawerRef.current?.close()
       }}
       backgroundStyle={{
-        backgroundColor: isDarkColorScheme ? '#222222' : '#fff',
+        backgroundColor: isDarkColorScheme ? '#161616' : '#fff',
       }}
       handleIndicatorStyle={{
-        backgroundColor: isDarkColorScheme ? '#fff' : '#222222',
+        backgroundColor: isDarkColorScheme ? '#fff' : '#161616',
       }}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>

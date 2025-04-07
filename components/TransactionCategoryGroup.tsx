@@ -1,7 +1,10 @@
+import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
+import UpdateTransactionDrawer from '@/components/dialogs/UpdateTransactionDrawer'
 import { Button } from '@/components/ui/button'
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refetching } from '@/lib/reducers/loadReducer'
+import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
+import { addTransaction, updateTransaction } from '@/lib/reducers/transactionReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
@@ -11,13 +14,17 @@ import {
   LucideChevronDown,
   LucideChevronUp,
   LucideEllipsisVertical,
-  LucideLoaderCircle,
+  LucideLayers2,
+  LucidePencil,
+  LucidePlusSquare,
+  LucideTrash,
 } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import Text from './Text'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
@@ -31,7 +38,7 @@ interface ITransactionCategoryGroupProps {
 function TransactionCategoryGroup({
   category,
   transactions,
-  className = '',
+  className,
 }: ITransactionCategoryGroupProps) {
   // hooks
   const dispatch = useAppDispatch()
@@ -48,10 +55,8 @@ function TransactionCategoryGroup({
           <Text>{category.icon}</Text>
           {currency && (
             <View className="flex flex-col">
-              <Text className="text-sm font-semibold">{category.name}</Text>
-              <Text
-                className={cn('-mb-1 -mt-0.5 ml-0.5 tracking-tight', checkTranType(category.type).color)}
-              >
+              <Text className="font-semibold">{category.name}</Text>
+              <Text className={cn('ml-0.5 mt-0.5 tracking-tight', checkTranType(category.type).color)}>
                 {formatCurrency(currency, category.amount)}
               </Text>
             </View>
@@ -59,25 +64,25 @@ function TransactionCategoryGroup({
         </View>
 
         {/* MARK: New Transaction for category */}
-        {/* <CreateTransactionDrawer
+        <CreateTransactionDrawer
           initCategory={category}
           update={(transaction: IFullTransaction) => dispatch(addTransaction(transaction))}
           trigger={
-            <Button
-              variant="outline"
-              className="flex flex-row h-7 items-center gap-1.5 rounded-md px-2 "
-            >
-              <LucidePlusSquare />
-              {t('Add Transaction')}
-            </Button>
+            <View className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary px-2">
+              <Icon
+                render={LucidePlusSquare}
+                size={18}
+              />
+              <Text className="font-semibold">{t('Add Transaction')}</Text>
+            </View>
           }
-        /> */}
+        />
       </View>
 
       {/*  MARK: Transactions of category */}
       <View className="my-1.5 pl-2">
-        <View className="flex flex-col gap-0 border-l">
-          {transactions.map((tx, index) => (
+        <View className={cn('flex flex-col gap-1 border-l', checkTranType(category.type).border)}>
+          {transactions.map(tx => (
             <View key={tx._id}>
               <TransactionItem transaction={tx} />
             </View>
@@ -95,7 +100,7 @@ interface ITransactionProps {
   className?: string
 }
 
-function TransactionItem({ transaction, className = '' }: ITransactionProps) {
+function TransactionItem({ transaction, className }: ITransactionProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
@@ -123,7 +128,7 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
         text1: tSuccess('Transaction deleted'),
       })
 
-      dispatch(refetching())
+      dispatch(refresh())
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -134,6 +139,7 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
     } finally {
       // stop loading
       setDeleting(false)
+      dispatch(setRefreshing(false))
     }
   }, [dispatch, transaction._id, t])
 
@@ -155,7 +161,7 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
         text1: tSuccess('Transaction duplicated'),
       })
 
-      dispatch(refetching())
+      dispatch(refresh())
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -168,14 +174,16 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
     }
   }, [dispatch, transaction, t])
 
+  const { color, hex } = checkTranType(transaction.type)
+
   return (
-    <View className={cn('flex w-full flex-row items-center justify-between gap-2 pl-2', className)}>
-      <Text className="text-sm font-semibold">{transaction.name}</Text>
+    <View className={cn('flex w-full flex-row items-center justify-between gap-2 pl-21/2', className)}>
+      <Text className="font-semibold">{transaction.name}</Text>
 
       <View className="flex flex-row items-center gap-1">
         {currency && (
           <View className="flex flex-col items-end">
-            <Text className="text-muted-foreground">
+            <Text className="text-sm text-muted-foreground">
               {formatDate(
                 moment(transaction.date).toDate(),
                 currencies.find(c => c.value === currency)?.locale
@@ -188,14 +196,16 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
                 <Icon
                   render={LucideChevronDown}
                   size={16}
+                  color={hex}
                 />
               ) : (
                 <Icon
                   render={LucideChevronUp}
                   size={16}
+                  color={hex}
                 />
               )}
-              <Text className="text-sm font-semibold">
+              <Text className={cn('font-semibold', color)}>
                 {formatCurrency(currency, transaction.amount)}
               </Text>
             </View>
@@ -209,11 +219,14 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
                 variant="ghost"
                 size="icon"
               >
-                <Icon render={LucideEllipsisVertical} />
+                <Icon
+                  render={LucideEllipsisVertical}
+                  size={20}
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              {/* <ConfirmDialog
+              <ConfirmDialog
                 label={t('Duplicate Transaction')}
                 desc={t('Are you sure you want to duplicate this transaction?')}
                 confirmLabel={t('Duplicate')}
@@ -222,10 +235,14 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
                 trigger={
                   <Button
                     variant="ghost"
-                    className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-violet-500"
+                    className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
                   >
-                    <LucideLayers2 size={16} />
-                    {t('Duplicate')}
+                    <Icon
+                      render={LucideLayers2}
+                      size={16}
+                      color="#8b5cf6"
+                    />
+                    <Text className="font-semibold text-violet-500">{t('Duplicate')}</Text>
                   </Button>
                 }
               />
@@ -234,13 +251,14 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
                 transaction={transaction}
                 update={(transaction: IFullTransaction) => dispatch(updateTransaction(transaction))}
                 trigger={
-                  <Button
-                    variant="ghost"
-                    className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-sky-500"
-                  >
-                    <LucidePencil size={16} />
-                    {t('Edit')}
-                  </Button>
+                  <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                    <Icon
+                      render={LucidePencil}
+                      size={16}
+                      color="#0ea5e9"
+                    />
+                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                  </View>
                 }
               />
 
@@ -252,26 +270,21 @@ function TransactionItem({ transaction, className = '' }: ITransactionProps) {
                 trigger={
                   <Button
                     variant="ghost"
-                    className="flex flex-row h-8 w-full items-center justify-start gap-2 px-2 text-rose-500"
+                    className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
                   >
-                    <LucideTrash size={16} />
-                    {t('Delete')}
+                    <Icon
+                      render={LucideTrash}
+                      size={16}
+                      color="#f43f5e"
+                    />
+                    <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
                   </Button>
                 }
-              /> */}
+              />
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Button
-            disabled
-            variant="ghost"
-            size="icon"
-          >
-            <Icon
-              render={LucideLoaderCircle}
-              className="animate-spin"
-            />
-          </Button>
+          <ActivityIndicator />
         )}
       </View>
     </View>
