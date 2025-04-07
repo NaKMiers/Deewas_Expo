@@ -1,7 +1,6 @@
 // @/contexts/AuthContext.tsx
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { clearUser, setLoading, setToken, setUser } from '@/lib/reducers/userReducer'
-import { IFullUser } from '@/types/type'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { jwtDecode } from 'jwt-decode'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect } from 'react'

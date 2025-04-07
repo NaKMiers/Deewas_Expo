@@ -4,17 +4,17 @@ import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addCategory, setCategories } from '@/lib/reducers/categoryReduce'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
-import { cn } from '@/lib/utils'
+import { capitalize } from '@/lib/string'
 import { getMyCategoriesApi } from '@/requests/categoryRequests'
-import { ICategory, TransactionType } from '@/types/type'
+import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function CategoriesPage() {
@@ -33,6 +33,7 @@ function CategoriesPage() {
   const [loading, setLoading] = useState<boolean>(false)
   const [groups, setGroups] = useState<any[]>([])
   const [tab, setTab] = useState<TransactionType>('expense')
+  const [tabLabels, setTabLabels] = useState<TransactionType[]>([])
 
   // get categories
   useEffect(() => {
@@ -71,7 +72,11 @@ function CategoriesPage() {
       return acc
     }, {})
 
-    setGroups(Object.entries(groups))
+    const results = Object.entries(groups)
+    setGroups(results)
+
+    const labels = results.map(([key]) => capitalize(key))
+    setTabLabels(labels as TransactionType[])
   }, [categories])
 
   return (
@@ -86,8 +91,8 @@ function CategoriesPage() {
       >
         <View className="p-21/2 md:p-21">
           {/* Top */}
-          <View className="mb-1 flex-row flex-wrap items-center justify-between gap-2">
-            <Text className="text-xl font-bold">Categories</Text>
+          <View className="flex-row flex-wrap items-center justify-between gap-2">
+            <Text className="pl-1 text-xl font-bold">Categories</Text>
           </View>
 
           {/* Categories Groups */}
@@ -98,28 +103,17 @@ function CategoriesPage() {
                 onValueChange={value => setTab(value as TransactionType)}
                 className="w-full"
               >
-                <TabsList
-                  className="flex h-12 flex-row justify-start shadow-md"
-                  style={{ marginBottom: 12 }}
-                >
-                  <FlatList
-                    horizontal
-                    data={groups}
-                    renderItem={({ item: [key] }) => (
-                      <TabsTrigger
-                        value={key}
-                        className={cn('line-clamp-1 h-full w-1/3 min-w-max flex-1')}
-                        style={{
-                          flexShrink: 0,
-                          width: groups.length === 1 ? '100%' : groups.length === 2 ? '50%' : '33.33%',
-                        }}
-                        key={key}
-                      >
-                        <Text className="font-semibold capitalize">{key}</Text>
-                      </TabsTrigger>
-                    )}
+                <View className="mb-2.5 mt-21/2">
+                  <SegmentedControl
+                    values={tabLabels}
+                    style={{ width: '100%', height: 40 }}
+                    selectedIndex={Math.max(0, tabLabels.indexOf(tab))}
+                    onChange={(event: any) => {
+                      const index = event.nativeEvent.selectedSegmentIndex
+                      setTab(groups[index][0])
+                    }}
                   />
-                </TabsList>
+                </View>
 
                 {groups.map(([type, categories]) => (
                   <CategoryGroup

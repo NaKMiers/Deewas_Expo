@@ -1,4 +1,3 @@
-import { ISettings } from '@/types/type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export const settings = createSlice({

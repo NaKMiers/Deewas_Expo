@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setWallets } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
-import { IWallet } from '@/types/type'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { LucidePlusSquare } from 'lucide-react-native'
 import { memo, useState } from 'react'

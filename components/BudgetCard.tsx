@@ -5,7 +5,6 @@ import { addBudget, deleteBudget, updateBudget } from '@/lib/reducers/budgetRedu
 import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteBudgetApi } from '@/requests/budgetRequests'
-import { IFullBudget } from '@/types/type'
 import { differenceInDays } from 'date-fns'
 import { LucideEllipsis, LucideLayers2, LucidePencil, LucideTrash } from 'lucide-react-native'
 import moment from 'moment-timezone'

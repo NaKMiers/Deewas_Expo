@@ -424,7 +424,17 @@
     "pie": "biểu đồ tròn",
     "radar": "biểu đồ radar",
     "area": "biểu đồ khu vực",
-    "All": "Tất cả"
+    "All": "Tất cả",
+    "Total": "Tổng",
+    "week": "tuần",
+    "month": "tháng",
+    "year": "năm",
+    "Previous week": "Tuần trước",
+    "Previous month": "Tháng trước",
+    "Previous year": "Năm trước",
+    "Next week": "Tuần sau",
+    "Next month": "Tháng sau",
+    "Next year": "Năm sau"
   },
   "multipleSelection": {
     "All": "Tất Cả",

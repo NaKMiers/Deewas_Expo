@@ -7,9 +7,9 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { setToken, setUser } from '@/lib/reducers/userReducer'
 import { cn } from '@/lib/utils'
 import { signInCredentialsApi } from '@/requests'
-import { IFullUser } from '@/types/type'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 import { jwtDecode } from 'jwt-decode'
 import { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -25,10 +25,12 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 
+WebBrowser.maybeCompleteAuthSession()
+
 function LoginPage() {
   // hooks
   const dispatch = useAppDispatch()
-  let { t: translate, i18n } = useTranslation()
+  let { t: translate } = useTranslation()
   const t = (key: string) => translate('loginPage.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
@@ -141,11 +143,7 @@ function LoginPage() {
 
               {/* MARK: Social Login */}
               <View className="grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-3">
-                <Button
-                  className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10"
-                  // onPress={() => signIn('google', { callbackUrl: `/${locale}/wizard` })}
-                  onPress={() => i18n.changeLanguage('vi')}
-                >
+                <Button className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10">
                   <Image
                     source={icons.google}
                     alt="Google"

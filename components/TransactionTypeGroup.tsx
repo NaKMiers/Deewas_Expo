@@ -2,7 +2,6 @@ import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawe
 import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
-import { TransactionType } from '@/types/type'
 import { LucideEllipsisVertical, LucidePlusCircle } from 'lucide-react-native'
 import { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'

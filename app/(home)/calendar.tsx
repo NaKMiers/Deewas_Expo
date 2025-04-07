@@ -10,7 +10,6 @@ import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { formatCompactNumber, getLocale } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
-import { IFullTransaction } from '@/types/type'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import {
   addMonths,
@@ -102,7 +101,7 @@ function CalendarPage() {
           {!loading ? (
             <View className="mt-21/2 flex flex-col gap-21/2">
               {/* Calendar */}
-              <View className="rounded-lg border border-primary p-3">
+              <View className="rounded-lg bg-secondary p-3 shadow-md">
                 {/* MARK: Nav */}
                 <View className="mb-4 flex flex-row flex-wrap items-center justify-between gap-1">
                   <MonthYearPicker
@@ -161,7 +160,7 @@ function CalendarPage() {
                         key={day.toString()}
                         className={cn(
                           'relative mt-3 flex h-[55px] flex-col items-center justify-start gap-2 rounded-md p-1 shadow-none',
-                          isSelected && 'bg-muted',
+                          isSelected && 'bg-primary',
                           !isSameMonth(day, currentMonth) && 'text-muted-foreground opacity-50'
                         )}
                         style={{ width: (SCREEN_WIDTH - 45) / 7 }}
@@ -170,7 +169,7 @@ function CalendarPage() {
                         <Text
                           className={cn(
                             'relative z-10 text-center font-medium',
-                            isSelected && 'font-bold'
+                            isSelected && 'font-bold text-secondary'
                           )}
                         >
                           {format(day, 'd')}
@@ -188,11 +187,7 @@ function CalendarPage() {
 
                         {getTransactionsForDate(day).length > 0 && (
                           <View className="relative mt-auto w-full">
-                            <View
-                              className={cn(
-                                'flex w-full flex-row justify-center gap-0.5 pr-1 text-center text-xs font-semibold'
-                              )}
-                            >
+                            <View className={cn('flex w-full flex-row justify-center gap-0.5 px-0.5')}>
                               <Text
                                 className={cn(
                                   'text-center',
@@ -237,7 +232,7 @@ function CalendarPage() {
               </View>
 
               {/* MARK: Transactions of day */}
-              <View className="flex w-full rounded-lg border border-primary p-3">
+              <View className="flex w-full rounded-lg bg-secondary p-3 shadow-md">
                 <Text className="mb-4 flex-1 text-lg font-semibold">
                   {t('Transactions for') + ' '}
                   <Text className="text-muted-foreground/80">

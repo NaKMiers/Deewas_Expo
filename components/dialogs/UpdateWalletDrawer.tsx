@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import { updateWalletApi } from '@/requests/walletRequests'
-import { IWallet } from '@/types/type'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import { LucideCircleOff } from 'lucide-react-native'
 import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'

@@ -1,7 +1,6 @@
 import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { createCategoryApi } from '@/requests/categoryRequests'
-import { ICategory, TransactionType } from '@/types/type'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import { LucideCircle, LucideCircleOff } from 'lucide-react-native'
 import { Dispatch, ReactNode, SetStateAction, useCallback, useState } from 'react'

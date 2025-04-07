@@ -1,5 +1,4 @@
-import { TextInputProps, TouchableOpacityProps } from 'react-native'
-
+// Models
 declare interface IBudget {
   _id: string
   createdAt: string
@@ -119,3 +118,15 @@ declare interface IBudget {
 }
 
 declare type IFullBudget = IBudget & { user: IUser; category: ICategory }
+
+// Components
+declare type ChartType = 'bar' | 'line' | 'pie' | 'radar' | 'pyramid'
+
+declare type TimeUnit = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year'
+
+declare type ChartItem = {
+  value: number
+  label: string
+  frontColor?: string
+  backColor?: string
+}

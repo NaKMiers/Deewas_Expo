@@ -1,4 +1,3 @@
-import { IFullUser } from '@/types/type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export const user = createSlice({

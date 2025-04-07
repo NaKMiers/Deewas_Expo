@@ -5,7 +5,6 @@ import { checkTranType, formatSymbol, revertAdjustedCurrency } from '@/lib/strin
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { updateTransactionApi } from '@/requests'
-import { IFullTransaction, IWallet } from '@/types/type'
 import moment from 'moment'
 import { ReactNode, useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'

@@ -5,7 +5,6 @@ import { checkTranType, formatSymbol, revertAdjustedCurrency } from '@/lib/strin
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi } from '@/requests'
-import { ICategory, IFullTransaction, IWallet, TransactionType } from '@/types/type'
 import { LucideCircle } from 'lucide-react-native'
 import moment from 'moment'
 import { ReactNode, useCallback, useEffect, useState } from 'react'

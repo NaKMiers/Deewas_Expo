@@ -1,123 +1,67 @@
-import { useAppSelector } from '@/hooks/reduxHook'
-import { capitalize, checkTranType, formatCurrency } from '@/lib/string'
-import { useColorScheme } from '@/lib/useColorScheme'
-import { TransactionType } from '@/types/type'
-import React, { memo, useCallback } from 'react'
-import { Dimensions, View } from 'react-native'
-import { BarChart, LineChart, PieChart } from 'react-native-chart-kit'
-
-export type ChartDatum = {
-  name: string
-  income: number
-  expense: number
-  balance: number
-  saving: number
-  invest: number
-}
+import { checkTranType } from '@/lib/string'
+import { cn } from '@/lib/utils'
+import { useCallback } from 'react'
+import { View } from 'react-native'
+import { BarChart, LineChart, PieChart, PopulationPyramid, RadarChart } from 'react-native-gifted-charts'
 
 interface ChartProps {
-  chart: string
-  types: TransactionType[]
-  data: any[]
+  data: ChartItem[]
+  chartType: ChartType
+  transactionType: TransactionType
   className?: string
-  maxKey: string
 }
 
-const screenWidth = Dimensions.get('window').width
+const colors: any = {
+  income: [checkTranType('income').hex, '#7c3aed'],
+  expense: [checkTranType('expense').hex, '#ea580c'],
+  balance: [checkTranType('balance').hex, '#dc2626'],
+  saving: [checkTranType('saving').hex, '#7c3aed'],
+  invest: [checkTranType('invest').hex, '#7c3aed'],
+}
 
-function Chart({ maxKey, types, chart, data = [], className }: ChartProps) {
-  const { isDarkColorScheme } = useColorScheme()
-  const currency = useAppSelector(state => state.settings.settings?.currency)
-
-  const formatTooltip = useCallback(
-    (value: number, name: string) => {
-      const formattedValue = currency ? formatCurrency(currency, value) : '0'
-      return `${capitalize(name)}: ${formattedValue}`
-    },
-    [currency]
-  )
-
-  const chartConfig = {
-    backgroundGradientFrom: isDarkColorScheme ? '#171717' : '#fff',
-    backgroundGradientTo: isDarkColorScheme ? '#171717' : '#fff',
-    decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Màu mặc định
-    labelColor: (opacity = 1) => (isDarkColorScheme ? '#fff' : '#333'),
-    style: {
-      borderRadius: 8,
-    },
-    propsForDots: {
-      r: '4',
-      strokeWidth: '1',
-    },
-  }
-
+export default function Chart({ data, chartType, transactionType, className }: ChartProps) {
   const renderChart = useCallback(() => {
-    const chartData = {
-      labels: data.map(item => item.name),
-      datasets: types.map(type => ({
-        data: data.map(item => item[type] || 0),
-        color: () => checkTranType(type).hex,
-      })),
-    }
-
-    switch (chart) {
+    switch (chartType) {
       case 'bar':
         return (
           <BarChart
-            data={chartData}
-            width={screenWidth - 40}
-            height={380}
-            yAxisLabel=""
-            yAxisSuffix=""
-            chartConfig={{
-              ...chartConfig,
-              barPercentage: 0.5,
-            }}
-            fromZero
-          />
-        )
-
-      case 'pie':
-        const pieData = types
-          .map(type => ({
-            name: capitalize(type),
-            value: data.reduce((sum: number, item: any) => sum + (item[type] || 0), 0),
-            color: checkTranType(type).hex,
-            legendFontColor: isDarkColorScheme ? '#fff' : '#333',
-            legendFontSize: 12,
-          }))
-          .filter(item => item.value > 0)
-
-        return (
-          <PieChart
-            data={pieData}
-            width={screenWidth - 60}
+            data={data}
+            barWidth={18}
             height={200}
-            chartConfig={chartConfig}
-            accessor="value"
-            backgroundColor="transparent"
-            paddingLeft="5"
-            absolute
+            // width={290}
+            minHeight={3}
+            barBorderRadius={3}
+            showGradient
+            frontColor={colors[transactionType][0]}
+            gradientColor={colors[transactionType][1]}
+            spacing={21}
+            noOfSections={4}
+            yAxisThickness={0}
+            xAxisThickness={0}
+            xAxisLabelsVerticalShift={2}
+            xAxisLabelTextStyle={{ color: 'gray' }}
+            yAxisTextStyle={{ color: 'gray' }}
           />
         )
-
-      default:
+      case 'line':
+        return <LineChart data={data} />
+      case 'pie':
+        return <PieChart data={[{ value: 50, color: '#FF6384' }]} />
+      case 'pyramid':
         return (
-          <LineChart
-            data={chartData}
-            width={screenWidth - 40}
-            height={380}
-            yAxisLabel=""
-            chartConfig={chartConfig}
-            style={{ marginVertical: 8 }}
-            bezier
+          <PopulationPyramid
+            data={[
+              { left: 10, right: 12 },
+              { left: 9, right: 8 },
+            ]}
           />
         )
+      case 'radar':
+        return <RadarChart data={[50, 80, 90, 70]} />
+      default:
+        return null
     }
-  }, [chart, data, types, maxKey, isDarkColorScheme])
+  }, [data, chartType, transactionType])
 
-  return <View style={{ padding: 20 }}>{renderChart()}</View>
+  return <View className={cn('overflow-hidden', className)}>{renderChart()}</View>
 }
-
-export default memo(Chart)

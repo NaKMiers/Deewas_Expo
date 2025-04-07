@@ -10,7 +10,6 @@ import { TouchableOpacity, View } from 'react-native'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 
 interface InputProps {
   id: string
@@ -162,7 +161,7 @@ function CustomInput({
             {type === 'password' &&
               (isShowPassword ? (
                 <TouchableOpacity
-                  className="absolute right-0 top-1.5 flex h-full w-9 items-center justify-center"
+                  className="absolute right-0 top-0 flex h-full w-9 -translate-y-1/2 items-center justify-center"
                   onPress={showPassword}
                 >
                   <LucideEye
@@ -172,7 +171,7 @@ function CustomInput({
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
-                  className="absolute right-0 top-1.5 flex h-full w-10 items-center justify-center"
+                  className="absolute right-0 top-0 flex h-full w-10 -translate-y-1/2 items-center justify-center"
                   onPress={showPassword}
                 >
                   <LucideEyeOff

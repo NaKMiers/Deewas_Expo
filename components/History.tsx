@@ -1,68 +1,55 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setRefreshing } from '@/lib/reducers/loadReducer'
-import { capitalize, formatCurrency, parseCurrency } from '@/lib/string'
+import { capitalize, checkTranType, formatCurrency, parseCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { getHistoryApi } from '@/requests'
-import { IFullTransaction, ITransaction, TransactionType } from '@/types/type'
+import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { isSameDay } from 'date-fns'
+import { LucideRotateCw } from 'lucide-react-native'
 import moment from 'moment-timezone'
-import { memo, ReactNode, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
-import Chart, { ChartDatum } from './Chart'
-import DateRangePicker from './DateRangePicker'
+import Chart from './Chart'
+import HistoryFooter from './HistoryFooter'
+import Icon from './Icon'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
-import { Button } from './ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { Skeleton } from './ui/skeleton'
 
 interface HistoryProps {
   className?: string
 }
 
-function History({ className }: HistoryProps) {
+// chart types
+const charts: ChartType[] = ['bar', 'line', 'pie', 'radar', 'pyramid']
+const transactionTypes: TransactionType[] = ['balance', 'income', 'expense', 'saving', 'invest']
+const timeUnits: TimeUnit[] = ['week', 'month', 'year']
+
+export default function History({ className }: HistoryProps) {
   // hooks
   const { user } = useAuth()
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('history.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
-  const locale = i18n.language
   const dispatch = useAppDispatch()
-
-  const types: TransactionType[] = ['balance', 'income', 'expense', 'saving', 'invest']
-  const charts = ['pie', 'bar', 'line']
 
   // store
   const { refreshPoint } = useAppSelector(state => state.load)
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
   // states
-  const [chart, setChart] = useState<string>(charts[0])
-  const [selectedTypes, setSelectedTypes] = useState<TransactionType[]>(['income', 'expense'])
+  const [transactions, setTransactions] = useState<IFullTransaction[]>([])
   const [data, setData] = useState<any[]>([])
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: moment().startOf('month').toDate(),
     to: moment().endOf('month').toDate(),
   })
+  const [selectChartType, setSelectedChartType] = useState<ChartType>(charts[0])
+  const [selectedTransactionType, setSelectedTransactionType] = useState<TransactionType>('expense')
+  const [chartPeriod, setChartPeriod] = useState<TimeUnit>('month')
   const [loading, setLoading] = useState<boolean>(false)
-  const [transactions, setTransactions] = useState<IFullTransaction[]>([])
-
-  const findMaxKey = useCallback(
-    (data: ITransaction[]) => {
-      let max = 0
-      let key = ''
-      for (const transaction of data) {
-        if (transaction.amount > max) {
-          max = transaction.amount
-          key = selectedTypes.includes(transaction.type) ? transaction.type : key
-        }
-      }
-      return key
-    },
-    [selectedTypes]
-  )
 
   // get history
   const getHistory = useCallback(async () => {
@@ -95,261 +82,230 @@ function History({ className }: HistoryProps) {
   useEffect(() => {
     if (!transactions.length || !currency) return
 
-    let incomes = transactions.filter(t => t.type === 'income')
-    let expenses = transactions.filter(t => t.type === 'expense')
-    let savings = transactions.filter(t => t.type === 'saving')
-    let invests = transactions.filter(t => t.type === 'invest')
-
-    // x = end date - start date
-    // x > 1 years -> split charts into cols of years
-    // 1 year >= x > 1 months -> split charts into cols of months
-    // 1 month >= x > 1 days -> split charts into cols of days
-    // 1 day >= x > 1 hours -> split charts into cols of hours
+    // filter by selected transaction type
+    const filteredTransactions = transactions.filter(t => t.type === selectedTransactionType)
 
     const start = toUTC(moment(dateRange.from).startOf('day').toDate())
     const end = toUTC(moment(dateRange.to).endOf('day').toDate())
 
-    const duration = moment(end).diff(moment(start), 'seconds')
-    const oneDayInSeconds = 24 * 60 * 60
+    const groupedData: any[] = []
+    let iterator = moment(start)
+    let stepUnit: moment.unitOfTime.DurationConstructor
+    let dateFormat: string
+    let totalSteps: number
 
-    let splitGranularity = 'years'
-    if (duration > oneDayInSeconds * 366) {
-      // > 1 year
-      splitGranularity = 'years'
-    } else if (duration > oneDayInSeconds * 62) {
-      // > 2 months
-      splitGranularity = 'months'
-    } else if (duration > oneDayInSeconds) {
-      // > 1 day
-      splitGranularity = 'days'
-    } else if (duration > 60 * 60) {
-      // > 1 hour
-      splitGranularity = 'hours'
+    // define step unit and date format based on chart period
+    switch (chartPeriod) {
+      case 'week':
+        stepUnit = 'day'
+        dateFormat = 'ddd'
+        totalSteps = 7
+        break
+      case 'month':
+        stepUnit = 'day'
+        dateFormat = 'DD'
+        totalSteps = moment(end).diff(start, 'days') + 1
+        break
+      case 'year':
+        stepUnit = 'month'
+        dateFormat = 'MMM'
+        totalSteps = 12
+        break
+      default:
+        return
     }
 
-    // Initialize an empty data object
-    const groupedData: ChartDatum[] = []
-    const iterator = moment(start)
-
-    while (iterator.isBefore(end)) {
+    // build the data
+    while (iterator.isBefore(end) && groupedData.length < totalSteps) {
       const colStart = iterator.clone()
-      let colEnd = colStart.clone().endOf(splitGranularity as moment.unitOfTime.StartOf)
+      const colEnd = colStart.clone().endOf(stepUnit)
 
-      // Filter transactions in this range
-      const chunkIncomeTransactions = incomes.filter((transaction: ITransaction) => {
+      // filter transactions in the current chunk
+      const chunkTransactions = filteredTransactions.filter((transaction: ITransaction) => {
         const transactionDate = moment(transaction.date).utc()
-        return transactionDate.isBetween(colStart, colEnd, undefined, '[)')
+        return transactionDate.isBetween(colStart, colEnd, undefined, '[]')
       })
 
-      // Filter expense in this range
-      const chunkExpenseTransactions = expenses.filter((transaction: ITransaction) => {
-        const transactionDate = moment(transaction.date).utc()
-        return transactionDate.isBetween(colStart, colEnd, undefined, '[)')
-      })
-
-      // Filter saving in this range
-      const chunkSavingTransactions = savings.filter((transaction: ITransaction) => {
-        const transactionDate = moment(transaction.date).utc()
-        return transactionDate.isBetween(colStart, colEnd, undefined, '[)')
-      })
-
-      // Filter invest in this range
-      const chunkInvestTransactions = invests.filter((transaction: ITransaction) => {
-        const transactionDate = moment(transaction.date).utc()
-        return transactionDate.isBetween(colStart, colEnd, undefined, '[)')
-      })
-
-      // Calculate total value
-      let totalIncomeTransactionValue = chunkIncomeTransactions.reduce(
+      // calculate total value for the chunk
+      const totalValue = chunkTransactions.reduce(
         (total: number, transaction: any) => total + transaction.amount,
         0
       )
-
-      // Calculate total value
-      let totalExpenseTransactionValue = chunkExpenseTransactions.reduce(
-        (total: number, transaction: any) => total + transaction.amount,
-        0
-      )
-
-      // Calculate total value
-      let totalSavingTransactionValue = chunkSavingTransactions.reduce(
-        (total: number, transaction: any) => total + transaction.amount,
-        0
-      )
-
-      // Calculate total value
-      let totalInvestTransactionValue = chunkInvestTransactions.reduce(
-        (total: number, transaction: any) => total + transaction.amount,
-        0
-      )
-
-      let dateFormat = 'DD'
-      switch (splitGranularity) {
-        case 'years':
-          dateFormat = 'YYYY'
-          break
-        case 'months':
-          dateFormat = 'MMM'
-          break
-        case 'days':
-          dateFormat = 'MMM DD'
-          break
-        case 'hours':
-          dateFormat = 'HH:00'
-          break
-        default:
-          break
-      }
 
       groupedData.push({
-        name: colStart.format(dateFormat),
-        income: parseCurrency(formatCurrency(currency, totalIncomeTransactionValue)),
-        expense: parseCurrency(formatCurrency(currency, totalExpenseTransactionValue)),
-        balance: parseCurrency(
-          formatCurrency(currency, totalIncomeTransactionValue - totalExpenseTransactionValue)
-        ),
-        saving: parseCurrency(formatCurrency(currency, totalSavingTransactionValue)),
-        invest: parseCurrency(formatCurrency(currency, totalInvestTransactionValue)),
+        label: colStart.format(dateFormat),
+        value: parseCurrency(formatCurrency(currency, totalValue)),
       })
 
-      iterator.add(1, splitGranularity as moment.unitOfTime.DurationConstructor)
+      iterator.add(1, stepUnit)
     }
 
     setData(groupedData)
-  }, [dateRange, transactions, currency])
+  }, [transactions, dateRange, currency, selectedTransactionType, chartPeriod, setData, setTransactions])
+
+  // previous time unit
+  const handlePrevTimeUnit = useCallback(() => {
+    const newDateRange = { ...dateRange }
+    switch (chartPeriod) {
+      case 'week':
+        newDateRange.from = moment(dateRange.from).subtract(1, 'week').toDate()
+        newDateRange.to = moment(dateRange.to).subtract(1, 'week').toDate()
+        break
+      case 'month':
+        newDateRange.from = moment(dateRange.from).subtract(1, 'month').toDate()
+        newDateRange.to = moment(dateRange.to).subtract(1, 'month').toDate()
+        break
+      case 'year':
+        newDateRange.from = moment(dateRange.from).subtract(1, 'year').toDate()
+        newDateRange.to = moment(dateRange.to).subtract(1, 'year').toDate()
+        break
+    }
+    setDateRange(newDateRange)
+  }, [chartPeriod, dateRange, setDateRange])
+
+  // next time unit
+  const handleNextTimeUnit = useCallback(() => {
+    const newDateRange = { ...dateRange }
+    switch (chartPeriod) {
+      case 'week':
+        newDateRange.from = moment(dateRange.from).add(1, 'week').toDate()
+        newDateRange.to = moment(dateRange.to).add(1, 'week').toDate()
+        break
+      case 'month':
+        newDateRange.from = moment(dateRange.from).add(1, 'month').toDate()
+        newDateRange.to = moment(dateRange.to).add(1, 'month').toDate()
+        break
+      case 'year':
+        newDateRange.from = moment(dateRange.from).add(1, 'year').toDate()
+        newDateRange.to = moment(dateRange.to).add(1, 'year').toDate()
+        break
+    }
+    setDateRange(newDateRange)
+  }, [chartPeriod, dateRange, setDateRange])
+
+  // reset time unit
+  const handleResetTimeUnit = useCallback(() => {
+    setDateRange({
+      from: moment().startOf(chartPeriod).toDate(),
+      to: moment().endOf(chartPeriod).toDate(),
+    })
+  }, [chartPeriod])
 
   return (
     <View className={cn(className)}>
       {/* Top */}
       <View className="flex flex-row items-center justify-between">
         <Text className="pl-1 text-xl font-bold">{t('History')}</Text>
-
-        <DateRangePicker
-          values={dateRange}
-          update={({ from, to }) => setDateRange({ from, to })}
-        />
       </View>
 
-      <View className="mt-21/2 rounded-lg bg-secondary shadow-md">
-        <View className="flex flex-row flex-wrap justify-end gap-21/2 p-21/2">
-          <MultipleSelection
-            trigger={
-              <TouchableOpacity className="flex h-10 flex-row items-center justify-center rounded-md bg-primary px-3 shadow-md">
-                <Text className="font-semibold text-secondary">
-                  {selectedTypes.length} {selectedTypes.length !== 1 ? t('types') : t('type')}
-                </Text>
-              </TouchableOpacity>
-            }
-            list={types}
-            selected={selectedTypes}
-            onChange={(list: any[]) => setSelectedTypes(list)}
+      {/* Main */}
+      {!loading ? (
+        <View className="mt-21/2 rounded-lg bg-secondary p-21/2 shadow-md">
+          {/* Period - Time Unit */}
+          <View className="flex flex-row items-center justify-between gap-21/2 md:gap-21">
+            <SegmentedControl
+              values={timeUnits.map(s => capitalize(s))}
+              style={{ width: '100%', height: 34, flex: 1 }}
+              selectedIndex={timeUnits.indexOf(chartPeriod)}
+              onChange={event => {
+                const index = event.nativeEvent.selectedSegmentIndex
+                setChartPeriod(timeUnits[index])
+                setDateRange({
+                  from: moment().startOf(timeUnits[index]).toDate(),
+                  to: moment().endOf(timeUnits[index]).toDate(),
+                })
+              }}
+            />
+            <Select
+              value={{ label: selectChartType, value: selectChartType }}
+              onValueChange={option =>
+                setSelectedChartType((option?.value as ChartType) || selectChartType)
+              }
+            >
+              <SelectTrigger
+                className="flex h-10 flex-row items-center justify-center rounded-xl shadow-md"
+                style={{ height: 36 }}
+              >
+                <SelectValue
+                  placeholder="Select Chart"
+                  className="font-semibold capitalize text-primary"
+                />
+              </SelectTrigger>
+              <SelectContent className="mt-1 shadow-none">
+                {charts.map(chart => (
+                  <SelectItem
+                    value={chart}
+                    label={capitalize(t(chart))}
+                    key={chart}
+                  />
+                ))}
+              </SelectContent>
+            </Select>
+          </View>
+
+          {/* Time Range */}
+          <View className="my-2 flex flex-row items-center gap-21/2">
+            <View className="flex flex-row items-center gap-21/2">
+              <Text className="text-lg font-semibold">
+                {moment(dateRange.from).format(
+                  isSameDay(dateRange.from, dateRange.to) ? 'MMM DD' : 'MMM DD, YYYY'
+                )}
+              </Text>
+              <Text className="text-lg font-semibold">-</Text>
+              <Text className="text-lg font-semibold">
+                {moment(dateRange.to).format('MMM DD, YYYY')}
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              className="rounded-full bg-primary/10 p-2"
+              onPress={handleResetTimeUnit}
+            >
+              <Icon
+                render={LucideRotateCw}
+                size={18}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <Text className="font-semibold text-muted-foreground">
+            {t('Total') + ' '}
+            <Text className={cn('capitalize', checkTranType(selectedTransactionType).color)}>
+              {t(selectedTransactionType)}
+            </Text>
+          </Text>
+
+          {currency && (
+            <Text className={cn('text-4xl font-bold', checkTranType(selectedTransactionType).color)}>
+              {formatCurrency(
+                currency,
+                data.reduce((total: number, item: any) => total + item.value, 0)
+              )}
+            </Text>
+          )}
+
+          {/* Chart */}
+          <Chart
+            data={data}
+            transactionType={selectedTransactionType}
+            chartType={selectChartType}
+            className="mt-21/2"
           />
 
-          <Select
-            value={{ label: chart, value: chart }}
-            onValueChange={option => setChart(option?.value || chart)}
-          >
-            <SelectTrigger
-              className="flex h-10 flex-row items-center justify-center rounded-md bg-primary shadow-md"
-              style={{
-                height: 36,
-              }}
-            >
-              <SelectValue
-                placeholder="Select Chart"
-                className="font-semibold capitalize text-secondary"
-              />
-            </SelectTrigger>
-            <SelectContent className="mt-1 shadow-none">
-              {charts.map(chart => (
-                <SelectItem
-                  value={chart}
-                  label={capitalize(t(chart))}
-                  key={chart}
-                />
-              ))}
-            </SelectContent>
-          </Select>
+          {/* Footer */}
+          <HistoryFooter
+            className="mt-21/2"
+            segments={transactionTypes}
+            segment={selectedTransactionType}
+            indicatorLabel={t(chartPeriod)}
+            next={handleNextTimeUnit}
+            prev={handlePrevTimeUnit}
+            onChange={(segment: string) => setSelectedTransactionType(segment as TransactionType)}
+          />
         </View>
-
-        <Chart
-          maxKey={findMaxKey(transactions)}
-          chart={chart}
-          types={selectedTypes}
-          data={data}
-          className="-ml-21 pr-21/2"
-        />
-      </View>
+      ) : (
+        <Skeleton className="mt-21/2 h-[400px]" />
+      )}
     </View>
-  )
-}
-
-export default memo(History)
-
-interface MultiSelectionProps {
-  trigger: ReactNode
-  list: any[]
-  selected: any[]
-  onChange: (value: any) => void
-}
-
-export function MultipleSelection({ trigger, list, selected, onChange }: MultiSelectionProps) {
-  // hooks
-  const { t: translate } = useTranslation()
-  const t = (value: string) => translate('multipleSelection.' + value)
-
-  // states
-  const isObjectItem = typeof list[0] === 'object'
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent
-        className="z-10 flex flex-col overflow-hidden rounded-lg p-0"
-        style={{ maxWidth: 100 }}
-      >
-        <Button
-          variant="outline"
-          className={cn(
-            'trans-200 flex h-8 flex-row justify-start rounded-none border-0 px-3',
-            selected.length === list.length && 'border-l-2 border-primary pl-2'
-          )}
-          onPress={selected.length === list.length ? () => onChange([]) : () => onChange(list)}
-        >
-          <Text className="text-nowrap font-semibold capitalize">{t('All')}</Text>
-        </Button>
-        {list.map((item, index) => (
-          <Button
-            variant="outline"
-            className={cn(
-              'trans-200 flex h-8 flex-row justify-start rounded-none border-0 px-3',
-              (isObjectItem
-                ? selected.some((ele: any) => ele._id.toString() === item._id.toString())
-                : selected.includes(item)) && 'border-l-2 border-primary pl-2'
-            )}
-            onPress={() => {
-              if (isObjectItem) {
-                if (selected.some((ele: any) => ele._id.toString() === item._id.toString())) {
-                  return onChange(selected.filter(ele => ele._id.toString() !== item._id.toString()))
-                } else {
-                  return onChange([...selected, item])
-                }
-              } else {
-                if (selected.includes(item)) {
-                  return onChange(selected.filter(ele => ele !== item))
-                } else {
-                  return onChange([...selected, item])
-                }
-              }
-            }}
-            key={index}
-          >
-            <Text className="text-nowrap font-semibold capitalize">
-              {isObjectItem ? t(item.name) : t(item)}
-            </Text>
-          </Button>
-        ))}
-      </PopoverContent>
-    </Popover>
   )
 }

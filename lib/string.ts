@@ -1,5 +1,4 @@
 import { currencies } from '@/constants/settings'
-import { IUser } from '@/types/type'
 import * as locales from 'date-fns/locale'
 import 'intl'
 import {

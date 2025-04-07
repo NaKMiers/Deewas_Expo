@@ -1,7 +1,6 @@
 import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
-import { TransactionType } from '@/types/type'
 import { LucideChevronDown, LucideEye } from 'lucide-react-native'
 import { Dispatch, memo, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'

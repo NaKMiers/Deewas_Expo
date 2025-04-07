@@ -5,7 +5,6 @@ import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletR
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi, updateWalletApi } from '@/requests/walletRequests'
-import { IWallet, TransactionType } from '@/types/type'
 import { router } from 'expo-router'
 import {
   LucideArrowRightLeft,

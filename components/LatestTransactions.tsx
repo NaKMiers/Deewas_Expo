@@ -6,7 +6,6 @@ import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi, getMyTransactionsApi } from '@/requests'
-import { IFullTransaction } from '@/types/type'
 import { router } from 'expo-router'
 import {
   LucideChevronDown,

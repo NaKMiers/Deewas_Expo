@@ -427,7 +427,18 @@
     "pie": "pie",
     "radar": "radar",
     "area": "area",
-    "All": "All"
+    "pyramid": "pyramid",
+    "All": "All",
+    "Total": "Total",
+    "week": "week",
+    "month": "month",
+    "year": "year",
+    "Previous week": "Previous week",
+    "Previous month": "Previous month",
+    "Previous year": "Previous year",
+    "Next week": "Next week",
+    "Next month": "Next month",
+    "Next year": "Next year"
   },
   "multipleSelection": {
     "All": "All",

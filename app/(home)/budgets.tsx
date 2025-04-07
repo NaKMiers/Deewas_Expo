@@ -4,18 +4,17 @@ import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addBudget, setBudgets } from '@/lib/reducers/budgetReducer'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { formatTimeRange } from '@/lib/time'
-import { cn } from '@/lib/utils'
 import { getMyBudgetsApi } from '@/requests'
-import { IFullBudget } from '@/types/type'
+import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
 
 function BudgetsPage() {
   // hooks
@@ -33,6 +32,7 @@ function BudgetsPage() {
   const [loading, setLoading] = useState<boolean>(false)
   const [groups, setGroups] = useState<any[]>([])
   const [tab, setTab] = useState<string>(groups?.[0]?.[0])
+  const [tabLabels, setTabLabels] = useState<string[]>([])
 
   // initial fetch
   useEffect(() => {
@@ -81,6 +81,9 @@ function BudgetsPage() {
 
     setGroups(results)
     setTab(results?.[0]?.[0])
+
+    const tabLabels = results.map(([key, { begin, end }]) => formatTimeRange(begin, end))
+    setTabLabels(tabLabels)
   }, [budgets])
 
   return (
@@ -101,28 +104,17 @@ function BudgetsPage() {
                 onValueChange={value => setTab(value)}
                 className="w-full"
               >
-                <TabsList
-                  className="flex h-12 flex-row justify-start shadow-md"
-                  style={{ marginBottom: 12 }}
-                >
-                  <FlatList
-                    horizontal
-                    data={groups}
-                    renderItem={({ item: [key, { begin, end, budgets }] }) => (
-                      <TabsTrigger
-                        value={key}
-                        className={cn('line-clamp-1 h-full w-1/3 min-w-max flex-1')}
-                        style={{
-                          flexShrink: 0,
-                          width: groups.length === 1 ? '100%' : groups.length === 2 ? '50%' : '33.33%',
-                        }}
-                        key={key}
-                      >
-                        <Text className="capitalize">{formatTimeRange(begin, end)}</Text>
-                      </TabsTrigger>
-                    )}
+                <View className="mb-2.5 mt-21/2">
+                  <SegmentedControl
+                    values={tabLabels}
+                    style={{ width: '100%', height: 40 }}
+                    selectedIndex={Math.max(0, tabLabels.indexOf(tab))}
+                    onChange={(event: any) => {
+                      const index = event.nativeEvent.selectedSegmentIndex
+                      setTab(groups[index][0])
+                    }}
                   />
-                </TabsList>
+                </View>
                 {groups.map(([key, { begin, end, budgets }]) => (
                   <BudgetTab
                     value={key}

@@ -9,7 +9,6 @@ import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi } from '@/requests'
-import { ICategory, IFullTransaction } from '@/types/type'
 import {
   LucideChevronDown,
   LucideChevronUp,
