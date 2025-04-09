@@ -29,7 +29,7 @@ function AccountPage({ navigation }: any) {
   const { user, logout } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('accountPage.', key)
-  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme()
+  const { colorScheme, setColorScheme } = useColorScheme()
   const dispatch = useAppDispatch()
 
   // store
@@ -76,9 +76,9 @@ function AccountPage({ navigation }: any) {
       >
         <View className="flex flex-col gap-21/2 p-21/2 md:p-21">
           {/* MARK: Account */}
-          <View className="overflow-auto rounded-md border border-border p-2">
+          <View className="overflow-auto rounded-md border border-border bg-secondary px-21 py-21/2">
             <View className="flex w-full flex-row items-center gap-2 pb-2">
-              <View className="aspect-square max-w-[40px] flex-shrink-0 overflow-hidden rounded-full shadow-sm">
+              <View className="aspect-square max-w-[40px] flex-1 overflow-hidden rounded-full shadow-sm">
                 <Image
                   className="h-full w-full object-cover"
                   source={{ uri: user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR }}
@@ -87,7 +87,7 @@ function AccountPage({ navigation }: any) {
                   alt="avatar"
                 />
               </View>
-              <View className="">
+              <View>
                 <Text className="text-xl font-bold">{user?.username}</Text>
                 <Text className="flex flex-row items-center gap-2 text-sm text-muted-foreground">
                   {user?.email}
@@ -100,13 +100,13 @@ function AccountPage({ navigation }: any) {
                 </Text>
               </View>
             </View>
-            <View className="border-t border-border px-21/2 py-2 text-center font-semibold capitalize">
-              <Text>{t('Free Account')}</Text>
+            <View className="mt-21/2 border-t border-primary py-2">
+              <Text className="text-center text-lg font-semibold capitalize">{t('Free Account')}</Text>
             </View>
           </View>
 
           {/* MARK: Ads */}
-          <View className="flex flex-col gap-2 rounded-md border border-border px-21/2 py-2">
+          <View className="flex flex-col gap-2 rounded-md border border-border bg-secondary px-21 py-21/2">
             <View className="flex flex-row justify-between gap-2">
               <Text className="font-semibold">{t('Flash Sale')}</Text>
               {/* <Countdown
@@ -127,7 +127,7 @@ function AccountPage({ navigation }: any) {
           </View>
 
           {/* MARK: Categories & Wallets */}
-          <View className="flex flex-col rounded-md border border-border px-21/2 py-2 md:px-21">
+          <View className="flex flex-col rounded-md border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
               // href="/categories"
               onPress={() => navigation.navigate('categories')}
@@ -148,12 +148,12 @@ function AccountPage({ navigation }: any) {
           </View>
 
           {/* MARK: Theme */}
-          <View className="flex flex-row items-center gap-2 rounded-md border border-border px-21/2 py-2 md:px-21">
+          <View className="flex flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
             <Text className="font-semibold">{t('Theme')}</Text>
 
             <Select onValueChange={option => setColorScheme(option?.value as 'light' | 'dark')}>
               <SelectTrigger>
-                {isDarkColorScheme ? (
+                {colorScheme === 'light' ? (
                   <Icon
                     render={Sun}
                     size={18}
@@ -168,6 +168,10 @@ function AccountPage({ navigation }: any) {
               </SelectTrigger>
 
               <SelectContent>
+                <SelectItem
+                  value="system"
+                  label="System"
+                />
                 <SelectItem
                   value="light"
                   label="Light"
@@ -184,26 +188,26 @@ function AccountPage({ navigation }: any) {
           <SettingsBox isRequireInit />
 
           {/* MARK: More */}
-          <View className="flex flex-col rounded-lg border border-border px-21/2 py-2 md:px-21">
+          <View className="flex flex-col rounded-lg border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
               // onPress={() => router.push('/about')}
-              className="flex h-10 flex-row items-center gap-2 text-sm"
+              className="flex h-11 flex-row items-center gap-2 text-sm"
             >
               <Icon
                 render={LucideInfo}
                 size={18}
               />
-              <Text>{t('About')}</Text>
+              <Text className="font-semibold">{t('About')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               // onPress={() => router.push('/help-and-support')}
-              className="flex h-10 flex-row items-center gap-2 text-sm"
+              className="flex h-11 flex-row items-center gap-2 text-sm"
             >
               <Icon
                 render={LucideShieldQuestion}
                 size={18}
               />
-              <Text>{t('Help & Support')}</Text>
+              <Text className="font-semibold">{t('Help & Support')}</Text>
             </TouchableOpacity>
           </View>
 

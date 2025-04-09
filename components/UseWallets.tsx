@@ -12,6 +12,7 @@ function UseWallets() {
 
   // store
   const { refreshPoint } = useAppSelector(state => state.load)
+  const { curWallet } = useAppSelector(state => state.wallet)
 
   // get wallets
   useEffect(() => {
@@ -24,7 +25,7 @@ function UseWallets() {
       try {
         const { wallets } = await getMyWalletsApi()
         dispatch(setWallets(wallets))
-        dispatch(setCurWallet(wallets[0]))
+        dispatch(setCurWallet(curWallet || wallets[0]))
       } catch (err: any) {
         console.log(err)
       } finally {

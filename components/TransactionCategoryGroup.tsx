@@ -66,8 +66,9 @@ function TransactionCategoryGroup({
         <CreateTransactionDrawer
           initCategory={category}
           update={(transaction: IFullTransaction) => dispatch(addTransaction(transaction))}
+          refresh={() => dispatch(refresh())}
           trigger={
-            <View className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary px-2">
+            <View className="flex h-8 flex-row items-center gap-2 rounded-md border border-primary px-2">
               <Icon
                 render={LucidePlusSquare}
                 size={18}
@@ -75,6 +76,7 @@ function TransactionCategoryGroup({
               <Text className="font-semibold">{t('Add Transaction')}</Text>
             </View>
           }
+          reach={3}
         />
       </View>
 
@@ -177,12 +179,12 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
 
   return (
     <View className={cn('flex w-full flex-row items-center justify-between gap-2 pl-21/2', className)}>
-      <Text className="font-semibold">{transaction.name}</Text>
+      <Text className="line-clamp-1 max-w-[200px] text-ellipsis font-semibold">{transaction.name}</Text>
 
       <View className="flex flex-row items-center gap-1">
         {currency && (
           <View className="flex flex-col items-end">
-            <Text className="text-sm text-muted-foreground">
+            <Text className="text-muted-foreground">
               {formatDate(
                 moment(transaction.date).toDate(),
                 currencies.find(c => c.value === currency)?.locale
@@ -249,6 +251,7 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
               <UpdateTransactionDrawer
                 transaction={transaction}
                 update={(transaction: IFullTransaction) => dispatch(updateTransaction(transaction))}
+                refresh={() => dispatch(refresh())}
                 trigger={
                   <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
                     <Icon
@@ -259,6 +262,7 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
                     <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
                   </View>
                 }
+                reach={3}
               />
 
               <ConfirmDialog

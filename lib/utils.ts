@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { clsx, type ClassValue } from 'clsx'
+import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 

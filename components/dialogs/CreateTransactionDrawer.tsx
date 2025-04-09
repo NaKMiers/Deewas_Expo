@@ -1,6 +1,5 @@
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatSymbol, revertAdjustedCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
@@ -10,7 +9,14 @@ import moment from 'moment'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Pressable, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
+import Collapsible from 'react-native-collapsible'
 import Toast from 'react-native-toast-message'
 import CategoryPicker from '../CategoryPicker'
 import CustomInput from '../CustomInput'
@@ -19,7 +25,6 @@ import Icon from '../Icon'
 import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
 import { Separator } from '../ui/separator'
 import WalletPicker from '../WalletPicker'
 
@@ -28,7 +33,7 @@ interface CreateTransactionDrawerProps {
   initWallet?: IWallet
   initCategory?: ICategory
   initDate?: string
-  refetch?: () => void
+  refresh?: () => void
   update?: (transaction: IFullTransaction) => void
   className?: string
 }
@@ -39,7 +44,7 @@ function CreateTransactionDrawer({
   initCategory,
   initDate,
   update,
-  refetch,
+  refresh,
   className,
 }: CreateTransactionDrawerProps) {
   // hooks
@@ -52,7 +57,7 @@ function CreateTransactionDrawer({
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
-  const { curWallet } = useAppSelector(state => state.wallet)
+  const { wallets, curWallet } = useAppSelector(state => state.wallet)
 
   // values
   const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
@@ -63,7 +68,6 @@ function CreateTransactionDrawer({
 
   // form
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setError,
@@ -115,7 +119,7 @@ function CreateTransactionDrawer({
       }
 
       // amount is required
-      if (!data.amount) {
+      if (!+data.amount) {
         setError('amount', {
           type: 'manual',
           message: t('Amount is required'),
@@ -171,9 +175,7 @@ function CreateTransactionDrawer({
           amount: revertAdjustedCurrency(data.amount, locale),
         })
 
-        dispatch(refresh())
-
-        if (refetch) refetch()
+        if (refresh) refresh()
         if (update) update(transaction)
 
         Toast.show({
@@ -182,6 +184,7 @@ function CreateTransactionDrawer({
         })
 
         reset()
+        closeDrawer()
       } catch (err: any) {
         Toast.show({
           type: 'error',
@@ -194,74 +197,77 @@ function CreateTransactionDrawer({
         setSaving(false)
       }
     },
-    [handleValidate, reset, refetch, update, dispatch, locale]
+    [handleValidate, reset, refresh, update, dispatch, locale]
   )
 
   return (
     <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>
-      <View className="mx-auto w-full max-w-sm px-21/2">
-        <View>
-          <Text className="text-center text-xl font-semibold text-primary">
-            {t('Create') + ' '}
-            {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
-            {' ' + t('transaction')}
-          </Text>
-          <Text className="text-center text-muted-foreground">
-            {t('Transactions keep track of your finances effectively')}
-          </Text>
-        </View>
+      <View>
+        <Text className="text-center text-xl font-semibold text-primary">
+          {t('Create') + ' '}
+          {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
+          {' ' + t('transaction')}
+        </Text>
+        <Text className="text-center text-muted-foreground">
+          {t('Transactions keep track of your finances effectively')}
+        </Text>
+      </View>
 
-        <View className="mt-6 flex flex-col gap-6">
-          {/* MARK: Name */}
+      <View className="mt-6 flex flex-col gap-6">
+        {/* MARK: Name */}
+        <CustomInput
+          id="name"
+          label={t('Name')}
+          errors={errors}
+          type="text"
+          control={control}
+          className="bg-white text-black"
+          onFocus={() => clearErrors('name')}
+          placeholder={t('Transaction name') + '...'}
+        />
+
+        {/* MARK: Amount */}
+        {currency && (
           <CustomInput
-            id="name"
-            label={t('Name')}
+            id="amount"
+            label={t('Amount')}
             errors={errors}
-            type="text"
+            type="currency"
             control={control}
             className="bg-white text-black"
-            onFocus={() => clearErrors('name')}
-            placeholder={t('Transaction name') + '...'}
+            onFocus={() => clearErrors('amount')}
+            iconClassName="bg-white"
+            icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
           />
+        )}
 
-          {/* MARK: Amount */}
-          {currency && (
-            <CustomInput
-              id="amount"
-              label={t('Amount')}
-              disabled={saving}
-              errors={errors}
-              type="currency"
-              control={control}
-              className="bg-white text-black"
-              onFocus={() => clearErrors('amount')}
-              iconClassName="bg-white"
-              icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
-            />
-          )}
-
-          {/* MARK: Type */}
-          {!initCategory && !type && (
+        {/* MARK: Type */}
+        {!initCategory && !type && (
+          <View className="flex flex-col gap-1.5">
+            <View className="">
+              <Text className="px-1 font-semibold text-primary">Type</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="mt-2 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3"
+                onPress={() => setOpenType(!openType)}
+              >
+                <Icon
+                  render={LucideCircle}
+                  size={18}
+                  color={checkTranType(form.type).hex}
+                />
+                <Text
+                  className={cn('font-semibold capitalize text-black', checkTranType(form.type).color)}
+                >
+                  {form.type}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Collapsible
-              open={openType}
-              onOpenChange={setOpenType}
+              collapsed={!openType}
+              duration={200}
             >
-              <CollapsibleTrigger>
-                <Text className="px-1 font-semibold text-primary">Type</Text>
-                <View className="mt-2 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3">
-                  <Icon
-                    render={LucideCircle}
-                    size={18}
-                    color={checkTranType(form.type).hex}
-                  />
-                  <Text
-                    className={cn('font-semibold capitalize text-black', checkTranType(form.type).color)}
-                  >
-                    {form.type}
-                  </Text>
-                </View>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="overflow-hidden rounded-lg">
+              <View className="flex flex-col overflow-hidden rounded-lg">
                 {['expense', 'income', 'saving', 'invest'].map(tranType => (
                   <Button
                     variant="default"
@@ -284,120 +290,134 @@ function CreateTransactionDrawer({
                     </Text>
                   </Button>
                 ))}
-              </CollapsibleContent>
-            </Collapsible>
-          )}
-
-          {/* MARK: Category */}
-          <View className="flex flex-1 flex-col">
-            <Text className={cn('mb-2 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
-              {t('Category')}
-            </Text>
-            <CategoryPicker
-              category={initCategory}
-              onChange={(categoryId: string) => {
-                setValue('categoryId', categoryId)
-                clearErrors('categoryId')
-              }}
-              type={form.type}
-            />
-            {errors.categoryId?.message && (
-              <Text className="ml-1 mt-0.5 italic text-rose-400">
-                {errors.categoryId?.message?.toString()}
-              </Text>
-            )}
-          </View>
-
-          {/* MARK: Wallet */}
-          <View>
-            <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
-              {t('Wallet')}
-            </Text>
-            <Pressable onFocus={() => clearErrors('walletId')}>
-              <WalletPicker
-                className={cn('w-full justify-normal', errors.walletId?.message && 'border-rose-500')}
-                wallet={initWallet || curWallet}
-                onChange={(wallet: IWallet | null) => wallet && setValue('walletId', wallet._id)}
-              />
-            </Pressable>
-            {errors.walletId?.message && (
-              <Text className="ml-1 mt-0.5 block italic text-rose-400">
-                {errors.walletId?.message?.toString()}
-              </Text>
-            )}
-          </View>
-
-          {/* MARK: Date */}
-          <View className="flex flex-1 flex-col">
-            <Pressable
-              onFocus={() => clearErrors('date')}
-              style={{ marginTop: -30 }}
-            >
-              <View className="mx-auto flex w-full max-w-sm scale-90 flex-col items-center px-21/2">
-                <DateTimePicker
-                  display="inline"
-                  currentDate={moment(form.date).toDate()}
-                  onChange={date => setValue('date', date)}
-                />
               </View>
-            </Pressable>
-            {errors.date?.message && (
-              <Text className="ml-1 mt-0.5 italic text-rose-400">
-                {errors.date?.message?.toString()}
-              </Text>
-            )}
+            </Collapsible>
           </View>
+        )}
+
+        {/* MARK: Category */}
+        <View className="flex flex-1 flex-col">
+          <Text className={cn('mb-2 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
+            {t('Category')}
+          </Text>
+          <CategoryPicker
+            category={initCategory}
+            onChange={(categoryId: string) => {
+              setValue('categoryId', categoryId)
+              clearErrors('categoryId')
+            }}
+            type={form.type}
+          />
+          {errors.categoryId?.message && (
+            <Text className="ml-1 mt-0.5 italic text-rose-400">
+              {errors.categoryId?.message?.toString()}
+            </Text>
+          )}
         </View>
 
-        {/* MARK: Footer */}
-        <View className="mb-21 px-0">
-          <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-            <View>
-              <Button
-                variant="default"
-                className="h-10 rounded-md px-21/2"
-                onPress={() => {
-                  reset()
-                  closeDrawer()
-                }}
-              >
-                <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
-              </Button>
+        {/* MARK: Wallet */}
+        <View>
+          <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+            {t('Wallet')}
+          </Text>
+          <Pressable onFocus={() => clearErrors('walletId')}>
+            <WalletPicker
+              className={cn('w-full justify-normal', errors.walletId?.message && 'border-rose-500')}
+              wallet={
+                (form.walletId && wallets.find(w => w._id === form.walletId)) || initWallet || curWallet
+              }
+              onChange={(wallet: IWallet | null) => wallet && setValue('walletId', wallet._id)}
+            />
+          </Pressable>
+          {errors.walletId?.message && (
+            <Text className="ml-1 mt-0.5 block italic text-rose-400">
+              {errors.walletId?.message?.toString()}
+            </Text>
+          )}
+        </View>
+
+        {/* MARK: Date */}
+        <View className="-mt-6 flex flex-1 flex-col">
+          <TouchableWithoutFeedback
+            onFocus={() => clearErrors('date')}
+            style={{ marginTop: -30 }}
+          >
+            <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+              <DateTimePicker
+                display="inline"
+                currentDate={moment(form.date).toDate()}
+                onChange={date => setValue('date', date)}
+              />
             </View>
+          </TouchableWithoutFeedback>
+          {errors.date?.message && (
+            <Text className="ml-1 mt-0.5 italic text-rose-400">{errors.date?.message?.toString()}</Text>
+          )}
+        </View>
+      </View>
+
+      {/* MARK: Footer */}
+      <View className="mb-21 px-0">
+        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
+          <View>
             <Button
-              variant="secondary"
-              className="h-10 min-w-[60px] rounded-md px-21/2"
-              onPress={handleSubmit(handleCreateTransaction)}
+              variant="default"
+              className="h-10 rounded-md px-21/2"
+              onPress={() => {
+                reset()
+                closeDrawer()
+              }}
             >
-              {saving ? <ActivityIndicator /> : <Text className="font-semibold">{t('Save')}</Text>}
+              <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
             </Button>
           </View>
+          <Button
+            variant="secondary"
+            className="h-10 min-w-[60px] rounded-md px-21/2"
+            onPress={handleSubmit(handleCreateTransaction)}
+          >
+            {saving ? <ActivityIndicator /> : <Text className="font-semibold">{t('Save')}</Text>}
+          </Button>
         </View>
-
-        <Separator className="my-8 h-0" />
       </View>
+
+      <Separator className="my-8 h-0" />
     </View>
   )
 }
 
 interface NodeProps extends CreateTransactionDrawerProps {
   disabled?: boolean
-  trigger: ReactNode
+  trigger?: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<CreateTransactionDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      className={cn(className, disabled && 'opacity-50')}
-      disabled={disabled}
-      onPress={() => openDrawer(<CreateTransactionDrawer {...props} />)}
-    >
-      {trigger}
-    </TouchableOpacity>
+    trigger && (
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className={cn(className, disabled && 'opacity-50')}
+        disabled={disabled}
+        onPress={() => openDrawer(<CreateTransactionDrawer {...props} />, r)}
+      >
+        {trigger}
+      </TouchableOpacity>
+    )
   )
 }
 

@@ -145,7 +145,8 @@
   "calendarPage": {
     "Calendar": "Calendar",
     "Transactions for": "Transactions for",
-    "No transactions for this day": "No transactions for this day"
+    "No transactions for this day": "No transactions for this day",
+    "Total": "Total"
   },
   "NotFoundPage": {},
   "header": {
@@ -240,8 +241,8 @@
     "Icon will be used to represent your wallet": "Icon will be used to represent your wallet",
     "This is how your wallet will appear in the app": "This is how your wallet will appear in the app",
     "Cancel": "Cancel",
-    "Wallet name": "Wallet name",
-    "Save": "Save"
+    "Save": "Save",
+    "Wallet name": "Wallet name"
   },
   "updateBudgetDrawer": {
     "Amount is required": "Amount is required",
@@ -579,6 +580,17 @@
   },
   "montYearPicker": {
     "Apply": "Apply"
+  },
+  "dateRangeSegments": {
+    "week": "week",
+    "month": "month",
+    "year": "year",
+    "Previous week": "Previous week",
+    "Previous month": "Previous month",
+    "Previous year": "Previous year",
+    "Next week": "Next week",
+    "Next month": "Next month",
+    "Next year": "Next year"
   },
   "success": {
     "Login Success": "Login Success",

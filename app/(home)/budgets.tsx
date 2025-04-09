@@ -162,6 +162,7 @@ function BudgetsPage() {
             <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
           </View>
         }
+        reach={1}
       />
     </SafeAreaView>
   )

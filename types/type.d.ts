@@ -127,6 +127,5 @@ declare type TimeUnit = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' 
 declare type ChartItem = {
   value: number
   label: string
-  frontColor?: string
-  backColor?: string
+  type: TransactionType
 }

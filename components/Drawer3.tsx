@@ -1,8 +1,7 @@
-// OriginalScreen.tsx
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDrawer } from './providers/DrawerProvider'
 
@@ -10,14 +9,14 @@ function Drawer3() {
   // hooks
   const { isDarkColorScheme } = useColorScheme()
   const snapPoints = useMemo(() => ['55%', '80%', '100%'], [])
-  const { open3, content3, closeDrawer3 } = useDrawer()
+  const { open3: open, content3: content, closeDrawer3: closeDrawer, reach3: reach } = useDrawer()
 
   const drawerRef = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    if (open3) drawerRef.current?.snapToIndex(2)
+    if (open) drawerRef.current?.snapToIndex(reach)
     else drawerRef.current?.close()
-  }, [open3])
+  }, [open])
 
   return (
     <BottomSheet
@@ -26,7 +25,7 @@ function Drawer3() {
       snapPoints={snapPoints}
       enablePanDownToClose={true}
       onChange={(index: number) => {
-        if (index === -1) closeDrawer3()
+        if (index === -1) closeDrawer()
         if (index === 0) drawerRef.current?.close()
       }}
       backgroundStyle={{
@@ -37,14 +36,9 @@ function Drawer3() {
       }}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>
-        <TouchableWithoutFeedback
-          className="flex-1"
-          onPress={Keyboard.dismiss}
-        >
-          <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
-            <ScrollView>{content3}</ScrollView>
-          </SafeAreaView>
-        </TouchableWithoutFeedback>
+        <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
+          <ScrollView>{content}</ScrollView>
+        </SafeAreaView>
       </BottomSheetView>
     </BottomSheet>
   )

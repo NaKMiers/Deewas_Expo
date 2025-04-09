@@ -12,6 +12,7 @@ import Icon from './Icon'
 import NoItemsFound from './NoItemsFound'
 import Text from './Text'
 import { TabsContent } from './ui/tabs'
+import { refresh } from '@/lib/reducers/loadReducer'
 
 interface CategoryGroupProps {
   categories: ICategory[]
@@ -61,6 +62,7 @@ function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
           <CreateCategoryDrawer
             type={type}
             update={category => dispatch(addCategory(category))}
+            refresh={() => dispatch(refresh())}
             load={setCreating}
             disabled={creating}
             trigger={

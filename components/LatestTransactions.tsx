@@ -28,6 +28,7 @@ import Text from './Text'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { Skeleton } from './ui/skeleton'
 
 interface LatestTransactionsProps {
   className?: string
@@ -124,24 +125,28 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       </View>
 
       {/* MARK: Transaction List */}
-      <View className="mt-21/2 flex flex-col gap-2 rounded-lg bg-secondary p-21/2 shadow-md">
-        {transactions.slice(0, +limit).length > 0 ? (
-          transactions.slice(0, +limit).map((tx, index) => (
-            <View key={tx._id}>
-              <Transaction
-                transaction={tx}
-                update={(transaction: IFullTransaction) => {
-                  setTransactions(transactions.map(t => (t._id === transaction._id ? transaction : t)))
-                  dispatch(refresh())
-                }}
-                refetch={() => getLatestTransactions()}
-              />
-            </View>
-          ))
-        ) : (
-          <NoItemsFound text={t('No transactions found')} />
-        )}
-      </View>
+      {loading ? (
+        <View className="mt-21/2 flex flex-col gap-2 rounded-lg bg-secondary p-21/2 shadow-md">
+          {transactions.slice(0, +limit).length > 0 ? (
+            transactions.slice(0, +limit).map((tx, index) => (
+              <View key={tx._id}>
+                <Transaction
+                  transaction={tx}
+                  update={(transaction: IFullTransaction) => {
+                    setTransactions(transactions.map(t => (t._id === transaction._id ? transaction : t)))
+                    dispatch(refresh())
+                  }}
+                  refresh={() => dispatch(refresh())}
+                />
+              </View>
+            ))
+          ) : (
+            <NoItemsFound text={t('No transactions found')} />
+          )}
+        </View>
+      ) : (
+        <Skeleton className="mt-21/2 h-[468px]" />
+      )}
     </View>
   )
 }
@@ -152,11 +157,11 @@ interface TransactionProps {
   transaction: IFullTransaction
   update?: (transaction: IFullTransaction) => void
   remove?: (transaction: IFullTransaction) => void
-  refetch?: () => void
+  refresh?: () => void
   className?: string
 }
 
-export function Transaction({ transaction, update, remove, refetch, className }: TransactionProps) {
+export function Transaction({ transaction, update, remove, refresh, className }: TransactionProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (value: string) => translate('transaction.' + value)
@@ -179,14 +184,14 @@ export function Transaction({ transaction, update, remove, refetch, className }:
     setDuplicating(true)
 
     try {
-      const { transaction: tx, message } = await deleteTransactionApi(transaction._id)
+      const { transaction: tx } = await deleteTransactionApi(transaction._id)
       Toast.show({
         type: 'success',
         text1: tSuccess('Transaction deleted'),
       })
 
       if (remove) remove(tx)
-      if (refetch) refetch()
+      if (refresh) refresh()
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -197,7 +202,7 @@ export function Transaction({ transaction, update, remove, refetch, className }:
       // stop loading
       setDuplicating(false)
     }
-  }, [remove, refetch, transaction._id, t])
+  }, [remove, refresh, transaction._id, t])
 
   // duplicate transaction
   const handleDuplicateTransaction = useCallback(async () => {
@@ -216,7 +221,7 @@ export function Transaction({ transaction, update, remove, refetch, className }:
         type: 'success',
         text1: tSuccess('Transaction duplicated'),
       })
-      if (refetch) refetch()
+      if (refresh) refresh()
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -227,7 +232,7 @@ export function Transaction({ transaction, update, remove, refetch, className }:
       // stop loading
       setDeleting(false)
     }
-  }, [refetch, transaction, t])
+  }, [refresh, transaction, t])
 
   return (
     <View className={cn('flex w-full flex-row items-start justify-between gap-2', className)}>
@@ -237,7 +242,7 @@ export function Transaction({ transaction, update, remove, refetch, className }:
       {/* Content */}
       <View className="flex flex-1 flex-row items-center justify-between gap-2">
         {/* MARK: Left */}
-        <View className="flex flex-col">
+        <View className="flex flex-1 flex-col">
           <Text className="text-sm font-semibold tracking-wide text-muted-foreground">
             {transaction.category.name}
           </Text>
@@ -322,7 +327,7 @@ export function Transaction({ transaction, update, remove, refetch, className }:
                 <UpdateTransactionDrawer
                   transaction={transaction}
                   update={update}
-                  refetch={refetch}
+                  refresh={refresh}
                   trigger={
                     <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4">
                       <Icon
@@ -333,6 +338,7 @@ export function Transaction({ transaction, update, remove, refetch, className }:
                       <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
                     </View>
                   }
+                  reach={3}
                 />
 
                 {/* MARK: Delete */}

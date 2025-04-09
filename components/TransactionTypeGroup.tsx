@@ -1,5 +1,6 @@
 import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
-import { useAppSelector } from '@/hooks/reduxHook'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { refresh } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { LucideEllipsisVertical, LucidePlusCircle } from 'lucide-react-native'
@@ -21,6 +22,7 @@ interface ITransactionTypeGroupProps {
 
 function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionTypeGroupProps) {
   // hooks
+  const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('transactionTypeGroup.' + key)
 
@@ -87,6 +89,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
               <DropdownMenuContent className="max-w-max p-0">
                 <CreateTransactionDrawer
                   type={type}
+                  refresh={() => dispatch(refresh())}
                   trigger={
                     <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal">
                       <Icon
@@ -96,6 +99,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
                       <Text className="font-semibold">{t('Add Transaction')}</Text>
                     </View>
                   }
+                  reach={3}
                 />
               </DropdownMenuContent>
             </DropdownMenu>

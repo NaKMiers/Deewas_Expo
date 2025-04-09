@@ -15,6 +15,8 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Skeleton } from './ui/skeleton'
+import { refresh } from '@/lib/reducers/loadReducer'
+import { useAppDispatch } from '@/hooks/reduxHook'
 
 interface CategoryPickerProps {
   categories: ICategory[]
@@ -41,7 +43,8 @@ function CategoryPicker({
   const t = (key: string) => translate('categoryPicker.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
-  const { closeDrawer2 } = useDrawer()
+  const { closeDrawer2: closeDrawer } = useDrawer()
+  const dispatch = useAppDispatch()
 
   // states
   const [deleting, setDeleting] = useState<string>('')
@@ -113,7 +116,7 @@ function CategoryPicker({
               onChange(category._id)
 
               // close
-              closeDrawer2()
+              closeDrawer()
             }}
             type={type}
             trigger={
@@ -141,7 +144,7 @@ function CategoryPicker({
                   onPress={() => {
                     setSelectedCategory(category)
                     onChange(category._id)
-                    closeDrawer2()
+                    closeDrawer()
                   }}
                   disabled={false}
                   key={category._id}
@@ -159,6 +162,7 @@ function CategoryPicker({
                         update={(category: ICategory) =>
                           setCategories(categories.map(c => (c._id === category._id ? category : c)))
                         }
+                        refresh={() => dispatch(refresh())}
                         trigger={
                           <View>
                             <Icon
@@ -220,7 +224,7 @@ interface NodeProps {
   className?: string
 }
 
-const Node = ({ category, type, onChange, className }: NodeProps) => {
+function Node({ category, type, onChange, className }: NodeProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryPicker.' + key)

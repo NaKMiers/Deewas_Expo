@@ -14,6 +14,7 @@ interface HistoryFooterProps {
   next: () => void
   prev: () => void
   indicatorLabel?: string
+  hideSegments?: boolean
   className?: string
 }
 
@@ -24,6 +25,7 @@ function HistoryFooter({
   onChange,
   next,
   prev,
+  hideSegments,
   className,
 }: HistoryFooterProps) {
   // hooks
@@ -66,16 +68,18 @@ function HistoryFooter({
         </TouchableOpacity>
       </View>
 
-      <SegmentedControl
-        values={segments.map(s => capitalize(s))}
-        style={{ width: '100%', height: 34 }}
-        selectedIndex={segments.indexOf(segment)}
-        onChange={(event: any) => {
-          const index = event.nativeEvent.selectedSegmentIndex
-          onChange(segments[index])
-        }}
-        className="capitalize"
-      />
+      {!hideSegments && (
+        <SegmentedControl
+          values={segments.map(s => capitalize(t(s)))}
+          style={{ width: '100%', height: 34 }}
+          selectedIndex={segments.indexOf(segment)}
+          onChange={(event: any) => {
+            const index = event.nativeEvent.selectedSegmentIndex
+            onChange(segments[index])
+          }}
+          className="capitalize"
+        />
+      )}
     </View>
   )
 }

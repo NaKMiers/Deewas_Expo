@@ -1,4 +1,4 @@
-import DateRangePicker from '@/components/DateRangePicker'
+import DateRangeSegments from '@/components/DateRangeSegments'
 import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
@@ -44,6 +44,11 @@ function TransactionsPage() {
   const [groups, setGroups] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState<string>('')
+  const [timeSegment, setTimeSegment] = useState<TimeUnit>('month')
+
+  useEffect(() => {
+    if (curWallet) setWallet(curWallet)
+  }, [curWallet])
 
   // get my transactions of selected wallet
   const getMyTransactions = useCallback(async () => {
@@ -117,12 +122,60 @@ function TransactionsPage() {
     setGroups(Object.entries(groups))
   }, [transactions, search])
 
+  // previous time unit
+  const handlePrevTimeUnit = useCallback(() => {
+    const newDateRange = { ...dateRange }
+    switch (timeSegment) {
+      case 'week':
+        newDateRange.from = moment(dateRange.from).subtract(1, 'week').toDate()
+        newDateRange.to = moment(dateRange.to).subtract(1, 'week').toDate()
+        break
+      case 'month':
+        newDateRange.from = moment(dateRange.from).subtract(1, 'month').toDate()
+        newDateRange.to = moment(dateRange.to).subtract(1, 'month').toDate()
+        break
+      case 'year':
+        newDateRange.from = moment(dateRange.from).subtract(1, 'year').toDate()
+        newDateRange.to = moment(dateRange.to).subtract(1, 'year').toDate()
+        break
+    }
+    setDateRange(newDateRange)
+  }, [timeSegment, dateRange, setDateRange])
+
+  // next time unit
+  const handleNextTimeUnit = useCallback(() => {
+    const newDateRange = { ...dateRange }
+    switch (timeSegment) {
+      case 'week':
+        newDateRange.from = moment(dateRange.from).add(1, 'week').toDate()
+        newDateRange.to = moment(dateRange.to).add(1, 'week').toDate()
+        break
+      case 'month':
+        newDateRange.from = moment(dateRange.from).add(1, 'month').toDate()
+        newDateRange.to = moment(dateRange.to).add(1, 'month').toDate()
+        break
+      case 'year':
+        newDateRange.from = moment(dateRange.from).add(1, 'year').toDate()
+        newDateRange.to = moment(dateRange.to).add(1, 'year').toDate()
+        break
+    }
+    setDateRange(newDateRange)
+  }, [timeSegment, dateRange, setDateRange])
+
+  // reset time unit
+  const handleResetTimeUnit = useCallback(() => {
+    setDateRange({
+      from: moment().startOf(timeSegment).toDate(),
+      to: moment().endOf(timeSegment).toDate(),
+    })
+  }, [timeSegment])
+
   return (
     <SafeAreaView className="flex-1">
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={refreshing}
             onRefresh={() => dispatch(refresh())}
           />
         }
@@ -143,9 +196,25 @@ function TransactionsPage() {
 
           {/* MARK: Date Range */}
           <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
-            <DateRangePicker
-              values={dateRange}
-              update={({ from, to }) => setDateRange({ from, to })}
+            <DateRangeSegments
+              segments={['week', 'month', 'year']}
+              segment={timeSegment}
+              onChangeSegment={(segment: string) => {
+                setTimeSegment(segment as TimeUnit)
+                setDateRange({
+                  from: moment()
+                    .startOf(segment as TimeUnit)
+                    .toDate(),
+                  to: moment()
+                    .endOf(segment as TimeUnit)
+                    .toDate(),
+                })
+              }}
+              dateRange={dateRange}
+              indicatorLabel={timeSegment}
+              next={handleNextTimeUnit}
+              prev={handlePrevTimeUnit}
+              reset={handleResetTimeUnit}
             />
           </View>
 
@@ -238,6 +307,7 @@ function TransactionsPage() {
       {/* MARK: Create Transaction */}
       <CreateTransactionDrawer
         initWallet={wallet || curWallet}
+        refresh={() => dispatch(refresh())}
         trigger={
           <View className="absolute bottom-2.5 right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4">
             <Icon
@@ -248,6 +318,7 @@ function TransactionsPage() {
             <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
           </View>
         }
+        reach={3}
       />
     </SafeAreaView>
   )

@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { updateCategoryApi } from '@/requests/categoryRequests'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import { LucideCircleOff } from 'lucide-react'
-import { Dispatch, ReactNode, SetStateAction, useCallback, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Modal, SafeAreaView, TouchableOpacity, View } from 'react-native'
@@ -19,21 +19,27 @@ import { Separator } from '../ui/separator'
 interface UpdateCategoryDrawerProps {
   category: ICategory
   update?: (category: ICategory) => void
+  refresh?: () => void
   load?: Dispatch<SetStateAction<boolean>>
   className?: string
 }
 
-function UpdateCategoryDrawer({ category, update, load, className }: UpdateCategoryDrawerProps) {
+function UpdateCategoryDrawer({
+  category,
+  update,
+  refresh,
+  load,
+  className,
+}: UpdateCategoryDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('updateCategoryDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
-  const { closeDrawer3 } = useDrawer()
+  const { closeDrawer3: closeDrawer } = useDrawer()
 
   // form
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setError,
@@ -86,7 +92,9 @@ function UpdateCategoryDrawer({ category, update, load, className }: UpdateCateg
 
       try {
         const { category: c, message } = await updateCategoryApi(category._id, { ...data })
+
         if (update) update(c)
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -94,7 +102,7 @@ function UpdateCategoryDrawer({ category, update, load, className }: UpdateCateg
         })
 
         reset()
-        closeDrawer3()
+        closeDrawer()
       } catch (err: any) {
         Toast.show({
           type: 'error',
@@ -109,7 +117,7 @@ function UpdateCategoryDrawer({ category, update, load, className }: UpdateCateg
         }
       }
     },
-    [handleValidate, load, reset, update, category._id, t]
+    [handleValidate, load, reset, update, refresh, category._id, t]
   )
 
   return (
@@ -150,7 +158,7 @@ function UpdateCategoryDrawer({ category, update, load, className }: UpdateCateg
           </Text>
 
           <TouchableWithoutFeedback onPress={() => setOpenEmojiPicker(true)}>
-            <View className="mt-2 flex h-[200px] items-center justify-center rounded-lg border border-secondary p-21">
+            <View className="mt-2 flex h-[150px] items-center justify-center rounded-lg border border-secondary p-21">
               {form.icon ? (
                 <Text style={{ fontSize: 60 }}>{form.icon}</Text>
               ) : (
@@ -219,7 +227,7 @@ function UpdateCategoryDrawer({ category, update, load, className }: UpdateCateg
               className="h-10 rounded-md px-21/2"
               onPress={() => {
                 reset()
-                closeDrawer3()
+                closeDrawer()
               }}
             >
               <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
@@ -243,18 +251,30 @@ function UpdateCategoryDrawer({ category, update, load, className }: UpdateCateg
 interface NodeProps extends UpdateCategoryDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer3 } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer3: openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<UpdateCategoryDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer3(<UpdateCategoryDrawer {...props} />)}
+      onPress={() => openDrawer(<UpdateCategoryDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>

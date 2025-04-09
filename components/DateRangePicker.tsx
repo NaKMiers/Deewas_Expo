@@ -12,7 +12,7 @@ import Icon from './Icon'
 import Text from './Text'
 import { useDrawer } from './providers/DrawerProvider'
 import { Button } from './ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
+import Collapsible from 'react-native-collapsible'
 
 interface DateRangePickerProps {
   values: { from: Date; to: Date }
@@ -84,7 +84,7 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('dateRangePicker.' + key)
-  const { closeDrawer2 } = useDrawer()
+  const { closeDrawer2: closeDrawer } = useDrawer()
 
   // states
   const [from, setFrom] = useState<Date>(values.from)
@@ -98,8 +98,8 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
 
   const handleConfirm = useCallback(() => {
     update({ from, to })
-    closeDrawer2()
-  }, [from, to, update, closeDrawer2])
+    closeDrawer()
+  }, [from, to, update, closeDrawer])
 
   // scroll when slide changes
   useEffect(() => {
@@ -143,58 +143,29 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
         </View>
       </View>
 
-      {/* <Select
-        className="mt-4"
-        onValueChange={(option: any) => {
-          const selectedRange = ranges.find(range => range.label === option?.value)
-          if (selectedRange) {
-            setFrom(selectedRange.value.from)
-            setTo(selectedRange.value.to)
-          }
-        }}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="mt-2 flex h-11 w-full flex-row items-center justify-between gap-1 rounded-lg border border-primary px-3"
+        onPress={() => setOpenRangeSelection(!openRangeSelection)}
       >
-        <SelectTrigger>
-          <SelectValue
-            className="text-primary"
-            placeholder="Select Range..."
-          />
-        </SelectTrigger>
-        <SelectContent>
-          {ranges.map((range, index) => (
-            <SelectItem
-              value={range.label}
-              label={range.label}
-              key={index}
-            />
-          ))}
-        </SelectContent>
-      </Select> */}
-
-      <Collapsible
-        open={openRangeSelection}
-        onOpenChange={setOpenRangeSelection}
-        className="mt-4"
-      >
-        <CollapsibleTrigger>
-          <View className="mt-2 flex h-11 w-full flex-row items-center justify-between gap-1 gap-2 rounded-lg border border-primary px-3">
-            <Text className={cn('font-semibold capitalize')}>
-              {selectedRange?.label || 'Select range...'}
-            </Text>
-            <Icon
-              render={LucideChevronDown}
-              className={cn(openRangeSelection ? 'rotate-180' : '')}
-              size={18}
-            />
-          </View>
-        </CollapsibleTrigger>
-        <CollapsibleContent className="overflow-hidden rounded-lg">
+        <Text className={cn('font-semibold capitalize')}>
+          {selectedRange?.label || 'Select range...'}
+        </Text>
+        <Icon
+          render={LucideChevronDown}
+          className={cn(openRangeSelection && 'rotate-180')}
+          size={18}
+        />
+      </TouchableOpacity>
+      <Collapsible collapsed={!openRangeSelection}>
+        <View className="mt-1 flex flex-col overflow-hidden rounded-lg bg-secondary shadow-lg">
           {ranges.map((range, index) => (
             <Button
               variant="secondary"
               className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary"
               onPress={() => {
                 setFrom(range.value.from)
-                setTo(range.value.to)
+                setTimeout(() => setTo(range.value.to), 0)
                 setSelectedRange(range)
                 setOpenRangeSelection(false)
               }}
@@ -203,7 +174,7 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
               <Text className={cn('font-semibold capitalize')}>{range.label}</Text>
             </Button>
           ))}
-        </CollapsibleContent>
+        </View>
       </Collapsible>
 
       <FlatList
@@ -240,7 +211,7 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
           <Button
             variant="secondary"
             className="h-10 flex-1 rounded-md px-21/2"
-            onPress={() => closeDrawer2()}
+            onPress={() => closeDrawer()}
           >
             <Text className="font-semibold">{t('Cancel')}</Text>
           </Button>

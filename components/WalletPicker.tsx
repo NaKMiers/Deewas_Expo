@@ -1,13 +1,22 @@
 import CreateWalletDrawer from '@/components/dialogs/CreateWalletDrawer'
+import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { addWallet, deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
+import { refresh } from '@/lib/reducers/loadReducer'
+import { addWallet, deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi } from '@/requests/walletRequests'
-import { LucideChevronsUpDown, LucideGalleryVerticalEnd, LucidePlusSquare } from 'lucide-react-native'
-import { useCallback, useEffect, useState } from 'react'
+import {
+  LucideChevronsUpDown,
+  LucideGalleryVerticalEnd,
+  LucidePencil,
+  LucidePlusSquare,
+  LucideTrash,
+} from 'lucide-react-native'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import { useDrawer } from './providers/DrawerProvider'
 import Text from './Text'
@@ -17,13 +26,12 @@ import { Separator } from './ui/separator'
 import { Skeleton } from './ui/skeleton'
 
 interface WalletPickerProps {
-  wallet?: IWallet
   onChange: (wallet: IWallet | null) => void
   isAllowedAll?: boolean
   className?: string
 }
 
-function WalletPicker({ wallet, isAllowedAll, onChange, className }: WalletPickerProps) {
+function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletPicker.' + key)
@@ -31,19 +39,10 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className }: WalletPicke
 
   // store
   const { wallets, loading } = useAppSelector(state => state.wallet)
-  const { closeDrawer2 } = useDrawer()
-
-  // states
-  const [open, setOpen] = useState<boolean>(false)
-  const [selectedWallet, setSelectedWallet] = useState<IWallet | null>(wallet || null)
+  const { closeDrawer2: closeDrawer } = useDrawer()
   const [deleting, setDeleting] = useState<string>('')
 
   const [filterText, setFilterText] = useState<string>('')
-
-  // auto select wallet when wallet is passed
-  useEffect(() => {
-    if (wallet) setSelectedWallet(wallet)
-  }, [wallet])
 
   // delete wallet
   const handleDeleteWallet = useCallback(
@@ -99,27 +98,24 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className }: WalletPicke
 
           <CreateWalletDrawer
             update={wallet => dispatch(addWallet(wallet))}
+            refresh={() => dispatch(refresh())}
             trigger={
-              <Button
-                variant="ghost"
-                className="mb-0.5 flex w-full flex-row justify-start gap-2 rounded-none border-b border-secondary text-left text-sm"
-              >
+              <View className="mb-0.5 flex h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4">
                 <Icon
                   render={LucidePlusSquare}
                   size={18}
                 />
-                <Text>{t('Create Wallet')}</Text>
-              </Button>
+                <Text className="font-semibold">{t('Create Wallet')}</Text>
+              </View>
             }
           />
+
           {isAllowedAll && (
             <TouchableOpacity
               className="flex w-full flex-row items-center gap-2 px-4 py-2"
               onPress={() => {
-                setOpen(false)
-                setSelectedWallet(null)
                 onChange(null)
-                closeDrawer2()
+                closeDrawer()
               }}
               disabled={false}
             >
@@ -139,18 +135,66 @@ function WalletPicker({ wallet, isAllowedAll, onChange, className }: WalletPicke
               })
               .map(wallet => (
                 <TouchableOpacity
-                  className="flex w-full flex-row items-center gap-2 px-4 py-2"
+                  activeOpacity={0.7}
+                  className="flex h-10 flex-1 flex-row items-center justify-between gap-2 py-2"
                   onPress={() => {
-                    setOpen(false)
-                    setSelectedWallet(wallet)
                     onChange(wallet)
-                    closeDrawer2()
+                    isAllowedAll && dispatch(setCurWallet(wallet))
+                    closeDrawer()
                   }}
                   disabled={false}
                   key={wallet._id}
                 >
-                  <Text className="text-base">{wallet.icon}</Text>
-                  <Text className="text-base font-semibold">{wallet.name}</Text>
+                  <View className="flex-1 flex-row items-center gap-2 pl-2">
+                    <Text className="text-base">{wallet.icon}</Text>
+                    <Text className="text-base font-semibold">{wallet.name}</Text>
+                  </View>
+
+                  <View className="flex flex-row items-center justify-end gap-1">
+                    {/* MARK: Update Wallet */}
+                    <UpdateWalletDrawer
+                      wallet={wallet}
+                      update={(wallet: IWallet) => dispatch(updateWallet(wallet))}
+                      refresh={() => dispatch(refresh())}
+                      trigger={
+                        <View>
+                          <Icon
+                            render={LucidePencil}
+                            size={18}
+                            color="#0ea5e9"
+                          />
+                        </View>
+                      }
+                    />
+
+                    {/* MARK: Delete Wallet */}
+                    <ConfirmDialog
+                      label={t('Delete wallet')}
+                      desc={`${t('Are you sure you want to delete')} ${wallet.name}?`}
+                      confirmLabel={t('Delete')}
+                      cancelLabel={t('Cancel')}
+                      onConfirm={() => handleDeleteWallet(wallet._id)}
+                      disabled={deleting === wallet._id}
+                      className="!h-auto !w-auto"
+                      trigger={
+                        <Button
+                          disabled={deleting === wallet._id}
+                          variant="ghost"
+                          className="trans-200 h-full w-8 flex-shrink-0 rounded-md px-21/2 py-1.5 text-start text-sm font-semibold hover:bg-slate-200/30"
+                        >
+                          {deleting === wallet._id ? (
+                            <ActivityIndicator />
+                          ) : (
+                            <Icon
+                              render={LucideTrash}
+                              size={18}
+                              color="#f43f5e"
+                            />
+                          )}
+                        </Button>
+                      }
+                    />
+                  </View>
                 </TouchableOpacity>
               ))}
           </ScrollView>
@@ -174,7 +218,7 @@ const Node = ({ wallet, isAllowedAll, onChange, className, ...rest }: WalletPick
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletPicker.' + key)
-  const { openDrawer2 } = useDrawer()
+  const { openDrawer2: openDrawer } = useDrawer()
 
   // store
   const { loading } = useAppSelector(state => state.wallet)
@@ -184,14 +228,14 @@ const Node = ({ wallet, isAllowedAll, onChange, className, ...rest }: WalletPick
       variant="outline"
       className="flex h-10 flex-row items-center justify-between gap-2 border border-primary bg-white"
       onPress={() =>
-        openDrawer2(
+        openDrawer(
           <WalletPicker
-            wallet={wallet}
             onChange={onChange}
             isAllowedAll={isAllowedAll}
             className={cn('w-full', className)}
             {...rest}
-          />
+          />,
+          1
         )
       }
     >

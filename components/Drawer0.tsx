@@ -1,3 +1,4 @@
+// OriginalScreen.tsx
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
@@ -5,11 +6,11 @@ import { SafeAreaView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDrawer } from './providers/DrawerProvider'
 
-function Drawer2() {
+function Drawer0() {
   // hooks
   const { isDarkColorScheme } = useColorScheme()
   const snapPoints = useMemo(() => ['55%', '80%', '100%'], [])
-  const { open2: open, content2: content, closeDrawer2: closeDrawer, reach2: reach } = useDrawer()
+  const { open0: open, content0: content, closeDrawer0: closeDrawer, reach0: reach } = useDrawer()
 
   const drawerRef = useRef<BottomSheet>(null)
 
@@ -34,6 +35,7 @@ function Drawer2() {
       handleIndicatorStyle={{
         backgroundColor: isDarkColorScheme ? '#fff' : '#161616',
       }}
+      containerStyle={{}}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>
         <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
@@ -44,4 +46,4 @@ function Drawer2() {
   )
 }
 
-export default Drawer2
+export default Drawer0

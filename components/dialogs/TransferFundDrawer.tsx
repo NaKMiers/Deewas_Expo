@@ -1,15 +1,21 @@
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
+import { setRefreshing } from '@/lib/reducers/loadReducer'
 import { formatSymbol, revertAdjustedCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { transferFundApi } from '@/requests/walletRequests'
 import moment from 'moment'
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Pressable, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import Toast from 'react-native-toast-message'
 import CustomInput from '../CustomInput'
 import DateTimePicker from '../DateTimePicker'
@@ -23,14 +29,14 @@ interface TransferFundDrawerProps {
   type?: TransactionType
   initFromWallet?: IWallet
   initToWallet?: IWallet
-  refetch?: () => void
+  refresh?: () => void
   className?: string
 }
 
 function TransferFundDrawer({
   initFromWallet,
   initToWallet,
-  refetch,
+  refresh,
   className,
 }: TransferFundDrawerProps) {
   // hooks
@@ -144,9 +150,7 @@ function TransferFundDrawer({
           amount: revertAdjustedCurrency(data.amount, locale),
         })
 
-        dispatch(refresh())
-
-        if (refetch) refetch()
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -155,6 +159,7 @@ function TransferFundDrawer({
 
         setOpen(false)
         reset()
+        closeDrawer()
       } catch (err: any) {
         Toast.show({
           type: 'error',
@@ -168,7 +173,7 @@ function TransferFundDrawer({
         dispatch(setRefreshing(false))
       }
     },
-    [handleValidate, reset, refetch, dispatch, locale, t]
+    [handleValidate, reset, refresh, dispatch, locale, t]
   )
 
   return (
@@ -209,13 +214,16 @@ function TransferFundDrawer({
             <Text className={cn('mb-1 font-semibold', errors.toWalletId?.message && 'text-rose-500')}>
               {t('To Wallet')}
             </Text>
-            <Pressable onFocus={() => clearErrors('toWalletId')}>
+            <View>
               <WalletPicker
                 className={cn('w-full justify-normal', errors.toWalletId?.message && 'border-rose-500')}
-                onChange={(wallet: IWallet | null) => wallet && setValue('toWalletId', wallet._id)}
+                onChange={(wallet: IWallet | null) => {
+                  if (wallet) setValue('toWalletId', wallet._id)
+                  clearErrors('toWalletId')
+                }}
                 wallet={wallets.find(w => w._id === form.toWalletId)}
               />
-            </Pressable>
+            </View>
             {errors.toWalletId?.message && (
               <Text className="ml-1 mt-0.5 block italic text-rose-400">
                 {errors.toWalletId?.message?.toString()}
@@ -234,6 +242,7 @@ function TransferFundDrawer({
               type="currency"
               control={control}
               onFocus={() => clearErrors('amount')}
+              className="bg-white text-black"
               icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
             />
           )}
@@ -294,18 +303,30 @@ function TransferFundDrawer({
 interface NodeProps extends TransferFundDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<TransferFundDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer(<TransferFundDrawer {...props} />)}
+      onPress={() => openDrawer(<TransferFundDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>

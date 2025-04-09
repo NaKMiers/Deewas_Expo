@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { createWalletApi } from '@/requests/walletRequests'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import { LucideCircleOff } from 'lucide-react-native'
-import { Dispatch, ReactNode, SetStateAction, useCallback, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Modal, SafeAreaView, TouchableOpacity, View } from 'react-native'
@@ -17,17 +17,18 @@ import { Separator } from '../ui/separator'
 
 interface CreateWalletDrawerProps {
   update?: (wallet: IWallet) => void
+  refresh?: () => void
   load?: Dispatch<SetStateAction<boolean>>
   className?: string
 }
 
-function CreateWalletDrawer({ update, load, className }: CreateWalletDrawerProps) {
+function CreateWalletDrawer({ update, refresh, load, className }: CreateWalletDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('createWalletDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
-  const { closeDrawer } = useDrawer()
+  const { closeDrawer3: closeDrawer } = useDrawer()
 
   // form
   const {
@@ -85,9 +86,8 @@ function CreateWalletDrawer({ update, load, className }: CreateWalletDrawerProps
       try {
         const { wallet, message } = await createWalletApi(data)
 
-        if (update) {
-          update(wallet)
-        }
+        if (update) update(wallet)
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -110,7 +110,7 @@ function CreateWalletDrawer({ update, load, className }: CreateWalletDrawerProps
         }
       }
     },
-    [handleValidate, reset, update, load, t]
+    [handleValidate, reset, update, refresh, load, t]
   )
 
   return (
@@ -140,7 +140,7 @@ function CreateWalletDrawer({ update, load, className }: CreateWalletDrawerProps
           </Text>
 
           <TouchableWithoutFeedback onPress={() => setOpenEmojiPicker(true)}>
-            <View className="mt-2 flex h-[200px] items-center justify-center rounded-lg border border-secondary p-21">
+            <View className="mt-2 flex h-[150px] items-center justify-center rounded-lg border border-secondary p-21">
               {form.icon ? (
                 <Text style={{ fontSize: 60 }}>{form.icon}</Text>
               ) : (
@@ -232,18 +232,30 @@ function CreateWalletDrawer({ update, load, className }: CreateWalletDrawerProps
 interface NodeProps extends CreateWalletDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer3: openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<CreateWalletDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer(<CreateWalletDrawer {...props} />)}
+      onPress={() => openDrawer(<CreateWalletDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>

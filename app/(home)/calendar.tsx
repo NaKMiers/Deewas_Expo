@@ -1,13 +1,15 @@
+import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import Icon from '@/components/Icon'
 import { Transaction } from '@/components/LatestTransactions'
 import MonthYearPicker from '@/components/MonthYearPicker'
+import NoItemsFound from '@/components/NoItemsFound'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
-import { formatCompactNumber, getLocale } from '@/lib/string'
+import { formatCompactNumber, formatCurrency, getLocale } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
@@ -21,10 +23,12 @@ import {
   startOfMonth,
   subMonths,
 } from 'date-fns'
+import * as Haptics from 'expo-haptics'
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react-native'
+import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Pressable, SafeAreaView, ScrollView, View } from 'react-native'
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 
 function CalendarPage() {
@@ -43,6 +47,7 @@ function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
+  const [openCreateTransaction, setOpenCreateTransaction] = useState<Date | undefined>(undefined)
 
   const getTransactions = useCallback(async () => {
     // start loading
@@ -156,8 +161,8 @@ function CalendarPage() {
                     const isSelected = isSameDay(day, selectedDate)
 
                     return (
-                      <Pressable
-                        key={day.toString()}
+                      <TouchableOpacity
+                        activeOpacity={0.7}
                         className={cn(
                           'relative mt-3 flex h-[55px] flex-col items-center justify-start gap-2 rounded-md p-1 shadow-none',
                           isSelected && 'bg-primary',
@@ -165,6 +170,12 @@ function CalendarPage() {
                         )}
                         style={{ width: (SCREEN_WIDTH - 45) / 7 }}
                         onPress={() => setSelectedDate(day)}
+                        onLongPress={() => {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+                          setOpenCreateTransaction(day)
+                        }}
+                        delayLongPress={500}
+                        key={day.toString()}
                       >
                         <Text
                           className={cn(
@@ -175,30 +186,22 @@ function CalendarPage() {
                           {format(day, 'd')}
                         </Text>
 
-                        {/* <CreateTransactionDrawer
-                          refetch={refetch}
-                          initDate={day.toString()}
-                          trigger={
-                            <Button className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-row items-center justify-center bg-muted-foreground/10">
-                              <Icon render={LucidePlus} />
-                            </Button>
-                          }
-                        /> */}
-
                         {getTransactionsForDate(day).length > 0 && (
                           <View className="relative mt-auto w-full">
                             <View className={cn('flex w-full flex-row justify-center gap-0.5 px-0.5')}>
+                              {total !== 0 && (
+                                <Text
+                                  className={cn(
+                                    'tracking-tightest text-center font-body font-semibold',
+                                    total < 0 ? 'text-rose-500' : 'text-emerald-500'
+                                  )}
+                                >
+                                  {currency && `${total > 0 ? '+' : '-'}`}
+                                </Text>
+                              )}
                               <Text
                                 className={cn(
-                                  'text-center',
-                                  total < 0 ? 'text-rose-500' : 'text-emerald-500'
-                                )}
-                              >
-                                {currency && `${total >= 0 ? '+' : '-'}`}
-                              </Text>
-                              <Text
-                                className={cn(
-                                  'text-center font-semibold',
+                                  'tracking-tightest text-center font-body text-sm font-semibold',
                                   total < 0 ? 'text-rose-500' : 'text-emerald-500'
                                 )}
                               >
@@ -208,17 +211,14 @@ function CalendarPage() {
                             <View className="mt-1 h-0.5 w-full overflow-hidden rounded-full bg-muted-foreground/20">
                               <View
                                 className={cn(
-                                  'h-full rounded-full',
+                                  'h-full w-full rounded-full',
                                   total < 0 ? 'bg-rose-500' : 'bg-emerald-500'
                                 )}
-                                style={{
-                                  width: `${Math.min((Math.abs(total) / 100) * 100, 100)}%`,
-                                }}
                               />
                             </View>
                           </View>
                         )}
-                      </Pressable>
+                      </TouchableOpacity>
                     )
                   })}
 
@@ -248,19 +248,37 @@ function CalendarPage() {
                       >
                         <Transaction
                           transaction={tx}
-                          refetch={getTransactions}
+                          refresh={getTransactions}
                           key={tx._id}
                         />
                       </View>
                     ))
                   ) : (
-                    <View className="flex flex-row items-center justify-center rounded-md border border-muted-foreground/50 px-2 py-7">
-                      <Text className="text-center text-lg font-semibold text-muted-foreground/50">
-                        {t('No transactions for this day')}
-                      </Text>
-                    </View>
+                    <NoItemsFound
+                      text={t('No transactions for this day')}
+                      className="-mx-21/2"
+                    />
                   )}
                 </ScrollView>
+
+                {currency && getTotalForDate(selectedDate) !== 0 && (
+                  <View className="my-3 h-px bg-primary" />
+                )}
+
+                {currency && getTotalForDate(selectedDate) !== 0 && (
+                  <View className="flex flex-row items-center justify-between pr-8">
+                    <Text className="text-xl font-bold">{t('Total')}</Text>
+
+                    <Text
+                      className={cn(
+                        'h-full rounded-full text-xl font-bold',
+                        getTotalForDate(selectedDate) < 0 ? 'text-rose-500' : 'text-emerald-500'
+                      )}
+                    >
+                      {formatCurrency(currency, getTotalForDate(selectedDate))}
+                    </Text>
+                  </View>
+                )}
               </View>
             </View>
           ) : (
@@ -273,6 +291,14 @@ function CalendarPage() {
 
         <Separator className="my-16 h-0" />
       </ScrollView>
+
+      <CreateTransactionDrawer
+        initDate={moment(openCreateTransaction).toString()}
+        open={!!openCreateTransaction}
+        onClose={() => setOpenCreateTransaction(undefined)}
+        refresh={() => dispatch(refresh())}
+        reach={3}
+      />
     </SafeAreaView>
   )
 }

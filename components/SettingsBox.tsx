@@ -125,7 +125,12 @@ function Box({ type, desc, list, init, className }: BoxProps) {
   )
 
   return (
-    <View className={cn('w-full justify-center rounded-lg border border-border p-21', className)}>
+    <View
+      className={cn(
+        'w-full justify-center rounded-lg border border-border bg-secondary p-21',
+        className
+      )}
+    >
       <Text className="font-bold capitalize">{t(type)}</Text>
       <Text className="mb-3 text-sm text-muted-foreground">{desc}</Text>
 

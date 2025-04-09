@@ -18,11 +18,12 @@ import { Separator } from '../ui/separator'
 interface UpdateWalletDrawerProps {
   wallet: IWallet
   update?: (wallet: IWallet) => void
+  refresh?: () => void
   load?: Dispatch<SetStateAction<boolean>>
   className?: string
 }
 
-function UpdateWalletDrawer({ wallet, update, load, className }: UpdateWalletDrawerProps) {
+function UpdateWalletDrawer({ wallet, update, refresh, load, className }: UpdateWalletDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('updateWalletDrawer.' + key)
@@ -93,9 +94,8 @@ function UpdateWalletDrawer({ wallet, update, load, className }: UpdateWalletDra
       try {
         const { wallet: w, message } = await updateWalletApi(wallet._id, data)
 
-        if (update) {
-          update(w)
-        }
+        if (update) update(w)
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -118,7 +118,7 @@ function UpdateWalletDrawer({ wallet, update, load, className }: UpdateWalletDra
         }
       }
     },
-    [handleValidate, reset, update, load, wallet._id, t]
+    [handleValidate, reset, update, refresh, load, wallet._id, t]
   )
 
   return (
@@ -150,7 +150,7 @@ function UpdateWalletDrawer({ wallet, update, load, className }: UpdateWalletDra
           </Text>
 
           <TouchableWithoutFeedback onPress={() => setOpenEmojiPicker(true)}>
-            <View className="mt-2 flex h-[200px] items-center justify-center rounded-lg border border-secondary p-21">
+            <View className="mt-2 flex h-[150px] items-center justify-center rounded-lg border border-secondary p-21">
               {form.icon ? (
                 <Text style={{ fontSize: 60 }}>{form.icon}</Text>
               ) : (
@@ -242,18 +242,30 @@ function UpdateWalletDrawer({ wallet, update, load, className }: UpdateWalletDra
 interface NodeProps extends UpdateWalletDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<UpdateWalletDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer(<UpdateWalletDrawer {...props} />)}
+      onPress={() => openDrawer(<UpdateWalletDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>

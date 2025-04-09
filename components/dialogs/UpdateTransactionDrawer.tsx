@@ -1,15 +1,21 @@
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
+import { setRefreshing } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatSymbol, revertAdjustedCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { updateTransactionApi } from '@/requests'
 import moment from 'moment'
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Pressable, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import Toast from 'react-native-toast-message'
 import CategoryPicker from '../CategoryPicker'
 import CustomInput from '../CustomInput'
@@ -23,14 +29,14 @@ import WalletPicker from '../WalletPicker'
 interface UpdateTransactionDrawerProps {
   transaction: IFullTransaction
   update?: (transaction: IFullTransaction) => void
-  refetch?: () => void
+  refresh?: () => void
   className?: string
 }
 
 function UpdateTransactionDrawer({
   transaction,
   update,
-  refetch,
+  refresh,
   className,
 }: UpdateTransactionDrawerProps) {
   // hooks
@@ -76,6 +82,8 @@ function UpdateTransactionDrawer({
     data => {
       let isValid = true
 
+      console.log('data', data)
+
       // wallet is required
       if (!data.walletId) {
         setError('walletId', {
@@ -95,7 +103,7 @@ function UpdateTransactionDrawer({
       }
 
       // amount is required
-      if (!data.amount) {
+      if (!+data.amount) {
         setError('amount', {
           type: 'manual',
           message: t('Amount is required'),
@@ -143,8 +151,7 @@ function UpdateTransactionDrawer({
         })
 
         if (update) update(tx)
-        if (refetch) refetch()
-        dispatch(refresh())
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -166,7 +173,7 @@ function UpdateTransactionDrawer({
         dispatch(setRefreshing(false))
       }
     },
-    [handleValidate, reset, update, refetch, dispatch, , transaction._id, locale, t]
+    [handleValidate, reset, update, refresh, dispatch, , transaction._id, locale, t]
   )
 
   return (
@@ -202,7 +209,6 @@ function UpdateTransactionDrawer({
             <CustomInput
               id="amount"
               label={t('Amount')}
-              disabled={saving}
               errors={errors}
               type="currency"
               control={control}
@@ -224,7 +230,7 @@ function UpdateTransactionDrawer({
                 setValue('categoryId', categoryId)
                 clearErrors('categoryId')
               }}
-              type={form.type}
+              type={transaction.type}
             />
             {errors.categoryId?.message && (
               <Text className="ml-1 mt-0.5 italic text-rose-400">
@@ -251,19 +257,19 @@ function UpdateTransactionDrawer({
           </View>
 
           {/* MARK: Date */}
-          <View className="flex flex-1 flex-col">
-            <Pressable
+          <View className="-mt-6 flex flex-1 flex-col">
+            <TouchableWithoutFeedback
               onFocus={() => clearErrors('date')}
               style={{ marginTop: -30 }}
             >
-              <View className="mx-auto flex w-full max-w-sm scale-90 flex-col items-center px-21/2">
+              <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
                 <DateTimePicker
                   display="inline"
                   currentDate={moment(form.date).toDate()}
                   onChange={date => setValue('date', date)}
                 />
               </View>
-            </Pressable>
+            </TouchableWithoutFeedback>
             {errors.date?.message && (
               <Text className="ml-1 mt-0.5 italic text-rose-400">
                 {errors.date?.message?.toString()}
@@ -305,18 +311,30 @@ function UpdateTransactionDrawer({
 interface NodeProps extends UpdateTransactionDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<UpdateTransactionDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer(<UpdateTransactionDrawer {...props} />)}
+      onPress={() => openDrawer(<UpdateTransactionDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>

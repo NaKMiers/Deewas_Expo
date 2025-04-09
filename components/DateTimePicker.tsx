@@ -13,7 +13,7 @@ interface DateTimePickerProps {
   [key: string]: any
 }
 
-export default function DateTimePicker(props: DateTimePickerProps) {
+function DateTimePicker(props: DateTimePickerProps) {
   if (Platform.OS === 'android') {
     return <AndroidDateTimePicker {...props} />
   }
@@ -62,10 +62,11 @@ export const IOSDateTimePicker = ({
   // hooks
   const { isDarkColorScheme } = useColorScheme()
 
+  console.log('currentDate', currentDate)
+
   return (
     <RNDateTimePicker
       accentColor={isDarkColorScheme ? '#fff' : '#111'}
-      minimumDate={new Date(1900, 0, 1)}
       value={currentDate}
       mode="date"
       display="inline"
@@ -75,3 +76,5 @@ export const IOSDateTimePicker = ({
     />
   )
 }
+
+export default DateTimePicker

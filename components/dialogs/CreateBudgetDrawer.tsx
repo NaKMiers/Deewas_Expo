@@ -1,12 +1,12 @@
 import DateRangePicker from '@/components/DateRangePicker'
 import { currencies } from '@/constants/settings'
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { useAppSelector } from '@/hooks/reduxHook'
 import { formatSymbol, revertAdjustedCurrency } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createBudgetApi } from '@/requests/budgetRequests'
 import moment from 'moment'
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
@@ -20,6 +20,7 @@ import { Separator } from '../ui/separator'
 
 interface CreateBudgetDrawerProps {
   update?: (budget: IFullBudget) => void
+  refresh?: () => void
   initCategory?: ICategory
   initTotal?: number
   initBegin?: string | Date
@@ -33,6 +34,7 @@ function CreateBudgetDrawer({
   initBegin,
   initEnd,
   update,
+  refresh,
   className,
 }: CreateBudgetDrawerProps) {
   // hooks
@@ -41,7 +43,6 @@ function CreateBudgetDrawer({
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
   const { closeDrawer } = useDrawer()
-  const dispatch = useAppDispatch()
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -51,7 +52,6 @@ function CreateBudgetDrawer({
 
   // form
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setError,
@@ -72,7 +72,6 @@ function CreateBudgetDrawer({
     },
   })
 
-  const form = watch()
   const [saving, setSaving] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: moment(getValues('begin')).startOf('month').toDate(),
@@ -152,6 +151,7 @@ function CreateBudgetDrawer({
         })
 
         if (update) update(budget)
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -172,7 +172,7 @@ function CreateBudgetDrawer({
         setSaving(false)
       }
     },
-    [handleValidate, reset, update, locale, t]
+    [handleValidate, reset, update, locale, refresh]
   )
 
   return (
@@ -284,18 +284,30 @@ function CreateBudgetDrawer({
 interface NodeProps extends CreateBudgetDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<CreateBudgetDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer(<CreateBudgetDrawer {...props} />)}
+      onPress={() => openDrawer(<CreateBudgetDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>

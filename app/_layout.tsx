@@ -1,10 +1,10 @@
-import '@/global.scss'
-
 import DrawerProvider from '@/components/providers/DrawerProvider'
 import StoreProvider from '@/components/providers/StoreProvider'
+import '@/global.scss'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
 import { NAV_THEME } from '@/lib/constants'
 import { useColorScheme } from '@/lib/useColorScheme'
+import '@/polyfills'
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native'
 import { PortalHost } from '@rn-primitives/portal'
 import { useFonts } from 'expo-font'
@@ -78,7 +78,7 @@ function RootLayout() {
       hasMounted.current = true
       SplashScreen.hideAsync()
     }
-  }, [loaded, colorScheme])
+  }, [loaded, colorScheme, isDarkColorScheme])
 
   if (!loaded || !isColorSchemeLoaded) {
     return null

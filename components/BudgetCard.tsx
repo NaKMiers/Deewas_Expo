@@ -2,6 +2,7 @@ import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
 import UpdateBudgetDrawer from '@/components/dialogs/UpdateBudgetDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addBudget, deleteBudget, updateBudget } from '@/lib/reducers/budgetReducer'
+import { refresh } from '@/lib/reducers/loadReducer'
 import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteBudgetApi } from '@/requests/budgetRequests'
@@ -102,6 +103,7 @@ function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
                 initBegin={moment(budget.begin).add(1, 'month').toDate()}
                 initEnd={moment(budget.end).add(1, 'month').toDate()}
                 update={(budget: IFullBudget) => dispatch(addBudget(budget))}
+                refresh={() => dispatch(refresh())}
                 trigger={
                   <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
                     <Icon
@@ -112,11 +114,13 @@ function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
                     <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
                   </View>
                 }
+                reach={1}
               />
 
               {/* MARK: Update */}
               <UpdateBudgetDrawer
                 update={(budget: IFullBudget) => dispatch(updateBudget(budget))}
+                refresh={() => dispatch(refresh())}
                 budget={budget}
                 trigger={
                   <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
@@ -128,6 +132,7 @@ function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
                     <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
                   </View>
                 }
+                reach={1}
               />
 
               {/* MARK: Delete */}

@@ -1,6 +1,7 @@
 import TransferFundDrawer from '@/components/dialogs/TransferFundDrawer'
 import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { refresh } from '@/lib/reducers/loadReducer'
 import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
@@ -139,6 +140,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
                   {wallets.length > 1 && (
                     <TransferFundDrawer
                       initFromWallet={wallet}
+                      refresh={() => dispatch(refresh())}
                       trigger={
                         <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
                           <Icon
@@ -149,11 +151,13 @@ function WalletCard({ wallet, className }: WalletCardProps) {
                           <Text className="font-semibold text-indigo-500">{t('Transfer')}</Text>
                         </View>
                       }
+                      reach={3}
                     />
                   )}
 
                   <CreateTransactionDrawer
                     initWallet={wallet}
+                    refresh={() => dispatch(refresh())}
                     trigger={
                       <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
                         <Icon
@@ -163,10 +167,12 @@ function WalletCard({ wallet, className }: WalletCardProps) {
                         <Text className="font-semibold">{t('Add Transaction')}</Text>
                       </View>
                     }
+                    reach={3}
                   />
 
                   <UpdateWalletDrawer
                     update={wallet => dispatch(updateWallet(wallet))}
+                    refresh={() => dispatch(refresh())}
                     wallet={wallet}
                     load={setUpdating}
                     trigger={
@@ -216,7 +222,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
         <View className="flex flex-col gap-2 px-4 pb-2">
           <Item
             title={t('Balance')}
-            value={wallet.income + wallet.saving + wallet.invest + wallet.transfer - wallet.expense}
+            value={wallet.income + wallet.saving + wallet.invest - wallet.expense}
             type="balance"
           />
           <Collapsible collapsed={!collapsed}>
@@ -240,11 +246,6 @@ function WalletCard({ wallet, className }: WalletCardProps) {
                 title={t('Invest')}
                 value={wallet.invest}
                 type="invest"
-              />
-              <Item
-                title={t('Transfer')}
-                value={wallet.transfer}
-                type="transfer"
               />
             </View>
           </Collapsible>
@@ -273,13 +274,13 @@ function WalletCard({ wallet, className }: WalletCardProps) {
 
 export default memo(WalletCard)
 
-interface Itemprops {
+interface ItemProps {
   title: string
   value: number
   type: TransactionType | 'balance'
   className?: string
 }
-function Item({ title, type, value }: Itemprops) {
+function Item({ title, type, value }: ItemProps) {
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
@@ -288,7 +289,10 @@ function Item({ title, type, value }: Itemprops) {
 
   return (
     <View
-      className={`flex w-full flex-row items-center gap-21/2 rounded-lg border border-primary bg-secondary px-21/2 py-1`}
+      className={cn(
+        'flex w-full flex-row items-center gap-21/2 rounded-lg border bg-secondary px-21/2 py-1',
+        border
+      )}
     >
       <View
         className={cn(

@@ -111,7 +111,7 @@
   "transactionPage": {
     "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịchdịch",
     "Transactions": "Các giao dịch",
-    "of wallet": "của ví",
+    "of": "của",
     "The selected date range is too large": "Khoảng thời gian đã chọn quá lớn",
     "Max allowed range is": "Phạm vi tối đa cho phép là",
     "days!": "ngày!",
@@ -145,19 +145,22 @@
   "calendarPage": {
     "Calendar": "Lịch",
     "Transactions for": "Các giao dịch ngày",
-    "No transactions for this day": "Không có giao dịch nào cho ngày này"
+    "No transactions for this day": "Không có giao dịch nào cho ngày này",
+    "Total": "Tổng"
   },
+  "NotFoundPage": {},
   "header": {
     "Hello": "Xin chào",
     "Upgrade": "Nâng cấp"
   },
   "createBudgetDrawer": {
+    "Failed to create budget": "Không thể tạo ngân sách",
     "Amount is required": "Số tiền không được trống",
     "Amount must be greater than 0": "Số tiền phải lớn hơn 0",
     "Category is required": "Vui lòng chọn danh mục",
     "From and To date is required": "Vui lòng chọn ngày bắt đầu và kết thúc",
     "Creating budget": "Đang tạo ngân sách",
-    "Failed to create budget": "Không thể tạo ngân sách",
+    "Failed to create transaction": "Không thể tạo giao dịch",
     "Create Budget": "Tạo ngân sách",
     "Budget helps you manage money wisely": "Ngân sách giúp bạn quản lý chi tiêu một cách thông minh",
     "Total": "Tổng",
@@ -238,7 +241,8 @@
     "Icon will be used to represent your wallet": "Icon sẽ được sử dụng để đại diện cho ví của bạn",
     "This is how your wallet will appear in the app": "Đây là cách ví của bạn sẽ xuất hiện trong ứng dụng",
     "Cancel": "Hủy",
-    "Save": "Lưu"
+    "Save": "Lưu",
+    "Wallet name": "Wallet name"
   },
   "updateBudgetDrawer": {
     "Amount is required": "Số tiền không được trống",
@@ -424,6 +428,7 @@
     "pie": "biểu đồ tròn",
     "radar": "biểu đồ radar",
     "area": "biểu đồ khu vực",
+    "pyramid": "biểu đồ chóp",
     "All": "Tất cả",
     "Total": "Tổng",
     "week": "tuần",
@@ -558,9 +563,11 @@
     "Last Week": "Tuần trước",
     "This Month": "Tháng này",
     "Last Month": "Tháng trước",
-    "Update": "Áp dụng",
+    "Update": "Cập nhật",
     "Cancel": "Hủy",
-    "Confirm": "Xác nhận"
+    "Confirm": "Xác nhận",
+    "From Date": "Từ ngày",
+    "To Date": "Đến ngày"
   },
   "settingsBox": {
     "Set your currency": "Thiết lập tiền tệ",
@@ -573,5 +580,64 @@
   },
   "montYearPicker": {
     "Apply": "Áp dụng"
+  },
+  "dateRangeSegments": {
+    "week": "tuần",
+    "month": "tháng",
+    "year": "năm",
+    "Previous week": "Tuần trước",
+    "Previous month": "Tháng trước",
+    "Previous year": "Năm trước",
+    "Next week": "Tuần sau",
+    "Next month": "Tháng sau",
+    "Next year": "Năm sau"
+  },
+  "success": {
+    "Login Success": "Đăng nhập thành công",
+    "You have successfully logged in": "Bạn đã đăng nhập thành công",
+    "Register Success": "Đăng ký thành công",
+    "You have successfully registered": "Bạn đã đăng ký thành công",
+    "Reset link sent": "Liên kết đã được gửi",
+    "Reset password link has been sent to your email, please check your inbox": "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn, vui lòng kiểm tra hộp thư đến của bạn",
+    "Transaction created": "Giao dịch đã được tạo",
+    "Category deleted": "Danh mục đã được xóa",
+    "Transaction deleted": "Giao dịch đã được xóa",
+    "Transaction duplicated": "Giao dịch đã được nhân bản",
+    "Wallet deleted": "Ví đã được xóa",
+    "Wallet created": "Ví đã được tạo",
+    "Transferred fund": "Chuyển tiền thành công",
+    "Transaction updated": "Giao dịch đã được cập nhật",
+    "Category created": "Danh mục đã được tạo",
+    "Category updated": "Danh mục đã được cập nhật",
+    "Budget deleted": "Ngân sách đã được xóa",
+    "Budget created": "Ngân sách đã được tạo",
+    "Budget updated": "Ngân sách đã được cập nhật"
+  },
+  "error": {
+    "Login Failed": "Đăng nhập thất bại",
+    "Incorrect username or email": "Tên đăng nhập hoặc email không chính xác",
+    "Register Failed": "Đăng ký thất bại",
+    "Username or email exists": "Tên đăng nhập hoặc email đã tồn tại",
+    "Something went wrong": "Có lỗi xảy ra",
+    "This account is authenticated by google, you can't reset password": "Tài khoản này được xác thực bởi google, bạn không thể đặt lại mật khẩu",
+    "This account is authenticated by facebook, you can't reset password": "Tài khoản này được xác thực bởi facebook, bạn không thể đặt lại mật khẩu",
+    "This account is authenticated by apple, you can't reset password": "Tài khoản này được xác thực bởi apple, bạn không thể đặt lại mật khẩu",
+    "Failed to create transaction": "Không thể tạo giao dịch",
+    "Failed to delete category": "Không thể xóa danh mục",
+    "The selected date range is too large": "Khoảng thời gian đã chọn quá lớn",
+    "Max allowed range is 90 days!": "Phạm vi tối đa cho phép là 90 ngày!",
+    "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịchdịch",
+    "Failed to delete transaction": "Không thể xóa giao dịch",
+    "Failed to duplicate transaction": "Không thể nhân bản giao dịch",
+    "Failed to delete wallet": "Không thể xóa ví",
+    "Failed to get categories": "Không thấy lấy dữ liệu danh mục",
+    "Failed to create wallet": "Không thể tạo ví",
+    "Failed to transfer": "Không thể chuyển",
+    "Failed to update transaction": "Không thể cập nhật giao dịchdịch",
+    "Failed to create category": "Không thể tạo danh mục",
+    "Failed to update category": "Không thể cập nhật danh mục",
+    "Failed to delete budget": "Không thể xóa ngân sách",
+    "Failed to create budget": "Không thể tạo ngân sách",
+    "Failed to update budget": "Không thể cập nhật ngân sách"
   }
 }

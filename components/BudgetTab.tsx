@@ -12,6 +12,7 @@ import { View } from 'react-native'
 import { Bar as ProgressBar } from 'react-native-progress'
 import BudgetCard from './BudgetCard'
 import Text from './Text'
+import { refresh } from '@/lib/reducers/loadReducer'
 
 interface IBudgetTabProps {
   value: string
@@ -107,11 +108,13 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
         {/* MARK: Create Budget */}
         <CreateBudgetDrawer
           update={(budget: IFullBudget) => dispatch(addBudget(budget))}
+          refresh={() => dispatch(refresh())}
           trigger={
             <View className="flex h-12 flex-row items-center justify-center rounded-full bg-primary px-21">
               <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
             </View>
           }
+          reach={1}
         />
       </Card>
 

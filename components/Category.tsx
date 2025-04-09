@@ -1,3 +1,4 @@
+import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
 import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import UpdateCategoryDrawer from '@/components/dialogs/UpdateCategoryDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
@@ -6,7 +7,13 @@ import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi } from '@/requests/categoryRequests'
-import { LucideEllipsisVertical, LucidePencil, LucidePlus, LucideTrash } from 'lucide-react-native'
+import {
+  LucideBarChart2,
+  LucideEllipsisVertical,
+  LucidePencil,
+  LucidePlus,
+  LucideTrash,
+} from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, View } from 'react-native'
@@ -114,6 +121,7 @@ function Category({ category, className }: CategoryProps) {
                 {category.type === 'expense' && (
                   <CreateTransactionDrawer
                     initCategory={category}
+                    refresh={() => dispatch(refresh())}
                     trigger={
                       <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
                         <Icon
@@ -123,27 +131,32 @@ function Category({ category, className }: CategoryProps) {
                         <Text className="font-semibold">{t('Add Transaction')}</Text>
                       </View>
                     }
+                    reach={3}
                   />
                 )}
 
-                {/* {category.type === 'expense' && (
+                {category.type === 'expense' && (
                   <CreateBudgetDrawer
                     initCategory={category}
+                    refresh={() => dispatch(refresh())}
                     trigger={
-                      <Button
-                        variant="ghost"
-                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2 text-orange-500"
-                      >
-                        <Icon render={LucideBarChart2} size={16} color='#f97316'/>
-                        <Text className='text-orange-500 font-semibold'>{t('Set Budget')}</Text>
-                      </Button>
+                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                        <Icon
+                          render={LucideBarChart2}
+                          size={16}
+                          color="#f97316"
+                        />
+                        <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
+                      </View>
                     }
+                    reach={1}
                   />
-                )} */}
+                )}
 
                 <UpdateCategoryDrawer
                   category={category}
                   update={(category: ICategory) => dispatch(updateCategory(category))}
+                  refresh={() => dispatch(refresh())}
                   load={setUpdating}
                   trigger={
                     <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">

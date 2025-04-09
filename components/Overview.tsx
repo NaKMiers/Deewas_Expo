@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
-import { LucideChevronDown, LucideEye } from 'lucide-react-native'
+import { LucideAsterisk, LucideChevronDown, LucideEye } from 'lucide-react-native'
 import { Dispatch, memo, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableWithoutFeedback, View } from 'react-native'
@@ -32,14 +32,13 @@ function Overview({ className }: OverviewProps) {
   const totalExpense = wallets.reduce((acc, wallet) => acc + wallet.expense, 0)
   const totalSaving = wallets.reduce((acc, wallet) => acc + wallet.saving, 0)
   const totalInvest = wallets.reduce((acc, wallet) => acc + wallet.invest, 0)
-  const totalTransfer = wallets.reduce((acc, wallet) => acc + wallet.transfer, 0)
-  const totalBalance = totalIncome + totalSaving + totalInvest + totalTransfer - totalExpense
+  const totalBalance = totalIncome + totalSaving + totalInvest - totalExpense
 
   return (
     <View className={cn('rounded-lg bg-secondary shadow-md', className)}>
       <TouchableWithoutFeedback onPress={() => setCollapsed(!collapsed)}>
         <View className="flex flex-row justify-between p-21/2">
-          <View>
+          <View className="flex-1">
             <OverviewItem
               title={t('Total Balance')}
               value={totalBalance}
@@ -75,12 +74,6 @@ function Overview({ className }: OverviewProps) {
                   type="invest"
                   isShow={showValue}
                 />
-                <OverviewItem
-                  title={t('Transfer')}
-                  value={totalTransfer}
-                  type="transfer"
-                  isShow={showValue}
-                />
               </View>
             </Collapsible>
           </View>
@@ -89,7 +82,7 @@ function Overview({ className }: OverviewProps) {
             <Icon
               render={LucideChevronDown}
               size={22}
-              className={`trans-200 ${collapsed ? 'rotate-180' : ''}`}
+              className={cn('trans-200', collapsed && 'rotate-180')}
             />
           </View>
         </View>
@@ -130,7 +123,15 @@ function OverviewItem({ title, type, value, isEye, isShow, toggle, className }: 
           {isShow ? (
             <Text className="text-xl font-semibold">{formatCurrency(currency, value)}</Text>
           ) : (
-            <Text className="text-2xl font-bold leading-7 tracking-widest">*******</Text>
+            <View className="flex flex-row items-center">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Icon
+                  render={LucideAsterisk}
+                  size={18}
+                  key={i}
+                />
+              ))}
+            </View>
           )}
 
           {isEye && (

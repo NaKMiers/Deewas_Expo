@@ -1,23 +1,20 @@
-// OriginalScreen.tsx
-import { useAppDispatch } from '@/hooks/reduxHook'
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDrawer } from './providers/DrawerProvider'
 
 function Drawer() {
   // hooks
   const { isDarkColorScheme } = useColorScheme()
-  const dispatch = useAppDispatch()
   const snapPoints = useMemo(() => ['55%', '80%', '100%'], [])
-  const { open, content, closeDrawer } = useDrawer()
+  const { open, content, closeDrawer, reach } = useDrawer()
 
   const drawerRef = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    if (open) drawerRef.current?.snapToIndex(2)
+    if (open) drawerRef.current?.snapToIndex(reach)
     else drawerRef.current?.close()
   }, [open])
 
@@ -37,17 +34,11 @@ function Drawer() {
       handleIndicatorStyle={{
         backgroundColor: isDarkColorScheme ? '#fff' : '#161616',
       }}
-      containerStyle={{}}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>
-        <TouchableWithoutFeedback
-          className="flex-1"
-          onPress={Keyboard.dismiss}
-        >
-          <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
-            <ScrollView>{content}</ScrollView>
-          </SafeAreaView>
-        </TouchableWithoutFeedback>
+        <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
+          <ScrollView>{content}</ScrollView>
+        </SafeAreaView>
       </BottomSheetView>
     </BottomSheet>
   )

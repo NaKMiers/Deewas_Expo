@@ -1,8 +1,5 @@
-import { useAppDispatch } from '@/hooks/reduxHook'
-import { setCurWallet } from '@/lib/reducers/walletReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { usePathname, router } from 'expo-router'
 import { LucideBrain, LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
 import { memo } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
@@ -41,10 +38,6 @@ const routes = [
 
 function Navbar({ className, state, navigation, ...props }: { className?: string; [key: string]: any }) {
   // hooks
-  const dispatch = useAppDispatch()
-  const pathname = usePathname()
-  // const { t: translate } = useTranslation()
-  // const t = (key: string) => translate('navbar.' + key)
   const { user } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
 
@@ -56,10 +49,6 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
 
     if (!isFocused && !event.defaultPrevented) {
       navigation.navigate(route.label.toLowerCase())
-    }
-
-    if (route.href === '/transactions') {
-      dispatch(setCurWallet(null))
     }
   }
 

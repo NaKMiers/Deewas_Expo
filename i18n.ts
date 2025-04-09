@@ -1,7 +1,7 @@
 import * as Localization from 'expo-localization'
 import i18next from 'i18next'
-import { initReactI18next } from 'react-i18next'
 import 'intl'
+import { initReactI18next } from 'react-i18next'
 
 // load messages from JSON files
 import enMessages from '@/messages/en.json'

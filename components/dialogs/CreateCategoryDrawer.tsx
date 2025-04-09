@@ -3,10 +3,11 @@ import { cn } from '@/lib/utils'
 import { createCategoryApi } from '@/requests/categoryRequests'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import { LucideCircle, LucideCircleOff } from 'lucide-react-native'
-import { Dispatch, ReactNode, SetStateAction, useCallback, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Modal, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
 import EmojiSelector from 'react-native-emoji-selector'
 import Toast from 'react-native-toast-message'
 import CustomInput from '../CustomInput'
@@ -14,23 +15,23 @@ import Icon from '../Icon'
 import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
 import { Separator } from '../ui/separator'
 
 interface CreateCategoryDrawerProps {
   type?: TransactionType
   update?: (category: ICategory) => void
+  refresh?: () => void
   load?: Dispatch<SetStateAction<boolean>>
   className?: string
 }
 
-function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryDrawerProps) {
+function CreateCategoryDrawer({ type, update, refresh, load, className }: CreateCategoryDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('createCategoryDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
-  const { closeDrawer3 } = useDrawer()
+  const { closeDrawer3: closeDrawer } = useDrawer()
 
   // form
   const {
@@ -90,9 +91,8 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
       try {
         const { category, message } = await createCategoryApi({ ...data })
 
-        if (update) {
-          update(category)
-        }
+        if (update) update(category)
+        if (refresh) refresh()
 
         Toast.show({
           type: 'success',
@@ -100,7 +100,7 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
         })
 
         reset()
-        closeDrawer3()
+        closeDrawer()
       } catch (err: any) {
         Toast.show({
           type: 'error',
@@ -115,7 +115,7 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
         }
       }
     },
-    [handleValidate, load, reset, update, t]
+    [handleValidate, load, reset, update, refresh, t]
   )
 
   return (
@@ -147,13 +147,14 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
 
         {/* MARK: Type */}
         {!type && (
-          <Collapsible
-            open={openType}
-            onOpenChange={setOpenType}
-          >
-            <CollapsibleTrigger>
+          <View className="flex flex-col gap-1.5">
+            <View className="">
               <Text className="px-1 font-semibold text-primary">Type</Text>
-              <View className="mt-2 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3">
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="mt-2 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3"
+                onPress={() => setOpenType(!openType)}
+              >
                 <Icon
                   render={LucideCircle}
                   size={18}
@@ -164,31 +165,38 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
                 >
                   {form.type}
                 </Text>
+              </TouchableOpacity>
+            </View>
+            <Collapsible
+              collapsed={!openType}
+              duration={200}
+            >
+              <View className="flex flex-col overflow-hidden rounded-lg">
+                {['expense', 'income', 'saving', 'invest'].map(tranType => (
+                  <Button
+                    variant="default"
+                    className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary bg-white"
+                    onPress={() => {
+                      setValue('type', tranType as TransactionType)
+                      setOpenType(false)
+                    }}
+                    key={tranType}
+                  >
+                    <Icon
+                      render={LucideCircle}
+                      size={18}
+                      color={checkTranType(tranType as any).hex}
+                    />
+                    <Text
+                      className={cn('font-semibold capitalize', checkTranType(tranType as any).color)}
+                    >
+                      {t(tranType)}
+                    </Text>
+                  </Button>
+                ))}
               </View>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="overflow-hidden rounded-lg">
-              {['expense', 'income', 'saving', 'invest'].map(tranType => (
-                <Button
-                  variant="default"
-                  className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary bg-white"
-                  onPress={() => {
-                    setValue('type', tranType as TransactionType)
-                    setOpenType(false)
-                  }}
-                  key={tranType}
-                >
-                  <Icon
-                    render={LucideCircle}
-                    size={18}
-                    color={checkTranType(tranType as any).hex}
-                  />
-                  <Text className={cn('font-semibold capitalize', checkTranType(tranType as any).color)}>
-                    {t(tranType)}
-                  </Text>
-                </Button>
-              ))}
-            </CollapsibleContent>
-          </Collapsible>
+            </Collapsible>
+          </View>
         )}
 
         {/* MARK: Icon */}
@@ -198,7 +206,7 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
           </Text>
 
           <TouchableWithoutFeedback onPress={() => setOpenEmojiPicker(true)}>
-            <View className="mt-2 flex h-[200px] items-center justify-center rounded-lg border border-secondary p-21">
+            <View className="mt-2 flex h-[150px] items-center justify-center rounded-lg border border-secondary p-21">
               {form.icon ? (
                 <Text style={{ fontSize: 60 }}>{form.icon}</Text>
               ) : (
@@ -266,7 +274,7 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
               className="h-10 rounded-md px-21/2"
               onPress={() => {
                 reset()
-                closeDrawer3()
+                closeDrawer()
               }}
             >
               <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
@@ -290,18 +298,30 @@ function CreateCategoryDrawer({ type, update, load, className }: CreateCategoryD
 interface NodeProps extends CreateCategoryDrawerProps {
   disabled?: boolean
   trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
   className?: string
 }
 
-function Node({ disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer3 } = useDrawer()
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer3: openDrawer, open3: openState, reach3: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<CreateCategoryDrawer {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className={cn(className, disabled && 'opacity-50')}
       disabled={disabled}
-      onPress={() => openDrawer3(<CreateCategoryDrawer {...props} />)}
+      onPress={() => openDrawer(<CreateCategoryDrawer {...props} />, r)}
     >
       {trigger}
     </TouchableOpacity>
