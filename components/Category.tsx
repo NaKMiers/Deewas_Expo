@@ -149,7 +149,7 @@ function Category({ category, className }: CategoryProps) {
                         <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
                       </View>
                     }
-                    reach={1}
+                    reach={2}
                   />
                 )}
 

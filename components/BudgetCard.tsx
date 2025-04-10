@@ -114,7 +114,7 @@ function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
                     <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
                   </View>
                 }
-                reach={1}
+                reach={2}
               />
 
               {/* MARK: Update */}

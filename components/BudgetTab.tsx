@@ -114,7 +114,7 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
               <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
             </View>
           }
-          reach={1}
+          reach={2}
         />
       </Card>
 

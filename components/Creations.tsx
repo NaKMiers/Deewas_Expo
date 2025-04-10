@@ -75,7 +75,7 @@ function Creations({ className }: ICreationsProps) {
               <Text className="font-semibold">{t('Create Budget')}</Text>
             </View>
           }
-          reach={1}
+          reach={2}
         />
 
         <CreateWalletDrawer

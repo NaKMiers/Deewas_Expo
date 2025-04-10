@@ -15,6 +15,7 @@ import {
   LucideSquare,
   LucideTrash,
 } from 'lucide-react-native'
+import moment from 'moment-timezone'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import {
   Keyboard,
@@ -27,6 +28,101 @@ import {
   View,
 } from 'react-native'
 
+const samples = [
+  {
+    role: 'assistant',
+    content: 'Hello, how can I help you today?',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save money?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save money is to create a budget and stick to it.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to invest money?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to invest money is to diversify your portfolio and invest for the long term.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to manage debt?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to manage debt is to create a plan and stick to it.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for retirement?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for retirement is to start early and contribute regularly.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for a house?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for a house is to create a savings plan and stick to it.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for a car?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for a car is to create a savings plan and stick to it.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for a vacation?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for a vacation is to create a savings plan and stick to it.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for a wedding?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for a wedding is to create a savings plan and stick to it.',
+  },
+  {
+    role: 'user',
+    content: "What is the best way to save for a child's education?",
+  },
+  {
+    role: 'assistant',
+    content: "The best way to save for a child's education is to create a savings plan and stick to it.",
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for a rainy day?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for a rainy day is to create a savings plan and stick to it.',
+  },
+  {
+    role: 'user',
+    content: 'What is the best way to save for a new car?',
+  },
+  {
+    role: 'assistant',
+    content: 'The best way to save for a new car is to create a savings plan and stick to it.',
+  },
+]
+
 function AIPage() {
   const [token, setToken] = useState<string>('')
 
@@ -38,27 +134,11 @@ function AIPage() {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      'x-timezone': moment.tz.guess(),
     },
   })
   const { stop } = useCompletion()
-  const [containerRef, endRef, handleScroll, isAtBottom] = useScrollToBottom(
-    messages,
-    status === 'streaming'
-  )
-
-  useEffect(() => {
-    const isStreaming = status === 'streaming'
-    const scrollView = containerRef.current
-    if (!scrollView) return
-    console.log('isStreaming', isStreaming)
-    if (isStreaming) {
-      const interval = setInterval(() => {
-        scrollView.scrollToEnd({ animated: true })
-      }, 50)
-      return () => clearInterval(interval)
-    }
-    console.log('scrollToEnd')
-  }, [containerRef, status])
+  const [containerRef, handleScroll, isAtBottom] = useScrollToBottom(messages, status === 'streaming')
 
   // stores
   const { refreshing, refreshPoint } = useAppSelector(state => state.load)
@@ -83,6 +163,7 @@ function AIPage() {
       if (!message) return
       const parsedMessage = JSON.parse(message)
       setMessages(parsedMessage)
+      // setMessages(samples as any[])
     }
 
     getMessages()
@@ -97,26 +178,6 @@ function AIPage() {
     setMessagesToStorage()
   }, [messages])
 
-  // error view
-  if (error)
-    return (
-      <SafeAreaView className="flex-1">
-        <ScrollView
-          contentContainerClassName="flex-1 flex flex-col justify-center items-center p-21"
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => {}}
-            />
-          }
-        >
-          <Text className="text-center text-2xl font-semibold text-muted-foreground">
-            ⚠️ An Error Happens. Please refresh app!
-          </Text>
-        </ScrollView>
-      </SafeAreaView>
-    )
-
   // send message
   const handleSendMessage = useCallback(
     (e?: any) => {
@@ -126,6 +187,30 @@ function AIPage() {
     },
     [handleSubmit, input]
   )
+
+  // error view
+  if (error)
+    return (
+      <SafeAreaView className="flex-1">
+        <ScrollView
+          contentContainerClassName="flex-1 flex flex-col justify-center items-center p-21"
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => {
+                AsyncStorage.removeItem('messages')
+                setMessages([])
+                stop()
+              }}
+            />
+          }
+        >
+          <Text className="text-center text-2xl font-semibold text-muted-foreground">
+            ⚠️ An Error Happens. Please refresh app!
+          </Text>
+        </ScrollView>
+      </SafeAreaView>
+    )
 
   return (
     <SafeAreaView className="flex-1">
@@ -147,17 +232,18 @@ function AIPage() {
             onScroll={handleScroll as any}
             ref={containerRef}
           >
-            <View className="px-21 py-21/2 md:py-21">
+            <View className="flex flex-col px-21 py-21/2 md:py-21">
               {messages.length > 0 ? (
                 messages.map((m, i) => (
                   <Message
                     content={m.content}
+                    toolInvocations={m.toolInvocations}
                     role={m.role as 'assistant' | 'user'}
                     key={i}
                   />
                 ))
               ) : (
-                <View className="flex flex-col items-center justify-center gap-2 rounded-lg bg-secondary p-21 shadow-lg">
+                <View className="-mx-21/2 flex flex-col items-center justify-center gap-2 rounded-lg border border-primary/5 bg-secondary p-21 shadow-md">
                   <Text className="text-center text-2xl font-semibold">Deewas</Text>
                   <Text className="text-center text-muted-foreground">
                     Deewas is a personal finance assistant that helps you manage your money wisely.
@@ -165,10 +251,6 @@ function AIPage() {
                 </View>
               )}
             </View>
-            <View
-              ref={endRef}
-              style={{ height: 1 }}
-            />
           </ScrollView>
 
           {/* MARK: Scroll down button */}
@@ -189,7 +271,7 @@ function AIPage() {
 
           {/* MARK: Input */}
           <View className="p-21/2 md:p-21">
-            <View className="rounded-3xl border border-primary/5 bg-secondary p-21/2">
+            <View className="rounded-3xl border border-primary/5 bg-secondary p-21/2 shadow-md">
               <Input
                 className="bg- border-transparent"
                 style={{ height: 50 }}
