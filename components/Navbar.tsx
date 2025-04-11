@@ -1,8 +1,10 @@
+import { images } from '@/assets/images/images'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { LucideBrain, LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
 import { memo } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
+import Image from './Image'
 import { useAuth } from './providers/AuthProvider'
 
 const routes = [
@@ -55,7 +57,12 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
   return (
     <View
       className={cn('flex items-center', className)}
-      style={{ maxHeight: 48, paddingRight: 10.5, paddingLeft: 10.5 }}
+      style={{
+        maxHeight: 48,
+        marginBottom: Platform.OS === 'android' ? 21 : 0,
+        paddingRight: 10.5,
+        paddingLeft: 10.5,
+      }}
     >
       <View className="flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary">
         {routes.map(route => {
@@ -75,13 +82,18 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
                   color={isFocused ? route.activeColor : isDarkColorScheme ? 'black' : 'white'}
                 />
               ) : (
-                <Image
-                  className="rounded-full"
-                  source={{ uri: user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR }}
-                  width={26}
-                  height={26}
-                  alt="account"
-                />
+                <View
+                  className="overflow-hidden rounded-full"
+                  style={{ height: 26, width: 26 }}
+                >
+                  <Image
+                    className="h-full w-full rounded-full"
+                    source={{ uri: user?.avatar }}
+                    fallbackSource={images.defaultAvatar}
+                    resizeMode="cover"
+                    alt="account"
+                  />
+                </View>
               )}
             </TouchableOpacity>
           )

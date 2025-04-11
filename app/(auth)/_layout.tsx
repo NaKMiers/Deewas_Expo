@@ -5,7 +5,7 @@ function AuthLayout() {
   const { user, loading } = useAuth()
 
   if (loading) return null
-  if (user) return <Redirect href="/" />
+  if (user) return <Redirect href="/home" />
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

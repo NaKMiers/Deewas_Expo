@@ -1,9 +1,7 @@
-// OriginalScreen.tsx
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { SafeAreaView } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { SafeAreaView, ScrollView } from 'react-native'
 import { useDrawer } from './providers/DrawerProvider'
 
 function Drawer0() {
@@ -31,6 +29,9 @@ function Drawer0() {
       }}
       backgroundStyle={{
         backgroundColor: isDarkColorScheme ? '#161616' : '#fff',
+        borderColor: isDarkColorScheme ? '#333' : '#ccc',
+        borderWidth: 2,
+        borderRadius: 24,
       }}
       handleIndicatorStyle={{
         backgroundColor: isDarkColorScheme ? '#fff' : '#161616',

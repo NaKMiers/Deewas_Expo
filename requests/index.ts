@@ -18,3 +18,6 @@ export * from './categoryRequests'
 
 // Wallets
 export * from './walletRequests'
+
+// Reports
+export * from './reportRequests'

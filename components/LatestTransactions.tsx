@@ -125,7 +125,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       </View>
 
       {/* MARK: Transaction List */}
-      {loading ? (
+      {!loading ? (
         <View className="mt-21/2 flex flex-col gap-2 rounded-lg bg-secondary p-21/2 shadow-md">
           {transactions.slice(0, +limit).length > 0 ? (
             transactions.slice(0, +limit).map((tx, index) => (

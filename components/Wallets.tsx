@@ -66,25 +66,27 @@ function Wallets({ className }: WalletProps) {
       {/* Wallet List */}
       {!loading ? (
         wallets.length > 0 ? (
-          <FlatList
-            horizontal
-            data={wallets}
-            keyExtractor={item => item._id}
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={SCREEN_WIDTH}
-            decelerationRate="fast"
-            className="-mx-21/2"
-            renderItem={({ item: wallet }: { item: IWallet }) => (
-              <View
-                className="px-21/2"
-                style={{
-                  width: isIpad ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH,
-                }}
-              >
-                <WalletCard wallet={wallet} />
-              </View>
-            )}
-          />
+          <View className="flex-1">
+            <FlatList
+              horizontal
+              data={wallets}
+              keyExtractor={item => item._id}
+              showsHorizontalScrollIndicator={false}
+              snapToInterval={SCREEN_WIDTH}
+              decelerationRate="fast"
+              className="-mx-21/2"
+              renderItem={({ item: wallet }: { item: IWallet }) => (
+                <View
+                  className="w px-21/2"
+                  style={{
+                    width: isIpad ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH,
+                  }}
+                >
+                  <WalletCard wallet={wallet} />
+                </View>
+              )}
+            />
+          </View>
         ) : (
           <NoItemsFound
             className="mt-1"

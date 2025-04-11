@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import { Text as RNText, TextProps } from 'react-native'
 
-function Text({ className, style, children, ...props }: TextProps) {
+export default function Text({ className, style, children, ...props }: TextProps) {
   return (
     <RNText
       className={cn('font-sans text-primary', className)}
@@ -13,5 +13,3 @@ function Text({ className, style, children, ...props }: TextProps) {
     </RNText>
   )
 }
-
-export default Text

@@ -1,10 +1,12 @@
 import icons from '@/assets/icons/icons'
+import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { setToken, setUser } from '@/lib/reducers/userReducer'
+import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { signInCredentialsApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -34,6 +36,7 @@ function LoginPage() {
   const t = (key: string) => translate('loginPage.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
+  const { isDarkColorScheme } = useColorScheme()
 
   // states
   const [loading, setLoading] = useState<boolean>(false)
@@ -103,7 +106,8 @@ function LoginPage() {
         text2: tSuccess('You have successfully logged in'),
       })
 
-      router.replace('/wizard')
+      // go home
+      router.replace('/')
     } catch (err: any) {
       console.log(err)
       Toast.show({
@@ -118,112 +122,122 @@ function LoginPage() {
   }, [])
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex h-screen flex-1 items-center justify-center"
-        keyboardVerticalOffset={21}
-      >
-        <View className="flex h-screen w-screen flex-1 items-center justify-center px-21">
-          <View
-            className={cn(
-              'w-full max-w-[400px] overflow-hidden rounded-2xl border border-primary bg-white text-black'
-            )}
-          >
-            <View className="px-10 py-8">
-              {/* MARK: Header */}
-              <Text className="text-center text-lg font-semibold text-black">
-                {t('Login to Deewas')}
-              </Text>
-              <Text className="text-center text-muted-foreground">
-                {t('Welcome back, please login to continue!')}
-              </Text>
+    <>
+      <Image
+        source={isDarkColorScheme ? images.block2 : images.block1}
+        resizeMode="cover"
+        className="h-full w-full"
+        style={{ position: 'absolute' }}
+      />
+      <ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          className="flex h-screen flex-1 items-center justify-center"
+          keyboardVerticalOffset={21}
+        >
+          <View className="flex h-screen w-screen flex-1 items-center justify-center px-21">
+            <Text className="mb-21 flex items-end text-center text-4xl font-bold tracking-wider">
+              DEEWAS
+              <Text className="text-[40px] font-bold text-green-500">.</Text>
+            </Text>
 
-              <Separator className="my-6 h-0" />
+            <View
+              className={cn(
+                'w-full max-w-[400px] overflow-hidden rounded-2xl border border-secondary bg-white text-black'
+              )}
+            >
+              <View className="px-10 py-8">
+                {/* MARK: Header */}
+                <Text className="text-center text-lg font-semibold text-black">
+                  {t('Login to Deewas')}
+                </Text>
+                <Text className="text-center text-muted-foreground">
+                  {t('Welcome back, please login to continue!')}
+                </Text>
 
-              {/* MARK: Social Login */}
-              <View className="grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-3">
-                <Button className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10">
-                  <Image
-                    source={icons.google}
-                    alt="Google"
-                    className="h-5 w-5"
-                    resizeMode="contain"
+                <Separator className="my-6 h-0" />
+
+                {/* MARK: Social Login */}
+                <View className="items-center justify-center gap-2">
+                  <Button className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10">
+                    <Image
+                      source={icons.google}
+                      alt="Google"
+                      className="h-5 w-5"
+                      resizeMode="contain"
+                    />
+                    <Text className="font-semibold text-black">{t('Login with Google')}</Text>
+                  </Button>
+                </View>
+
+                <View className="my-6 flex flex-row items-center gap-3">
+                  <View className="h-px flex-1 border border-muted-foreground/10" />
+                  <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
+                  <View className="h-px flex-1 border border-muted-foreground/10" />
+                </View>
+
+                <View className="flex flex-col gap-6">
+                  {/* MARK: Username / Email */}
+                  <CustomInput
+                    id="usernameOrEmail"
+                    label={t('Username / Email')}
+                    type="text"
+                    control={control}
+                    errors={errors}
+                    onFocus={() => clearErrors('usernameOrEmail')}
+                    labelClassName="text-black"
+                    className="bg-white text-black"
+                    placeholder="..."
                   />
-                  <Text className="font-semibold text-black">{t('Login with Google')}</Text>
-                </Button>
-              </View>
 
-              <View className="my-6 flex flex-row items-center gap-3">
-                <View className="h-px flex-1 border border-muted-foreground/10" />
-                <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
-                <View className="h-px flex-1 border border-muted-foreground/10" />
-              </View>
+                  {/* MARK: Password */}
+                  <CustomInput
+                    id="password"
+                    label={t('Password')}
+                    type="password"
+                    control={control}
+                    errors={errors}
+                    onFocus={() => clearErrors('password')}
+                    labelClassName="text-black"
+                    className="bg-white text-black"
+                    placeholder="..."
+                  />
+                </View>
 
-              <View className="flex flex-col gap-6">
-                {/* MARK: Username / Email */}
-                <CustomInput
-                  id="usernameOrEmail"
-                  label={t('Username / Email')}
-                  type="text"
-                  control={control}
-                  errors={errors}
-                  onFocus={() => clearErrors('usernameOrEmail')}
-                  labelClassName="text-black"
-                  className="bg-white text-black"
-                />
+                <View className="mt-2 flex flex-row justify-end">
+                  <TouchableOpacity
+                    onPress={() => router.replace('/auth/forgot-password')}
+                    className="mt-2 block text-right underline underline-offset-2"
+                  >
+                    <Text className="text-base text-muted-foreground underline">
+                      {t('Forgot Password?')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
 
-                {/* MARK: Password */}
-                <CustomInput
-                  id="password"
-                  label={t('Password')}
-                  type="password"
-                  control={control}
-                  errors={errors}
-                  onFocus={() => clearErrors('password')}
-                  labelClassName="text-black"
-                  className="bg-white text-black"
-                />
-              </View>
-
-              <View className="mt-2 flex flex-row justify-end">
+                {/* MARK: Submit Button */}
                 <TouchableOpacity
-                  onPress={() => router.replace('/auth/forgot-password')}
-                  className="mt-2 block text-right underline underline-offset-2"
+                  className={cn(
+                    'mt-6 flex h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
+                    loading && 'opacity-50'
+                  )}
+                  onPress={handleSubmit(onSubmit)}
+                  disabled={loading}
                 >
-                  <Text className="text-base text-muted-foreground underline">
-                    {t('Forgot Password?')}
-                  </Text>
+                  {loading ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <Text className="text-lg font-semibold text-white">{t('Login')}</Text>
+                  )}
                 </TouchableOpacity>
               </View>
 
-              {/* MARK: Submit Button */}
-              <Button
-                className="mt-6 w-full bg-neutral-900"
-                onPress={handleSubmit(onSubmit)}
-                disabled={loading}
-              >
-                {loading ? (
-                  <ActivityIndicator />
-                ) : (
-                  <Text className="font-semibold text-white">{t('Login')}</Text>
-                )}
-              </Button>
-            </View>
-
-            {/* MARK: Footer */}
-            <View className="border-y border-muted-foreground/50 bg-neutral-100">
-              <View className="flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
-                <Text className="text-black">{t("Don't have an account?")}</Text>
-                <TouchableOpacity onPress={() => router.replace('/auth/register')}>
-                  <Text className="font-semibold text-black underline">{t('Register')}</Text>
-                </TouchableOpacity>
-              </View>
+              <Separator className="h-5" />
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </>
   )
 }
 

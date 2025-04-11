@@ -1,5 +1,7 @@
+import { images } from '@/assets/images/images'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Icon from '@/components/Icon'
+import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import SettingsBox from '@/components/SettingsBox'
 import Text from '@/components/Text'
@@ -20,7 +22,7 @@ import {
 } from 'lucide-react-native'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
@@ -81,7 +83,8 @@ function AccountPage({ navigation }: any) {
               <View className="aspect-square max-w-[40px] flex-1 overflow-hidden rounded-full shadow-sm">
                 <Image
                   className="h-full w-full object-cover"
-                  source={{ uri: user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR }}
+                  source={{ uri: user?.avatar }}
+                  fallbackSource={images.defaultAvatar}
                   width={50}
                   height={50}
                   alt="avatar"

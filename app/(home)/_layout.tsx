@@ -5,13 +5,13 @@ import UseSettings from '@/components/UseSettings'
 import UseWallets from '@/components/UseWallets'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Redirect } from 'expo-router'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Account from './account'
 import AI from './ai'
 import Budgets from './budgets'
 import Calendar from './calendar'
 import Categories from './categories'
-import Home from './index'
+import Home from './home'
 import Transactions from './transactions'
 
 const Tab = createBottomTabNavigator()
@@ -20,7 +20,7 @@ function HomeLayout() {
   const { user, loading } = useAuth()
 
   if (loading) return null
-  if (!user) return <Redirect href="/auth/login" />
+  if (!user) return <Redirect href="/welcome" />
 
   return (
     <>

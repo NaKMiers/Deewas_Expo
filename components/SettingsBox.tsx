@@ -73,7 +73,6 @@ function Box({ type, desc, list, init, className }: BoxProps) {
   const t = (key: string) => translate('settingsBox.' + key)
 
   // states
-  const [open, setOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [selected, setSelected] = useState<any>(init)
 
@@ -146,7 +145,6 @@ function Box({ type, desc, list, init, className }: BoxProps) {
             handleUpdateSettings(option.value)
           }
           setSelected(option)
-          setOpen(false)
         }}
       >
         <SelectTrigger>

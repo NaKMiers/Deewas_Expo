@@ -6,13 +6,13 @@ import { LucideChevronDown, LucideMinus } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, TouchableOpacity, View } from 'react-native'
+import { FlatList, Platform, TouchableOpacity, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
 import DateTimePicker from './DateTimePicker'
 import Icon from './Icon'
 import Text from './Text'
 import { useDrawer } from './providers/DrawerProvider'
 import { Button } from './ui/button'
-import Collapsible from 'react-native-collapsible'
 
 interface DateRangePickerProps {
   values: { from: Date; to: Date }
@@ -92,6 +92,8 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
   const [slide, setSlide] = useState<number>(1)
   const [openRangeSelection, setOpenRangeSelection] = useState<boolean>(false)
   const [selectedRange, setSelectedRange] = useState<any>(null)
+  const [openFrom, setOpenFrom] = useState<boolean>(false)
+  const [openTo, setOpenTo] = useState<boolean>(false)
 
   // refs
   const flatListRef = useRef<FlatList>(null)
@@ -116,13 +118,14 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
       className={cn('mx-auto w-full max-w-sm', className)}
       style={{ marginTop: 21 }}
     >
+      {/* From - To */}
       <View className={cn('flex flex-row items-center justify-center gap-3')}>
         <View className="flex flex-1 flex-col items-center gap-2">
           <Text className="px-2 font-semibold">{t('From Date')}</Text>
           <Button
             variant="outline"
-            className={cn('w-full', slide === 1 && 'border-yellow-500')}
-            onPress={() => setSlide(1)}
+            className={cn('w-full', slide === 1 && Platform.OS === 'ios' && 'border-yellow-500')}
+            onPress={() => (Platform.OS === 'ios' ? setSlide(1) : setOpenFrom(!openFrom))}
           >
             <Text className="font-semibold">{moment(from).format('MMM DD, YYYY')}</Text>
           </Button>
@@ -135,14 +138,15 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
           <Text className="px-2 font-semibold">{t('To Date')}</Text>
           <Button
             variant="outline"
-            className={cn('w-full', slide === 2 && 'border-yellow-500')}
-            onPress={() => setSlide(2)}
+            className={cn('w-full', slide === 2 && Platform.OS === 'ios' && 'border-yellow-500')}
+            onPress={() => (Platform.OS === 'ios' ? setSlide(2) : setOpenTo(!openFrom))}
           >
             <Text className="font-semibold">{moment(to).format('MMM DD, YYYY')}</Text>
           </Button>
         </View>
       </View>
 
+      {/* Quick Range Selection */}
       <TouchableOpacity
         activeOpacity={0.7}
         className="mt-2 flex h-11 w-full flex-row items-center justify-between gap-1 rounded-lg border border-primary px-3"
@@ -165,7 +169,7 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
               className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary"
               onPress={() => {
                 setFrom(range.value.from)
-                setTimeout(() => setTo(range.value.to), 0)
+                setTo(range.value.to)
                 setSelectedRange(range)
                 setOpenRangeSelection(false)
               }}
@@ -177,6 +181,7 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
         </View>
       </Collapsible>
 
+      {/* Calendars */}
       <FlatList
         className="mt-3"
         ref={flatListRef}
@@ -187,9 +192,16 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
         ]}
         keyExtractor={item => item.type}
         renderItem={({ item }) => (
-          <View className={cn('mt-4 flex flex-col items-center gap-1')}>
-            <Text className="px-2 text-lg font-semibold">{t(item.label)}</Text>
+          <View className={cn('flex flex-col items-center gap-1', Platform.OS === 'ios' && 'mt-4')}>
+            {Platform.OS === 'ios' && (
+              <Text className="px-2 text-lg font-semibold">{t(item.label)}</Text>
+            )}
             <DateTimePicker
+              open={item.type === 'from' ? openFrom : openTo}
+              close={() => {
+                setOpenFrom(false)
+                setOpenTo(false)
+              }}
               currentDate={item.type === 'from' ? from : to}
               onChange={date => date && (item.type === 'from' ? setFrom(date) : setTo(date))}
               minimumDate={item.type === 'to' ? from : undefined}

@@ -37,6 +37,7 @@ declare interface ISettings {
   updatedAt: string
 
   user: string
+  personalities: number[]
   currency: string
   language: string
 }
