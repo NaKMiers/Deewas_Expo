@@ -1,5 +1,6 @@
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
+import Image from '@/components/Image'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { commonEmailMistakes } from '@/constants/mistakes'
@@ -13,7 +14,6 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
-  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,

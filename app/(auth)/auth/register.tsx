@@ -1,6 +1,7 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
+import Image from '@/components/Image'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -18,7 +19,6 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
-  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -135,11 +135,6 @@ function RegisterPage() {
       dispatch(setUser(decodedUser))
       dispatch(setToken(token))
 
-      // save token and user
-      await AsyncStorage.setItem('token', token)
-      dispatch(setUser(decodedUser))
-      dispatch(setToken(token))
-
       // currency at onboarding
       const currency = await AsyncStorage.getItem('currency')
       const personalities = await AsyncStorage.getItem('personalities')
@@ -151,11 +146,6 @@ function RegisterPage() {
         }
 
         await updateMySettingsApi(data)
-
-        // clear onboarding data
-        await AsyncStorage.removeItem('currency')
-        await AsyncStorage.removeItem('personalities')
-        await AsyncStorage.removeItem('onboarding')
       }
 
       // show success message
@@ -218,10 +208,7 @@ function RegisterPage() {
 
                 {/* MARK: Social Login */}
                 <View className="items-center justify-center gap-2">
-                  <Button
-                    className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10"
-                    onPress={() => i18n.changeLanguage('vi')}
-                  >
+                  <Button className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10">
                     <Image
                       source={icons.google}
                       alt="Google"

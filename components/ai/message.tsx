@@ -10,18 +10,20 @@ import { Markdown } from './markdown'
 interface MessageProps {
   role: 'assistant' | 'user'
   content: string
-  toolInvocations?: any
+  parts?: any
 }
 
-export default function Message({ role, content, toolInvocations }: MessageProps) {
-  console.log('toolInvocations', toolInvocations)
-  console.log('toolInvocations.result', toolInvocations?.result)
+export default function Message({ role, content, parts }: MessageProps) {
+  const toolInvocations = parts?.[1]?.toolInvocation
+
   const MAX_WIDTH = 500
   const isLarge = SCREEN_WIDTH >= MAX_WIDTH
 
+  console.log('parts', parts)
+
   // if tool is invoked, show the result of the tool
   if (toolInvocations) {
-    const { args, result, state, step, toolCallId, toolName } = toolInvocations[0]
+    const { args, result, state, step, toolCallId, toolName } = toolInvocations
     const message = result?.message || ''
     const error = result?.error
 

@@ -6,6 +6,7 @@ export const user = createSlice({
     token: null as string | null,
     user: null as IFullUser | null,
     loading: false as boolean,
+    onboarding: null as any,
   },
   reducers: {
     setToken: (state, action: PayloadAction<string>) => {
@@ -13,6 +14,9 @@ export const user = createSlice({
     },
     setUser: (state, action: PayloadAction<IFullUser>) => {
       state.user = action.payload
+    },
+    setOnboarding: (state, action: PayloadAction<any>) => {
+      state.onboarding = action.payload
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload
@@ -24,5 +28,5 @@ export const user = createSlice({
   },
 })
 
-export const { setToken, setUser, setLoading, clearUser } = user.actions
+export const { setToken, setUser, setOnboarding, setLoading, clearUser } = user.actions
 export default user.reducer

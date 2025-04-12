@@ -1,18 +1,20 @@
 import { images } from '@/assets/images/images'
+import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { languages } from '@/constants/settings'
 import { useColorScheme } from '@/lib/useColorScheme'
+import { BASE_URL } from '@/lib/utils'
 import { Redirect, router } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Linking, TouchableOpacity, View } from 'react-native'
+import { Linking, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function WelcomePage() {
   // hooks
-  const { user } = useAuth()
+  const { user, onboarding } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('welcomePage.' + key)
@@ -34,6 +36,7 @@ export default function WelcomePage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
+  if (onboarding) return <Redirect href="/auth/register" />
 
   return (
     <>
@@ -91,10 +94,10 @@ export default function WelcomePage() {
           <View className="px-21/2 md:px-21">
             <View>
               <Text className="text-center text-3xl font-bold tracking-tighter text-secondary">
-                Ever wonder where your money goes - and why it's never enough?
+                {t("Ever wonder where your money goes - and why it's never enough?")}
               </Text>
               <Text className="mt-2 text-center text-lg font-medium tracking-tighter text-secondary">
-                Powered by AI, Deewas helps you track, save smarter, and finally feel in control.
+                {t('Powered by AI, Deewas helps you track, save smarter, and finally feel in control')}.
               </Text>
             </View>
 
@@ -103,37 +106,38 @@ export default function WelcomePage() {
                 className="flex items-center justify-center rounded-full bg-secondary px-21 py-4"
                 onPress={() => router.push('/onboarding')}
               >
-                <Text className="text-lg font-semibold">Try Deewas for Free</Text>
+                <Text className="text-lg font-semibold">{t('Try Deewas for Free')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 className="flex items-center justify-center rounded-full bg-secondary/20 px-21 py-4"
                 onPress={() => router.push('/auth/login')}
               >
                 <Text className="text-lg font-semibold text-secondary/80">
-                  I Already Have an Account
+                  {t('I Already Have an Account')}
                 </Text>
               </TouchableOpacity>
             </View>
 
             <View>
               <Text className="text-center text-sm font-medium text-secondary">
-                By trying Deewas, you agree to the
+                {t('By trying Deewas, you agree to the')}
               </Text>
               <Text className="text-center text-sm font-medium text-secondary">
-                Deewas{' '}
+                {t('Deewas')}{' '}
                 <Text
                   className="font-semibold text-sky-500"
-                  onPress={() => Linking.openURL('https://deewas.com/privacy-policy')}
+                  onPress={() => Linking.openURL(BASE_URL + '/privacy-policy')}
                 >
-                  Privacy Policy
+                  {t('Privacy Policy')}
                 </Text>{' '}
-                and{' '}
+                {t('and')}{' '}
                 <Text
                   className="font-semibold text-sky-500"
-                  onPress={() => Linking.openURL('https://deewas.com/terms-of-service')}
+                  onPress={() => Linking.openURL(BASE_URL + '/terms-and-service')}
                 >
-                  Terms of Service
-                </Text>
+                  {t('Terms of Service')}
+                </Text>{' '}
+                {t('of Deewas')}
               </Text>
             </View>
           </View>

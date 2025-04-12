@@ -1,7 +1,7 @@
-import { useAppDispatch } from '@/hooks/reduxHook'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setLoading, setSettings } from '@/lib/reducers/settingsReducer'
 import { getMySettingsApi } from '@/requests'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useAuth } from './providers/AuthProvider'
 
 function UseSettings() {
@@ -9,27 +9,31 @@ function UseSettings() {
   const dispatch = useAppDispatch()
   const { user } = useAuth()
 
+  // stores
+  const { refreshPoint } = useAppSelector(state => state.load)
+
   // get settings
-  useEffect(() => {
-    async function getSettings() {
-      if (!user) return
+  const getSettings = useCallback(async () => {
+    if (!user) return
 
-      // start loading
-      dispatch(setLoading(true))
+    // start loading
+    dispatch(setLoading(true))
 
-      try {
-        const { settings } = await getMySettingsApi()
-        dispatch(setSettings(settings))
-      } catch (err: any) {
-        console.log(err)
-      } finally {
-        // stop loading
-        dispatch(setLoading(false))
-      }
+    try {
+      const { settings } = await getMySettingsApi()
+      dispatch(setSettings(settings))
+    } catch (err: any) {
+      console.log(err)
+    } finally {
+      // stop loading
+      dispatch(setLoading(false))
     }
-
-    getSettings()
   }, [dispatch, user])
+
+  // initial get settings
+  useEffect(() => {
+    getSettings()
+  }, [dispatch, user, refreshPoint])
 
   return null
 }

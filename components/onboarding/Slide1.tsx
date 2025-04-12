@@ -1,8 +1,12 @@
+import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
 
 export default function Slide1({ onChange }: { onChange: (value: any) => void }) {
+  const { t: translate } = useTranslation()
+  const t = (key: string) => translate('onboardingPage.' + key)
+
   return (
     <View className="flex flex-1 items-center justify-center">
       <Text className="text-center text-3xl font-bold text-primary">
@@ -15,10 +19,10 @@ export default function Slide1({ onChange }: { onChange: (value: any) => void })
             'Youtube',
             'TikTok',
             'App Store',
-            'Online Search',
-            'Friend, Family, or Colleague',
-            'Influencer',
-            'News Article',
+            t('Online Search'),
+            t('Friend, Family, or Colleague'),
+            t('Influencer'),
+            t('News Article'),
             'Podcast',
           ].map((item, index) => (
             <TouchableOpacity

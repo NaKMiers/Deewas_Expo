@@ -1,6 +1,6 @@
 // @/contexts/AuthContext.tsx
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { clearUser, setLoading, setToken, setUser } from '@/lib/reducers/userReducer'
+import { clearUser, setLoading, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { jwtDecode } from 'jwt-decode'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect } from 'react'
@@ -10,20 +10,23 @@ interface AuthContextValue {
   user: IFullUser | null
   loading: boolean
   logout: () => Promise<void>
+  onboarding: any
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch()
-  const { token, user, loading } = useAppSelector(state => state.user)
+  const { token, user, loading, onboarding } = useAppSelector(state => state.user)
 
+  // load user data from AsyncStorage
   useEffect(() => {
     const loadUserData = async () => {
       dispatch(setLoading(true))
 
       try {
         const storedToken = await AsyncStorage.getItem('token')
+        const onboarding = await AsyncStorage.getItem('onboarding')
 
         if (storedToken && !token) {
           const decodedUser: IFullUser = jwtDecode(storedToken)
@@ -33,6 +36,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
           if (!isExpired) {
             dispatch(setToken(storedToken))
             dispatch(setUser(decodedUser))
+            if (onboarding) {
+              dispatch(setOnboarding(JSON.parse(onboarding)))
+            }
           } else {
             await AsyncStorage.removeItem('token')
             dispatch(clearUser())
@@ -50,6 +56,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     loadUserData()
   }, [dispatch, token])
 
+  // handle logout
   const logout = useCallback(async () => {
     await AsyncStorage.removeItem('token')
     dispatch(clearUser())
@@ -58,6 +65,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthContextValue = {
     token,
     user,
+    onboarding,
     loading,
     logout,
   }

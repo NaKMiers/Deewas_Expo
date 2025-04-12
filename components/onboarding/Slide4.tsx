@@ -1,21 +1,24 @@
-import { currencies, CurrencyType } from '@/constants/settings'
+import { currencies, CurrencyType, defaultCurrency } from '@/constants/settings'
 import { cn } from '@/lib/utils'
 import { LucideCheck } from 'lucide-react-native'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Icon from '../Icon'
 import Text from '../Text'
 import { Input } from '../ui/input'
 
 export default function Slide4({ onChange }: { onChange: (value: any) => void }) {
+  const { t: translate } = useTranslation()
+  const t = (key: string) => translate('onboardingPage.' + key)
   const [open, setOpen] = useState<boolean>(false)
-  const [selected, setSelected] = useState<CurrencyType>(currencies[0])
+  const [selected, setSelected] = useState<CurrencyType>(defaultCurrency)
   const [search, setSearch] = useState<string>('')
 
   return (
     <View className="mx-auto flex w-full max-w-[500px] flex-1 items-center justify-center">
       <Text className="mt-21 text-center text-3xl font-bold text-primary">
-        💸 Which currency do you usually use?
+        💸 {t('Which currency do you usually use?')}
       </Text>
 
       <View className="mt-6 w-full flex-1">
@@ -70,11 +73,13 @@ export default function Slide4({ onChange }: { onChange: (value: any) => void })
       <View className="w-full px-21/2 md:px-21">
         <TouchableOpacity
           className={cn(
-            'mb-21 mt-21 flex h-14 flex-shrink-0 flex-row items-center justify-center rounded-full bg-primary px-8'
+            'mb-21 mt-21 flex h-14 flex-shrink-0 flex-row items-center justify-center rounded-full bg-primary px-8',
+            !selected.value && 'opacity-50'
           )}
           onPress={() => onChange(selected.value)}
+          disabled={!selected.value}
         >
-          <Text className="text-lg font-semibold text-secondary">Continue</Text>
+          <Text className="text-lg font-semibold text-secondary">{t('Continue')}</Text>
         </TouchableOpacity>
       </View>
     </View>

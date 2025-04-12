@@ -41,7 +41,7 @@ function TransferFundDrawer({
 }: TransferFundDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('TransferFundDrawer.' + key)
+  const t = (key: string) => translate('transferFundDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
   const { closeDrawer } = useDrawer()

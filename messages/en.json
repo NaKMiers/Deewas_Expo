@@ -126,21 +126,71 @@
     "I'm done! Take me to the dashboard": "I'm done! Take me to the dashboard"
   },
   "aiPage": {
-    "Create": "Create",
-    "a wallet": "a wallet",
-    "Create a new wallet": "Create a new wallet",
-    "Set": "Set",
-    "a new budget": "a new budget",
-    "Set a new budget": "Set a new budget",
-    "Add": "Add",
-    "a new category": "a new category",
-    "Add a new category": "Add a new category",
-    "a transaction": "a transaction",
-    "Add a new transaction": "Add a new transaction",
-    "An error occurred": "An error occurred",
-    "Please try again later": "Please try again later",
+    "Hello?": "Hello?",
+    "What can you do?": "What can you do?",
+    "I bought a dumpling": "I bought a dumpling",
+    "Set a food budget": "Set a food budget",
+    "An Error Happens": "An Error Happens",
+    "Try again": "Try again",
     "Deewas is a personal finance assistant that helps you manage your money wisely": "Deewas is a personal finance assistant that helps you manage your money wisely",
-    "Ask me anything": "Ask me anything"
+    "How can Deewas help?": "How can Deewas help?",
+    "Clear": "Clear",
+    "Mixed personalities": "Mixed personalities",
+    "The Tough Love Mom": "The Tough Love Mom",
+    "The Angry Big Sister": "The Angry Big Sister",
+    "The Caring Lover": "The Caring Lover",
+    "The Friendly Buddy": "The Friendly Buddy",
+    "The Creative Little Bro": "The Creative Little Bro",
+    "The Gentle Dad": "The Gentle Dad",
+    "The Loyal Puppy": "The Loyal Puppy",
+    "The Moody Cat": "The Moody Cat"
+  },
+  "welcomePage": {
+    "Ever wonder where your money goes - and why it's never enough?": "Ever wonder where your money goes - and why it's never enough?",
+    "Powered by AI, Deewas helps you track, save smarter, and finally feel in control": "Powered by AI, Deewas helps you track, save smarter, and finally feel in control",
+    "Try Deewas for Free": "Try Deewas for Free",
+    "I Already Have an Account": "I Already Have an Account",
+    "By trying Deewas, you agree to the": "By trying Deewas, you agree to the",
+    "Deewas": "Deewas",
+    "Privacy Policy": "Privacy Policy",
+    "and": "and",
+    "Terms of Service": "Terms of Service",
+    "of Deewas": ""
+  },
+  "onboardingPage": {
+    "How did would you here about us?": "How did would you here about us?",
+    "Online Search": "Online Search",
+    "Friend, Family, or Colleague": "Friend, Family, or Colleague",
+    "Influencer": "Influencer",
+    "News Article": "News Article",
+    "How do you feel about your finances?": "How do you feel about your finances?",
+    "It's pretty complicated": "It's pretty complicated",
+    "I'm a bit stressed": "I'm a bit stressed",
+    "Not sure yet": "Not sure yet",
+    "I want to improve": "I want to improve",
+    "I feel confident": "I feel confident",
+    "Who do you spend money on": "Who do you spend money on",
+    "Myself": "Myself",
+    "My partner": "My partner",
+    "Other family members": "Other family members",
+    "My friends": "My friends",
+    "My kids": "My kids",
+    "My pets": "My pets",
+    "Which currency do you usually use?": "Which currency do you usually use?",
+    "Pick a personality for Deewas assistant?": "Pick a personality for Deewas assistant?",
+    "Select multiple if you'd like to mix styles": "Select multiple if you'd like to mix styles",
+    "The Tough Love Mom": "The Tough Love Mom",
+    "The Angry Big Sister": "The Angry Big Sister",
+    "The Caring Lover": "The Caring Lover",
+    "The Friendly Buddy": "The Friendly Buddy",
+    "The Creative Little Bro": "The Creative Little Bro",
+    "The Gentle Dad": "The Gentle Dad",
+    "The Loyal Puppy": "The Loyal Puppy",
+    "The Moody Cat": "The Moody Cat",
+    "Welcome to the family!": "Welcome to the family!",
+    "We're excited to have you here. Let's get started on your financial journey together!": "We're excited to have you here. Let's get started on your financial journey together!",
+    "Get started now": "Get started now",
+    "Continue": "Continue"
   },
   "calendarPage": {
     "Calendar": "Calendar",
@@ -328,7 +378,7 @@
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "TransferFundDrawer": {
+  "transferFundDrawer": {
     "Source wallet is required": "Source wallet is required",
     "Destination wallet is required": "Destination wallet is required",
     "Source wallet and destination wallet must be different": "Source wallet and destination wallet must be different",
@@ -346,6 +396,20 @@
     "When did this transferring happen?": "When did this transferring happen?",
     "Cancel": "Cancel",
     "Save": "Save"
+  },
+  "changePersonalitiesDrawer": {
+    "Pick a personality for Deewas assistant?": "Pick a personality for Deewas assistant?",
+    "Select multiple if you'd like to mix styles": "Select multiple if you'd like to mix styles",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "The Tough Love Mom": "The Tough Love Mom",
+    "The Angry Big Sister": "The Angry Big Sister",
+    "The Caring Lover": "The Caring Lover",
+    "The Friendly Buddy": "The Friendly Buddy",
+    "The Creative Little Bro": "The Creative Little Bro",
+    "The Gentle Dad": "The Gentle Dad",
+    "The Loyal Puppy": "The Loyal Puppy",
+    "The Moody Cat": "The Moody Cat"
   },
   "budgetCard": {
     "Create Similar": "Create Similar",
@@ -611,7 +675,8 @@
     "Category updated": "Category updated",
     "Budget deleted": "Budget deleted",
     "Budget created": "Budget created",
-    "Budget updated": "Budget updated"
+    "Budget updated": "Budget updated",
+    "Personalities changed": "Personalities changed"
   },
   "error": {
     "Login Failed": "Login Failed",
@@ -638,6 +703,8 @@
     "Failed to update category": "Failed to update category",
     "Failed to delete budget": "Failed to delete budget",
     "Failed to create budget": "Failed to create budget",
-    "Failed to update budget": "Failed to update budget"
+    "Failed to update budget": "Failed to update budget",
+    "Please select at least one personality": "Please select at least one personality",
+    "Failed to change personalities": "Failed to change personalities"
   }
 }

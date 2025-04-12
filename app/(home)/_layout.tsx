@@ -17,10 +17,12 @@ import Transactions from './transactions'
 const Tab = createBottomTabNavigator()
 
 function HomeLayout() {
-  const { user, loading } = useAuth()
+  const { user, loading, onboarding } = useAuth()
 
   if (loading) return null
-  if (!user) return <Redirect href="/welcome" />
+  if (!user) {
+    return onboarding ? <Redirect href="/auth/login" /> : <Redirect href="/welcome" />
+  }
 
   return (
     <>

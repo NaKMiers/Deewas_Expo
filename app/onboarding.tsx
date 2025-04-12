@@ -6,13 +6,14 @@ import Slide4 from '@/components/onboarding/Slide4'
 import Slide5 from '@/components/onboarding/Slide5'
 import Slide6 from '@/components/onboarding/Slide6'
 import { useAuth } from '@/components/providers/AuthProvider'
+import { useAppDispatch } from '@/hooks/reduxHook'
+import { setOnboarding } from '@/lib/reducers/userReducer'
 import { sendReportApi } from '@/requests'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Redirect, router } from 'expo-router'
 import { LucideChevronLeft, LucideRotateCcw } from 'lucide-react-native'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Animated, FlatList, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -20,10 +21,8 @@ const IPAD_THRESHOLD = 768
 
 export default function OnboardingPage() {
   // hooks
-  const { user } = useAuth()
-  const { t: translate, i18n } = useTranslation()
-  const t = (key: string) => translate('onboardingPage.' + key)
-  const locale = i18n.language
+  const { user, onboarding } = useAuth()
+  const dispatch = useAppDispatch()
 
   // refs
   const swiperRef = useRef<any>(null)
@@ -44,7 +43,9 @@ export default function OnboardingPage() {
         await sendReportApi(form)
       }
 
+      // set onboarding
       await AsyncStorage.setItem('onboarding', JSON.stringify(form))
+      dispatch(setOnboarding(form))
     } catch (err: any) {
       console.log(err)
     }
@@ -79,17 +80,12 @@ export default function OnboardingPage() {
     <Slide4
       onChange={async value => {
         await AsyncStorage.setItem('currency', JSON.stringify(value))
-        const currency = await AsyncStorage.getItem('currency')
-        console.log('currency', currency)
         nextSlide()
       }}
     />,
     <Slide5
       onChange={async value => {
         await AsyncStorage.setItem('personalities', JSON.stringify(value))
-
-        const personalities = await AsyncStorage.getItem('personalities')
-        console.log('personalities', personalities)
         nextSlide()
       }}
     />,
@@ -126,6 +122,7 @@ export default function OnboardingPage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
+  if (onboarding) return <Redirect href="/auth/register" />
 
   return (
     <SafeAreaView className="flex-1">

@@ -1,42 +1,11 @@
 import { images } from '@/assets/images/images'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { LucideBrain, LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
-import { memo } from 'react'
+import { LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
+import { memo, useMemo } from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
 import Image from './Image'
 import { useAuth } from './providers/AuthProvider'
-
-const routes = [
-  {
-    label: 'Home',
-    icon: LucideHome,
-    activeColor: '#10b981',
-    href: '/',
-  },
-  {
-    label: 'Transactions',
-    icon: LucideWallet,
-    activeColor: '#0ea5e9',
-    href: '/transactions',
-  },
-  {
-    label: 'AI',
-    icon: LucideBrain,
-    activeColor: '#f43f5e',
-    href: '/ai',
-  },
-  {
-    label: 'Budgets',
-    icon: LucidePieChart,
-    activeColor: '#8b5cf6',
-    href: '/budgets',
-  },
-  {
-    label: 'Account',
-    href: '/account',
-  },
-]
 
 function Navbar({ className, state, navigation, ...props }: { className?: string; [key: string]: any }) {
   // hooks
@@ -53,6 +22,46 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
       navigation.navigate(route.label.toLowerCase())
     }
   }
+
+  const routes = useMemo(
+    () => [
+      {
+        label: 'Home',
+        href: '/',
+        icon: LucideHome,
+        activeColor: '#10b981',
+      },
+      {
+        label: 'Transactions',
+        href: '/transactions',
+        icon: LucideWallet,
+        activeColor: '#0ea5e9',
+      },
+      {
+        label: 'AI',
+        href: '/ai',
+        activeColor: '#f43f5e',
+        source: isDarkColorScheme ? images.roundedLogoDark : images.roundedLogoLight,
+        fallbackSource: isDarkColorScheme ? images.roundedLogoDark : images.roundedLogoLight,
+        width: 32,
+        height: 32,
+        className: 'rounded-none',
+      },
+      {
+        label: 'Budgets',
+        href: '/budgets',
+        icon: LucidePieChart,
+        activeColor: '#8b5cf6',
+      },
+      {
+        label: 'Account',
+        href: '/account',
+        source: { uri: user?.avatar },
+        fallbackSource: images.defaultAvatar,
+      },
+    ],
+    [user?.avatar, isDarkColorScheme, images]
+  )
 
   return (
     <View
@@ -83,13 +92,13 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
                 />
               ) : (
                 <View
-                  className="overflow-hidden rounded-full"
-                  style={{ height: 26, width: 26 }}
+                  className={cn('overflow-hidden rounded-full', route.className)}
+                  style={{ height: route.height || 26, width: route.width || 26 }}
                 >
                   <Image
-                    className="h-full w-full rounded-full"
-                    source={{ uri: user?.avatar }}
-                    fallbackSource={images.defaultAvatar}
+                    className="h-full w-full"
+                    source={route.source}
+                    fallbackSource={route.fallbackSource}
                     resizeMode="cover"
                     alt="account"
                   />

@@ -13,8 +13,14 @@ import theGentleDad from '@/assets/images/the-gentle-dad.png'
 import theLoyalPuppy from '@/assets/images/the-loyal-puppy.png'
 import theMoodyCat from '@/assets/images/the-moody-cat.png'
 import theToughLoveMom from '@/assets/images/the-tough-love-mom.png'
+import textLogo from '@/assets/images/text-logo.png'
+import roundedLogoDark from '@/assets/images/rounded-logo-dark.png'
+import roundedLogoLight from '@/assets/images/rounded-logo-light.png'
 
 export const images = {
+  textLogo,
+  roundedLogoDark,
+  roundedLogoLight,
   flashSale,
   defaultAvatar,
   onboarding2,
