@@ -1,9 +1,9 @@
-import { Pressable, View } from 'react-native'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
 import { MoonStar } from '@/lib/icons/MoonStar'
 import { Sun } from '@/lib/icons/Sun'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
+import { Pressable, View } from 'react-native'
 
 export function ThemeToggle() {
   const { isDarkColorScheme, setColorScheme } = useColorScheme()
@@ -22,7 +22,7 @@ export function ThemeToggle() {
       {({ pressed }) => (
         <View
           className={cn(
-            'flex-1 aspect-square pt-0.5 justify-center items-start web:px-5',
+            'aspect-square flex-1 items-start justify-center pt-0.5 web:px-5',
             pressed && 'opacity-70'
           )}
         >
