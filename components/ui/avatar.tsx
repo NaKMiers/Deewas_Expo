@@ -1,10 +1,10 @@
-import * as AvatarPrimitive from '@rn-primitives/avatar';
-import * as React from 'react';
-import { cn } from '~/lib/utils';
+import * as AvatarPrimitive from '@rn-primitives/avatar'
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
-const AvatarPrimitiveRoot = AvatarPrimitive.Root;
-const AvatarPrimitiveImage = AvatarPrimitive.Image;
-const AvatarPrimitiveFallback = AvatarPrimitive.Fallback;
+const AvatarPrimitiveRoot = AvatarPrimitive.Root
+const AvatarPrimitiveImage = AvatarPrimitive.Image
+const AvatarPrimitiveFallback = AvatarPrimitive.Fallback
 
 const Avatar = React.forwardRef<AvatarPrimitive.RootRef, AvatarPrimitive.RootProps>(
   ({ className, ...props }, ref) => (
@@ -14,8 +14,8 @@ const Avatar = React.forwardRef<AvatarPrimitive.RootRef, AvatarPrimitive.RootPro
       {...props}
     />
   )
-);
-Avatar.displayName = AvatarPrimitiveRoot.displayName;
+)
+Avatar.displayName = AvatarPrimitiveRoot.displayName
 
 const AvatarImage = React.forwardRef<AvatarPrimitive.ImageRef, AvatarPrimitive.ImageProps>(
   ({ className, ...props }, ref) => (
@@ -25,21 +25,18 @@ const AvatarImage = React.forwardRef<AvatarPrimitive.ImageRef, AvatarPrimitive.I
       {...props}
     />
   )
-);
-AvatarImage.displayName = AvatarPrimitiveImage.displayName;
+)
+AvatarImage.displayName = AvatarPrimitiveImage.displayName
 
 const AvatarFallback = React.forwardRef<AvatarPrimitive.FallbackRef, AvatarPrimitive.FallbackProps>(
   ({ className, ...props }, ref) => (
     <AvatarPrimitiveFallback
       ref={ref}
-      className={cn(
-        'flex h-full w-full items-center justify-center rounded-full bg-muted',
-        className
-      )}
+      className={cn('flex h-full w-full items-center justify-center rounded-full bg-muted', className)}
       {...props}
     />
   )
-);
-AvatarFallback.displayName = AvatarPrimitiveFallback.displayName;
+)
+AvatarFallback.displayName = AvatarPrimitiveFallback.displayName
 
-export { Avatar, AvatarFallback, AvatarImage };
+export { Avatar, AvatarFallback, AvatarImage }

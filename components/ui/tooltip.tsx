@@ -1,13 +1,13 @@
-import * as TooltipPrimitive from '@rn-primitives/tooltip';
-import * as React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import { TextClassContext } from '~/components/ui/text';
-import { cn } from '~/lib/utils';
+import * as TooltipPrimitive from '@rn-primitives/tooltip'
+import * as React from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
+import { TextClassContext } from '@/components/ui/text'
+import { cn } from '@/lib/utils'
 
-const Tooltip = TooltipPrimitive.Root;
+const Tooltip = TooltipPrimitive.Root
 
-const TooltipTrigger = TooltipPrimitive.Trigger;
+const TooltipTrigger = TooltipPrimitive.Trigger
 
 const TooltipContent = React.forwardRef<
   TooltipPrimitive.ContentRef,
@@ -33,7 +33,7 @@ const TooltipContent = React.forwardRef<
       </Animated.View>
     </TooltipPrimitive.Overlay>
   </TooltipPrimitive.Portal>
-));
-TooltipContent.displayName = TooltipPrimitive.Content.displayName;
+))
+TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-export { Tooltip, TooltipContent, TooltipTrigger };
+export { Tooltip, TooltipContent, TooltipTrigger }
