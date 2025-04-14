@@ -104,7 +104,7 @@ export default function WelcomePage() {
               </TouchableOpacity>
               <TouchableOpacity
                 className='flex items-center justify-center rounded-full bg-secondary/20 px-21 py-4'
-                // onPress={() => router.push('/auth/login')}
+                onPress={() => router.push('/auth/login')}
               >
                 <Text className='text-lg font-semibold text-secondary/80'>
                   {t('I Already Have an Account')}
