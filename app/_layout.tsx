@@ -1,3 +1,4 @@
+import DrawerProvider from '@/components/providers/DrawerProvider'
 import StoreProvider from '@/components/providers/StoreProvider'
 import '@/global.scss'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
@@ -11,7 +12,7 @@ import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
-// import 'react-native-gesture-handler'
+import 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
 const LIGHT_THEME: Theme = {
@@ -86,18 +87,18 @@ function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StoreProvider>
-        {/* <DrawerProvider> */}
-        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <DrawerProvider>
+          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
 
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name='(home)' />
-          <Stack.Screen name='(auth)' />
-          <Stack.Screen name='welcome' />
-          <Stack.Screen name='onboarding' />
-        </Stack>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='(home)' />
+            <Stack.Screen name='(auth)' />
+            <Stack.Screen name='welcome' />
+            <Stack.Screen name='onboarding' />
+          </Stack>
 
-        <PortalHost />
-        {/* </DrawerProvider> */}
+          <PortalHost />
+        </DrawerProvider>
       </StoreProvider>
 
       <Toast />

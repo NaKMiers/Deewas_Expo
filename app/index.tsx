@@ -1,15 +1,7 @@
-import React from 'react'
-import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Redirect } from 'expo-router'
 
-const Index = () => {
-  return (
-    <SafeAreaView>
-      <View>
-        <Text className='text-[#f44336]'>Index</Text>
-      </View>
-    </SafeAreaView>
-  )
+function IndexPage() {
+  return <Redirect href='/welcome' />
 }
 
-export default Index
+export default IndexPage
