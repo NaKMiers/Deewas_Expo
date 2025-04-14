@@ -1,11 +1,11 @@
-import { Link, Stack } from 'expo-router'
+import Text from '@/components/Text'
+import { Link } from 'expo-router'
 import { View } from 'react-native'
-import { Text } from '@/components/ui/text'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function NotFoundScreen() {
+function NotFoundPage() {
   return (
-    <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+    <SafeAreaView className='flex-1'>
       <View>
         <Text>This screen doesn't exist.</Text>
 
@@ -13,6 +13,8 @@ export default function NotFoundScreen() {
           <Text>Go to home screen!</Text>
         </Link>
       </View>
-    </>
+    </SafeAreaView>
   )
 }
+
+export default NotFoundPage

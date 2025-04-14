@@ -61,6 +61,7 @@
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.7",
     "i18next": "^24.2.3",
+    "intl": "^1.2.5",
     "jwt-decode": "^4.0.0",
     "lucide-react-native": "^0.378.0",
     "moment": "^2.30.1",
