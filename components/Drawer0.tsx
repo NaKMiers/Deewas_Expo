@@ -1,7 +1,7 @@
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import { Platform, SafeAreaView, ScrollView } from 'react-native'
 import { useDrawer } from './providers/DrawerProvider'
 
 function Drawer0() {
@@ -13,7 +13,7 @@ function Drawer0() {
   const drawerRef = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    if (open) drawerRef.current?.snapToIndex(reach)
+    if (open) drawerRef.current?.snapToIndex(Platform.OS === 'android' ? reach - 1 : reach)
     else drawerRef.current?.close()
   }, [open])
 
@@ -39,7 +39,7 @@ function Drawer0() {
       containerStyle={{}}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>
-        <SafeAreaView className='mx-auto w-full max-w-[500px] flex-1'>
+        <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
           <ScrollView>{content}</ScrollView>
         </SafeAreaView>
       </BottomSheetView>

@@ -41,20 +41,23 @@ function Creations({ className }: ICreationsProps) {
   return (
     <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>
       <View>
-        <Text className='text-center text-xl font-semibold text-primary'>{t('Welcome to Deewas')}</Text>
-        <Text className='text-center text-muted-foreground'>
+        <Text className="text-center text-xl font-semibold text-primary">{t('Welcome to Deewas')}</Text>
+        <Text className="text-center text-muted-foreground">
           {t('Take control of your daily finances')}
         </Text>
       </View>
 
-      <View className='mt-6 flex flex-col gap-6'>
+      <View className="mt-6 flex flex-col gap-6">
         <CreateTransactionDrawer
           update={(transaction: IFullTransaction) => dispatch(addTransaction(transaction))}
           refresh={() => dispatch(refresh())}
           trigger={
-            <View className='flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md'>
-              <Icon render={LucideArrowLeftRight} size={20} />
-              <Text className='font-semibold'>{t('Create Transaction')}</Text>
+            <View className="flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md">
+              <Icon
+                render={LucideArrowLeftRight}
+                size={20}
+              />
+              <Text className="font-semibold">{t('Create Transaction')}</Text>
             </View>
           }
           reach={3}
@@ -64,9 +67,12 @@ function Creations({ className }: ICreationsProps) {
           update={(budget: IFullBudget) => dispatch(addBudget(budget))}
           refresh={() => dispatch(refresh())}
           trigger={
-            <View className='flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md'>
-              <Icon render={LucidePieChart} size={20} />
-              <Text className='font-semibold'>{t('Create Budget')}</Text>
+            <View className="flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md">
+              <Icon
+                render={LucidePieChart}
+                size={20}
+              />
+              <Text className="font-semibold">{t('Create Budget')}</Text>
             </View>
           }
           reach={2}
@@ -76,9 +82,12 @@ function Creations({ className }: ICreationsProps) {
           update={(wallet: IWallet) => dispatch(addWallet(wallet))}
           refresh={() => dispatch(refresh())}
           trigger={
-            <View className='flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md'>
-              <Icon render={LucideWalletCards} size={20} />
-              <Text className='font-semibold'>{t('Create Wallet')}</Text>
+            <View className="flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md">
+              <Icon
+                render={LucideWalletCards}
+                size={20}
+              />
+              <Text className="font-semibold">{t('Create Wallet')}</Text>
             </View>
           }
         />
@@ -87,25 +96,33 @@ function Creations({ className }: ICreationsProps) {
           update={(category: ICategory) => dispatch(addCategory(category))}
           refresh={() => dispatch(refresh())}
           trigger={
-            <View className='flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md'>
-              <Icon render={LucideBookCopy} size={20} />
-              <Text className='font-semibold'>{t('Create Category')}</Text>
+            <View className="flex flex-row items-center justify-center gap-2 rounded-md bg-secondary px-21 py-21/2 shadow-md">
+              <Icon
+                render={LucideBookCopy}
+                size={20}
+              />
+              <Text className="font-semibold">{t('Create Category')}</Text>
             </View>
           }
+          reach={2}
         />
       </View>
 
-      <View className='mb-21 mt-6 px-0'>
-        <View className='mt-3 flex flex-row items-center justify-end gap-21/2'>
+      <View className="mb-21 mt-6 px-0">
+        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
           <View>
-            <Button variant='default' className='h-10 rounded-md px-21/2' onPress={closeDrawer}>
-              <Text className='font-semibold text-secondary'>{t('Cancel')}</Text>
+            <Button
+              variant="default"
+              className="h-10 rounded-md px-21/2"
+              onPress={closeDrawer}
+            >
+              <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
             </Button>
           </View>
         </View>
       </View>
 
-      <Separator className='my-8 h-0' />
+      <Separator className="my-8 h-0" />
     </View>
   )
 }

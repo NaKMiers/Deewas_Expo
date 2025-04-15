@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Redirect } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Account from './account'
-// import AI from './ai'
+import AI from './ai'
 import Budgets from './budgets'
 import Calendar from './calendar'
 import Categories from './categories'
@@ -42,10 +42,10 @@ export default function HomeLayout() {
             name="transactions"
             component={Transactions}
           />
-          {/* <Tab.Screen
+          <Tab.Screen
             name="ai"
             component={AI}
-          /> */}
+          />
           <Tab.Screen
             name="budgets"
             component={Budgets}
