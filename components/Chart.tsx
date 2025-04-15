@@ -51,7 +51,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
             startFillColor={colors[transactionType][0]}
             endFillColor={colors[transactionType][1]}
             dataPointsRadius={3}
-            dataPointsColor='white'
+            dataPointsColor="white"
             //
             areaChart
             curved
@@ -70,7 +70,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
         const totalValue = data.reduce((sum, item) => sum + item.value, 0)
 
         return (
-          <View className='mt-2 flex flex-row items-center justify-center'>
+          <View className="mt-2 flex flex-row items-center justify-center">
             <PieChart
               data={pieData}
               //
@@ -78,7 +78,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
               donut
               //
               showText
-              textColor='white'
+              textColor="white"
               textSize={16}
               textBackgroundRadius={24}
               centerLabelComponent={() => (

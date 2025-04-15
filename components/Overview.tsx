@@ -37,33 +37,48 @@ function Overview({ className }: OverviewProps) {
   return (
     <View className={cn('rounded-lg bg-secondary shadow-md', className)}>
       <TouchableWithoutFeedback onPress={() => setCollapsed(!collapsed)}>
-        <View className='flex flex-row justify-between p-21/2'>
-          <View className='flex-1'>
+        <View className="flex flex-row justify-between p-21/2">
+          <View className="flex-1">
             <OverviewItem
               title={t('Total Balance')}
               value={totalBalance}
-              type='balance'
+              type="balance"
               isEye
               isShow={showValue}
               toggle={setShowValue}
             />
 
             <Collapsible collapsed={!collapsed}>
-              <View className='flex flex-col'>
-                <OverviewItem title={t('Income')} value={totalIncome} type='income' isShow={showValue} />
+              <View className="flex flex-col">
+                <OverviewItem
+                  title={t('Income')}
+                  value={totalIncome}
+                  type="income"
+                  isShow={showValue}
+                />
                 <OverviewItem
                   title={t('Expense')}
                   value={totalExpense}
-                  type='expense'
+                  type="expense"
                   isShow={showValue}
                 />
-                <OverviewItem title={t('Saving')} value={totalSaving} type='saving' isShow={showValue} />
-                <OverviewItem title={t('Invest')} value={totalInvest} type='invest' isShow={showValue} />
+                <OverviewItem
+                  title={t('Saving')}
+                  value={totalSaving}
+                  type="saving"
+                  isShow={showValue}
+                />
+                <OverviewItem
+                  title={t('Invest')}
+                  value={totalInvest}
+                  type="invest"
+                  isShow={showValue}
+                />
               </View>
             </Collapsible>
           </View>
 
-          <View className='flex h-12 flex-row items-center justify-center px-21/2'>
+          <View className="flex h-12 flex-row items-center justify-center px-21/2">
             <Icon
               render={LucideChevronDown}
               size={22}
@@ -98,21 +113,37 @@ function OverviewItem({ title, type, value, isEye, isShow, toggle, className }: 
   return (
     currency && (
       <View className={cn('flex w-full flex-col px-21/2 py-1', className)}>
-        <View className='flex flex-row items-center gap-2'>
-          <Icon render={renderIcon} size={24} className={cn(color)} color={hex} />
+        <View className="flex flex-row items-center gap-2">
+          <Icon
+            render={renderIcon}
+            size={24}
+            className={cn(color)}
+            color={hex}
+          />
           {isShow ? (
-            <Text className='text-xl font-semibold'>{formatCurrency(currency, value)}</Text>
+            <Text className="text-xl font-semibold">{formatCurrency(currency, value)}</Text>
           ) : (
-            <View className='flex flex-row items-center'>
+            <View className="flex flex-row items-center">
               {Array.from({ length: 6 }).map((_, i) => (
-                <Icon render={LucideAsterisk} size={18} key={i} />
+                <Icon
+                  render={LucideAsterisk}
+                  size={18}
+                  key={i}
+                />
               ))}
             </View>
           )}
 
           {isEye && (
-            <Button variant='ghost' size='icon' onPress={() => toggle && toggle(prev => !prev)}>
-              <Icon render={LucideEye} size={20} />
+            <Button
+              variant="ghost"
+              size="icon"
+              onPress={() => toggle && toggle(prev => !prev)}
+            >
+              <Icon
+                render={LucideEye}
+                size={20}
+              />
             </Button>
           )}
         </View>

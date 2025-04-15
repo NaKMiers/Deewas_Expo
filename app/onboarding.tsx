@@ -11,7 +11,7 @@ import { setOnboarding } from '@/lib/reducers/userReducer'
 import { sendReportApi } from '@/requests'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import { LucideChevronLeft, LucideRotateCcw } from 'lucide-react-native'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, FlatList, TouchableOpacity, View } from 'react-native'
@@ -121,24 +121,27 @@ export default function OnboardingPage() {
   }, [progressAnim, slide, slides])
 
   // go home if user is logged in
-  // if (user) return <Redirect href="/home" />
-  // if (onboarding) return <Redirect href="/auth/register" />
+  if (user) return <Redirect href="/home" />
+  if (onboarding) return <Redirect href="/auth/register" />
 
   return (
-    <SafeAreaView className='flex-1'>
-      <View className='flex-1 px-21/2 md:px-21'>
+    <SafeAreaView className="flex-1">
+      <View className="flex-1 px-21/2 md:px-21">
         {/* MARK: Progress */}
-        <View className='mx-auto flex max-w-[500px] flex-row items-center justify-center gap-21 border-b border-secondary px-21/2 pb-21/2'>
+        <View className="mx-auto flex max-w-[500px] flex-row items-center justify-center gap-21 border-b border-secondary px-21/2 pb-21/2">
           <TouchableOpacity
-            className='flex items-center justify-center rounded-full p-1'
+            className="flex items-center justify-center rounded-full p-1"
             style={{ marginLeft: -21 / 2 }}
             onPress={prevSlide}
           >
-            <Icon render={LucideChevronLeft} size={30} />
+            <Icon
+              render={LucideChevronLeft}
+              size={30}
+            />
           </TouchableOpacity>
-          <View className='h-2 flex-1 rounded-full bg-primary/10'>
+          <View className="h-2 flex-1 rounded-full bg-primary/10">
             <Animated.View
-              className='h-2 rounded-full bg-primary'
+              className="h-2 rounded-full bg-primary"
               style={{
                 width: progressAnim.interpolate({
                   inputRange: [0, 1],
@@ -148,10 +151,13 @@ export default function OnboardingPage() {
             />
           </View>
           <TouchableOpacity
-            className='flex items-center justify-center rounded-full p-1'
+            className="flex items-center justify-center rounded-full p-1"
             onPress={() => router.replace('/onboarding')}
           >
-            <Icon render={LucideRotateCcw} size={22} />
+            <Icon
+              render={LucideRotateCcw}
+              size={22}
+            />
           </TouchableOpacity>
         </View>
 
@@ -161,10 +167,10 @@ export default function OnboardingPage() {
           ref={swiperRef}
           horizontal
           keyExtractor={item => item.toString()}
-          className='mt-21'
+          className="mt-21"
           renderItem={({ item }) => (
             <View
-              className='w px-21/2'
+              className="w px-21/2"
               style={{
                 width: isIpad ? SCREEN_WIDTH - 42 : SCREEN_WIDTH - 21,
               }}
@@ -173,7 +179,7 @@ export default function OnboardingPage() {
             </View>
           )}
           snapToInterval={isIpad ? SCREEN_WIDTH - 42 : SCREEN_WIDTH - 21}
-          decelerationRate='fast'
+          decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           scrollEnabled={false}
         />

@@ -156,7 +156,7 @@ function RegisterPage() {
       })
 
       // go home
-      // router.replace('/home')
+      router.replace('/home')
     } catch (err: any) {
       console.log(err)
       Toast.show({
@@ -174,20 +174,20 @@ function RegisterPage() {
     <>
       <Image
         source={isDarkColorScheme ? images.block2 : images.block1}
-        resizeMode='cover'
-        className='h-full w-full'
+        resizeMode="cover"
+        className="h-full w-full"
         style={{ position: 'absolute' }}
       />
       <ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className='flex h-screen flex-1 items-center justify-center'
+          className="flex h-screen flex-1 items-center justify-center"
           keyboardVerticalOffset={21}
         >
-          <View className='flex h-screen w-screen flex-1 items-center justify-center px-21'>
-            <Text className='mb-21 flex items-end text-center text-4xl font-bold tracking-wider'>
+          <View className="flex h-screen w-screen flex-1 items-center justify-center px-21">
+            <Text className="mb-21 flex items-end text-center text-4xl font-bold tracking-wider">
               DEEWAS
-              <Text className='text-[40px] font-bold text-green-500'>.</Text>
+              <Text className="text-[40px] font-bold text-green-500">.</Text>
             </Text>
 
             <View
@@ -195,69 +195,74 @@ function RegisterPage() {
                 'w-full max-w-[400px] overflow-hidden rounded-2xl border border-secondary bg-white text-black'
               )}
             >
-              <View className='px-10 py-8'>
+              <View className="px-10 py-8">
                 {/* MARK: Header */}
-                <Text className='text-center text-lg font-semibold text-black'>
+                <Text className="text-center text-lg font-semibold text-black">
                   {t('Register to Deewas')}
                 </Text>
-                <Text className='text-center text-muted-foreground'>
+                <Text className="text-center text-muted-foreground">
                   {t('Welcome! Please fill in the details to get started')}
                 </Text>
 
-                <Separator className='my-6 h-0' />
+                <Separator className="my-6 h-0" />
 
                 {/* MARK: Social Login */}
-                <View className='items-center justify-center gap-2'>
-                  <Button className='flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10'>
-                    <Image source={icons.google} alt='Google' className='h-5 w-5' resizeMode='contain' />
-                    <Text className='font-semibold text-black'>{t('Login with Google')}</Text>
+                <View className="items-center justify-center gap-2">
+                  <Button className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10">
+                    <Image
+                      source={icons.google}
+                      alt="Google"
+                      className="h-5 w-5"
+                      resizeMode="contain"
+                    />
+                    <Text className="font-semibold text-black">{t('Login with Google')}</Text>
                   </Button>
                 </View>
 
-                <View className='my-6 flex flex-row items-center gap-3'>
-                  <View className='h-px flex-1 border border-muted-foreground/10' />
-                  <Text className='flex-shrink-0 text-muted-foreground'>{t('or')}</Text>
-                  <View className='h-px flex-1 border border-muted-foreground/10' />
+                <View className="my-6 flex flex-row items-center gap-3">
+                  <View className="h-px flex-1 border border-muted-foreground/10" />
+                  <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
+                  <View className="h-px flex-1 border border-muted-foreground/10" />
                 </View>
 
-                <View className='flex flex-col gap-6'>
+                <View className="flex flex-col gap-6">
                   {/* MARK: Username */}
                   <CustomInput
-                    id='username'
+                    id="username"
                     label={t('Username')}
-                    type='text'
+                    type="text"
                     control={control}
                     errors={errors}
                     onFocus={() => clearErrors('username')}
-                    labelClassName='text-black'
-                    className='bg-white text-black'
-                    placeholder='...'
+                    labelClassName="text-black"
+                    className="bg-white text-black"
+                    placeholder="..."
                   />
 
                   {/* MARK: Password */}
                   <CustomInput
-                    id='email'
+                    id="email"
                     label={t('Email')}
-                    type='email'
+                    type="email"
                     control={control}
                     errors={errors}
                     onFocus={() => clearErrors('email')}
-                    labelClassName='text-black'
-                    className='bg-white text-black'
-                    placeholder='...'
+                    labelClassName="text-black"
+                    className="bg-white text-black"
+                    placeholder="..."
                   />
 
                   {/* MARK: Password */}
                   <CustomInput
-                    id='password'
+                    id="password"
                     label={t('Password')}
-                    type='password'
+                    type="password"
                     control={control}
                     errors={errors}
                     onFocus={() => clearErrors('password')}
-                    labelClassName='text-black'
-                    className='bg-white text-black'
-                    placeholder='...'
+                    labelClassName="text-black"
+                    className="bg-white text-black"
+                    placeholder="..."
                   />
                 </View>
 
@@ -274,17 +279,17 @@ function RegisterPage() {
                   {loading ? (
                     <ActivityIndicator />
                   ) : (
-                    <Text className='font-semibold text-white'>{t('Register')}</Text>
+                    <Text className="font-semibold text-white">{t('Register')}</Text>
                   )}
                 </TouchableOpacity>
               </View>
 
               {/* MARK: Footer */}
-              <View className='border-y border-muted-foreground/50 bg-neutral-100'>
-                <View className='flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black'>
-                  <Text className='text-black'>{t('Already have an account?')}</Text>
+              <View className="border-y border-muted-foreground/50 bg-neutral-100">
+                <View className="flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
+                  <Text className="text-black">{t('Already have an account?')}</Text>
                   <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                    <Text className='font-semibold text-black underline'>{t('Login')}</Text>
+                    <Text className="font-semibold text-black underline">{t('Login')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>

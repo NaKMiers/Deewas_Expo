@@ -241,12 +241,12 @@ function History({ className }: HistoryProps) {
   return (
     <View className={cn(className)}>
       {/* MARK: Top */}
-      <View className='flex flex-row items-center justify-between'>
-        <Text className='pl-1 text-xl font-bold'>{t('History')}</Text>
+      <View className="flex flex-row items-center justify-between">
+        <Text className="pl-1 text-xl font-bold">{t('History')}</Text>
       </View>
 
       {/* MARK: Main */}
-      <View className='mt-21/2 rounded-lg bg-secondary p-21/2 shadow-md'>
+      <View className="mt-21/2 rounded-lg bg-secondary p-21/2 shadow-md">
         {/* Period - Time Unit */}
         <HistoryHeader
           charts={charts}
@@ -268,27 +268,33 @@ function History({ className }: HistoryProps) {
         />
 
         {/* Time Range */}
-        <View className='my-2 flex flex-row items-center gap-21/2'>
-          <View className='flex flex-row items-center gap-21/2'>
-            <Text className='text-lg font-semibold capitalize'>
+        <View className="my-2 flex flex-row items-center gap-21/2">
+          <View className="flex flex-row items-center gap-21/2">
+            <Text className="text-lg font-semibold capitalize">
               {format(
                 new Date(dateRange.from),
                 isSameDay(dateRange.from, dateRange.to) ? 'MMM dd' : 'MMM dd, yyyy',
                 { locale: getLocale(locale) }
               )}
             </Text>
-            <Text className='text-lg font-semibold'>-</Text>
-            <Text className='text-lg font-semibold capitalize'>
+            <Text className="text-lg font-semibold">-</Text>
+            <Text className="text-lg font-semibold capitalize">
               {format(new Date(dateRange.to), 'MMM dd, yyyy', { locale: getLocale(locale) })}
             </Text>
           </View>
 
-          <TouchableOpacity className='rounded-full bg-primary/10 p-2' onPress={handleResetTimeUnit}>
-            <Icon render={LucideRotateCw} size={18} />
+          <TouchableOpacity
+            className="rounded-full bg-primary/10 p-2"
+            onPress={handleResetTimeUnit}
+          >
+            <Icon
+              render={LucideRotateCw}
+              size={18}
+            />
           </TouchableOpacity>
         </View>
 
-        <Text className='font-semibold text-muted-foreground'>
+        <Text className="font-semibold text-muted-foreground">
           {t('Total') + ' '}
           {selectedChartType !== 'pie' && (
             <Text className={cn('capitalize', checkTranType(selectedTransactionType).color)}>
@@ -317,15 +323,15 @@ function History({ className }: HistoryProps) {
             data={data}
             transactionType={selectedTransactionType}
             chartType={selectedChartType}
-            className='mt-21/2'
+            className="mt-21/2"
           />
         ) : (
-          <Skeleton className='h-[242px] w-full' />
+          <Skeleton className="h-[242px] w-full" />
         )}
 
         {/* Footer */}
         <HistoryFooter
-          className='mt-21'
+          className="mt-21"
           segments={transactionTypes}
           segment={selectedTransactionType}
           indicatorLabel={chartPeriod}

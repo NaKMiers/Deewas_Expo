@@ -107,7 +107,7 @@ function LoginPage() {
       })
 
       // go home
-      // router.replace('/home')
+      router.replace('/home')
     } catch (err: any) {
       console.log(err)
       Toast.show({

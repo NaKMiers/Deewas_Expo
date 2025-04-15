@@ -68,12 +68,12 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
       className={cn('flex items-center', className)}
       style={{
         maxHeight: 48,
-        marginBottom: Platform.OS === 'android' ? 21 : 0,
+        // marginBottom: Platform.OS === 'android' ? 21 : 0,
         paddingRight: 10.5,
         paddingLeft: 10.5,
       }}
     >
-      <View className='flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary'>
+      <View className="flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary">
         {routes.map(route => {
           const isFocused = state.routes[state.index]?.name === route.label.toLowerCase()
 
@@ -96,11 +96,11 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
                   style={{ height: route.height || 26, width: route.width || 26 }}
                 >
                   <Image
-                    className='h-full w-full'
+                    className="h-full w-full"
                     source={route.source}
                     fallbackSource={route.fallbackSource}
-                    resizeMode='cover'
-                    alt='account'
+                    resizeMode="cover"
+                    alt="account"
                   />
                 </View>
               )}
