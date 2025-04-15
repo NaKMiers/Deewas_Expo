@@ -6,13 +6,13 @@ import UseWallets from '@/components/UseWallets'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Redirect } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-// import Account from './account'
+import Account from './account'
 // import AI from './ai'
-// import Budgets from './budgets'
-// import Calendar from './calendar'
-// import Categories from './categories'
+import Budgets from './budgets'
+import Calendar from './calendar'
+import Categories from './categories'
 import Home from './home'
-// import Transactions from './transactions'
+import Transactions from './transactions'
 
 const Tab = createBottomTabNavigator()
 
@@ -38,30 +38,30 @@ export default function HomeLayout() {
             name="home"
             component={Home}
           />
-          {/* <Tab.Screen
+          <Tab.Screen
             name="transactions"
             component={Transactions}
-          /> */}
+          />
           {/* <Tab.Screen
             name="ai"
             component={AI}
           /> */}
-          {/* <Tab.Screen
+          <Tab.Screen
             name="budgets"
             component={Budgets}
-          /> */}
-          {/* <Tab.Screen
+          />
+          <Tab.Screen
             name="account"
             component={Account}
-          /> */}
-          {/* <Tab.Screen
+          />
+          <Tab.Screen
             name="categories"
             component={Categories}
-          /> */}
-          {/* <Tab.Screen
+          />
+          <Tab.Screen
             name="calendar"
             component={Calendar}
-          /> */}
+          />
         </Tab.Navigator>
       </SafeAreaView>
 

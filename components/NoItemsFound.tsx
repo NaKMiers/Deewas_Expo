@@ -12,7 +12,7 @@ function NoItemsFound({ text, className }: NoItemsFoundProps) {
   return (
     <View className={cn('px-21/2', className)}>
       <View
-        className='flex flex-row items-center justify-center rounded-md border border-primary px-2 py-6'
+        className="flex flex-row items-center justify-center rounded-md border border-primary px-2 py-6"
         style={{
           paddingTop: 20,
           paddingBottom: 20,
@@ -20,7 +20,7 @@ function NoItemsFound({ text, className }: NoItemsFoundProps) {
           paddingRight: 10,
         }}
       >
-        <Text className='text-xl font-semibold text-muted-foreground'>{text}</Text>
+        <Text className="text-center text-xl font-semibold text-muted-foreground">{text}</Text>
       </View>
     </View>
   )
