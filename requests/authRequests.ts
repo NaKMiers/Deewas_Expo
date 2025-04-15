@@ -1,6 +1,6 @@
 // Auth -------------------------------------
 
-import { BASE_URL, getToken } from '@/lib/utils'
+import { BASE_URL } from '@/lib/utils'
 const API = BASE_URL + '/api/auth'
 
 // [POST]: /auth/signin/credentials
@@ -23,6 +23,21 @@ export const registerCredentialsApi = async (data: any) => {
   const res = await fetch(API + '/signup/credentials', {
     method: 'POST',
     body: JSON.stringify(data),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [POST]: /auth/signin/google
+export const signInGoogleApi = async (idToken: string) => {
+  const res = await fetch(API + '/signin/google', {
+    method: 'POST',
+    body: JSON.stringify({ idToken }),
   })
 
   // check status

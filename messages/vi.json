@@ -21,7 +21,8 @@
     "Login Successfully!": "Đăng nhập thành công!",
     "Login Failed!": "Đăng nhập thất bại!",
     "Username or email is required": "Tên người dùng hoặc email là bắt buộc",
-    "Password is required": "Mật khẩu là bắt buộc"
+    "Password is required": "Mật khẩu là bắt buộc",
+    "Google sign in is in progress": "Đang đăng nhập bằng Google"
   },
   "registerPage": {
     "Register - Deewas": "Đăng ký - Deewas",
@@ -45,7 +46,8 @@
     "Login with Apple": "Đăng nhập với Apple",
     "Username is required": "Tên người dùng không được trống",
     "Email is required": "Email không được trống",
-    "Password is required": "Mật khẩu không được trống"
+    "Password is required": "Mật khẩu không được trống",
+    "Google sign up is in progress": "Đang đăng ký bằng Google"
   },
   "forgotPasswordPage": {
     "Forgot Password - Deewas": "Quên mật khẩu - Deewas",
@@ -169,6 +171,7 @@
     "Not sure yet": "Chưa chắc nữa",
     "I want to improve": "Tôi muốn cải thiện",
     "I feel confident": "Tôi thấy khá tự tin",
+    "Who do you spend money on": "Bạn thường chi tiền cho ai?",
     "Myself": "Bản thân tôi",
     "My partner": "Người yêu/chồng/vợ tôi",
     "Other family members": "Thành viên khác trong gia đình",
@@ -674,7 +677,8 @@
     "Category updated": "Danh mục đã được cập nhật",
     "Budget deleted": "Ngân sách đã được xóa",
     "Budget created": "Ngân sách đã được tạo",
-    "Budget updated": "Ngân sách đã được cập nhật"
+    "Budget updated": "Ngân sách đã được cập nhật",
+    "Personalities changed": "Tính cách đã được thay đổi"
   },
   "error": {
     "Login Failed": "Đăng nhập thất bại",
@@ -702,6 +706,12 @@
     "Failed to delete budget": "Không thể xóa ngân sách",
     "Failed to create budget": "Không thể tạo ngân sách",
     "Failed to update budget": "Không thể cập nhật ngân sách",
-    "Failed to fetch budgets": "Không thể lấy dữ liệu ngân sách"
+    "Please select at least one personality": "Vui lòng chọn ít nhất một tính cách",
+    "Failed to change personalities": "Không thể thay đổi tính cách",
+    "Failed to fetch budgets": "Không thể lấy dữ liệu ngân sách",
+    "Failed to sign in with Google": "Không thể đăng nhập bằng Google",
+    "An error occurred": "Đã xảy ra lỗi",
+    "ID token is required": "Mã ID là bắt buộc",
+    "Failed to sign up with Google": "Không thể đăng ký bằng Google"
   }
 }

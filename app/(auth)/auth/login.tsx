@@ -9,10 +9,16 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { setToken, setUser } from '@/lib/reducers/userReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { signInCredentialsApi } from '@/requests'
+import { signInCredentialsApi, signInGoogleApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  isSuccessResponse,
+  statusCodes,
+} from '@react-native-google-signin/google-signin'
+// import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { router } from 'expo-router'
-import * as WebBrowser from 'expo-web-browser'
 import { jwtDecode } from 'jwt-decode'
 import { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -26,8 +32,6 @@ import {
   View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
-
-WebBrowser.maybeCompleteAuthSession()
 
 function LoginPage() {
   // hooks
@@ -84,7 +88,7 @@ function LoginPage() {
   )
 
   // MARK: Login Submission
-  const onSubmit: SubmitHandler<FieldValues> = useCallback(async (data: any) => {
+  const handleCredentialSignIn: SubmitHandler<FieldValues> = useCallback(async (data: any) => {
     if (!handleValidate(data)) return
 
     // start loading
@@ -115,6 +119,82 @@ function LoginPage() {
         text1: tError('Login Failed'),
         text2: tError(err.message),
       })
+    } finally {
+      // stop loading
+      setLoading(false)
+    }
+  }, [])
+
+  // MARK: Google Sign In
+  const handleGoogleSignIn = useCallback(async () => {
+    // start loading
+    setLoading(true)
+    try {
+      await GoogleSignin.hasPlayServices()
+      const response = await GoogleSignin.signIn()
+
+      if (isSuccessResponse(response)) {
+        const { idToken } = response.data
+
+        if (!idToken) {
+          Toast.show({
+            type: 'error',
+            text1: tError('ID token is required'),
+          })
+          return
+        }
+
+        const { token } = await signInGoogleApi(idToken)
+        const decodedUser: IFullUser = jwtDecode(token)
+
+        // save token and user
+        await AsyncStorage.setItem('token', token)
+        dispatch(setUser(decodedUser))
+        dispatch(setToken(token))
+
+        // show success message
+        Toast.show({
+          type: 'success',
+          text1: tSuccess('Login Success'),
+          text2: tSuccess('You have successfully logged in'),
+        })
+
+        // go home
+        router.replace('/home')
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: tError('Failed to sign in with Google'),
+        })
+      }
+    } catch (err) {
+      if (isErrorWithCode(err)) {
+        switch (err.code) {
+          case statusCodes.IN_PROGRESS:
+            Toast.show({
+              type: 'info',
+              text1: t('Google sign in is in progress'),
+            })
+            break
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            Toast.show({
+              type: 'error',
+              text1: tError('Play services are not available'),
+            })
+            break
+          default:
+            Toast.show({
+              type: 'error',
+              text1: tError('Failed to sign in with Google'),
+            })
+        }
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: tError('An error occurred'),
+        })
+      }
+      console.error(err)
     } finally {
       // stop loading
       setLoading(false)
@@ -159,7 +239,11 @@ function LoginPage() {
 
                 {/* MARK: Social Login */}
                 <View className="items-center justify-center gap-2">
-                  <Button className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10">
+                  <Button
+                    className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
+                    onPress={handleGoogleSignIn}
+                    disabled={loading}
+                  >
                     <Image
                       source={icons.google}
                       alt="Google"
@@ -221,7 +305,7 @@ function LoginPage() {
                     'mt-6 flex h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
                     loading && 'opacity-50'
                   )}
-                  onPress={handleSubmit(onSubmit)}
+                  onPress={handleSubmit(handleCredentialSignIn)}
                   disabled={loading}
                 >
                   {loading ? (

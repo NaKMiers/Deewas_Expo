@@ -13,16 +13,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#161616"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "webServerUrl": "http://localhost:3000",
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "6deb79b7-5e13-4bf4-99e5-b00a080b2690"
+        "projectId": "2d9574dd-cbe7-4391-88f9-6a2b43f7fff6"
       }
     },
     "ios": {
@@ -45,7 +43,13 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.173590721564-ihd7ql2dffkd1apdle5g646rkq03b33i"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
