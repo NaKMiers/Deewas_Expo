@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "deewas",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -22,7 +22,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "0c182a6f-7757-4a4f-a91a-672f88d24ba6"
+        "projectId": "1903e2bf-b3e0-460a-a498-6a14582ae358"
       }
     },
     "ios": {

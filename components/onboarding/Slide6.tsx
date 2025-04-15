@@ -6,6 +6,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Icon from '../Icon'
 import Image from '../Image'
 import Text from '../Text'
+import { router } from 'expo-router'
 
 export default function Slide6({ onPress }: { onPress: () => void }) {
   const { t: translate } = useTranslation()
@@ -30,7 +31,7 @@ export default function Slide6({ onPress }: { onPress: () => void }) {
           )}
           onPress={() => {
             onPress()
-            // router.push('/auth/register')
+            router.push('/auth/register')
           }}
         >
           <Text className='text-lg font-semibold text-secondary'>{t('Get started now')}</Text>

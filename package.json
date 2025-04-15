@@ -60,6 +60,7 @@
     "expo-splash-screen": "~0.29.20",
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.7",
+    "expo-web-browser": "~14.0.2",
     "i18next": "^24.2.3",
     "intl": "^1.2.5",
     "jwt-decode": "^4.0.0",
@@ -67,6 +68,7 @@
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.48",
     "nativewind": "^4.1.23",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.55.0",
@@ -76,6 +78,7 @@
     "react-native-emoji-selector": "^0.2.0",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-gifted-charts": "^1.4.59",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-markdown-display": "^7.0.2",
     "react-native-progress": "^5.0.1",
     "react-native-reanimated": "~3.16.1",
@@ -88,8 +91,7 @@
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.4.7",
-    "expo-web-browser": "~14.0.2"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
