@@ -9,7 +9,6 @@ import {
   LucideTrendingUp,
   LucideWalletCards,
 } from 'lucide-react-native'
-import numeral from 'numeral'
 
 export const shortName = (user: IUser) => {
   if (user?.firstName) {

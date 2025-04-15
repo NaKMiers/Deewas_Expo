@@ -8,11 +8,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_APP_NAME": "Deewas",
-        "EXPO_PUBLIC_WEB_SERVER_URL": "http://localhost:3000",
-        "EXPO_PUBLIC_IOS_CLIENT_ID": "173590721564-ihd7ql2dffkd1apdle5g646rkq03b33i.apps.googleusercontent.com",
-        "EXPO_PUBLIC_ANDROID_CLIENT_ID": "173590721564-dsau1cejkis9fb4no3bkctit5fk04klh.apps.googleusercontent.com",
-        "EXPO_PUBLIC_WEB_CLIENT_ID": "173590721564-mc7dd2fnqvpla2qfvk8769dublbmpbpo.apps.googleusercontent.com"
+        "ENV_FILE": ".env.development"
       }
     },
     "preview": {

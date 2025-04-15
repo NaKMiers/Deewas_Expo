@@ -2,7 +2,6 @@ import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { updateCategoryApi } from '@/requests/categoryRequests'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
-import { LucideCircleOff } from 'lucide-react'
 import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +14,7 @@ import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
+import { LucideCircleOff } from 'lucide-react-native'
 
 interface UpdateCategoryDrawerProps {
   category: ICategory
