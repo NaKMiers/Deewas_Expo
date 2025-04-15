@@ -11,7 +11,7 @@ import { LucidePlus } from 'lucide-react-native'
 import React from 'react'
 import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
 
-function HomePage() {
+export default function HomePage() {
   const dispatch = useAppDispatch()
   const { refreshing } = useAppSelector(state => state.load)
 
@@ -59,5 +59,3 @@ function HomePage() {
     </SafeAreaView>
   )
 }
-
-export default HomePage

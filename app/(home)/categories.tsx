@@ -1,10 +1,11 @@
 import CategoryGroup from '@/components/CategoryGroup'
 import CreateCategoryDrawer from '@/components/dialogs/CreateCategoryDrawer'
 import Icon from '@/components/Icon'
+import NoItemsFound from '@/components/NoItemsFound'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Tabs, TabsList } from '@/components/ui/tabs'
+import { Tabs } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addCategory, setCategories } from '@/lib/reducers/categoryReduce'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
@@ -22,7 +23,6 @@ function CategoriesPage() {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoriesPage.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
 
   // store
@@ -75,7 +75,7 @@ function CategoriesPage() {
     const results = Object.entries(groups)
     setGroups(results)
 
-    const labels = results.map(([key]) => capitalize(key))
+    const labels = results.map(([key]) => key)
     setTabLabels(labels as TransactionType[])
   }, [categories])
 
@@ -84,7 +84,7 @@ function CategoriesPage() {
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={refreshing}
             onRefresh={() => dispatch(refresh())}
           />
         }
@@ -105,9 +105,9 @@ function CategoriesPage() {
               >
                 <View className="mb-2.5 mt-21/2">
                   <SegmentedControl
-                    values={tabLabels}
+                    values={tabLabels.map(label => capitalize(label))}
                     style={{ width: '100%', height: 40 }}
-                    selectedIndex={Math.max(0, tabLabels.indexOf(tab))}
+                    selectedIndex={tabLabels.indexOf(tab)}
                     onChange={(event: any) => {
                       const index = event.nativeEvent.selectedSegmentIndex
                       setTab(groups[index][0])
@@ -124,11 +124,10 @@ function CategoriesPage() {
                 ))}
               </Tabs>
             ) : (
-              <View className="flex flex-row items-center justify-center rounded-md border border-muted-foreground/50 px-21/2 py-7">
-                <Text className="text-center text-lg font-semibold text-muted-foreground/50">
-                  {t("You don't have any categories yet, create one now!")}
-                </Text>
-              </View>
+              <NoItemsFound
+                className="mt-21/2 px-0"
+                text={t("You don't have any categories yet, create one now!")}
+              />
             )
           ) : (
             <View className="flex flex-col gap-2">

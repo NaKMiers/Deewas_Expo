@@ -1,10 +1,10 @@
-import { useTheme } from '@react-navigation/native';
-import { cva, type VariantProps } from 'class-variance-authority';
-import type { LucideIcon } from 'lucide-react-native';
-import * as React from 'react';
-import { View, type ViewProps } from 'react-native';
-import { cn } from '@/lib/utils';
-import { Text } from '@/components/ui/text';
+import { useTheme } from '@react-navigation/native'
+import { cva, type VariantProps } from 'class-variance-authority'
+import type { LucideIcon } from 'lucide-react-native'
+import * as React from 'react'
+import { View, type ViewProps } from 'react-native'
+import { cn } from '@/lib/utils'
+import { Text } from '@/components/ui/text'
 
 const alertVariants = cva(
   'relative bg-background w-full rounded-lg border border-border p-4 shadow shadow-foreground/10',
@@ -19,21 +19,26 @@ const alertVariants = cva(
       variant: 'default',
     },
   }
-);
+)
 
 const Alert = React.forwardRef<
   React.ElementRef<typeof View>,
   ViewProps &
     VariantProps<typeof alertVariants> & {
-      icon: LucideIcon;
-      iconSize?: number;
-      iconClassName?: string;
+      icon: LucideIcon
+      iconSize?: number
+      iconClassName?: string
     }
 >(({ className, variant, children, icon: Icon, iconSize = 16, iconClassName, ...props }, ref) => {
-  const { colors } = useTheme();
+  const { colors } = useTheme()
   return (
-    <View ref={ref} role='alert' className={alertVariants({ variant, className })} {...props}>
-      <View className='absolute left-3.5 top-4 -translate-y-0.5'>
+    <View
+      ref={ref}
+      role="alert"
+      className={alertVariants({ variant, className })}
+      {...props}
+    >
+      <View className="absolute left-3.5 top-4 -translate-y-0.5">
         <Icon
           size={iconSize}
           color={variant === 'destructive' ? colors.notification : colors.text}
@@ -41,9 +46,9 @@ const Alert = React.forwardRef<
       </View>
       {children}
     </View>
-  );
-});
-Alert.displayName = 'Alert';
+  )
+})
+Alert.displayName = 'Alert'
 
 const AlertTitle = React.forwardRef<
   React.ElementRef<typeof Text>,
@@ -52,13 +57,13 @@ const AlertTitle = React.forwardRef<
   <Text
     ref={ref}
     className={cn(
-      'pl-7 mb-1 font-medium text-base leading-none tracking-tight text-foreground',
+      'mb-1 pl-7 text-base font-medium leading-none tracking-tight text-foreground',
       className
     )}
     {...props}
   />
-));
-AlertTitle.displayName = 'AlertTitle';
+))
+AlertTitle.displayName = 'AlertTitle'
 
 const AlertDescription = React.forwardRef<
   React.ElementRef<typeof Text>,
@@ -69,7 +74,7 @@ const AlertDescription = React.forwardRef<
     className={cn('pl-7 text-sm leading-relaxed text-foreground', className)}
     {...props}
   />
-));
-AlertDescription.displayName = 'AlertDescription';
+))
+AlertDescription.displayName = 'AlertDescription'
 
-export { Alert, AlertDescription, AlertTitle };
+export { Alert, AlertDescription, AlertTitle }

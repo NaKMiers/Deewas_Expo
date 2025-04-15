@@ -267,7 +267,7 @@ function History({ className }: HistoryProps) {
           onSelect={(value: string) => setSelectedChartType(value as ChartType)}
         />
 
-        {/* Time Range */}
+        {/* MARK: Time Range */}
         <View className="my-2 flex flex-row items-center gap-21/2">
           <View className="flex flex-row items-center gap-21/2">
             <Text className="text-lg font-semibold capitalize">
@@ -317,7 +317,7 @@ function History({ className }: HistoryProps) {
           </Text>
         )}
 
-        {/* Chart */}
+        {/* MARK: Chart */}
         {!loading ? (
           <Chart
             data={data}
@@ -329,7 +329,7 @@ function History({ className }: HistoryProps) {
           <Skeleton className="h-[242px] w-full" />
         )}
 
-        {/* Footer */}
+        {/* MARK: Transaction Type */}
         <HistoryFooter
           className="mt-21"
           segments={transactionTypes}

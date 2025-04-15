@@ -701,6 +701,7 @@
     "Failed to update category": "Không thể cập nhật danh mục",
     "Failed to delete budget": "Không thể xóa ngân sách",
     "Failed to create budget": "Không thể tạo ngân sách",
-    "Failed to update budget": "Không thể cập nhật ngân sách"
+    "Failed to update budget": "Không thể cập nhật ngân sách",
+    "Failed to fetch budgets": "Không thể lấy dữ liệu ngân sách"
   }
 }

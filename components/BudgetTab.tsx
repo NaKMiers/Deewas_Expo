@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card'
 import { TabsContent } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addBudget } from '@/lib/reducers/budgetReducer'
+import { refresh } from '@/lib/reducers/loadReducer'
 import { formatCompactNumber, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { differenceInDays } from 'date-fns'
@@ -12,7 +13,6 @@ import { View } from 'react-native'
 import { Bar as ProgressBar } from 'react-native-progress'
 import BudgetCard from './BudgetCard'
 import Text from './Text'
-import { refresh } from '@/lib/reducers/loadReducer'
 
 interface IBudgetTabProps {
   value: string

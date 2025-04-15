@@ -16,7 +16,7 @@ import Transactions from './transactions'
 
 const Tab = createBottomTabNavigator()
 
-function HomeLayout() {
+export default function HomeLayout() {
   const { user, loading, onboarding } = useAuth()
 
   if (loading) return null
@@ -70,5 +70,3 @@ function HomeLayout() {
     </>
   )
 }
-
-export default HomeLayout

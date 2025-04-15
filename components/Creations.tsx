@@ -104,6 +104,7 @@ function Creations({ className }: ICreationsProps) {
               <Text className="font-semibold">{t('Create Category')}</Text>
             </View>
           }
+          reach={2}
         />
       </View>
 

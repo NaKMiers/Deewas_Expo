@@ -39,12 +39,13 @@ export default function Slide5({ onChange }: { onChange: (value: any) => void })
                 onPress={() => setSelected(selected?.id !== item.id ? item : selected)}
               >
                 {selected?.id === item.id && (
-                  <Icon
-                    className="absolute right-21/2 top-21/2"
-                    render={LucideCheck}
-                    size={20}
-                    color="#22c55e"
-                  />
+                  <View className="absolute right-2 top-2 z-10">
+                    <Icon
+                      render={LucideCheck}
+                      size={20}
+                      color="#22c55e"
+                    />
+                  </View>
                 )}
 
                 <View className="h-[100px] p-21/2">

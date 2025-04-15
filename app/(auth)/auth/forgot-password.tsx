@@ -24,8 +24,7 @@ import Toast from 'react-native-toast-message'
 
 function ForgotPasswordPage() {
   // hooks
-  const dispatch = useAppDispatch()
-  let { t: translate, i18n } = useTranslation()
+  let { t: translate } = useTranslation()
   const t = (key: string) => translate('forgotPasswordPage.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)

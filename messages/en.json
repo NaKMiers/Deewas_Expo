@@ -705,6 +705,7 @@
     "Failed to create budget": "Failed to create budget",
     "Failed to update budget": "Failed to update budget",
     "Please select at least one personality": "Please select at least one personality",
-    "Failed to change personalities": "Failed to change personalities"
+    "Failed to change personalities": "Failed to change personalities",
+    "Failed to fetch budgets": "Failed to fetch budgets"
   }
 }

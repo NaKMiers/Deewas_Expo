@@ -20,7 +20,7 @@ function NoItemsFound({ text, className }: NoItemsFoundProps) {
           paddingRight: 10,
         }}
       >
-        <Text className="text-xl font-semibold text-muted-foreground">{text}</Text>
+        <Text className="text-center text-xl font-semibold text-muted-foreground">{text}</Text>
       </View>
     </View>
   )

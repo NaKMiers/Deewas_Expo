@@ -68,7 +68,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
       className={cn('flex items-center', className)}
       style={{
         maxHeight: 48,
-        marginBottom: Platform.OS === 'android' ? 21 : 0,
+        // marginBottom: Platform.OS === 'android' ? 21 : 0,
         paddingRight: 10.5,
         paddingLeft: 10.5,
       }}

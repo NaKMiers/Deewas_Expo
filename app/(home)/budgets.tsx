@@ -86,6 +86,10 @@ function BudgetsPage() {
     setTabLabels(tabLabels)
   }, [budgets])
 
+  console.log('groups', groups)
+  console.log('tabLabels', tabLabels)
+  console.log('tab', tab)
+
   return (
     <SafeAreaView className="flex-1">
       <ScrollView
@@ -108,7 +112,7 @@ function BudgetsPage() {
                   <SegmentedControl
                     values={tabLabels}
                     style={{ width: '100%', height: 40 }}
-                    selectedIndex={Math.max(0, tabLabels.indexOf(tab))}
+                    selectedIndex={Math.max(0, groups.map(([key]) => key).indexOf(tab))}
                     onChange={(event: any) => {
                       const index = event.nativeEvent.selectedSegmentIndex
                       setTab(groups[index][0])

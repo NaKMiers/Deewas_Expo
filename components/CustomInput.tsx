@@ -158,28 +158,23 @@ function CustomInput({
               )}
             />
 
-            {type === 'password' &&
-              (isShowPassword ? (
-                <TouchableOpacity
-                  className="absolute right-0 top-0 flex h-full w-9 -translate-y-1/2 items-center justify-center"
-                  onPress={showPassword}
-                >
-                  <LucideEye
-                    size={20}
-                    color="#111"
-                  />
+            {type === 'password' && (
+              <View className="absolute right-2 top-1/2 -translate-y-1/2">
+                <TouchableOpacity onPress={showPassword}>
+                  {isShowPassword ? (
+                    <LucideEye
+                      size={20}
+                      color="#111"
+                    />
+                  ) : (
+                    <LucideEyeOff
+                      size={20}
+                      color="#111"
+                    />
+                  )}
                 </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  className="absolute right-0 top-0 flex h-full w-10 -translate-y-1/2 items-center justify-center"
-                  onPress={showPassword}
-                >
-                  <LucideEyeOff
-                    size={20}
-                    color="#111"
-                  />
-                </TouchableOpacity>
-              ))}
+              </View>
+            )}
           </>
         )
     }

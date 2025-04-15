@@ -2,7 +2,7 @@ import Text from '@/components/Text'
 import { Link, Stack } from 'expo-router'
 import { View } from 'react-native'
 
-function NotFoundPage() {
+export default function NotFoundPage() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
@@ -16,5 +16,3 @@ function NotFoundPage() {
     </>
   )
 }
-
-export default NotFoundPage

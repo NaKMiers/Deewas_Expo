@@ -1,7 +1,7 @@
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import { Platform, SafeAreaView, ScrollView } from 'react-native'
 import { useDrawer } from './providers/DrawerProvider'
 
 function Drawer() {
@@ -13,7 +13,7 @@ function Drawer() {
   const drawerRef = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    if (open) drawerRef.current?.snapToIndex(reach)
+    if (open) drawerRef.current?.snapToIndex(Platform.OS === 'android' ? reach - 1 : reach)
     else drawerRef.current?.close()
   }, [open])
 

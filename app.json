@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "deewas-expo",
-    "slug": "deewas-expo",
+    "name": "deewas",
+    "slug": "deewas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "deewas",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -18,9 +18,6 @@
       "webServerUrl": "http://localhost:3000",
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "f4254a42-50b1-44f9-b2ae-e26e0a464a33"
       }
     },
     "ios": {

@@ -107,7 +107,7 @@ function LoginPage() {
       })
 
       // go home
-      router.replace('/')
+      router.replace('/home')
     } catch (err: any) {
       console.log(err)
       Toast.show({
@@ -159,7 +159,7 @@ function LoginPage() {
 
                 {/* MARK: Social Login */}
                 <View className="items-center justify-center gap-2">
-                  <Button className="flex h-8 flex-row items-center justify-center gap-2 bg-white shadow-sm shadow-black/10">
+                  <Button className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10">
                     <Image
                       source={icons.google}
                       alt="Google"

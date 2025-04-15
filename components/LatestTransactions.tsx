@@ -6,7 +6,6 @@ import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi, getMyTransactionsApi } from '@/requests'
-import { router } from 'expo-router'
 import {
   LucideChevronDown,
   LucideChevronUp,
@@ -117,7 +116,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
         <TouchableOpacity
           activeOpacity={0.7}
           className="flex h-8 flex-row items-center justify-center rounded-md border border-border bg-secondary px-4 font-semibold shadow-md"
-          onPress={() => router.push('/transactions')}
+          // onPress={() => router.push('/transactions')}
           style={{ height: 36 }}
         >
           <Text className="font-semibold">{t('All')}</Text>

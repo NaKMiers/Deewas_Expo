@@ -1,4 +1,3 @@
-// @/contexts/AuthContext.tsx
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { clearUser, setLoading, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'

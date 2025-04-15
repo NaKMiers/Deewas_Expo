@@ -3,6 +3,7 @@ import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 import { languages } from '@/constants/settings'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { BASE_URL } from '@/lib/utils'
@@ -142,6 +143,8 @@ export default function WelcomePage() {
             </View>
           </View>
         </View>
+
+        <Separator className="my-2.5 h-0" />
       </SafeAreaView>
     </>
   )

@@ -282,7 +282,7 @@ function CalendarPage() {
               </View>
             </View>
           ) : (
-            <View className="gap-21/2 px-21/2 md:gap-21 md:px-21">
+            <View className="mt-21/2 gap-21/2 md:gap-21 md:px-21">
               <Skeleton className="h-[500px] p-4" />
               <Skeleton className="h-[500px] p-4" />
             </View>

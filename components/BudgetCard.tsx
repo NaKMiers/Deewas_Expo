@@ -170,7 +170,7 @@ function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
             style={{ width: `${progress > 100 ? 100 : progress}%` }}
           />
           {currency && (
-            <Text className="text-nowrap absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 font-body text-sm font-semibold tracking-wider">
+            <Text className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-nowrap font-body text-sm font-semibold tracking-wider">
               {t('Left')} {formatCurrency(currency, budget.total - budget.amount)}
             </Text>
           )}

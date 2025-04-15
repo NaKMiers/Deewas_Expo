@@ -113,9 +113,9 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
             barBorderRadius={3}
             initialSpacing={8}
             //
-            showGradient
+            // showGradient
             frontColor={colors[transactionType][0]}
-            gradientColor={colors[transactionType][1]}
+            // gradientColor={colors[transactionType][1]}
             //
             noOfSections={4}
             yAxisThickness={0}
