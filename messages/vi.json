@@ -642,7 +642,8 @@
     "currency": "tiền tệ",
     "language": "ngôn ngữ",
     "Select": "Chọn",
-    "No results found": "Không tìm thấy kết quả"
+    "No results found": "Không tìm thấy kết quả",
+    "Language changed to": "Ngôn ngữ đã được thay đổi thành"
   },
   "montYearPicker": {
     "Apply": "Áp dụng"

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "deewas",
+    "name": "Deewas",
     "slug": "deewas",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,14 +13,16 @@
       "resizeMode": "contain",
       "backgroundColor": "#161616"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "extra": {
       "webServerUrl": "http://localhost:3000",
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "2d9574dd-cbe7-4391-88f9-6a2b43f7fff6"
+        "projectId": "1b2f8591-ca56-4ac8-b0d8-c6333acb3fdd"
       }
     },
     "ios": {

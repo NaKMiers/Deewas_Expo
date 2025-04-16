@@ -129,6 +129,7 @@ function LoginPage() {
   const handleGoogleSignIn = useCallback(async () => {
     // start loading
     setLoading(true)
+
     try {
       await GoogleSignin.hasPlayServices()
       const response = await GoogleSignin.signIn()

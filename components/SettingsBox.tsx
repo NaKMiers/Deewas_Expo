@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setSettings } from '@/lib/reducers/settingsReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
-import { router, usePathname } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { usePathname } from 'expo-router'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
@@ -113,14 +114,14 @@ function Box({ type, desc, list, init, className }: BoxProps) {
 
   // handle change language
   const handleChangeLanguage = useCallback(
-    (nextLocale: string) => {
+    async (nextLocale: string) => {
       i18n.changeLanguage(nextLocale)
-      Toast.show({
-        type: 'success',
-        text1: 'Language changed to ' + languages.find(l => l.value === nextLocale)?.label,
-      })
+      const newLanguage = languages.find(l => l.value === nextLocale)
+      if (newLanguage) {
+        await AsyncStorage.setItem('language', JSON.stringify(newLanguage))
+      }
     },
-    [router, pathname]
+    [i18n, languages]
   )
 
   return (

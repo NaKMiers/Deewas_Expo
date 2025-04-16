@@ -180,6 +180,7 @@ function RegisterPage() {
   const handleGoogleSignUp = useCallback(async () => {
     // start loading
     setLoading(true)
+
     try {
       await GoogleSignin.hasPlayServices()
       const response = await GoogleSignin.signIn()

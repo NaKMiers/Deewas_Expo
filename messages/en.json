@@ -642,7 +642,8 @@
     "currency": "currency",
     "language": "language",
     "Select": "Select",
-    "No results found": "No results found"
+    "No results found": "No results found",
+    "Language changed to": "Language changed to"
   },
   "montYearPicker": {
     "Apply": "Apply"

@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { languages } from '@/constants/settings'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { BASE_URL } from '@/lib/utils'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Redirect, router } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -26,11 +27,15 @@ export default function WelcomePage() {
 
   // handle change language
   const handleChangeLanguage = useCallback(
-    (nextLocale: string) => {
+    async (nextLocale: string) => {
       i18n.changeLanguage(nextLocale)
       setSelectedLanguage(
         languages.find(l => l.value === nextLocale) || { locale: 'en', label: 'English' }
       )
+      const newLanguage = languages.find(l => l.value === nextLocale)
+      if (newLanguage) {
+        await AsyncStorage.setItem('language', JSON.stringify(newLanguage))
+      }
     },
     [i18n, languages]
   )
