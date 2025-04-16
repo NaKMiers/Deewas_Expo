@@ -13,6 +13,8 @@ interface HistoryFooterProps {
   onChange: (tab: string) => void
   next: () => void
   prev: () => void
+  disabledNext?: boolean
+  disabledPrev?: boolean
   indicatorLabel?: string
   hideSegments?: boolean
   className?: string
@@ -25,6 +27,8 @@ function HistoryFooter({
   onChange,
   next,
   prev,
+  disabledNext,
+  disabledPrev,
   hideSegments,
   className,
 }: HistoryFooterProps) {
@@ -38,7 +42,8 @@ function HistoryFooter({
         {/* Previous */}
         <TouchableOpacity
           onPress={prev}
-          className="flex flex-row items-center justify-center gap-2"
+          className={cn('flex flex-row items-center justify-center gap-2', disabledPrev && 'opacity-50')}
+          disabled={disabledPrev}
         >
           <View className="aspect-square rounded-full bg-neutral-700 p-2">
             <Icon
@@ -54,7 +59,8 @@ function HistoryFooter({
         {/* Next */}
         <TouchableOpacity
           onPress={next}
-          className="flex flex-row items-center justify-center gap-2"
+          className={cn('flex flex-row items-center justify-center gap-2', disabledNext && 'opacity-50')}
+          disabled={disabledNext}
         >
           <Text className="font-body tracking-wider text-muted-foreground">
             {t('Next ' + indicatorLabel)}

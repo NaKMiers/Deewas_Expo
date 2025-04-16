@@ -15,13 +15,12 @@ import {
   LucideEllipsisVertical,
   LucideLayers2,
   LucidePencil,
-  LucidePlusSquare,
   LucideTrash,
 } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, TouchableWithoutFeedback, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
@@ -68,11 +67,7 @@ function TransactionCategoryGroup({
           update={(transaction: IFullTransaction) => dispatch(addTransaction(transaction))}
           refresh={() => dispatch(refresh())}
           trigger={
-            <View className="flex h-8 flex-row items-center gap-2 rounded-md border border-primary px-2">
-              <Icon
-                render={LucidePlusSquare}
-                size={18}
-              />
+            <View className="flex h-8 flex-row items-center gap-2 rounded-md border border-secondary px-2">
               <Text className="font-semibold">{t('Add Transaction')}</Text>
             </View>
           }

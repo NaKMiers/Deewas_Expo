@@ -5,11 +5,10 @@ import Text from '@/components/Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { languages } from '@/constants/settings'
+import useLanguage from '@/hooks/useLanguage'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { BASE_URL } from '@/lib/utils'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Redirect, router } from 'expo-router'
-import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -18,27 +17,9 @@ export default function WelcomePage() {
   // hooks
   const { user, onboarding } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('welcomePage.' + key)
-  const locale = i18n.language
-
-  // states
-  const [selectedLanguage, setSelectedLanguage] = useState<any>(languages.find(l => l.value === locale))
-
-  // handle change language
-  const handleChangeLanguage = useCallback(
-    async (nextLocale: string) => {
-      i18n.changeLanguage(nextLocale)
-      setSelectedLanguage(
-        languages.find(l => l.value === nextLocale) || { locale: 'en', label: 'English' }
-      )
-      const newLanguage = languages.find(l => l.value === nextLocale)
-      if (newLanguage) {
-        await AsyncStorage.setItem('language', JSON.stringify(newLanguage))
-      }
-    },
-    [i18n, languages]
-  )
+  const { changeLanguage, language } = useLanguage()
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
@@ -56,17 +37,17 @@ export default function WelcomePage() {
         {/* Language */}
         <View className="flex flex-row items-center justify-end px-21/2 py-21/2 md:px-21">
           <Select
-            value={selectedLanguage.value}
+            value={language}
             onValueChange={option => {
               if (!option) return
-              handleChangeLanguage(option.value)
+              changeLanguage(option.value)
             }}
           >
             <SelectTrigger
               className="border-transparent bg-transparent"
               style={{ height: 36 }}
             >
-              <Text>{selectedLanguage.label}</Text>
+              <Text>{language.label}</Text>
             </SelectTrigger>
 
             <SelectContent className="border-transparent bg-secondary shadow-none">

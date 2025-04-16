@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import { memo, useEffect, useRef, useState } from 'react'
-import { View } from 'react-native'
+import { Animated, Easing, View } from 'react-native'
 import Text from './Text'
 
 interface PriceProps {
@@ -71,9 +71,9 @@ function CountDown({ timeType, start, duration, expire, className }: PriceProps)
   }, [duration, expire, start, timeType, timeLeft])
 
   return (
-    <View className={cn('flex shrink-0 gap-1', className)}>
+    <View className={cn('flex shrink-0 flex-row items-center gap-1', className)}>
       {/* Hours */}
-      <View className="flex items-center rounded-sm pl-[2px] pr-[1px]">
+      <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[0] / 10)}
           max={9}
@@ -83,10 +83,11 @@ function CountDown({ timeType, start, duration, expire, className }: PriceProps)
           max={9}
         />
       </View>
+
       <Text>:</Text>
 
       {/* Minutes */}
-      <View className="flex items-center rounded-sm pl-[2px] pr-[1px]">
+      <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[1] / 10)}
           max={5}
@@ -96,10 +97,11 @@ function CountDown({ timeType, start, duration, expire, className }: PriceProps)
           max={9}
         />
       </View>
+
       <Text>:</Text>
 
       {/* Seconds */}
-      <View className="flex items-center rounded-sm pl-[2px] pr-[1px]">
+      <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[2] / 10)}
           max={5}
@@ -123,53 +125,60 @@ interface CounterItem {
 }
 
 function CounterItem({ max, value, size = 25, className }: CounterItem) {
-  // refs
-  const slideTrackRef = useRef<any>(null)
+  const translateY = useRef(new Animated.Value(0)).current
 
-  // change slide main function
   useEffect(() => {
-    if (slideTrackRef.current) {
-      let slide = max - value
+    let slide = max - value
 
-      if (slide === 0) {
-        slideTrackRef.current.style.marginTop = `calc(-${size}px * ${max + 1})`
-
-        setTimeout(() => {
-          if (slideTrackRef.current) {
-            slideTrackRef.current.style.transition = 'none'
-            slideTrackRef.current.style.marginTop = `calc(-${size}px * ${0})`
-          }
-        }, 210)
-
-        setTimeout(() => {
-          if (slideTrackRef.current) {
-            slideTrackRef.current.style.transition = 'all 0.2s linear'
-          }
-        }, 250)
-      } else {
-        slideTrackRef.current.style.marginTop = `calc(-${size}px * ${slide})`
-      }
+    if (slide === 0) {
+      Animated.timing(translateY, {
+        toValue: (max + 1) * size,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start(() => {
+        translateY.setValue(0)
+      })
+    } else {
+      Animated.timing(translateY, {
+        toValue: slide * size,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start()
     }
   }, [max, value, size])
 
+  const numbers = [...Array.from({ length: max + 1 }, (_, i) => max - i), max]
+
   return (
     <View
-      className={`overflow-y-hidden ${className}`}
+      className={`overflow-hidden ${className}`}
       style={{ height: size }}
     >
-      <View
-        className={`trans-200 flex h-full flex-col`}
-        ref={slideTrackRef}
+      <Animated.View
+        className="flex flex-col"
+        style={{
+          transform: [
+            {
+              translateY: translateY.interpolate({
+                inputRange: [0, (max + 1) * size],
+                outputRange: [0, -(max + 1) * size],
+              }),
+            },
+          ],
+        }}
       >
-        {[...Array.from({ length: max + 1 }, (_, i) => max - i), max].map((n, i) => (
+        {numbers.map((n, i) => (
           <Text
-            className="ml-0.5 flex h-full flex-shrink-0 items-center justify-center rounded-sm bg-secondary px-0.5 text-sm font-semibold text-primary"
             key={i}
+            style={{ height: 25 }}
+            className="ml-0.5 rounded-sm px-1 text-lg font-bold"
           >
             {n}
           </Text>
         ))}
-      </View>
+      </Animated.View>
     </View>
   )
 }

@@ -1,4 +1,5 @@
 import { images } from '@/assets/images/images'
+import Countdown from '@/components/Countdown'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Icon from '@/components/Icon'
 import Image from '@/components/Image'
@@ -12,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { deleteAllDataApi } from '@/requests'
+import { router } from 'expo-router'
 import {
   LucideBookCopy,
   LucideChevronRight,
@@ -20,6 +22,7 @@ import {
   Moon,
   Sun,
 } from 'lucide-react-native'
+import moment from 'moment'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -30,7 +33,7 @@ function AccountPage({ navigation }: any) {
   // hooks
   const { user, logout } = useAuth()
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('accountPage.', key)
+  const t = (key: string) => translate('accountPage.' + key)
   const { colorScheme, setColorScheme } = useColorScheme()
   const dispatch = useAppDispatch()
 
@@ -92,7 +95,7 @@ function AccountPage({ navigation }: any) {
               </View>
               <View>
                 <Text className="text-xl font-bold">{user?.username}</Text>
-                <Text className="flex flex-row items-center gap-2 text-sm text-muted-foreground">
+                <Text className="flex flex-row items-center gap-2 text-muted-foreground">
                   {user?.email}
                   <Image
                     src={`/icons/${user?.authType}.png`}
@@ -111,36 +114,39 @@ function AccountPage({ navigation }: any) {
           {/* MARK: Ads */}
           <View className="flex flex-col gap-2 rounded-md border border-border bg-secondary px-21 py-21/2">
             <View className="flex flex-row justify-between gap-2">
-              <Text className="font-semibold">{t('Flash Sale')}</Text>
-              {/* <Countdown
+              <Text className="text-lg font-semibold">{t('Flash Sale')}</Text>
+              <Countdown
                 timeType="once"
                 start={moment().startOf('day').toISOString()}
                 expire={moment().endOf('day').toISOString()}
-              /> */}
+              />
             </View>
 
-            {/* <View className="flex max-w-[400px] flex-row items-center justify-center">
-              <Image
-                className="w-full"
-                source={images.flashSale}
-                resizeMode="contain"
-                alt="flash-sale"
-              />
-            </View> */}
+            <View
+              className="w-full overflow-hidden rounded-lg shadow-lg"
+              style={{ height: 165 }}
+            >
+              <View>
+                <Image
+                  source={images.flashSale}
+                  resizeMode="contain"
+                  className="h-full w-full"
+                />
+              </View>
+            </View>
           </View>
 
           {/* MARK: Categories & Wallets */}
           <View className="flex flex-col rounded-md border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
-              // href="/categories"
               onPress={() => navigation.navigate('categories')}
-              className="flex h-10 flex-row items-center gap-2 text-sm"
+              className="flex h-10 flex-row items-center gap-2"
             >
               <Icon
                 render={LucideBookCopy}
                 size={18}
               />
-              <Text className="font-semibold">{t('Categories')}</Text>
+              <Text className="text-lg font-semibold">{t('Categories')}</Text>
               <View className="flex flex-1 flex-row items-center justify-end">
                 <Icon
                   render={LucideChevronRight}
@@ -152,7 +158,7 @@ function AccountPage({ navigation }: any) {
 
           {/* MARK: Theme */}
           <View className="flex flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
-            <Text className="font-semibold">{t('Theme')}</Text>
+            <Text className="text-lg font-semibold">{t('Theme')}</Text>
 
             <Select onValueChange={option => setColorScheme(option?.value as 'light' | 'dark')}>
               <SelectTrigger>
@@ -193,24 +199,24 @@ function AccountPage({ navigation }: any) {
           {/* MARK: More */}
           <View className="flex flex-col rounded-lg border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
-              // onPress={() => router.push('/about')}
-              className="flex h-11 flex-row items-center gap-2 text-sm"
+              onPress={() => router.push('/about')}
+              className="flex h-11 flex-row items-center gap-2"
             >
               <Icon
                 render={LucideInfo}
                 size={18}
               />
-              <Text className="font-semibold">{t('About')}</Text>
+              <Text className="text-lg font-semibold">{t('About')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              // onPress={() => router.push('/help-and-support')}
-              className="flex h-11 flex-row items-center gap-2 text-sm"
+              onPress={() => router.push('/help-and-support')}
+              className="flex h-11 flex-row items-center gap-2"
             >
               <Icon
                 render={LucideShieldQuestion}
                 size={18}
               />
-              <Text className="font-semibold">{t('Help & Support')}</Text>
+              <Text className="text-lg font-semibold">{t('Help & Support')}</Text>
             </TouchableOpacity>
           </View>
 

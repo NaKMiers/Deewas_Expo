@@ -132,22 +132,25 @@ export const checkTranType = (type: TranOptionKeys) => {
   return results || tranOptions['balance']
 }
 
-const levels = {
+const levelColors = {
   hard: {
+    text: 'text-rose-500',
     background: 'bg-rose-500',
   },
   medium: {
+    text: 'text-yellow-500',
     background: 'bg-yellow-500',
   },
   easy: {
+    text: 'text-emerald-500',
     background: 'bg-emerald-500',
   },
 }
 
-export const checkLevel = (level: number) => {
-  if (level <= 50) return levels.easy
-  if (level <= 80) return levels.medium
-  return levels.hard
+export const checkLevel = (level: number, levels: number[] = [50, 80, 100]) => {
+  if (level <= levels[0]) return levelColors.easy
+  if (level <= levels[1]) return levelColors.medium
+  return levelColors.hard
 }
 
 export const adjustCurrency = (input: string, locale: string) => {

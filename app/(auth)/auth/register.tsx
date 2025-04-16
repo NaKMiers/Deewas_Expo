@@ -10,14 +10,8 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { setToken, setUser } from '@/lib/reducers/userReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { registerCredentialsApi, signInGoogleApi, updateMySettingsApi } from '@/requests'
+import { registerCredentialsApi, updateMySettingsApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-  GoogleSignin,
-  isErrorWithCode,
-  isSuccessResponse,
-  statusCodes,
-} from '@react-native-google-signin/google-signin'
 import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
 import { useCallback, useState } from 'react'
@@ -36,7 +30,7 @@ import Toast from 'react-native-toast-message'
 function RegisterPage() {
   // hooks
   const dispatch = useAppDispatch()
-  let { t: translate, i18n } = useTranslation()
+  let { t: translate } = useTranslation()
   const t = (key: string) => translate('registerPage.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
@@ -176,104 +170,104 @@ function RegisterPage() {
     }
   }, [])
 
-  // MARK: Google Sign Up
-  const handleGoogleSignUp = useCallback(async () => {
-    // start loading
-    setLoading(true)
+  // // MARK: Google Sign Up
+  // const handleGoogleSignUp = useCallback(async () => {
+  //   // start loading
+  //   setLoading(true)
 
-    try {
-      await GoogleSignin.hasPlayServices()
-      const response = await GoogleSignin.signIn()
+  //   try {
+  //     await GoogleSignin.hasPlayServices()
+  //     const response = await GoogleSignin.signIn()
 
-      if (isSuccessResponse(response)) {
-        const { idToken } = response.data
+  //     if (isSuccessResponse(response)) {
+  //       const { idToken } = response.data
 
-        if (!idToken) {
-          Toast.show({
-            type: 'error',
-            text1: tError('ID token is required'),
-          })
-          return
-        }
+  //       if (!idToken) {
+  //         Toast.show({
+  //           type: 'error',
+  //           text1: tError('ID token is required'),
+  //         })
+  //         return
+  //       }
 
-        const { token, isNewUser } = await signInGoogleApi(idToken)
-        const decodedUser: IFullUser = jwtDecode(token)
+  //       const { token, isNewUser } = await signInGoogleApi(idToken)
+  //       const decodedUser: IFullUser = jwtDecode(token)
 
-        // save token and user
-        await AsyncStorage.setItem('token', token)
-        dispatch(setUser(decodedUser))
-        dispatch(setToken(token))
+  //       // save token and user
+  //       await AsyncStorage.setItem('token', token)
+  //       dispatch(setUser(decodedUser))
+  //       dispatch(setToken(token))
 
-        if (isNewUser) {
-          // currency at onboarding
-          const currency = await AsyncStorage.getItem('currency')
-          const personalities = await AsyncStorage.getItem('personalities')
+  //       if (isNewUser) {
+  //         // currency at onboarding
+  //         const currency = await AsyncStorage.getItem('currency')
+  //         const personalities = await AsyncStorage.getItem('personalities')
 
-          if (currency || personalities) {
-            const data = {
-              currency: currency ? JSON.parse(currency) : 'USD',
-              personalities: personalities ? JSON.parse(personalities) : [0],
-            }
+  //         if (currency || personalities) {
+  //           const data = {
+  //             currency: currency ? JSON.parse(currency) : 'USD',
+  //             personalities: personalities ? JSON.parse(personalities) : [0],
+  //           }
 
-            await updateMySettingsApi(data)
-          }
+  //           await updateMySettingsApi(data)
+  //         }
 
-          // show success message
-          Toast.show({
-            type: 'success',
-            text1: tSuccess('Register Success'),
-            text2: tSuccess('You have successfully registered'),
-          })
-        } else {
-          // show success message
-          Toast.show({
-            type: 'success',
-            text1: tSuccess('Login Success'),
-            text2: tSuccess('You have successfully logged in'),
-          })
-        }
+  //         // show success message
+  //         Toast.show({
+  //           type: 'success',
+  //           text1: tSuccess('Register Success'),
+  //           text2: tSuccess('You have successfully registered'),
+  //         })
+  //       } else {
+  //         // show success message
+  //         Toast.show({
+  //           type: 'success',
+  //           text1: tSuccess('Login Success'),
+  //           text2: tSuccess('You have successfully logged in'),
+  //         })
+  //       }
 
-        // go home
-        router.replace('/home')
-      } else {
-        Toast.show({
-          type: 'error',
-          text1: tError('Failed to sign up with Google'),
-        })
-      }
-    } catch (err) {
-      if (isErrorWithCode(err)) {
-        switch (err.code) {
-          case statusCodes.IN_PROGRESS:
-            Toast.show({
-              type: 'info',
-              text1: t('Google sign up is in progress'),
-            })
-            break
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            Toast.show({
-              type: 'error',
-              text1: tError('Play services are not available'),
-            })
-            break
-          default:
-            Toast.show({
-              type: 'error',
-              text1: tError('Failed to sign up with Google'),
-            })
-        }
-      } else {
-        Toast.show({
-          type: 'error',
-          text1: tError('An error occurred'),
-        })
-      }
-      console.error(err)
-    } finally {
-      // stop loading
-      setLoading(false)
-    }
-  }, [])
+  //       // go home
+  //       router.replace('/home')
+  //     } else {
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: tError('Failed to sign up with Google'),
+  //       })
+  //     }
+  //   } catch (err) {
+  //     if (isErrorWithCode(err)) {
+  //       switch (err.code) {
+  //         case statusCodes.IN_PROGRESS:
+  //           Toast.show({
+  //             type: 'info',
+  //             text1: t('Google sign up is in progress'),
+  //           })
+  //           break
+  //         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+  //           Toast.show({
+  //             type: 'error',
+  //             text1: tError('Play services are not available'),
+  //           })
+  //           break
+  //         default:
+  //           Toast.show({
+  //             type: 'error',
+  //             text1: tError('Failed to sign up with Google'),
+  //           })
+  //       }
+  //     } else {
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: tError('An error occurred'),
+  //       })
+  //     }
+  //     console.error(err)
+  //   } finally {
+  //     // stop loading
+  //     setLoading(false)
+  //   }
+  // }, [])
 
   return (
     <>
@@ -315,7 +309,7 @@ function RegisterPage() {
                 <View className="items-center justify-center gap-2">
                   <Button
                     className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
-                    onPress={handleGoogleSignUp}
+                    // onPress={handleGoogleSignUp}
                     disabled={loading}
                   >
                     <Image

@@ -16,7 +16,7 @@ export default function HomePage() {
   const { refreshing } = useAppSelector(state => state.load)
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <ScrollView
         refreshControl={
           <RefreshControl

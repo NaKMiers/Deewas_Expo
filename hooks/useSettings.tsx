@@ -1,21 +1,17 @@
-import { defaultLanguage, languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setLoading, setSettings } from '@/lib/reducers/settingsReducer'
 import { getMySettingsApi } from '@/requests'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from './providers/AuthProvider'
+import { useAuth } from '../components/providers/AuthProvider'
 
-function UseSettings() {
+export default function useSettings() {
   // hooks
   const dispatch = useAppDispatch()
   const { user } = useAuth()
-  const { t: translate, i18n } = useTranslation()
-  const locale = i18n.language
 
   // stores
   const { refreshPoint } = useAppSelector(state => state.load)
+  const { settings, loading } = useAppSelector(state => state.settings)
 
   // get settings
   const getSettings = useCallback(async () => {
@@ -28,16 +24,6 @@ function UseSettings() {
       // get settings
       const { settings } = await getMySettingsApi()
       dispatch(setSettings(settings))
-
-      // initially set language
-      const languageRaw = await AsyncStorage.getItem('language')
-      if (languageRaw) {
-        const language = JSON.parse(languageRaw)
-        i18n.changeLanguage(language.value)
-      } else {
-        const language = languages.find(l => l.value === locale) || defaultLanguage
-        await AsyncStorage.setItem('language', JSON.stringify(language))
-      }
     } catch (err: any) {
       console.log(err)
     } finally {
@@ -51,7 +37,5 @@ function UseSettings() {
     getSettings()
   }, [dispatch, user, refreshPoint])
 
-  return null
+  return { refetch: getSettings, settings, loading }
 }
-
-export default UseSettings

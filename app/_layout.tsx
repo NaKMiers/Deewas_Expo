@@ -11,7 +11,7 @@ import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
@@ -62,7 +62,7 @@ function RootLayout() {
     'SourceSansPro-Semibold': require('../assets/fonts/SourceSansPro-Semibold.otf'),
     'SourceSansPro-SemiboldIt': require('../assets/fonts/SourceSansPro-SemiboldIt.otf'),
   })
-
+  const [isAppReady, setIsAppReady] = useState(false)
   const hasMounted = useRef(false)
   const { colorScheme, isDarkColorScheme } = useColorScheme()
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false)
@@ -76,33 +76,42 @@ function RootLayout() {
       setAndroidNavigationBar(colorScheme)
       setIsColorSchemeLoaded(true)
       hasMounted.current = true
-      SplashScreen.hideAsync()
+      setIsAppReady(true)
     }
-  }, [loaded, colorScheme, isDarkColorScheme])
+  }, [loaded, colorScheme])
 
   if (!loaded || !isColorSchemeLoaded) {
     return null
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StoreProvider>
-        <DrawerProvider>
-          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+    <View
+      className="flex-1"
+      onLayout={async () => {
+        if (!isAppReady) {
+          await SplashScreen.hideAsync()
+        }
+      }}
+    >
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <StoreProvider>
+          <DrawerProvider>
+            <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
 
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(home)" />
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="welcome" />
-            <Stack.Screen name="onboarding" />
-          </Stack>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(home)" />
+              <Stack.Screen name="(auth)" />
+              <Stack.Screen name="welcome" />
+              <Stack.Screen name="onboarding" />
+            </Stack>
 
-          <PortalHost />
-        </DrawerProvider>
-      </StoreProvider>
+            <PortalHost />
+          </DrawerProvider>
+        </StoreProvider>
 
-      <Toast />
-    </ThemeProvider>
+        <Toast />
+      </ThemeProvider>
+    </View>
   )
 }
 

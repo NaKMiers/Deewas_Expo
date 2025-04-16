@@ -27,8 +27,6 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
   const dispatch = useAppDispatch()
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('budgetTab.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
   const locale = i18n.language
 
   // store

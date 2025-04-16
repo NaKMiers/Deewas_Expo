@@ -17,6 +17,8 @@ interface IDateRangeSegmentsProps {
   indicatorLabel: string
   next: () => void
   prev: () => void
+  disabledNext?: boolean
+  disabledPrev?: boolean
   reset: () => void
 }
 
@@ -26,6 +28,8 @@ function DateRangeSegments({
   onChangeSegment,
   dateRange,
   next,
+  disabledNext,
+  disabledPrev,
   prev,
   reset,
 }: IDateRangeSegmentsProps) {
@@ -62,7 +66,8 @@ function DateRangeSegments({
         {/* Previous */}
         <TouchableOpacity
           onPress={prev}
-          className="rounded-full bg-neutral-700 p-2"
+          className={cn('rounded-full bg-neutral-700 p-2', disabledPrev && 'opacity-50')}
+          disabled={disabledPrev}
         >
           <Icon
             render={LucideChevronLeft}
@@ -87,7 +92,8 @@ function DateRangeSegments({
         {/* Next */}
         <TouchableOpacity
           onPress={next}
-          className="rounded-full bg-neutral-700 p-2"
+          className={cn('rounded-full bg-neutral-700 p-2', disabledNext && 'opacity-50')}
+          disabled={disabledNext}
         >
           <Icon
             render={LucideChevronRight}

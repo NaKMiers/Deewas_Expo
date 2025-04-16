@@ -1,10 +1,9 @@
 import { currencies, languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import useLanguage from '@/hooks/useLanguage'
 import { setSettings } from '@/lib/reducers/settingsReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { usePathname } from 'expo-router'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
@@ -69,9 +68,9 @@ interface BoxProps {
 function Box({ type, desc, list, init, className }: BoxProps) {
   // hooks
   const dispatch = useAppDispatch()
-  const pathname = usePathname()
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('settingsBox.' + key)
+  const { changeLanguage } = useLanguage()
 
   // states
   const [loading, setLoading] = useState<boolean>(false)
@@ -112,18 +111,6 @@ function Box({ type, desc, list, init, className }: BoxProps) {
     [dispatch, type]
   )
 
-  // handle change language
-  const handleChangeLanguage = useCallback(
-    async (nextLocale: string) => {
-      i18n.changeLanguage(nextLocale)
-      const newLanguage = languages.find(l => l.value === nextLocale)
-      if (newLanguage) {
-        await AsyncStorage.setItem('language', JSON.stringify(newLanguage))
-      }
-    },
-    [i18n, languages]
-  )
-
   return (
     <View
       className={cn(
@@ -131,8 +118,8 @@ function Box({ type, desc, list, init, className }: BoxProps) {
         className
       )}
     >
-      <Text className="font-bold capitalize">{t(type)}</Text>
-      <Text className="mb-3 text-sm text-muted-foreground">{desc}</Text>
+      <Text className="text-lg font-bold capitalize">{t(type)}</Text>
+      <Text className="mb-3 text-muted-foreground">{desc}</Text>
 
       <Select
         value={selected?.value}
@@ -141,7 +128,7 @@ function Box({ type, desc, list, init, className }: BoxProps) {
           if (!option) return
 
           if (type === 'language') {
-            handleChangeLanguage(option.value)
+            changeLanguage(option.value)
           } else {
             handleUpdateSettings(option.value)
           }

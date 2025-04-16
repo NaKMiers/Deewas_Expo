@@ -10,7 +10,7 @@ export default function Slide1({ onChange }: { onChange: (value: any) => void })
   return (
     <View className="flex flex-1 items-center justify-center">
       <Text className="text-center text-3xl font-bold text-primary">
-        How did would you here about us?
+        {t('How did would you here about us?')}
       </Text>
 
       <ScrollView className="w-full">

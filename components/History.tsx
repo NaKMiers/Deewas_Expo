@@ -61,7 +61,6 @@ function History({ className }: HistoryProps) {
     try {
       const from = toUTC(dateRange.from)
       const to = toUTC(dateRange.to)
-
       const { transactions } = await getHistoryApi(`?from=${from}&to=${to}`)
       setTransactions(transactions)
     } catch (err: any) {
@@ -71,7 +70,7 @@ function History({ className }: HistoryProps) {
       setLoading(false)
       dispatch(setRefreshing(false))
     }
-  }, [user, dateRange])
+  }, [dateRange, dispatch, user])
 
   // initially get history
   useEffect(() => {
@@ -80,7 +79,10 @@ function History({ className }: HistoryProps) {
 
   // auto update chart data
   useEffect(() => {
-    if (!transactions.length || !currency) return
+    if (!transactions.length || !currency) {
+      setData([])
+      return
+    }
 
     // filter by selected transaction type
     const filteredTransactions =
@@ -178,17 +180,7 @@ function History({ className }: HistoryProps) {
 
       setData(groupedData)
     }
-  }, [
-    transactions,
-    dateRange,
-    currency,
-    selectedTransactionType,
-    selectedChartType,
-    chartPeriod,
-    refreshPoint,
-    setData,
-    setTransactions,
-  ])
+  }, [transactions, currency, selectedTransactionType, selectedChartType])
 
   // previous time unit
   const handlePrevTimeUnit = useCallback(() => {
@@ -213,6 +205,11 @@ function History({ className }: HistoryProps) {
   // next time unit
   const handleNextTimeUnit = useCallback(() => {
     const newDateRange = { ...dateRange }
+    // prevent going to the future
+    if (moment(dateRange.from).add(1, chartPeriod).isAfter(moment())) {
+      return
+    }
+
     switch (chartPeriod) {
       case 'week':
         newDateRange.from = moment(dateRange.from).add(1, 'week').toDate()
@@ -227,6 +224,7 @@ function History({ className }: HistoryProps) {
         newDateRange.to = moment(dateRange.to).add(1, 'year').toDate()
         break
     }
+
     setDateRange(newDateRange)
   }, [chartPeriod, dateRange, setDateRange])
 
@@ -339,6 +337,10 @@ function History({ className }: HistoryProps) {
           prev={handlePrevTimeUnit}
           onChange={(segment: string) => setSelectedTransactionType(segment as TransactionType)}
           hideSegments={selectedChartType == 'pie'}
+          disabledNext={moment(dateRange.from).add(1, chartPeriod).isAfter(moment())}
+          disabledPrev={moment(dateRange.from)
+            .subtract(1, chartPeriod)
+            .isBefore(moment(user?.createdAt).subtract(1, chartPeriod))}
         />
       </View>
     </View>

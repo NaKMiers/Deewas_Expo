@@ -1,6 +1,7 @@
 import DateRangeSegments from '@/components/DateRangeSegments'
 import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import Icon from '@/components/Icon'
+import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import TransactionTypeGroup from '@/components/TransactionTypeGroup'
 import { Button } from '@/components/ui/button'
@@ -23,12 +24,11 @@ import Toast from 'react-native-toast-message'
 
 function TransactionsPage() {
   // hooks
+  const { user } = useAuth()
   const dispatch = useAppDispatch()
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('transactionPage.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
-  const locale = i18n.language
 
   // store
   const { curWallet } = useAppSelector(state => state.wallet)
@@ -45,6 +45,7 @@ function TransactionsPage() {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState<string>('')
   const [timeSegment, setTimeSegment] = useState<TimeUnit>('month')
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
 
   useEffect(() => {
     if (curWallet) setWallet(curWallet)
@@ -71,6 +72,7 @@ function TransactionsPage() {
       // stop loading
       setLoading(false)
       dispatch(setRefreshing(false))
+      setIsFirstRender(false)
     }
   }, [dispatch, dateRange, wallet])
 
@@ -212,9 +214,13 @@ function TransactionsPage() {
               }}
               dateRange={dateRange}
               indicatorLabel={timeSegment}
+              reset={handleResetTimeUnit}
               next={handleNextTimeUnit}
               prev={handlePrevTimeUnit}
-              reset={handleResetTimeUnit}
+              disabledNext={moment(dateRange.from).add(1, timeSegment).isAfter(moment())}
+              disabledPrev={moment(dateRange.from)
+                .subtract(1, timeSegment)
+                .isBefore(moment(user?.createdAt).subtract(1, timeSegment))}
             />
           </View>
 
@@ -270,8 +276,16 @@ function TransactionsPage() {
             </Button>
           </View>
 
-          {/* MARK: Groups */}
-          {!loading ? (
+          {isFirstRender ? (
+            <View className="mt-21/2 flex flex-col gap-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton
+                  className="h-[300px]"
+                  key={i}
+                />
+              ))}
+            </View>
+          ) : (
             <View className="mt-21/2 flex flex-col gap-2">
               {groups.length > 0 ? (
                 groups.map(([type, group]) => (
@@ -289,16 +303,9 @@ function TransactionsPage() {
                 </View>
               )}
             </View>
-          ) : (
-            <View className="mt-21/2 flex flex-col gap-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton
-                  className="h-[300px]"
-                  key={i}
-                />
-              ))}
-            </View>
           )}
+
+          {/* MARK: Groups */}
         </View>
 
         <Separator className="my-16 h-0" />

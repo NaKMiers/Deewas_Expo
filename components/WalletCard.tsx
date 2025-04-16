@@ -3,7 +3,7 @@ import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
-import { checkTranType, formatCurrency } from '@/lib/string'
+import { checkLevel, checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi, updateWalletApi } from '@/requests/walletRequests'
 import { router } from 'expo-router'
@@ -47,6 +47,9 @@ function WalletCard({ wallet, className }: WalletCardProps) {
   const [updating, setUpdating] = useState<boolean>(false)
   const [deleting, setDeleting] = useState<boolean>(false)
   const [hide, setHide] = useState<boolean>(false)
+
+  // value
+  const spentRate = wallet.income ? Math.round((wallet.expense / wallet.income) * 100 * 100) / 100 : 0
 
   // delete wallet
   const handleDeleteWallet = useCallback(async () => {
@@ -225,7 +228,11 @@ function WalletCard({ wallet, className }: WalletCardProps) {
             value={wallet.income + wallet.saving + wallet.invest - wallet.expense}
             type="balance"
           />
-          <Collapsible collapsed={!collapsed}>
+          <Collapsible
+            collapsed={!collapsed}
+            easing="linear"
+            duration={50}
+          >
             <View className="flex flex-col gap-2">
               <Item
                 title={t('Income')}
@@ -253,13 +260,17 @@ function WalletCard({ wallet, className }: WalletCardProps) {
 
         {/* Collapse Button */}
         <Button
-          className={cn('flex w-full flex-row items-center justify-center rounded-none')}
-          style={{ height: 28 }}
+          className={cn('w-full flex-row items-center justify-between rounded-none')}
+          style={{ height: 32 }}
           onPress={e => {
             e.stopPropagation()
             setCollapsed(!collapsed)
           }}
         >
+          <Text className={cn('font-semibold leading-4 drop-shadow-md', checkLevel(spentRate).text)}>
+            {spentRate}% {t('spent')}
+          </Text>
+
           <Icon
             render={LucideChevronDown}
             size={26}

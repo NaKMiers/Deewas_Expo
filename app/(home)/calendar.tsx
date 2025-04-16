@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import useLanguage from '@/hooks/useLanguage'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { formatCompactNumber, formatCurrency, getLocale } from '@/lib/string'
 import { cn } from '@/lib/utils'
@@ -33,13 +34,13 @@ import { RefreshControl } from 'react-native-gesture-handler'
 
 function CalendarPage() {
   // hooks
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('calendarPage.' + key)
   const dispatch = useAppDispatch()
-  const locale = i18n.language
+  const { locale } = useLanguage()
 
   // store
-  const { refreshPoint } = useAppSelector(state => state.load)
+  const { refreshPoint, refreshing } = useAppSelector(state => state.load)
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
   // states
@@ -49,6 +50,7 @@ function CalendarPage() {
   const [loading, setLoading] = useState(false)
   const [openCreateTransaction, setOpenCreateTransaction] = useState<Date | undefined>(undefined)
 
+  // get transactions
   const getTransactions = useCallback(async () => {
     // start loading
     setLoading(true)
@@ -92,7 +94,7 @@ function CalendarPage() {
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={refreshing}
             onRefresh={() => dispatch(refresh())}
           />
         }

@@ -109,7 +109,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
         {/* MARK: Type Body */}
         <Collapsible
           collapsed={!collapsed}
-          align="center"
+          align="top"
           duration={200}
         >
           <View className="mt-1.5 flex flex-col gap-2">

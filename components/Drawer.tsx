@@ -25,7 +25,7 @@ function Drawer() {
       enablePanDownToClose={true}
       onChange={(index: number) => {
         if (index === -1) closeDrawer()
-        if (index === 0) drawerRef.current?.close()
+        if (index === 0 && Platform.OS !== 'android') drawerRef.current?.close()
       }}
       backgroundStyle={{
         backgroundColor: isDarkColorScheme ? '#161616' : '#fff',
