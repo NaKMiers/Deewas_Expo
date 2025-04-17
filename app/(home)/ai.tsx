@@ -60,7 +60,6 @@ function AIPage() {
         'x-timezone': moment.tz.guess(),
         'x-personalities': JSON.stringify(settings ? settings?.personalities : [0]),
       },
-      maxSteps: 3,
     })
   const { stop } = useCompletion()
   const [containerRef, handleScroll, isAtBottom] = useScrollToBottom(messages, status === 'streaming')
@@ -68,6 +67,7 @@ function AIPage() {
 
   // states
   const [openPersonalities, setOpenPersonalities] = useState<boolean>(false)
+  const [refreshed, setRefreshed] = useState<boolean>(false)
 
   // values
   const samples = [t('Hello?'), t('What can you do?'), t('I bought a dumpling'), t('Set a food budget')]
@@ -114,6 +114,7 @@ function AIPage() {
       if (input.trim() === '') return
       Keyboard.dismiss()
       handleSubmit(e)
+      setRefreshed(false)
     },
     [handleSubmit, input]
   )
@@ -128,6 +129,42 @@ function AIPage() {
     stop()
     dispatch(refresh())
   }, [])
+
+  // refresh
+  useEffect(() => {
+    if (messages.length === 0) return
+    const lastMessage: any = messages[messages.length - 1]
+
+    const toolName = lastMessage?.parts?.[1]?.toolInvocation?.toolName
+
+    // some tools need to refresh after called
+    const toolNames = [
+      'create_wallet',
+      'update_wallet',
+      'delete_wallet',
+      'transfer_fund_from_wallet_to_wallet',
+      'create_category',
+      'update_category',
+      'delete_category',
+      'create_budget',
+      'get_all_transactions',
+      'create_transaction',
+      'update_transaction',
+      'delete_transaction',
+    ]
+
+    if (toolNames.includes(toolName)) {
+      console.log(1)
+
+      if (!refreshed) {
+        console.log(2)
+        setRefreshed(true)
+
+        // refresh without loading
+        setTimeout(() => dispatch(refresh(true)), 1000)
+      }
+    }
+  }, [dispatch, messages, refreshed])
 
   return (
     <SafeAreaView className="flex-1">

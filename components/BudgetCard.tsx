@@ -23,10 +23,11 @@ interface IBudgetCardProps {
   begin: Date | string
   end: Date | string
   budget: IFullBudget
+  hideMenu?: boolean
   className?: string
 }
 
-function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
+function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
@@ -85,81 +86,82 @@ function BudgetCard({ begin, end, budget, className }: IBudgetCardProps) {
           )}
         </View>
 
-        {!deleting ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-              >
-                <Icon render={LucideEllipsis} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {/* MARK: Duplicate */}
-              <CreateBudgetDrawer
-                initTotal={budget.total}
-                initCategory={budget.category}
-                initBegin={moment(budget.begin).add(1, 'month').toDate()}
-                initEnd={moment(budget.end).add(1, 'month').toDate()}
-                update={(budget: IFullBudget) => dispatch(addBudget(budget))}
-                refresh={() => dispatch(refresh())}
-                trigger={
-                  <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                    <Icon
-                      render={LucideLayers2}
-                      size={16}
-                      color="#8b5cf6"
-                    />
-                    <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
-                  </View>
-                }
-                reach={2}
-              />
+        {!hideMenu &&
+          (!deleting ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                >
+                  <Icon render={LucideEllipsis} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {/* MARK: Duplicate */}
+                <CreateBudgetDrawer
+                  initTotal={budget.total}
+                  initCategory={budget.category}
+                  initBegin={moment(budget.begin).add(1, 'month').toDate()}
+                  initEnd={moment(budget.end).add(1, 'month').toDate()}
+                  update={(budget: IFullBudget) => dispatch(addBudget(budget))}
+                  refresh={() => dispatch(refresh())}
+                  trigger={
+                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                      <Icon
+                        render={LucideLayers2}
+                        size={16}
+                        color="#8b5cf6"
+                      />
+                      <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
+                    </View>
+                  }
+                  reach={2}
+                />
 
-              {/* MARK: Update */}
-              <UpdateBudgetDrawer
-                update={(budget: IFullBudget) => dispatch(updateBudget(budget))}
-                refresh={() => dispatch(refresh())}
-                budget={budget}
-                trigger={
-                  <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                    <Icon
-                      render={LucidePencil}
-                      size={16}
-                      color="#0ea5e9"
-                    />
-                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                  </View>
-                }
-                reach={1}
-              />
+                {/* MARK: Update */}
+                <UpdateBudgetDrawer
+                  update={(budget: IFullBudget) => dispatch(updateBudget(budget))}
+                  refresh={() => dispatch(refresh())}
+                  budget={budget}
+                  trigger={
+                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                      <Icon
+                        render={LucidePencil}
+                        size={16}
+                        color="#0ea5e9"
+                      />
+                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                    </View>
+                  }
+                  reach={1}
+                />
 
-              {/* MARK: Delete */}
-              <ConfirmDialog
-                label={t('Delete Budget')}
-                desc={t('Are you sure you want to delete this budget?')}
-                confirmLabel={t('Delete')}
-                onConfirm={handleDeleteBudget}
-                trigger={
-                  <Button
-                    variant="ghost"
-                    className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
-                  >
-                    <Icon
-                      render={LucideTrash}
-                      size={16}
-                      color="#f43f5e"
-                    />
-                    <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                  </Button>
-                }
-              />
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <ActivityIndicator />
-        )}
+                {/* MARK: Delete */}
+                <ConfirmDialog
+                  label={t('Delete Budget')}
+                  desc={t('Are you sure you want to delete this budget?')}
+                  confirmLabel={t('Delete')}
+                  onConfirm={handleDeleteBudget}
+                  trigger={
+                    <Button
+                      variant="ghost"
+                      className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                    >
+                      <Icon
+                        render={LucideTrash}
+                        size={16}
+                        color="#f43f5e"
+                      />
+                      <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                    </Button>
+                  }
+                />
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <ActivityIndicator />
+          ))}
       </View>
 
       {/* MARK: Left */}

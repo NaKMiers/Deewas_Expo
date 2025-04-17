@@ -20,7 +20,7 @@ export default function Message({ role, content, parts }: MessageProps) {
   const isLarge = SCREEN_WIDTH >= MAX_WIDTH
 
   // if tool is invoked, show the result of the tool
-  if (toolInvocations) {
+  if (toolInvocations && toolInvocations?.result) {
     const { args, result, state, step, toolCallId, toolName } = toolInvocations
     const message = result?.message || ''
     const error = result?.error
@@ -73,7 +73,10 @@ export default function Message({ role, content, parts }: MessageProps) {
                     width: isLarge ? 500 - 21 : SCREEN_WIDTH - 21,
                   }}
                 >
-                  <WalletCard wallet={wallet} />
+                  <WalletCard
+                    wallet={wallet}
+                    hideMenu
+                  />
                 </View>
               )}
             />
@@ -107,6 +110,7 @@ export default function Message({ role, content, parts }: MessageProps) {
 
             <WalletCard
               wallet={wallet}
+              hideMenu
               className={cn('mb-21/2', !message && 'mt-21/2')}
             />
           </View>
@@ -180,7 +184,10 @@ export default function Message({ role, content, parts }: MessageProps) {
                     width: isLarge ? 500 - 21 : SCREEN_WIDTH - 21,
                   }}
                 >
-                  <WalletCard wallet={wallet} />
+                  <WalletCard
+                    wallet={wallet}
+                    hideMenu
+                  />
                 </View>
               )}
             />
@@ -209,20 +216,21 @@ export default function Message({ role, content, parts }: MessageProps) {
                 role={role}
               />
             )}
-            <View className="max-h-[400px]">
-              <FlatList
-                data={categories}
-                keyExtractor={item => item._id}
-                showsHorizontalScrollIndicator={false}
-                decelerationRate="fast"
-                className={cn('mb-21/2', !message && 'mt-21/2')}
-                renderItem={({ item: category }: { item: ICategory }) => (
-                  <View className="mb-1">
-                    <Category category={category} />
-                  </View>
-                )}
-              />
-            </View>
+            <FlatList
+              data={categories}
+              keyExtractor={item => item._id}
+              showsHorizontalScrollIndicator={false}
+              decelerationRate="fast"
+              className={cn('mb-21/2', !message && 'mt-21/2')}
+              renderItem={({ item: category }: { item: ICategory }) => (
+                <View className="mb-1">
+                  <Category
+                    category={category}
+                    hideMenu
+                  />
+                </View>
+              )}
+            />
           </View>
         )
       }
@@ -254,6 +262,7 @@ export default function Message({ role, content, parts }: MessageProps) {
             <Category
               category={category}
               className={cn('mb-21/2', !message && 'mt-21/2')}
+              hideMenu
             />
           </View>
         )
@@ -300,24 +309,23 @@ export default function Message({ role, content, parts }: MessageProps) {
                 role={role}
               />
             )}
-            <View className="max-h-[400px]">
-              <FlatList
-                data={budgets}
-                keyExtractor={item => item._id}
-                showsHorizontalScrollIndicator={false}
-                decelerationRate="fast"
-                className={cn('mb-21/2', !message && 'mt-21/2')}
-                renderItem={({ item: budget }: { item: IFullBudget }) => (
-                  <View className="mb-1">
-                    <BudgetCard
-                      budget={budget}
-                      begin={budget.begin}
-                      end={budget.end}
-                    />
-                  </View>
-                )}
-              />
-            </View>
+            <FlatList
+              data={budgets}
+              keyExtractor={item => item._id}
+              showsHorizontalScrollIndicator={false}
+              decelerationRate="fast"
+              className={cn('mb-21/2', !message && 'mt-21/2')}
+              renderItem={({ item: budget }: { item: IFullBudget }) => (
+                <View className="mb-1">
+                  <BudgetCard
+                    budget={budget}
+                    begin={budget.begin}
+                    end={budget.end}
+                    hideMenu
+                  />
+                </View>
+              )}
+            />
           </View>
         )
       }
@@ -348,6 +356,7 @@ export default function Message({ role, content, parts }: MessageProps) {
               budget={budget}
               begin={budget.begin}
               end={budget.end}
+              hideMenu
               className={cn('mb-21/2', !message && 'mt-21/2')}
             />
           </View>
@@ -375,20 +384,21 @@ export default function Message({ role, content, parts }: MessageProps) {
                 role={role}
               />
             )}
-            <View className="max-h-[400px]">
-              <FlatList
-                data={transactions}
-                keyExtractor={item => item._id}
-                showsHorizontalScrollIndicator={false}
-                decelerationRate="fast"
-                className={cn('mb-21/2', !message && 'mt-21/2')}
-                renderItem={({ item: transaction }: { item: IFullTransaction }) => (
-                  <View className="mb-1">
-                    <Transaction transaction={transaction} />
-                  </View>
-                )}
-              />
-            </View>
+            <FlatList
+              data={transactions}
+              keyExtractor={item => item._id}
+              showsHorizontalScrollIndicator={false}
+              decelerationRate="fast"
+              className={cn('mb-21/2', !message && 'mt-21/2')}
+              renderItem={({ item: transaction }: { item: IFullTransaction }) => (
+                <View className="mb-1">
+                  <Transaction
+                    transaction={transaction}
+                    hideMenu
+                  />
+                </View>
+              )}
+            />
           </View>
         )
       }
@@ -419,6 +429,7 @@ export default function Message({ role, content, parts }: MessageProps) {
 
             <Transaction
               transaction={transaction}
+              hideMenu
               className={cn('mb-21/2', !message && 'mt-21/2')}
             />
           </View>

@@ -157,10 +157,18 @@ interface TransactionProps {
   update?: (transaction: IFullTransaction) => void
   remove?: (transaction: IFullTransaction) => void
   refresh?: () => void
+  hideMenu?: boolean
   className?: string
 }
 
-export function Transaction({ transaction, update, remove, refresh, className }: TransactionProps) {
+export function Transaction({
+  transaction,
+  update,
+  remove,
+  refresh,
+  hideMenu,
+  className,
+}: TransactionProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (value: string) => translate('transaction.' + value)
@@ -285,88 +293,89 @@ export function Transaction({ transaction, update, remove, refresh, className }:
           )}
 
           {/* Dropdown */}
-          {!deleting && !duplicating ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-9"
-                >
-                  <Icon
-                    render={LucideEllipsisVertical}
-                    size={20}
+          {!hideMenu &&
+            (!deleting && !duplicating ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="w-9"
+                  >
+                    <Icon
+                      render={LucideEllipsisVertical}
+                      size={20}
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {/* MARK: Duplicate */}
+                  <ConfirmDialog
+                    label={t('Duplicate Transaction')}
+                    desc={t('Are you sure you want to duplicate this transaction?')}
+                    confirmLabel={t('Duplicate')}
+                    cancelLabel={t('Cancel')}
+                    onConfirm={handleDuplicateTransaction}
+                    trigger={
+                      <Button
+                        variant="ghost"
+                        className="flex w-full flex-row items-center justify-start gap-2 px-2"
+                      >
+                        <Icon
+                          render={LucideLayers2}
+                          size={16}
+                          color="#8b5cf6"
+                        />
+                        <Text className="font-semibold text-violet-500">{t('Duplicate')}</Text>
+                      </Button>
+                    }
                   />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {/* MARK: Duplicate */}
-                <ConfirmDialog
-                  label={t('Duplicate Transaction')}
-                  desc={t('Are you sure you want to duplicate this transaction?')}
-                  confirmLabel={t('Duplicate')}
-                  cancelLabel={t('Cancel')}
-                  onConfirm={handleDuplicateTransaction}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex w-full flex-row items-center justify-start gap-2 px-2"
-                    >
-                      <Icon
-                        render={LucideLayers2}
-                        size={16}
-                        color="#8b5cf6"
-                      />
-                      <Text className="font-semibold text-violet-500">{t('Duplicate')}</Text>
-                    </Button>
-                  }
-                />
 
-                {/* MARK: Update */}
-                <UpdateTransactionDrawer
-                  transaction={transaction}
-                  update={update}
-                  refresh={refresh}
-                  trigger={
-                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4">
-                      <Icon
-                        render={LucidePencil}
-                        size={16}
-                        color="#0ea5e9"
-                      />
-                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                    </View>
-                  }
-                  reach={3}
-                />
+                  {/* MARK: Update */}
+                  <UpdateTransactionDrawer
+                    transaction={transaction}
+                    update={update}
+                    refresh={refresh}
+                    trigger={
+                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4">
+                        <Icon
+                          render={LucidePencil}
+                          size={16}
+                          color="#0ea5e9"
+                        />
+                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                      </View>
+                    }
+                    reach={3}
+                  />
 
-                {/* MARK: Delete */}
-                <ConfirmDialog
-                  label={t('Delete Transaction')}
-                  desc={t('Are you sure you want to delete this transaction?')}
-                  confirmLabel="Delete"
-                  onConfirm={handleDeleteTransaction}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex w-full flex-row items-center justify-start gap-2 px-2"
-                    >
-                      <Icon
-                        render={LucideTrash}
-                        size={16}
-                        color="#f43f5e"
-                      />
-                      <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                    </Button>
-                  }
-                />
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <View className="flex h-9 w-9 flex-row items-center justify-center">
-              <ActivityIndicator />
-            </View>
-          )}
+                  {/* MARK: Delete */}
+                  <ConfirmDialog
+                    label={t('Delete Transaction')}
+                    desc={t('Are you sure you want to delete this transaction?')}
+                    confirmLabel="Delete"
+                    onConfirm={handleDeleteTransaction}
+                    trigger={
+                      <Button
+                        variant="ghost"
+                        className="flex w-full flex-row items-center justify-start gap-2 px-2"
+                      >
+                        <Icon
+                          render={LucideTrash}
+                          size={16}
+                          color="#f43f5e"
+                        />
+                        <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                      </Button>
+                    }
+                  />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <View className="flex h-9 w-9 flex-row items-center justify-center">
+                <ActivityIndicator />
+              </View>
+            ))}
         </View>
       </View>
     </View>

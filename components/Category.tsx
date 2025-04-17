@@ -27,10 +27,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dro
 // MARK: Category
 interface CategoryProps {
   category: ICategory
+  hideMenu?: boolean
   className?: string
 }
 
-function Category({ category, className }: CategoryProps) {
+function Category({ category, hideMenu, className }: CategoryProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
@@ -81,6 +82,7 @@ function Category({ category, className }: CategoryProps) {
         className
       )}
     >
+      {/* MARK: Background */}
       <View className="w-full max-w-[170px]">
         <View
           className={cn(
@@ -93,109 +95,115 @@ function Category({ category, className }: CategoryProps) {
       </View>
 
       <View className="absolute left-0 top-0 flex h-full w-full flex-row items-center justify-between gap-2 pl-21/2">
+        {/* MARK: Name */}
         <View className="relative z-10 flex flex-row items-center gap-2">
           <Text>{category.icon}</Text>
           <Text className="font-semibold text-secondary">{category.name}</Text>
         </View>
+
         <View className="flex flex-row items-center gap-2">
+          {/* MARK: Amount */}
           {currency && (
-            <Text className="font-body text-lg font-bold text-white">
+            <Text className={cn('font-body text-lg font-bold text-white', hideMenu && 'pr-21/2')}>
               {formatCurrency(currency, category.amount)}
             </Text>
           )}
-          {!updating && !deleting ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-12 rounded-none hover:bg-primary hover:text-secondary"
-                >
-                  <Icon
-                    render={LucideEllipsisVertical}
-                    color="white"
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {category.type === 'expense' && (
-                  <CreateTransactionDrawer
-                    initCategory={category}
+
+          {/* MARK: Menu */}
+          {!hideMenu &&
+            (!updating && !deleting ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-12 rounded-none hover:bg-primary hover:text-secondary"
+                  >
+                    <Icon
+                      render={LucideEllipsisVertical}
+                      color="white"
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {category.type === 'expense' && (
+                    <CreateTransactionDrawer
+                      initCategory={category}
+                      refresh={() => dispatch(refresh())}
+                      trigger={
+                        <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                          <Icon
+                            render={LucidePlus}
+                            size={16}
+                          />
+                          <Text className="font-semibold">{t('Add Transaction')}</Text>
+                        </View>
+                      }
+                      reach={3}
+                    />
+                  )}
+
+                  {category.type === 'expense' && (
+                    <CreateBudgetDrawer
+                      initCategory={category}
+                      refresh={() => dispatch(refresh())}
+                      trigger={
+                        <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                          <Icon
+                            render={LucideBarChart2}
+                            size={16}
+                            color="#f97316"
+                          />
+                          <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
+                        </View>
+                      }
+                      reach={2}
+                    />
+                  )}
+
+                  <UpdateCategoryDrawer
+                    category={category}
+                    update={(category: ICategory) => dispatch(updateCategory(category))}
                     refresh={() => dispatch(refresh())}
+                    load={setUpdating}
                     trigger={
                       <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
                         <Icon
-                          render={LucidePlus}
+                          render={LucidePencil}
                           size={16}
+                          color="#0ea5e9"
                         />
-                        <Text className="font-semibold">{t('Add Transaction')}</Text>
+                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
                       </View>
                     }
-                    reach={3}
                   />
-                )}
 
-                {category.type === 'expense' && (
-                  <CreateBudgetDrawer
-                    initCategory={category}
-                    refresh={() => dispatch(refresh())}
-                    trigger={
-                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                        <Icon
-                          render={LucideBarChart2}
-                          size={16}
-                          color="#f97316"
-                        />
-                        <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
-                      </View>
-                    }
-                    reach={2}
-                  />
-                )}
-
-                <UpdateCategoryDrawer
-                  category={category}
-                  update={(category: ICategory) => dispatch(updateCategory(category))}
-                  refresh={() => dispatch(refresh())}
-                  load={setUpdating}
-                  trigger={
-                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                      <Icon
-                        render={LucidePencil}
-                        size={16}
-                        color="#0ea5e9"
-                      />
-                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                    </View>
-                  }
-                />
-
-                {category.deletable && (
-                  <ConfirmDialog
-                    label="Delete Wallet"
-                    desc="Are you sure you want to delete this wallet?"
-                    confirmLabel="Delete"
-                    onConfirm={handleDeleteCategory}
-                    trigger={
-                      <Button
-                        variant="ghost"
-                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-4"
-                      >
-                        <Icon
-                          render={LucideTrash}
-                          size={16}
-                          color="#f43f5e"
-                        />
-                        <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                      </Button>
-                    }
-                  />
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <ActivityIndicator />
-          )}
+                  {category.deletable && (
+                    <ConfirmDialog
+                      label="Delete Wallet"
+                      desc="Are you sure you want to delete this wallet?"
+                      confirmLabel="Delete"
+                      onConfirm={handleDeleteCategory}
+                      trigger={
+                        <Button
+                          variant="ghost"
+                          className="flex h-8 w-full flex-row items-center justify-start gap-2 px-4"
+                        >
+                          <Icon
+                            render={LucideTrash}
+                            size={16}
+                            color="#f43f5e"
+                          />
+                          <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                        </Button>
+                      }
+                    />
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <ActivityIndicator />
+            ))}
         </View>
       </View>
     </View>

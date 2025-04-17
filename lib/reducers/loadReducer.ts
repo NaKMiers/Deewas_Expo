@@ -15,8 +15,8 @@ export const load = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload
     },
-    refresh: state => {
-      state.refreshing = true
+    refresh: (state, action: PayloadAction<boolean | undefined>) => {
+      if (!action.payload) state.refreshing = true
       state.refreshPoint = new Date().getTime()
     },
     setRefreshing: (state, action: PayloadAction<boolean>) => {
