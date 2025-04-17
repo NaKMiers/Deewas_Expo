@@ -112,7 +112,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
         <View className="px-21 py-2">
           <View className="flex flex-row flex-nowrap items-center justify-between gap-2">
             <View className="flex flex-row items-center gap-2 text-lg">
-              <Text className="text-xl">{wallet.icon}</Text>
+              <Text className="flex-shrink-0 text-xl">{wallet.icon}</Text>
               <Text className="text-xl font-semibold">{wallet.name}</Text>
             </View>
 

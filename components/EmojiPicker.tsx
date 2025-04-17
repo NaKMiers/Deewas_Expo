@@ -1,0 +1,266 @@
+import { decodeEmoji } from '@/lib/string'
+import { cn } from '@/lib/utils'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import emojiData from 'emoji-datasource/emoji_pretty.json'
+import { LucideSearch, LucideX } from 'lucide-react-native'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScrollView, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import Icon from './Icon'
+import NoItemsFound from './NoItemsFound'
+import Text from './Text'
+import { useDrawer } from './providers/DrawerProvider'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
+import { Separator } from './ui/separator'
+
+let emojiGroups: { [key: string]: Emoji[] } = {}
+emojiData.forEach((emoji: any) => (emojiGroups[emoji.category] ??= []).push(emoji))
+
+interface EmojiPickerProps {
+  update?: (emoji: string) => void
+  className?: string
+}
+
+function EmojiPicker({ update, className }: EmojiPickerProps) {
+  // hooks
+  const { t: translate } = useTranslation()
+  const t = (key: string) => translate('emojiPicker.' + key)
+  const { closeDrawer4: closeDrawer } = useDrawer()
+
+  // values
+  const categories = useMemo(
+    () => [
+      {
+        name: t('Frequently used'),
+        icon: '🕛',
+      },
+      {
+        name: t('Smileys & Emotion'),
+        icon: '😀',
+      },
+      {
+        name: t('People & Body'),
+        icon: '🎅',
+      },
+      {
+        name: t('Animals & Nature'),
+        icon: '🐶',
+      },
+      {
+        name: t('Food & Drink'),
+        icon: '🍔',
+      },
+      {
+        name: t('Activities'),
+        icon: '⚽',
+      },
+      {
+        name: t('Travel & Places'),
+        icon: '🏖️',
+      },
+      {
+        name: t('Objects'),
+        icon: '💡',
+      },
+      {
+        name: t('Flags'),
+        icon: '🏳️',
+      },
+      {
+        name: t('Component'),
+        icon: '🧩',
+      },
+      {
+        name: t('Symbols'),
+        icon: '#️⃣',
+      },
+    ],
+    []
+  )
+
+  // states
+  const [category, setCategory] = useState<{ name: string; icon: string }>(categories[1])
+  const [frequentlyUsed, setFrequentlyUsed] = useState<Emoji[]>([])
+  const [search, setSearch] = useState<string>('')
+
+  // initially load frequently used emojis
+  useEffect(() => {
+    const fetchFrequentlyUsed = async () => {
+      const frequentlyUsedRaw = await AsyncStorage.getItem('frequentlyUsedEmojis')
+      if (frequentlyUsedRaw) {
+        const frequentlyUsedData = JSON.parse(frequentlyUsedRaw)
+        setFrequentlyUsed(frequentlyUsedData)
+      }
+    }
+
+    fetchFrequentlyUsed()
+  }, [frequentlyUsed])
+
+  // update frequently used emojis
+  const updateFrequentlyUsed = useCallback(async (emoji: Emoji) => {
+    const frequentlyUsedRaw = await AsyncStorage.getItem('frequentlyUsedEmojis')
+    if (frequentlyUsedRaw) {
+      let frequentlyUsed = JSON.parse(frequentlyUsedRaw)
+
+      // if emoji already exists, remove it and add it to the beginning of the array
+      frequentlyUsed = frequentlyUsed.filter((item: any) => item.unified !== emoji.unified)
+      frequentlyUsed.unshift(emoji)
+      if (frequentlyUsed.length > 9) frequentlyUsed.pop()
+
+      setFrequentlyUsed(frequentlyUsed)
+      await AsyncStorage.setItem('frequentlyUsedEmojis', JSON.stringify(frequentlyUsed))
+      return
+    }
+
+    const frequentlyUsed = [emoji]
+    await AsyncStorage.setItem('frequentlyUsedEmojis', JSON.stringify(frequentlyUsed))
+    setFrequentlyUsed(frequentlyUsed)
+  }, [])
+
+  // render emojis
+  const renderEmojis = useCallback(
+    (title: string, data: any[]) =>
+      data.length > 0 ? (
+        <View className="gap-2">
+          <Text className="pl-1 text-lg font-medium">{title}</Text>
+          <View className="flex-row flex-wrap gap-y-1">
+            {data.map((emoji, index) => (
+              <TouchableOpacity
+                className="w-[calc(100%/9)]"
+                onPress={async () => {
+                  updateFrequentlyUsed(emoji)
+                  if (update) update(decodeEmoji(emoji.unified))
+                  closeDrawer()
+                }}
+                key={index}
+              >
+                <Text className="text-center text-3xl">{decodeEmoji(emoji.unified)}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      ) : (
+        <NoItemsFound text={t('No emoji found')} />
+      ),
+    []
+  )
+
+  return (
+    <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>
+      <View>
+        <Text className="text-center text-xl font-semibold text-primary">{t('Pick an emoji')}</Text>
+        <Text className="text-center text-muted-foreground">
+          {t('Emojis are a fun way to express yourself')}
+        </Text>
+      </View>
+
+      <View className="mt-6 flex flex-1 flex-col gap-6">
+        {/* Tab */}
+        <SegmentedControl
+          values={categories.map(item => item.icon)}
+          style={{ flex: 1, width: '100%', height: 40 }}
+          selectedIndex={categories.indexOf(category)}
+          onChange={event => {
+            const index = event.nativeEvent.selectedSegmentIndex
+            setCategory(categories[index])
+          }}
+        />
+
+        {/* Search */}
+        <View className="flex-row items-center justify-center rounded-lg bg-primary/10">
+          <Icon
+            render={LucideSearch}
+            size={18}
+            width={40}
+          />
+          <Input
+            className="flex-1 border-transparent bg-transparent pl-0"
+            placeholder={t('Find an emoji') + '...'}
+            value={search}
+            onChangeText={text => setSearch(text)}
+          />
+          {search.trim() !== '' && (
+            <TouchableWithoutFeedback onPress={() => setSearch('')}>
+              <Icon
+                render={LucideX}
+                size={18}
+                width={40}
+              />
+            </TouchableWithoutFeedback>
+          )}
+        </View>
+
+        {/* Emoji */}
+        <ScrollView style={{ maxHeight: 418 }}>
+          <View className="flex-1">
+            {search.trim() !== ''
+              ? renderEmojis(
+                  t('Search Results'),
+                  emojiData.filter(emoji =>
+                    emoji.short_name.toLowerCase().includes(search.toLowerCase())
+                  )
+                )
+              : category.name === t('Frequently used')
+                ? renderEmojis(t('Frequently used'), frequentlyUsed)
+                : renderEmojis(category.name, emojiGroups[category.name])}
+          </View>
+        </ScrollView>
+      </View>
+
+      <View className="mb-21 mt-6 px-0">
+        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
+          <View>
+            <Button
+              variant="default"
+              className="h-10 rounded-md px-21/2"
+              onPress={() => {
+                closeDrawer()
+              }}
+            >
+              <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
+            </Button>
+          </View>
+        </View>
+      </View>
+
+      <Separator className="my-8 h-0" />
+    </View>
+  )
+}
+
+interface NodeProps extends EmojiPickerProps {
+  disabled?: boolean
+  trigger: ReactNode
+  open?: boolean
+  onClose?: () => void
+  reach?: number
+  className?: string
+}
+
+function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
+  const { openDrawer4: openDrawer, open4: openState, reach4: defaultReach } = useDrawer()
+  const r = reach || defaultReach
+
+  useEffect(() => {
+    if (open === true) openDrawer(<EmojiPicker {...props} />, r)
+  }, [open])
+
+  useEffect(() => {
+    if (onClose && openState) onClose()
+  }, [openState, onClose])
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      className={cn(className, disabled && 'opacity-50')}
+      disabled={disabled}
+      onPress={() => openDrawer(<EmojiPicker {...props} />, r)}
+    >
+      {trigger}
+    </TouchableOpacity>
+  )
+}
+
+export default Node

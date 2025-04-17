@@ -2,11 +2,11 @@ import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { updateCategoryApi } from '@/requests/categoryRequests'
 import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
+import { LucideCircleOff } from 'lucide-react-native'
 import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Modal, SafeAreaView, TouchableOpacity, View } from 'react-native'
-import EmojiSelector from 'react-native-emoji-selector'
 import Toast from 'react-native-toast-message'
 import CustomInput from '../CustomInput'
 import Icon from '../Icon'
@@ -14,7 +14,7 @@ import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
-import { LucideCircleOff } from 'lucide-react-native'
+import EmojiPicker from '../EmojiPicker'
 
 interface UpdateCategoryDrawerProps {
   category: ICategory
@@ -157,60 +157,23 @@ function UpdateCategoryDrawer({
             Icon <Text className="font-normal">({t('optional')})</Text>
           </Text>
 
-          <TouchableWithoutFeedback onPress={() => setOpenEmojiPicker(true)}>
-            <View className="mt-2 flex h-[150px] items-center justify-center rounded-lg border border-secondary p-21">
-              {form.icon ? (
-                <Text style={{ fontSize: 60 }}>{form.icon}</Text>
-              ) : (
-                <Icon
-                  render={LucideCircleOff}
-                  size={60}
-                  style={{ opacity: 0.7 }}
-                />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
-
-          <Modal
-            visible={openEmojiPicker}
-            animationType="slide"
-            onTouchCancel={() => setOpenEmojiPicker(false)}
-            onDismiss={() => setOpenEmojiPicker(false)}
-          >
-            <SafeAreaView className="flex-1">
-              <View className="mx-auto flex max-w-[500px] flex-1 flex-col gap-2 p-21">
-                <View className="w-full flex-1">
-                  <EmojiSelector
-                    columns={8}
-                    placeholder="Pick an emoji..."
-                    onEmojiSelected={emoji => {
-                      setValue('icon', emoji)
-                      setOpenEmojiPicker(false)
-                    }}
+          <EmojiPicker
+            update={(emoji: string) => setValue('icon', emoji)}
+            trigger={
+              <View className="mt-2 flex h-[150px] items-center justify-center rounded-lg border border-secondary p-21">
+                {form.icon ? (
+                  <Text style={{ fontSize: 60 }}>{form.icon}</Text>
+                ) : (
+                  <Icon
+                    render={LucideCircleOff}
+                    size={60}
+                    style={{ opacity: 0.7 }}
                   />
-                </View>
-
-                <View className="flex flex-shrink-0 flex-row items-center justify-end gap-2 bg-white py-2">
-                  <Button
-                    variant="secondary"
-                    onPress={() => {
-                      setOpenEmojiPicker(false)
-                      setValue('icon', '')
-                    }}
-                  >
-                    <Text className="font-semibold">Cancel</Text>
-                  </Button>
-                  <Button
-                    variant="default"
-                    className="border"
-                    onPress={() => setOpenEmojiPicker(false)}
-                  >
-                    <Text className="font-semibold text-secondary">Confirm</Text>
-                  </Button>
-                </View>
+                )}
               </View>
-            </SafeAreaView>
-          </Modal>
+            }
+            reach={3}
+          />
 
           <Text className="mt-2 text-muted-foreground">
             {t('This is how your category will appear in the app')}

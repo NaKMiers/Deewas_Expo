@@ -605,6 +605,25 @@
     "Delete": "Delete",
     "Cancel": "Cancel"
   },
+  "emojiPicker": {
+    "Pick an emoji": "Pick an emoji",
+    "Emojis are a fun way to express yourself": "Emojis are a fun way to express yourself",
+    "Find an emoji": "Find an emoji",
+    "Search Results": "Search Results",
+    "Frequently used": "Frequently used",
+    "Smileys & Emotion": "Smileys & Emotion",
+    "People & Body": "People & Body",
+    "Animals & Nature": "Animals & Nature",
+    "Food & Drink": "Food & Drink",
+    "Activities": "Activities",
+    "Travel & Places": "Travel & Places",
+    "Objects": "Objects",
+    "Flags": "Flags",
+    "Component": "Component",
+    "Symbols": "Symbols",
+    "Cancel": "Cancel",
+    "No emoji found": "No emoji found"
+  },
   "history": {
     "History": "History",
     "types": "types",

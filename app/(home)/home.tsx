@@ -18,6 +18,7 @@ export default function HomePage() {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView
+        className="flex-1"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

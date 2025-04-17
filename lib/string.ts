@@ -80,6 +80,10 @@ export const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+export const decodeEmoji = (unified: string) => {
+  return String.fromCodePoint(...unified.split('-').map(code => parseInt(code, 16)))
+}
+
 // MARK: Transaction Display Options
 export const tranOptions = {
   income: {

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { Platform, SafeAreaView, ScrollView } from 'react-native'
 import { useDrawer } from './providers/DrawerProvider'
 
-function Drawer0() {
+export default function Drawer0() {
   // hooks
   const { isDarkColorScheme } = useColorScheme()
   const snapPoints = useMemo(() => ['55%', '80%', '100%'], [])
@@ -40,11 +40,14 @@ function Drawer0() {
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 21 / 2, paddingLeft: 32, paddingRight: 32 }}>
         <SafeAreaView className="mx-auto w-full max-w-[500px] flex-1">
-          <ScrollView>{content}</ScrollView>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            {content}
+          </ScrollView>
         </SafeAreaView>
       </BottomSheetView>
     </BottomSheet>
   )
 }
-
-export default Drawer0
