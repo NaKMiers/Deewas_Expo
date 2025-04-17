@@ -82,8 +82,6 @@ function UpdateTransactionDrawer({
     data => {
       let isValid = true
 
-      console.log('data', data)
-
       // wallet is required
       if (!data.walletId) {
         setError('walletId', {

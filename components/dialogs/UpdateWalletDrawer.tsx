@@ -249,7 +249,7 @@ interface NodeProps extends UpdateWalletDrawerProps {
 }
 
 function Node({ open, onClose, reach, disabled, trigger, className, ...props }: NodeProps) {
-  const { openDrawer, open: openState, reach: defaultReach } = useDrawer()
+  const { openDrawer3: openDrawer, open: openState, reach: defaultReach } = useDrawer()
   const r = reach || defaultReach
 
   useEffect(() => {

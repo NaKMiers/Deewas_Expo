@@ -34,7 +34,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#161616"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.anphagroup.deewas"
     },

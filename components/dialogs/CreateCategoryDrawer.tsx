@@ -8,7 +8,6 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Modal, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import EmojiSelector from 'react-native-emoji-selector'
 import Toast from 'react-native-toast-message'
 import CustomInput from '../CustomInput'
 import Icon from '../Icon'
@@ -227,16 +226,7 @@ function CreateCategoryDrawer({ type, update, refresh, load, className }: Create
           >
             <SafeAreaView className="flex-1">
               <View className="mx-auto flex max-w-[500px] flex-1 flex-col gap-2 p-21">
-                <View className="w-full flex-1">
-                  <EmojiSelector
-                    columns={8}
-                    placeholder="Pick an emoji..."
-                    onEmojiSelected={emoji => {
-                      setValue('icon', emoji)
-                      setOpenEmojiPicker(false)
-                    }}
-                  />
-                </View>
+                <View className="w-full flex-1">{/* <EmojiPicker /> */}</View>
 
                 <View className="flex flex-shrink-0 flex-row items-center justify-end gap-2 bg-white py-2">
                   <Button

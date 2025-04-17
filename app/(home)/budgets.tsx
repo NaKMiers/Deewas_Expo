@@ -86,10 +86,6 @@ function BudgetsPage() {
     setTabLabels(tabLabels)
   }, [budgets])
 
-  console.log('groups', groups)
-  console.log('tabLabels', tabLabels)
-  console.log('tab', tab)
-
   return (
     <SafeAreaView className="flex-1">
       <ScrollView

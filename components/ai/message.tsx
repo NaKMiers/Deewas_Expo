@@ -19,8 +19,6 @@ export default function Message({ role, content, parts }: MessageProps) {
   const MAX_WIDTH = 500
   const isLarge = SCREEN_WIDTH >= MAX_WIDTH
 
-  console.log('parts', parts)
-
   // if tool is invoked, show the result of the tool
   if (toolInvocations) {
     const { args, result, state, step, toolCallId, toolName } = toolInvocations
