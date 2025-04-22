@@ -1,3 +1,4 @@
+import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import Countdown from '@/components/Countdown'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
@@ -29,7 +30,7 @@ import { ActivityIndicator, SafeAreaView, ScrollView, TouchableOpacity, View } f
 import { RefreshControl } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
-function AccountPage({ navigation }: any) {
+function AccountPage() {
   // hooks
   const { user, logout } = useAuth()
   const { t: translate } = useTranslation()
@@ -94,15 +95,18 @@ function AccountPage({ navigation }: any) {
                 />
               </View>
               <View>
-                <Text className="text-xl font-bold">{user?.username}</Text>
+                <View className="flex-row items-center gap-2">
+                  <Text className="text-xl font-bold">{user?.username}</Text>
+                  <View className="h-5 w-5">
+                    <Image
+                      source={icons.google}
+                      resizeMode="contain"
+                      className="h-full w-full"
+                    />
+                  </View>
+                </View>
                 <Text className="flex flex-row items-center gap-2 text-muted-foreground">
                   {user?.email}
-                  <Image
-                    src={`/icons/${user?.authType}.png`}
-                    width={18}
-                    height={18}
-                    alt="google"
-                  />
                 </Text>
               </View>
             </View>
@@ -139,7 +143,7 @@ function AccountPage({ navigation }: any) {
           {/* MARK: Categories & Wallets */}
           <View className="flex flex-col rounded-md border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
-              onPress={() => navigation.navigate('categories')}
+              onPress={() => router.push('/categories')}
               className="flex h-10 flex-row items-center gap-2"
             >
               <Icon
@@ -199,7 +203,7 @@ function AccountPage({ navigation }: any) {
           {/* MARK: More */}
           <View className="flex flex-col rounded-lg border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
-              onPress={() => router.push('/about')}
+              onPress={() => router.push('/more/about')}
               className="flex h-11 flex-row items-center gap-2"
             >
               <Icon
@@ -209,7 +213,7 @@ function AccountPage({ navigation }: any) {
               <Text className="text-lg font-semibold">{t('About')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push('/help-and-support')}
+              onPress={() => router.push('/more/help-and-support')}
               className="flex h-11 flex-row items-center gap-2"
             >
               <Icon
@@ -231,7 +235,7 @@ function AccountPage({ navigation }: any) {
               !deleting ? (
                 <Button
                   variant="outline"
-                  className="mt-8 w-full border-rose-500"
+                  className="mt-8 w-full border-rose-500 bg-rose-500/5"
                 >
                   <Text className="font-semibold capitalize text-rose-500">{t('Delete All Data')}</Text>
                 </Button>
@@ -250,7 +254,7 @@ function AccountPage({ navigation }: any) {
             trigger={
               <Button
                 variant="outline"
-                className="mt-8 w-full border-rose-500"
+                className="mt-8 w-full border-rose-500 bg-rose-500/5"
               >
                 <Text className="font-semibold capitalize text-rose-500">{t('Log Out')}</Text>
               </Button>

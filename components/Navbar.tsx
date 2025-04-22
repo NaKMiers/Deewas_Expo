@@ -1,33 +1,30 @@
 import { images } from '@/assets/images/images'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
+import { router } from 'expo-router'
 import { LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
 import { memo, useMemo } from 'react'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Image from './Image'
 import { useAuth } from './providers/AuthProvider'
+
+interface NavbarProps {
+  className?: string
+  state: any
+  navigation: any
+  [key: string]: any
+}
 
 function Navbar({ className, state, navigation, ...props }: { className?: string; [key: string]: any }) {
   // hooks
   const { user } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
 
-  const handleNavigate = (route: any, isFocused: boolean) => {
-    const event = navigation.emit({
-      type: 'tabPress',
-      target: state.routes.find((r: any) => r.name === route.label)?.key,
-    })
-
-    if (!isFocused && !event.defaultPrevented) {
-      navigation.navigate(route.label.toLowerCase())
-    }
-  }
-
   const routes = useMemo(
     () => [
       {
         label: 'Home',
-        href: '/',
+        href: '/home',
         icon: LucideHome,
         activeColor: '#10b981',
       },
@@ -68,7 +65,6 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
       className={cn('flex items-center', className)}
       style={{
         maxHeight: 48,
-        marginBottom: Platform.OS === 'android' ? 21 / 2 : 0,
         paddingRight: 10.5,
         paddingLeft: 10.5,
       }}
@@ -79,7 +75,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
 
           return (
             <TouchableOpacity
-              onPress={() => handleNavigate(route, isFocused)}
+              onPress={() => router.replace(route.href as any)}
               className={cn(
                 'trans-200 flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1'
               )}

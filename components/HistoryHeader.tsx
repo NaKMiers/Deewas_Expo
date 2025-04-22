@@ -39,8 +39,8 @@ function HistoryHeader({
         }}
       />
       <Select
-        value={{ label: selected, value: selected }}
-        onValueChange={option => onSelect(option?.value || selected)}
+        value={{ label: t(selected), value: selected }}
+        onValueChange={option => onSelect(option?.value || t(selected))}
       >
         <SelectTrigger
           className="flex h-10 flex-row items-center justify-center rounded-xl shadow-md"

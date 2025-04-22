@@ -7,10 +7,9 @@ import { Separator } from '@/components/ui/separator'
 import { languages } from '@/constants/settings'
 import useLanguage from '@/hooks/useLanguage'
 import { useColorScheme } from '@/lib/useColorScheme'
-import { BASE_URL } from '@/lib/utils'
 import { Redirect, router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
-import { Linking, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function WelcomePage() {
@@ -106,23 +105,23 @@ export default function WelcomePage() {
             </View>
 
             <View>
-              <Text className="text-center text-sm font-medium text-secondary">
+              <Text className="text-center text-sm font-medium tracking-tight text-secondary">
                 {t('By trying Deewas, you agree to the')}
               </Text>
-              <Text className="text-center text-sm font-medium text-secondary">
+              <Text className="text-center text-sm font-medium tracking-tight text-secondary">
                 {t('Deewas')}{' '}
                 <Text
-                  className="font-semibold text-sky-500"
-                  onPress={() => Linking.openURL(BASE_URL + '/privacy-policy')}
+                  className="font-semibold tracking-tight text-sky-500"
+                  onPress={() => router.push('/policies/privacy-policy')}
                 >
                   {t('Privacy Policy')}
                 </Text>{' '}
                 {t('and')}{' '}
                 <Text
-                  className="font-semibold text-sky-500"
-                  onPress={() => Linking.openURL(BASE_URL + '/terms-and-service')}
+                  className="font-semibold tracking-tight text-sky-500"
+                  onPress={() => router.push('/policies/terms-and-conditions')}
                 >
-                  {t('Terms of Service')}
+                  {t('Terms of Conditions')}
                 </Text>{' '}
                 {t('of Deewas')}
               </Text>

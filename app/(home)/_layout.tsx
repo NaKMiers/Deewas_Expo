@@ -4,23 +4,10 @@ import { useAuth } from '@/components/providers/AuthProvider'
 import useLanguage from '@/hooks/useLanguage'
 import useSettings from '@/hooks/useSettings'
 import useWallets from '@/hooks/useWallets'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Redirect } from 'expo-router'
+import { Redirect, Tabs } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import About from './about'
-import Account from './account'
-import AI from './ai'
-import Budgets from './budgets'
-import Calendar from './calendar'
-import Categories from './categories'
-import Guide from './guide'
-import HelpAndSupport from './help-and-support'
-import Home from './home'
-import Transactions from './transactions'
 
-const Tab = createBottomTabNavigator()
-
-export default function HomeLayout() {
+export default function HomeTabLayout() {
   const { user, loading, onboarding } = useAuth()
   useSettings()
   useWallets()
@@ -32,57 +19,15 @@ export default function HomeLayout() {
   }
 
   return (
-    <>
-      <SafeAreaView className="flex-1">
-        <Tab.Navigator
-          initialRouteName="home"
-          screenOptions={{
-            header: ({ navigation }) => <Header navigation={navigation} />,
-          }}
-          tabBar={props => <Navbar {...props} />}
-        >
-          <Tab.Screen
-            name="home"
-            component={Home}
-          />
-          <Tab.Screen
-            name="transactions"
-            component={Transactions}
-          />
-          <Tab.Screen
-            name="ai"
-            component={AI}
-          />
-          <Tab.Screen
-            name="budgets"
-            component={Budgets}
-          />
-          <Tab.Screen
-            name="account"
-            component={Account}
-          />
-          <Tab.Screen
-            name="categories"
-            component={Categories}
-          />
-          <Tab.Screen
-            name="calendar"
-            component={Calendar}
-          />
-          <Tab.Screen
-            name="about"
-            component={About}
-          />
-          <Tab.Screen
-            name="help-and-support"
-            component={HelpAndSupport}
-          />
-          <Tab.Screen
-            name="guide"
-            component={Guide}
-          />
-        </Tab.Navigator>
-      </SafeAreaView>
-    </>
+    <SafeAreaView className="flex-1">
+      <Tabs
+        initialRouteName="home"
+        tabBar={props => <Navbar {...props} />}
+        screenOptions={{
+          header: () => <Header />,
+          animation: 'fade',
+        }}
+      />
+    </SafeAreaView>
   )
 }

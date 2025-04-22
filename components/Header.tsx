@@ -10,11 +10,10 @@ import Text from './Text'
 import { Button } from './ui/button'
 
 interface HeaderProps {
-  navigation?: any
   className?: string
 }
 
-function Header({ navigation, className }: HeaderProps) {
+function Header({ className }: HeaderProps) {
   // hooks
   let { t: translate } = useTranslation()
   const t = (key: string) => translate('header.' + key)
@@ -34,7 +33,7 @@ function Header({ navigation, className }: HeaderProps) {
               size={22}
             />
           </Button>
-          <Pressable onPress={() => navigation.navigate('home')}>
+          <Pressable onPress={() => router.push('/home')}>
             <Text className="text-nowrap text-lg font-semibold tracking-wide text-secondary">
               {t('Hello')} {user ? shortName(user) : 'there'}!👋
             </Text>

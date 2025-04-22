@@ -9,8 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "imageWidth": 200,
+      "image": "./assets/images/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -21,11 +20,12 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1b2f8591-ca56-4ac8-b0d8-c6333acb3fdd"
+        "projectId": "5eac6b3a-3cbc-43ef-9df7-aea34ac8dfbb"
       }
     },
     "ios": {
       "supportsTablet": true,
+      "usesAppleSignIn": true,
       "bundleIdentifier": "com.anphagroup.deewas",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -45,6 +45,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-apple-authentication",
       [
         "@react-native-google-signin/google-signin",
         {

@@ -21,8 +21,6 @@ function BudgetsPage() {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('budgetPage.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
 
   // store
   const { budgets } = useAppSelector(state => state.budget)

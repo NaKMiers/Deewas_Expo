@@ -77,7 +77,7 @@ function Wallets({ className }: WalletProps) {
               className="-mx-21/2"
               renderItem={({ item: wallet }: { item: IWallet }) => (
                 <View
-                  className="w px-21/2"
+                  className="px-21/2"
                   style={{
                     width: isIpad ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH,
                   }}

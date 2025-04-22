@@ -3,9 +3,9 @@
 import { BASE_URL } from '@/lib/utils'
 const API = BASE_URL + '/api/auth'
 
-// [POST]: /auth/signin/credentials
+// [POST]: /auth/sign-in/credentials
 export const signInCredentialsApi = async (data: any) => {
-  const res = await fetch(API + '/signin/credentials', {
+  const res = await fetch(API + '/sign-in/credentials', {
     method: 'POST',
     body: JSON.stringify(data),
   })
@@ -18,9 +18,9 @@ export const signInCredentialsApi = async (data: any) => {
   return await res.json()
 }
 
-// [POST]: /auth/register
+// [POST]: /auth/sign-up/credentials
 export const registerCredentialsApi = async (data: any) => {
-  const res = await fetch(API + '/signup/credentials', {
+  const res = await fetch(API + '/sign-up/credentials', {
     method: 'POST',
     body: JSON.stringify(data),
   })
@@ -33,9 +33,9 @@ export const registerCredentialsApi = async (data: any) => {
   return await res.json()
 }
 
-// [POST]: /auth/signin/google
+// [POST]: /auth/sign-in/google
 export const signInGoogleApi = async (idToken: string) => {
-  const res = await fetch(API + '/signin/google', {
+  const res = await fetch(API + '/sign-in/google', {
     method: 'POST',
     body: JSON.stringify({ idToken }),
   })

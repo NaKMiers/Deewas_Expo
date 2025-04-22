@@ -1,5 +1,6 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
+import Auth from '@/components/Auth.native'
 import CustomInput from '@/components/CustomInput'
 import Image from '@/components/Image'
 import Text from '@/components/Text'
@@ -252,6 +253,7 @@ function LoginPage() {
                     />
                     <Text className="font-semibold text-black">{t('Login with Google')}</Text>
                   </Button>
+                  <Auth />
                 </View>
 
                 <View className="my-6 flex flex-row items-center gap-3">

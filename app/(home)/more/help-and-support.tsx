@@ -76,7 +76,7 @@ export default function HelpAndSupportPage() {
                     </Text>
                     <TouchableOpacity
                       activeOpacity={0.7}
-                      onPress={() => router.push('/guide')}
+                      onPress={() => router.push('/more/guide')}
                       className="mt-2"
                     >
                       <Text className="text-primary underline">{t('Read Guide')}</Text>
@@ -148,7 +148,7 @@ export default function HelpAndSupportPage() {
                 {faqs.map((faq, index) => (
                   <View
                     key={index}
-                    className="mb-4 rounded-lg border bg-white"
+                    className="mb-4 rounded-lg border border-border"
                   >
                     <TouchableOpacity
                       activeOpacity={0.7}

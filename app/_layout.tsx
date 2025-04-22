@@ -101,6 +101,7 @@ function RootLayout() {
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="(home)" />
               <Stack.Screen name="(auth)" />
+              <Stack.Screen name="policies" />
               <Stack.Screen name="welcome" />
               <Stack.Screen name="onboarding" />
             </Stack>
