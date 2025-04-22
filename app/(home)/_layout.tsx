@@ -15,7 +15,7 @@ export default function HomeTabLayout() {
 
   if (loading) return null
   if (!user) {
-    return onboarding ? <Redirect href="/auth/login" /> : <Redirect href="/welcome" />
+    return onboarding ? <Redirect href="/auth/sign-in" /> : <Redirect href="/welcome" />
   }
 
   return (

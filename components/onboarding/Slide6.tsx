@@ -38,7 +38,7 @@ export default function Slide6({ onPress }: { onPress: () => void }) {
           )}
           onPress={() => {
             onPress()
-            router.push('/auth/register')
+            router.push('/auth/sign-up')
           }}
         >
           <Text className="text-lg font-semibold text-secondary">{t('Get started now')}</Text>

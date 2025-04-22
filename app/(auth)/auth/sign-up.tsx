@@ -33,11 +33,11 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 
-function RegisterPage() {
+function SignUpPage() {
   // hooks
   const dispatch = useAppDispatch()
   let { t: translate } = useTranslation()
-  const t = (key: string) => translate('registerPage.' + key)
+  const t = (key: string) => translate('signUpPage.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
   const { isDarkColorScheme } = useColorScheme()
@@ -125,8 +125,8 @@ function RegisterPage() {
     [setError, t]
   )
 
-  // MARK: Register Submission
-  const handleRegisterCredential: SubmitHandler<FieldValues> = useCallback(async (data: any) => {
+  // MARK: Sign Up Submission
+  const handleCredentialSignUp: SubmitHandler<FieldValues> = useCallback(async (data: any) => {
     if (!handleValidate(data)) return
 
     // start loading
@@ -222,14 +222,14 @@ function RegisterPage() {
           Toast.show({
             type: 'success',
             text1: tSuccess('Register Success'),
-            text2: tSuccess('You have successfully registered'),
+            text2: tSuccess('You have successfully signed up'),
           })
         } else {
           // show success message
           Toast.show({
             type: 'success',
-            text1: tSuccess('Login Success'),
-            text2: tSuccess('You have successfully logged in'),
+            text1: tSuccess('Sign In Success'),
+            text2: tSuccess('You have successfully signed in'),
           })
         }
 
@@ -311,7 +311,7 @@ function RegisterPage() {
 
                 <Separator className="my-6 h-0" />
 
-                {/* MARK: Social Login */}
+                {/* MARK: Social Sign In */}
                 <View className="items-center justify-center gap-2">
                   <Button
                     className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
@@ -324,7 +324,7 @@ function RegisterPage() {
                       className="h-5 w-5"
                       resizeMode="contain"
                     />
-                    <Text className="font-semibold text-black">{t('Login with Google')}</Text>
+                    <Text className="font-semibold text-black">{t('Sign In with Google')}</Text>
                   </Button>
                 </View>
 
@@ -381,7 +381,7 @@ function RegisterPage() {
                     'mt-6 flex h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
                     loading && 'opacity-50'
                   )}
-                  onPress={handleSubmit(handleRegisterCredential)}
+                  onPress={handleSubmit(handleCredentialSignUp)}
                   disabled={loading}
                   style={{ marginTop: 36 }}
                 >
@@ -397,8 +397,8 @@ function RegisterPage() {
               <View className="border-y border-muted-foreground/50 bg-neutral-100">
                 <View className="flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
                   <Text className="text-black">{t('Already have an account?')}</Text>
-                  <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                    <Text className="font-semibold text-black underline">{t('Login')}</Text>
+                  <TouchableOpacity onPress={() => router.replace('/auth/sign-in')}>
+                    <Text className="font-semibold text-black underline">{t('Sign In')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -410,4 +410,4 @@ function RegisterPage() {
   )
 }
 
-export default RegisterPage
+export default SignUpPage

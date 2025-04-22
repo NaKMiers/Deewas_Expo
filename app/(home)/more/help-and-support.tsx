@@ -37,7 +37,7 @@ export default function HelpAndSupportPage() {
     },
     {
       question: t('What if I forget my password?'),
-      answer: `${t('Use the “Forgot Password” link on the login page to reset it via email')}.`,
+      answer: `${t('Use the “Forgot Password” link on the sign in page to reset it via email')}.`,
     },
   ]
 

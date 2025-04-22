@@ -22,7 +22,7 @@ export default function WelcomePage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
-  if (onboarding) return <Redirect href="/auth/register" />
+  if (onboarding) return <Redirect href="/auth/sign-up" />
 
   return (
     <>
@@ -96,7 +96,7 @@ export default function WelcomePage() {
               </TouchableOpacity>
               <TouchableOpacity
                 className="flex items-center justify-center rounded-full bg-secondary/20 px-21 py-4"
-                onPress={() => router.push('/auth/login')}
+                onPress={() => router.push('/auth/sign-in')}
               >
                 <Text className="text-lg font-semibold text-secondary/80">
                   {t('I Already Have an Account')}

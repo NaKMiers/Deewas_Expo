@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { clearUser, setLoading, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect } from 'react'
 
@@ -38,9 +39,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
             if (onboarding) {
               dispatch(setOnboarding(JSON.parse(onboarding)))
             }
-          } else {
+          }
+          // expired
+          else {
             await AsyncStorage.removeItem('token')
             dispatch(clearUser())
+            router.replace('/auth/sign-in')
           }
         }
       } catch (err) {

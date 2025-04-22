@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { deleteAllDataApi } from '@/requests'
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import {
   LucideBookCopy,
   LucideChevronRight,
@@ -70,6 +70,11 @@ function AccountPage() {
     }
   }, [dispatch, t])
 
+  if (!user) return <Redirect href="/auth/sign-in" />
+
+  // values
+  const authImage = icons[`${'email'}${colorScheme === 'dark' ? '' : 'Dark'}`]
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -87,7 +92,7 @@ function AccountPage() {
               <View className="aspect-square max-w-[40px] flex-1 overflow-hidden rounded-full shadow-sm">
                 <Image
                   className="h-full w-full object-cover"
-                  source={{ uri: user?.avatar }}
+                  source={{ uri: user.avatar }}
                   fallbackSource={images.defaultAvatar}
                   width={50}
                   height={50}
@@ -96,17 +101,17 @@ function AccountPage() {
               </View>
               <View>
                 <View className="flex-row items-center gap-2">
-                  <Text className="text-xl font-bold">{user?.username}</Text>
+                  <Text className="text-xl font-bold">{user.username}</Text>
                   <View className="h-5 w-5">
                     <Image
-                      source={icons.google}
+                      source={authImage}
                       resizeMode="contain"
                       className="h-full w-full"
                     />
                   </View>
                 </View>
                 <Text className="flex flex-row items-center gap-2 text-muted-foreground">
-                  {user?.email}
+                  {user.email}
                 </Text>
               </View>
             </View>

@@ -133,7 +133,6 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
         <CustomInput
           id="name"
           label={t('Name')}
-          // disabled={saving}
           register={register}
           errors={errors}
           required

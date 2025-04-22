@@ -78,7 +78,7 @@ function AIPage() {
     const fetchToken = async () => {
       const token = await getToken()
       if (!token) {
-        return router.replace('/auth/login')
+        return router.replace('/auth/sign-in')
       }
       setToken(token)
     }

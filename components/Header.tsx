@@ -22,7 +22,7 @@ function Header({ className }: HeaderProps) {
   return (
     <SafeAreaView className={cn(className)}>
       <View className="flex w-full flex-row items-center justify-between gap-2 bg-primary px-21/2 py-2 md:px-21">
-        <View className="flex flex-row items-center gap-2 md:gap-4">
+        <View className="flex flex-1 flex-row items-center gap-2 md:gap-4">
           <Button
             variant="secondary"
             size="icon"
@@ -33,11 +33,14 @@ function Header({ className }: HeaderProps) {
               size={22}
             />
           </Button>
-          <Pressable onPress={() => router.push('/home')}>
-            <Text className="text-nowrap text-lg font-semibold tracking-wide text-secondary">
+          <TouchableOpacity
+            className="flex-1"
+            onPress={() => router.push('/home')}
+          >
+            <Text className="line-clamp-1 text-ellipsis text-nowrap text-lg font-semibold tracking-wide text-secondary">
               {t('Hello')} {user ? shortName(user) : 'there'}!👋
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View className="flex flex-row items-center gap-2">

@@ -179,8 +179,8 @@ function ForgotPasswordPage() {
               </View>
 
               <View className="mb-8 flex flex-row justify-center text-center">
-                <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                  <Text className="text-muted-foreground underline">{t('Back to Login')}</Text>
+                <TouchableOpacity onPress={() => router.replace('/auth/sign-in')}>
+                  <Text className="text-muted-foreground underline">{t('Back to Sign In')}</Text>
                 </TouchableOpacity>
               </View>
 
