@@ -11,16 +11,18 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ff    "assetBun    "assetBundlePatterns": ["**/*"],
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "webServerUrl": "http://localhost:3000",
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "b2914141-eb7f-4935-8de3-f5f205d3448b"
       }
-,        "eas": {
-        "projectId": "5eac6b3a-3cbc-43ef-9df7-aea34ac8dfbb"
-      }
-  },
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anphagroup.deewas",
@@ -37,8 +39,6 @@
       },
       "package": "com.anphagroup.deewas",
       "permissions": ["android.permission.RECORD_AUDIO"]
-ission.RECORD_AUDIO"]
-rmission.RECORD_AUDIO"]
     },
     "web": {
       "bundler": "metro",
@@ -58,14 +58,6 @@ rmission.RECORD_AUDIO"]
         {
           "iosAppId": "ca-app-pub-8539911634059441~9440395805",
           "androidAppId": "ca-app-pub-8539911634059441~4779337310"
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "useFrameworks": "static"
-          }
         }
       ]
     ],
