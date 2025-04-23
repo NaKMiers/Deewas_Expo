@@ -25,10 +25,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "usesAppleSignIn": true,
       "bundleIdentifier": "com.anphagroup.deewas",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSMicrophoneUsageDescription": "Allows use of microphone for voice text input",
+        "NSSpeechRecognitionUsageDescription": "Allows the app to recognize speech for text input."
       }
     },
     "android": {
@@ -36,7 +37,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anphagroup.deewas"
+      "package": "com.anphagroup.deewas",
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "web": {
       "bundler": "metro",
@@ -45,11 +47,24 @@
     },
     "plugins": [
       "expo-router",
-      "expo-apple-authentication",
       [
         "@react-native-google-signin/google-signin",
         {
           "iosUrlScheme": "com.googleusercontent.apps.173590721564-ihd7ql2dffkd1apdle5g646rkq03b33i"
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "iosAppId": "ca-app-pub-8539911634059441~9440395805",
+          "androidAppId": "ca-app-pub-8539911634059441~4779337310"
+        }
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Allow Deewas to access the microphone",
+          "speechRecognitionPermission": "Allow Deewas to securely recognize user speech"
         }
       ]
     ],

@@ -30,7 +30,13 @@ function SettingsBox({ isRequireInit, className }: SettingsBoxProps) {
   const currency = settings?.currency
 
   return (
-    <View className={cn('grid grid-cols-1 gap-21/2 md:grid-cols-2 md:gap-21', className)}>
+    <View className={cn('gap-21/2', className)}>
+      <Box
+        type="language"
+        desc={t('Set your language')}
+        list={languages}
+        init={languages.find(l => l.value === locale)}
+      />
       {isRequireInit ? (
         currency ? (
           <Box
@@ -48,12 +54,6 @@ function SettingsBox({ isRequireInit, className }: SettingsBoxProps) {
           init={currencies.find(c => c.value === 'USD')}
         />
       )}
-      <Box
-        type="language"
-        desc={t('Set your language')}
-        list={languages}
-        init={languages.find(l => l.value === locale)}
-      />
     </View>
   )
 }
@@ -149,44 +149,42 @@ function Box({ type, desc, list, init, className }: BoxProps) {
   )
 
   return (
-    <>
-      <View
-        className={cn(
-          'w-full justify-center rounded-lg border border-border bg-secondary p-21',
-          className
-        )}
+    <View
+      className={cn(
+        'w-full justify-center rounded-lg border border-border bg-secondary p-21',
+        className
+      )}
+    >
+      <Text className="text-lg font-bold capitalize">{t(type)}</Text>
+      <Text className="mb-3 text-muted-foreground">{desc}</Text>
+
+      <Select
+        value={selected?.value}
+        defaultValue={init?.value}
+        onValueChange={handleChangeOption}
       >
-        <Text className="text-lg font-bold capitalize">{t(type)}</Text>
-        <Text className="mb-3 text-muted-foreground">{desc}</Text>
+        <SelectTrigger>
+          <Text>{selected ? selected.label : `${t('Select')} ${t(type)}`}</Text>
+        </SelectTrigger>
 
-        <Select
-          value={selected?.value}
-          defaultValue={init?.value}
-          onValueChange={handleChangeOption}
-        >
-          <SelectTrigger>
-            <Text>{selected ? selected.label : `${t('Select')} ${t(type)}`}</Text>
-          </SelectTrigger>
+        <SelectContent>
+          <ScrollView>
+            {list.map((item, index) => (
+              <SelectItem
+                value={item.value}
+                label={item.label}
+                key={index}
+              />
+            ))}
+          </ScrollView>
+        </SelectContent>
+      </Select>
 
-          <SelectContent>
-            <ScrollView>
-              {list.map((item, index) => (
-                <SelectItem
-                  value={item.value}
-                  label={item.label}
-                  key={index}
-                />
-              ))}
-            </ScrollView>
-          </SelectContent>
-        </Select>
-
-        {type === 'currency' && (
-          <Text className="mt-2 pl-1 font-medium text-rose-500">
-            {t('Changing currency will erase all your data')}.
-          </Text>
-        )}
-      </View>
+      {type === 'currency' && (
+        <Text className="mt-2 pl-1 font-medium text-rose-500">
+          {t('Changing currency will erase all your data')}.
+        </Text>
+      )}
 
       <ConfirmDialog
         open={openConfirmDialog}
@@ -196,6 +194,6 @@ function Box({ type, desc, list, init, className }: BoxProps) {
         confirmLabel={t('Confirm')}
         onConfirm={() => handleUpdateCurrency(nextSelected.value)}
       />
-    </>
+    </View>
   )
 }

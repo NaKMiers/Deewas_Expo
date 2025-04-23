@@ -135,7 +135,7 @@
     "An Error Happens": "Đã có lỗi xảy ra",
     "Try again": "Hãy thử lại",
     "Deewas is a personal finance assistant that helps you manage your money wisely": "Deewas là trợ lý tài chính cá nhân giúp bạn quản lý tiền bạc một cách thông minh",
-    "How can Deewas help?": "Deewas có thể giúp gì cho bạnbạn?",
+    "How can Deewas help?": "Deewas có thể giúp gì cho bạn?",
     "Clear": "Xóa chat",
     "Mixed personalities": "Trộn tính cách",
     "The Tough Love Mom": "Người mẹ nghiêm khắc",
@@ -145,7 +145,8 @@
     "The Creative Little Bro": "Em trai sáng tạo",
     "The Gentle Dad": "Người cha điềm đạm",
     "The Loyal Puppy": "Cún con trung thành",
-    "The Moody Cat": "Con mòe khó ở"
+    "The Moody Cat": "Con mòe khó ở",
+    "Listening": "Đang lắng nghe"
   },
   "welcomePage": {
     "Ever wonder where your money goes - and why it's never enough?": "Bạn có bao giờ tự hỏi tiền của mình đi đâu - và tại sao nó không bao giờ đủ",
@@ -931,6 +932,7 @@
     "Personalities changed": "Tính cách đã được thay đổi"
   },
   "error": {
+    "Error": "Lỗi",
     "Sign In Failed": "Đăng nhập thất bại",
     "Incorrect username or email": "Tên đăng nhập hoặc email không chính xác",
     "Sign Up Failed": "Đăng ký thất bại",
@@ -962,6 +964,8 @@
     "Failed to sign in with Google": "Không thể đăng nhập bằng Google",
     "An error occurred": "Đã xảy ra lỗi",
     "ID token is required": "Mã ID là bắt buộc",
-    "Failed to sign up with Google": "Không thể đăng ký bằng Google"
+    "Failed to sign up with Google": "Không thể đăng ký bằng Google",
+    "Speech recognition failed": "Nhận diện giọng nói thất bại",
+    "Failed to start recording": "Không thể bắt đầu ghi âm"
   }
 }

@@ -16,8 +16,10 @@ import theGentleDad from '@/assets/images/the-gentle-dad.png'
 import theLoyalPuppy from '@/assets/images/the-loyal-puppy.png'
 import theMoodyCat from '@/assets/images/the-moody-cat.png'
 import theToughLoveMom from '@/assets/images/the-tough-love-mom.png'
+import logo from '@/assets/images/icon.png'
 
 export const images = {
+  logo,
   textLogo,
   roundedLogoDark,
   roundedLogoLight,

@@ -143,7 +143,8 @@
     "The Creative Little Bro": "The Creative Little Bro",
     "The Gentle Dad": "The Gentle Dad",
     "The Loyal Puppy": "The Loyal Puppy",
-    "The Moody Cat": "The Moody Cat"
+    "The Moody Cat": "The Moody Cat",
+    "Listening": "Listening"
   },
   "welcomePage": {
     "Ever wonder where your money goes - and why it's never enough?": "Ever wonder where your money goes - and why it's never enough?",
@@ -949,6 +950,7 @@
     "Erase all data successfully": "Erase all data successfully"
   },
   "error": {
+    "Error": "Error",
     "Sign In Failed": "Sign In Failed",
     "Incorrect username or email": "Incorrect username or email",
     "Sign Up Failed": "Sign Up Failed",
@@ -981,6 +983,8 @@
     "An error occurred": "An error occurred",
     "ID token is required": "ID token is required",
     "Failed to sign up with Google": "Failed to sign up with Google",
-    "Failed to update your currency": "Failed to update your currency"
+    "Failed to update your currency": "Failed to update your currency",
+    "Speech recognition failed": "Speech recognition failed",
+    "Failed to start recording": "Failed to start recording"
   }
 }

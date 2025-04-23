@@ -62,6 +62,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   // handle logout
   const logout = useCallback(async () => {
     await AsyncStorage.removeItem('token')
+    await AsyncStorage.removeItem('messages')
     dispatch(clearUser())
   }, [dispatch])
 
