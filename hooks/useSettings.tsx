@@ -4,7 +4,7 @@ import { getMySettingsApi } from '@/requests'
 import { useCallback, useEffect } from 'react'
 import { useAuth } from '../components/providers/AuthProvider'
 
-export default function useSettings() {
+function useSettings() {
   // hooks
   const dispatch = useAppDispatch()
   const { user } = useAuth()
@@ -39,3 +39,5 @@ export default function useSettings() {
 
   return { refetch: getSettings, settings, loading }
 }
+
+export default useSettings

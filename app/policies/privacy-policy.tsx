@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function PrivacyPolicyPage() {
+function PrivacyPolicyPage() {
   // hooks
   const { changeLanguage, language } = useLanguage()
   const { t: translate } = useTranslation()
@@ -343,3 +343,5 @@ export default function PrivacyPolicyPage() {
     </SafeAreaView>
   )
 }
+
+export default PrivacyPolicyPage

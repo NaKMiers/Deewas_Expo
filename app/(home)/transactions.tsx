@@ -20,7 +20,10 @@ import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
+
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
 
 function TransactionsPage() {
   // hooks
@@ -46,6 +49,9 @@ function TransactionsPage() {
   const [search, setSearch] = useState<string>('')
   const [timeSegment, setTimeSegment] = useState<TimeUnit>('month')
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
+
+  // ads states
+  const [adLoaded, setAdLoaded] = useState<boolean>(false)
 
   useEffect(() => {
     if (curWallet) setWallet(curWallet)
@@ -308,7 +314,7 @@ function TransactionsPage() {
           {/* MARK: Groups */}
         </View>
 
-        <Separator className="my-16 h-0" />
+        <Separator className="my-24 h-0" />
       </ScrollView>
 
       {/* MARK: Create Transaction */}
@@ -316,7 +322,10 @@ function TransactionsPage() {
         initWallet={wallet || curWallet}
         refresh={() => dispatch(refresh())}
         trigger={
-          <View className="absolute bottom-2.5 right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4">
+          <View
+            className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+            style={{ bottom: adLoaded ? 78 : 10 }}
+          >
             <Icon
               render={LucidePlus}
               size={20}
@@ -327,6 +336,16 @@ function TransactionsPage() {
         }
         reach={3}
       />
+
+      <View className="absolute bottom-2.5 z-20 flex flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          onAdLoaded={() => setAdLoaded(true)}
+          onAdFailedToLoad={() => setAdLoaded(false)}
+          onAdClosed={() => setAdLoaded(false)}
+        />
+      </View>
     </SafeAreaView>
   )
 }

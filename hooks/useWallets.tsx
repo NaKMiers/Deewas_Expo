@@ -5,7 +5,7 @@ import { getMyWalletsApi } from '@/requests/walletRequests'
 import { useCallback, useEffect } from 'react'
 import { useAuth } from '../components/providers/AuthProvider'
 
-export default function useWallets() {
+function useWallets() {
   // hooks
   const dispatch = useAppDispatch()
   const { user } = useAuth()
@@ -41,3 +41,5 @@ export default function useWallets() {
 
   return { refetch: getWallets, curWallet, wallets, loading }
 }
+
+export default useWallets

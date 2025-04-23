@@ -30,7 +30,7 @@ const features = [
   },
 ]
 
-export default function AboutPage() {
+function AboutPage() {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('aboutPage.' + key)
@@ -132,3 +132,5 @@ export default function AboutPage() {
     </SafeAreaView>
   )
 }
+
+export default AboutPage

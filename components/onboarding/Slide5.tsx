@@ -9,7 +9,7 @@ import Image from '../Image'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
 
-export default function Slide5({ onChange }: { onChange: (value: any) => void }) {
+function Slide5({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('onboardingPage.' + key)
   const [selected, setSelected] = useState<any>(personalities[0])
@@ -80,3 +80,5 @@ export default function Slide5({ onChange }: { onChange: (value: any) => void })
     </View>
   )
 }
+
+export default Slide5

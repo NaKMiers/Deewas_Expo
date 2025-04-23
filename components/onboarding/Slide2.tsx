@@ -5,7 +5,7 @@ import Image from '../Image'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
 
-export default function Slide2({ onChange }: { onChange: (value: any) => void }) {
+function Slide2({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('onboardingPage.' + key)
 
@@ -53,3 +53,5 @@ export default function Slide2({ onChange }: { onChange: (value: any) => void })
     </View>
   )
 }
+
+export default Slide2

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 
-export default function HelpAndSupportPage() {
+function HelpAndSupportPage() {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('helpAndSupportPage.' + key)
@@ -206,3 +206,5 @@ export default function HelpAndSupportPage() {
     </SafeAreaView>
   )
 }
+
+export default HelpAndSupportPage

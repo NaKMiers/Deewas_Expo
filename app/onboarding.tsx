@@ -19,7 +19,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 const IPAD_THRESHOLD = 768
 
-export default function OnboardingPage() {
+function OnboardingPage() {
   // hooks
   const { user, onboarding } = useAuth()
   const dispatch = useAppDispatch()
@@ -122,7 +122,7 @@ export default function OnboardingPage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
-  if (onboarding) return <Redirect href="/auth/register" />
+  if (onboarding) return <Redirect href="/auth/sign-up" />
 
   return (
     <SafeAreaView className="flex-1">
@@ -187,3 +187,5 @@ export default function OnboardingPage() {
     </SafeAreaView>
   )
 }
+
+export default OnboardingPage

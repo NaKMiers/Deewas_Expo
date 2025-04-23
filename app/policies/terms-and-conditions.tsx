@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useRef } from 'react'
 import { Stack } from 'expo-router'
 
-export default function TermsAndConditionsPage() {
+function TermsAndConditionsPage() {
   // Hooks
   const { changeLanguage, language } = useLanguage()
   const { t: translate } = useTranslation()
@@ -329,3 +329,5 @@ export default function TermsAndConditionsPage() {
     </SafeAreaView>
   )
 }
+
+export default TermsAndConditionsPage

@@ -8,7 +8,7 @@ import Icon from '../Icon'
 import Image from '../Image'
 import Text from '../Text'
 
-export default function Slide6({ onPress }: { onPress: () => void }) {
+function Slide6({ onPress }: { onPress: () => void }) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('onboardingPage.' + key)
 
@@ -53,3 +53,5 @@ export default function Slide6({ onPress }: { onPress: () => void }) {
     </View>
   )
 }
+
+export default Slide6

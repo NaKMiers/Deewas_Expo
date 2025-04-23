@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
 
-export default function Slide1({ onChange }: { onChange: (value: any) => void }) {
+function Slide1({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('onboardingPage.' + key)
 
@@ -42,3 +42,5 @@ export default function Slide1({ onChange }: { onChange: (value: any) => void })
     </View>
   )
 }
+
+export default Slide1

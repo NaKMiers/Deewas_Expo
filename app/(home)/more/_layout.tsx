@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router'
 import React from 'react'
 
-export default function MoreLayout() {
+function MoreLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="about" />
@@ -12,3 +12,5 @@ export default function MoreLayout() {
     </Stack>
   )
 }
+
+export default MoreLayout

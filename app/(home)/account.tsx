@@ -15,6 +15,7 @@ import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { setCurWallet } from '@/lib/reducers/walletReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { deleteAllDataApi } from '@/requests'
+import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
 import {
   LucideBookCopy,
@@ -29,7 +30,10 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
+
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
 
 function AccountPage() {
   // hooks
@@ -44,6 +48,9 @@ function AccountPage() {
 
   // states
   const [deleting, setDeleting] = useState<boolean>(false)
+
+  // ad states
+  const [adLoadFailed, setAdLoadFailed] = useState<boolean>(false)
 
   // MARK: Delete Data
   const handleDeleteData = useCallback(async () => {
@@ -204,6 +211,16 @@ function AccountPage() {
             </Select>
           </View>
 
+          {!adLoadFailed && (
+            <View className="flex-row items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
+              <BannerAd
+                unitId={adUnitId}
+                size={BannerAdSize.LARGE_BANNER}
+                onAdFailedToLoad={() => setAdLoadFailed(true)}
+              />
+            </View>
+          )}
+
           {/* MARK: Settings */}
           <SettingsBox isRequireInit />
 
@@ -230,6 +247,10 @@ function AccountPage() {
               <Text className="text-lg font-semibold">{t('Help & Support')}</Text>
             </TouchableOpacity>
           </View>
+
+          <Text className="text-center font-medium text-muted-foreground">
+            Version {Constants.expoConfig?.version || '1.0.0'}
+          </Text>
 
           {/* MARK: Danger */}
           <ConfirmDialog

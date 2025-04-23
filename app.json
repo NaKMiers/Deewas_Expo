@@ -11,18 +11,16 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": ["**/*"],
+      "backgroundColor": "#ff    "assetBun    "assetBundlePatterns": ["**/*"],
     "extra": {
       "webServerUrl": "http://localhost:3000",
       "router": {
         "origin": false
-      },
-      "eas": {
+      }
+,        "eas": {
         "projectId": "5eac6b3a-3cbc-43ef-9df7-aea34ac8dfbb"
       }
-    },
+  },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anphagroup.deewas",
@@ -39,6 +37,8 @@
       },
       "package": "com.anphagroup.deewas",
       "permissions": ["android.permission.RECORD_AUDIO"]
+ission.RECORD_AUDIO"]
+rmission.RECORD_AUDIO"]
     },
     "web": {
       "bundler": "metro",
@@ -61,10 +61,11 @@
         }
       ],
       [
-        "@react-native-voice/voice",
+        "expo-build-properties",
         {
-          "microphonePermission": "Allow Deewas to access the microphone",
-          "speechRecognitionPermission": "Allow Deewas to securely recognize user speech"
+          "ios": {
+            "useFrameworks": "static"
+          }
         }
       ]
     ],

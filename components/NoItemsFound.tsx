@@ -8,7 +8,7 @@ interface NoItemsFoundProps {
   className?: string
 }
 
-export default function NoItemsFound({ text, className }: NoItemsFoundProps) {
+function NoItemsFound({ text, className }: NoItemsFoundProps) {
   return (
     <View
       className={cn(
@@ -26,3 +26,5 @@ export default function NoItemsFound({ text, className }: NoItemsFoundProps) {
     </View>
   )
 }
+
+export default NoItemsFound

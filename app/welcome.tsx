@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function WelcomePage() {
+function WelcomePage() {
   // hooks
   const { user, onboarding } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
@@ -134,3 +134,5 @@ export default function WelcomePage() {
     </>
   )
 }
+
+export default WelcomePage

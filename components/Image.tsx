@@ -5,7 +5,7 @@ interface Props extends ImageProps {
   fallbackSource?: ImageProps['source']
 }
 
-export default function Image({ className, source, fallbackSource, style, ...props }: Props) {
+function Image({ className, source, fallbackSource, style, ...props }: Props) {
   const [error, setError] = useState<boolean>(false)
 
   return (
@@ -19,3 +19,5 @@ export default function Image({ className, source, fallbackSource, style, ...pro
     />
   )
 }
+
+export default Image

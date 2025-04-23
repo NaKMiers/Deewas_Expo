@@ -8,7 +8,7 @@ import Icon from '../Icon'
 import Text from '../Text'
 import { Input } from '../ui/input'
 
-export default function Slide4({ onChange }: { onChange: (value: any) => void }) {
+function Slide4({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('onboardingPage.' + key)
   const [open, setOpen] = useState<boolean>(false)
@@ -85,3 +85,5 @@ export default function Slide4({ onChange }: { onChange: (value: any) => void })
     </View>
   )
 }
+
+export default Slide4

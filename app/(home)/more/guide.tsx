@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 
-export default function GuidePage() {
+function GuidePage() {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('guidePage.' + key)
@@ -286,3 +286,5 @@ export default function GuidePage() {
     </SafeAreaView>
   )
 }
+
+export default GuidePage

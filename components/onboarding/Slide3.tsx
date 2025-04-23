@@ -7,7 +7,7 @@ import Icon from '../Icon'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
 
-export default function Slide3({ onChange }: { onChange: (value: any) => void }) {
+function Slide3({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('onboardingPage.' + key)
   const [selected, setSelected] = useState<string[]>([])
@@ -73,3 +73,5 @@ export default function Slide3({ onChange }: { onChange: (value: any) => void })
     </View>
   )
 }
+
+export default Slide3

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { Platform, SafeAreaView, ScrollView } from 'react-native'
 import { useDrawer } from './providers/DrawerProvider'
 
-export default function Drawer0() {
+function Drawer0() {
   // hooks
   const { isDarkColorScheme } = useColorScheme()
   const snapPoints = useMemo(() => ['55%', '80%', '100%'], [])
@@ -52,3 +52,5 @@ export default function Drawer0() {
     </BottomSheet>
   )
 }
+
+export default Drawer0

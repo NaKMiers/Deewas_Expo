@@ -1,9 +1,9 @@
 import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import Icon from '@/components/Icon'
-import { Transaction } from '@/components/LatestTransactions'
 import MonthYearPicker from '@/components/MonthYearPicker'
 import NoItemsFound from '@/components/NoItemsFound'
 import Text from '@/components/Text'
+import Transaction from '@/components/Transaction'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -31,6 +31,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
 
 function CalendarPage() {
   // hooks
@@ -49,6 +52,9 @@ function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
   const [openCreateTransaction, setOpenCreateTransaction] = useState<Date | undefined>(undefined)
+
+  // ad states
+  const [adLoadFailed, setAdLoadFailed] = useState<boolean>(false)
 
   // get transactions
   const getTransactions = useCallback(async () => {
@@ -232,6 +238,16 @@ function CalendarPage() {
                   ))}
                 </View>
               </View>
+
+              {!adLoadFailed && (
+                <View className="flex-row items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
+                  <BannerAd
+                    unitId={adUnitId}
+                    size={BannerAdSize.LARGE_BANNER}
+                    onAdFailedToLoad={() => setAdLoadFailed(true)}
+                  />
+                </View>
+              )}
 
               {/* MARK: Transactions of day */}
               <View className="flex w-full rounded-lg bg-secondary p-3 shadow-md">

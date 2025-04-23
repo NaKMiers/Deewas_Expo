@@ -13,7 +13,7 @@ interface MessageProps {
   parts?: any
 }
 
-export default function Message({ role, content, parts }: MessageProps) {
+function Message({ role, content, parts }: MessageProps) {
   const toolInvocations = parts?.[1]?.toolInvocation
 
   const MAX_WIDTH = 500
@@ -485,3 +485,5 @@ function BasicMessage({ role, content }: MessageProps) {
     </View>
   )
 }
+
+export default Message

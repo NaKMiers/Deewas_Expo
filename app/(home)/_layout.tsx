@@ -7,7 +7,7 @@ import useWallets from '@/hooks/useWallets'
 import { Redirect, Tabs } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function HomeTabLayout() {
+function HomeTabLayout() {
   const { user, loading, onboarding } = useAuth()
   useSettings()
   useWallets()
@@ -31,3 +31,5 @@ export default function HomeTabLayout() {
     </SafeAreaView>
   )
 }
+
+export default HomeTabLayout
