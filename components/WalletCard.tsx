@@ -50,7 +50,9 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
   const [hide, setHide] = useState<boolean>(false)
 
   // value
-  const spentRate = wallet.income ? Math.round((wallet.expense / wallet.income) * 100 * 100) / 100 : 0
+  const spentRate = wallet.income
+    ? Math.max(Math.round((wallet.expense / wallet.income) * 100 * 100) / 100, 100)
+    : 0
 
   // delete wallet
   const handleDeleteWallet = useCallback(async () => {
@@ -263,16 +265,21 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
 
         {/* MARK: Collapse Button */}
         <Button
-          className={cn('w-full flex-row items-center justify-between rounded-none')}
+          className={cn('w-full flex-row items-center justify-center gap-4 rounded-none')}
           style={{ height: 32 }}
           onPress={e => {
             e.stopPropagation()
             setCollapsed(!collapsed)
           }}
         >
-          <Text className={cn('font-semibold leading-4 drop-shadow-md', checkLevel(spentRate).text)}>
-            {spentRate}% {t('spent')}
-          </Text>
+          {!!spentRate && (
+            <View className="h-2 flex-1 rounded-lg bg-secondary">
+              <View
+                className={cn('h-full rounded-full', checkLevel(spentRate).background)}
+                style={{ width: `${spentRate}%` }}
+              />
+            </View>
+          )}
 
           <Icon
             render={LucideChevronDown}

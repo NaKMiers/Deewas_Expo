@@ -33,8 +33,6 @@ function Creations({ className }: ICreationsProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('navbar.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
   const { closeDrawer0: closeDrawer } = useDrawer()
   const dispatch = useAppDispatch()
 

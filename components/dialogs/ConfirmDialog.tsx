@@ -15,7 +15,9 @@ import { Separator } from '../ui/separator'
 import Text from '../Text'
 
 interface ConfirmDialogProps {
-  trigger: ReactNode
+  open?: boolean
+  close?: (open: boolean) => void
+  trigger?: ReactNode
   label: string
   desc: string
   confirmLabel: string
@@ -26,6 +28,8 @@ interface ConfirmDialogProps {
 }
 
 function ConfirmDialog({
+  open,
+  close,
   trigger,
   label,
   desc,
@@ -36,14 +40,19 @@ function ConfirmDialog({
   className,
 }: ConfirmDialogProps) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger
-        asChild
-        disabled={disabled}
-        className={cn('h-full w-full', className)}
-      >
-        {trigger}
-      </AlertDialogTrigger>
+    <AlertDialog
+      open={open}
+      onOpenChange={close}
+    >
+      {trigger && (
+        <AlertDialogTrigger
+          asChild
+          disabled={disabled}
+          className={cn('h-full w-full', className)}
+        >
+          {trigger}
+        </AlertDialogTrigger>
+      )}
 
       <AlertDialogContent className="border-200/30 rounded-lg border">
         <AlertDialogHeader>

@@ -32,7 +32,7 @@ export const formatSymbol = (currency: string): string =>
 export const formatCurrency = (currency: string, amount: number): string => {
   const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
-  const formattedAmount = new Intl.NumberFormat(locale, {
+  const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
     maximumFractionDigits: 2,

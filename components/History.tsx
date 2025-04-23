@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setRefreshing } from '@/lib/reducers/loadReducer'
-import { checkTranType, formatCurrency, getLocale, parseCurrency } from '@/lib/string'
+import { checkTranType, formatCurrency, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { getHistoryApi } from '@/requests'
@@ -123,16 +123,16 @@ function History({ className }: HistoryProps) {
     if (selectedChartType === 'pie') {
       const totalIncome = filteredTransactions
         .filter(t => t.type === 'income')
-        .reduce((total: number, t: any) => total + t.amount, 0)
+        .reduce((total: number, t: any) => total + +t.amount, 0)
       const totalExpense = filteredTransactions
         .filter(t => t.type === 'expense')
-        .reduce((total: number, t: any) => total + t.amount, 0)
+        .reduce((total: number, t: any) => total + +t.amount, 0)
       const totalSaving = filteredTransactions
         .filter(t => t.type === 'saving')
-        .reduce((total: number, t: any) => total + t.amount, 0)
+        .reduce((total: number, t: any) => total + +t.amount, 0)
       const totalInvest = filteredTransactions
         .filter(t => t.type === 'invest')
-        .reduce((total: number, t: any) => total + t.amount, 0)
+        .reduce((total: number, t: any) => total + +t.amount, 0)
 
       setData([
         { label: t('income'), value: totalIncome, type: 'income' },
@@ -156,21 +156,21 @@ function History({ className }: HistoryProps) {
         if (selectedTransactionType === 'balance') {
           const totalIncome = chunkTransactions
             .filter(t => t.type === 'income')
-            .reduce((total: number, t: any) => total + t.amount, 0)
+            .reduce((total: number, t: any) => total + +t.amount, 0)
           const totalExpense = chunkTransactions
             .filter(t => t.type === 'expense')
-            .reduce((total: number, t: any) => total + t.amount, 0)
+            .reduce((total: number, t: any) => total + +t.amount, 0)
 
           const totalValue = totalIncome - totalExpense
           groupedData.push({
             label: colStart.format(dateFormat),
-            value: parseCurrency(formatCurrency(currency, totalValue)),
+            value: totalValue,
           })
         } else {
-          const totalValue = chunkTransactions.reduce((total: number, t: any) => total + t.amount, 0)
+          const totalValue = chunkTransactions.reduce((total: number, t: any) => total + +t.amount, 0)
           groupedData.push({
             label: colStart.format(dateFormat),
-            value: parseCurrency(formatCurrency(currency, totalValue)),
+            value: totalValue,
             type: selectedTransactionType,
           })
         }
@@ -310,7 +310,7 @@ function History({ className }: HistoryProps) {
           >
             {formatCurrency(
               currency,
-              data.reduce((total: number, item: any) => total + item.value, 0)
+              data.reduce((total: number, item: any) => total + +item.value, 0)
             )}
           </Text>
         )}

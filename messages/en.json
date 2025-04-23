@@ -442,7 +442,7 @@
   },
   "NotFoundPage": {},
   "header": {
-    "Hello": "Hello",
+    "Hi": "Hi",
     "Upgrade": "Upgrade"
   },
   "createBudgetDrawer": {
@@ -779,6 +779,7 @@
   },
   "latestTransactions": {
     "Latest": "Latest",
+    "No transactions found": "No transactions found",
     "All": "All"
   },
   "transaction": {
@@ -903,7 +904,11 @@
     "language": "language",
     "Select": "Select",
     "No results found": "No results found",
-    "Language changed to": "Language changed to"
+    "Language changed to": "Language changed to",
+    "Changing currency will erase all your data": "Changing currency will erase all your data",
+    "Changing currency will erase all your data, are you sure you still want to change?": "Changing currency will erase all your data, are you sure you still want to change?",
+    "Change Currency": "Change Currency",
+    "Confirm": "Confirm"
   },
   "montYearPicker": {
     "Apply": "Apply"
@@ -939,7 +944,9 @@
     "Budget deleted": "Budget deleted",
     "Budget created": "Budget created",
     "Budget updated": "Budget updated",
-    "Personalities changed": "Personalities changed"
+    "Personalities changed": "Personalities changed",
+    "Update currency successfully": "Update currency successfully",
+    "Erase all data successfully": "Erase all data successfully"
   },
   "error": {
     "Sign In Failed": "Sign In Failed",
@@ -973,6 +980,7 @@
     "Failed to sign in with Google": "Failed to sign in with Google",
     "An error occurred": "An error occurred",
     "ID token is required": "ID token is required",
-    "Failed to sign up with Google": "Failed to sign up with Google"
+    "Failed to sign up with Google": "Failed to sign up with Google",
+    "Failed to update your currency": "Failed to update your currency"
   }
 }

@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
+import { setCurWallet } from '@/lib/reducers/walletReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { deleteAllDataApi } from '@/requests'
 import { Redirect, router } from 'expo-router'
@@ -57,6 +58,7 @@ function AccountPage() {
       })
 
       dispatch(refresh())
+      dispatch(setCurWallet(null))
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -73,7 +75,7 @@ function AccountPage() {
   if (!user) return <Redirect href="/auth/sign-in" />
 
   // values
-  const authImage = icons[`${'email'}${colorScheme === 'dark' ? '' : 'Dark'}`]
+  const authImage = icons[`${user.authType}${colorScheme === 'dark' ? '' : 'Dark'}`]
 
   return (
     <SafeAreaView>
@@ -188,15 +190,15 @@ function AccountPage() {
               <SelectContent>
                 <SelectItem
                   value="system"
-                  label="System"
+                  label={t('System')}
                 />
                 <SelectItem
                   value="light"
-                  label="Light"
+                  label={t('Light')}
                 />
                 <SelectItem
                   value="dark"
-                  label="Dark"
+                  label={t('Dark')}
                 />
               </SelectContent>
             </Select>

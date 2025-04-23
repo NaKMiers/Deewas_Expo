@@ -305,19 +305,21 @@ function SignInPage() {
                     />
                     <Text className="font-semibold text-black">{t('Sign In with Google')}</Text>
                   </Button>
-                  <Button
-                    className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
-                    onPress={handleAppleSignIn}
-                    disabled={loading}
-                  >
-                    <Image
-                      source={icons.apple}
-                      alt="Google"
-                      className="h-5 w-5"
-                      resizeMode="contain"
-                    />
-                    <Text className="font-semibold text-white">{t('Sign In with Apple')}</Text>
-                  </Button>
+                  {Platform.OS === 'ios' && (
+                    <Button
+                      className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
+                      onPress={handleAppleSignIn}
+                      disabled={loading}
+                    >
+                      <Image
+                        source={icons.apple}
+                        alt="Google"
+                        className="h-5 w-5"
+                        resizeMode="contain"
+                      />
+                      <Text className="font-semibold text-white">{t('Sign In with Apple')}</Text>
+                    </Button>
+                  )}
                 </View>
 
                 <View className="my-6 flex flex-row items-center gap-3">

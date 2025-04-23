@@ -31,6 +31,7 @@ export default function Drawer0() {
         backgroundColor: isDarkColorScheme ? '#161616' : '#fff',
         borderColor: isDarkColorScheme ? '#333' : '#ccc',
         borderWidth: 2,
+        borderTopWidth: 0,
         borderRadius: 24,
       }}
       handleIndicatorStyle={{

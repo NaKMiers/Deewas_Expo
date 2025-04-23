@@ -445,7 +445,7 @@
   },
   "NotFoundPage": {},
   "header": {
-    "Hello": "Xin chào",
+    "Hi": "Chào",
     "Upgrade": "Nâng cấp"
   },
   "createBudgetDrawer": {
@@ -763,6 +763,7 @@
   },
   "latestTransactions": {
     "Latest": "Giao dịch gần đây",
+    "No transactions found": "Không tìm thấy giao dịch nào",
     "All": "Tất cả"
   },
   "transaction": {
@@ -887,7 +888,11 @@
     "language": "ngôn ngữ",
     "Select": "Chọn",
     "No results found": "Không tìm thấy kết quả",
-    "Language changed to": "Ngôn ngữ đã được thay đổi thành"
+    "Language changed to": "Ngôn ngữ đã được thay đổi thành",
+    "Changing currency will erase all your data": "Thay đổi tiền tệ sẽ xóa tất cả dữ liệu của bạn",
+    "Changing currency will erase all your data, are you sure you still want to change?": "Thay đổi tiền tệ sẽ xóa toàn bộ dữ liệu của bạn, bạn có chắc vẫn muốn thực hiện thay đổi này?",
+    "Change Currency": "Thay đổi tiền tệ",
+    "Confirm": "Xác nhận"
   },
   "montYearPicker": {
     "Apply": "Áp dụng"

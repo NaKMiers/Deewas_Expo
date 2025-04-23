@@ -38,7 +38,7 @@ function Header({ className }: HeaderProps) {
             onPress={() => router.push('/home')}
           >
             <Text className="line-clamp-1 text-ellipsis text-nowrap text-lg font-semibold tracking-wide text-secondary">
-              {t('Hello')} {user ? shortName(user) : 'there'}!👋
+              {t('Hi')} {user ? shortName(user) : 'there'}!👋
             </Text>
           </TouchableOpacity>
         </View>

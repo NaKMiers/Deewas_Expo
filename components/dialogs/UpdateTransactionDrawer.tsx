@@ -11,6 +11,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
+  Platform,
   Pressable,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -55,6 +56,7 @@ function UpdateTransactionDrawer({
 
   // states
   const [saving, setSaving] = useState<boolean>(false)
+  const [openDate, setOpenDate] = useState<boolean>(false)
 
   // MARK: form
   const {
@@ -101,7 +103,7 @@ function UpdateTransactionDrawer({
       }
 
       // amount is required
-      if (!+data.amount) {
+      if (!revertAdjustedCurrency(data.amount, locale)) {
         setError('amount', {
           type: 'manual',
           message: t('Amount is required'),
@@ -255,25 +257,78 @@ function UpdateTransactionDrawer({
           </View>
 
           {/* MARK: Date */}
-          <View className="-mt-6 flex flex-1 flex-col">
-            <TouchableWithoutFeedback
-              onFocus={() => clearErrors('date')}
-              style={{ marginTop: -30 }}
-            >
-              <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
-                <DateTimePicker
-                  display="inline"
-                  currentDate={moment(form.date).toDate()}
-                  onChange={date => setValue('date', date)}
-                />
-              </View>
-            </TouchableWithoutFeedback>
-            {errors.date?.message && (
-              <Text className="ml-1 mt-0.5 italic text-rose-400">
-                {errors.date?.message?.toString()}
+          {Platform.OS === 'ios' ? (
+            <View className={cn('flex flex-1 flex-col', openDate ? '-mt-6' : 'mb-6')}>
+              {!openDate && (
+                <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+                  {t('Date')}
+                </Text>
+              )}
+              <TouchableWithoutFeedback
+                onPress={() => setOpenDate(!openDate)}
+                onFocus={() => clearErrors('date')}
+              >
+                {openDate ? (
+                  <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+                    <DateTimePicker
+                      display="inline"
+                      currentDate={moment(form.date).toDate()}
+                      onChange={date => {
+                        setValue('date', date)
+                        setOpenDate(false)
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
+                    <Text className="text-center font-semibold text-black">
+                      {moment(form.date).format('MMM DD, YYYY')}
+                    </Text>
+                  </View>
+                )}
+              </TouchableWithoutFeedback>
+              {errors.date?.message && (
+                <Text className="ml-1 mt-0.5 italic text-rose-400">
+                  {errors.date?.message?.toString()}
+                </Text>
+              )}
+            </View>
+          ) : (
+            <View className="mb-6 flex flex-1 flex-col">
+              <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+                {t('Date')}
               </Text>
-            )}
-          </View>
+              <TouchableWithoutFeedback
+                onPress={() => setOpenDate(!openDate)}
+                onFocus={() => clearErrors('date')}
+              >
+                <View>
+                  <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+                    <DateTimePicker
+                      display="inline"
+                      open={openDate}
+                      close={() => setOpenDate(false)}
+                      currentDate={moment(form.date).toDate()}
+                      onChange={date => {
+                        setValue('date', date)
+                        setOpenDate(false)
+                      }}
+                    />
+                  </View>
+                  <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
+                    <Text className="text-center font-semibold text-black">
+                      {moment(form.date).format('MMM DD, YYYY')}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+              {errors.date?.message && (
+                <Text className="ml-1 mt-0.5 italic text-rose-400">
+                  {errors.date?.message?.toString()}
+                </Text>
+              )}
+            </View>
+          )}
         </View>
 
         <View className="mb-21 px-0">

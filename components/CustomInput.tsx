@@ -102,6 +102,7 @@ function CustomInput({
             )}
           />
         )
+      case 'number':
       case 'currency':
         return (
           <Controller
@@ -118,7 +119,7 @@ function CustomInput({
                 )}
                 editable={!disabled}
                 keyboardType="numeric"
-                value={adjustCurrency(value || '', locale)}
+                value={type === 'currency' ? adjustCurrency(value || '', locale) : value}
                 onChangeText={text => {
                   onFieldChange(text)
                   if (onChange) onChange(text)

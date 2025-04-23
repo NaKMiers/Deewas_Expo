@@ -10,7 +10,7 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { setToken, setUser } from '@/lib/reducers/userReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { registerCredentialsApi, signInGoogleApi, updateMySettingsApi } from '@/requests'
+import { registerCredentialsApi, signInAppleApi, signInGoogleApi, updateMySettingsApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   GoogleSignin,
@@ -18,6 +18,7 @@ import {
   isSuccessResponse,
   statusCodes,
 } from '@react-native-google-signin/google-signin'
+import * as AppleAuthentication from 'expo-apple-authentication'
 import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
 import { useCallback, useState } from 'react'
@@ -157,7 +158,7 @@ function SignUpPage() {
       // show success message
       Toast.show({
         type: 'success',
-        text1: tSuccess('Register Success'),
+        text1: tSuccess('Sign Up Success'),
         text2: tSuccess('You have successfully registered'),
       })
 
@@ -167,7 +168,7 @@ function SignUpPage() {
       console.log(err)
       Toast.show({
         type: 'error',
-        text1: tError('Register Failed'),
+        text1: tError('Sign Up Failed'),
         text2: tError(err.message),
       })
     } finally {
@@ -186,7 +187,7 @@ function SignUpPage() {
       const response = await GoogleSignin.signIn()
 
       if (isSuccessResponse(response)) {
-        const { idToken } = response.data
+        const { idToken, user } = response.data
 
         if (!idToken) {
           Toast.show({
@@ -196,7 +197,7 @@ function SignUpPage() {
           return
         }
 
-        const { token, isNewUser } = await signInGoogleApi(idToken)
+        const { token, isNewUser } = await signInGoogleApi(idToken, user.id)
         const decodedUser: IFullUser = jwtDecode(token)
 
         // save token and user
@@ -221,7 +222,7 @@ function SignUpPage() {
           // show success message
           Toast.show({
             type: 'success',
-            text1: tSuccess('Register Success'),
+            text1: tSuccess('Sign Up Success'),
             text2: tSuccess('You have successfully signed up'),
           })
         } else {
@@ -275,6 +276,63 @@ function SignUpPage() {
     }
   }, [])
 
+  // MARK: Apple Sign In
+  const handleAppleSignIn = useCallback(async () => {
+    // start loading
+    setLoading(true)
+
+    try {
+      const nonce = Math.random().toString(36).substring(2, 15)
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+        nonce,
+      })
+
+      const { identityToken, user } = credential
+      if (!identityToken || !user) {
+        Toast.show({
+          type: 'error',
+          text1: tError('ID token is required'),
+        })
+        return
+      }
+
+      const { token } = await signInAppleApi(identityToken, user, nonce)
+      const decodedUser: IFullUser = jwtDecode(token)
+
+      // save token and user
+      await AsyncStorage.setItem('token', token)
+      dispatch(setUser(decodedUser))
+      dispatch(setToken(token))
+
+      // show success message
+      Toast.show({
+        type: 'success',
+        text1: tSuccess('Sign In Success'),
+        text2: tSuccess('You have successfully logged in'),
+      })
+
+      // go home
+      router.replace('/home')
+    } catch (e: any) {
+      if (e.code === 'ERR_REQUEST_CANCELED') {
+        // handle that the user canceled the sign-in flow
+      } else {
+        // handle other errors
+        Toast.show({
+          type: 'error',
+          text1: tError('An error occurred'),
+        })
+      }
+    } finally {
+      // stop loading
+      setLoading(false)
+    }
+  }, [])
+
   return (
     <>
       <Image
@@ -303,7 +361,7 @@ function SignUpPage() {
               <View className="px-10 py-8">
                 {/* MARK: Header */}
                 <Text className="text-center text-lg font-semibold text-black">
-                  {t('Register to Deewas')}
+                  {t('Sign Up to Deewas')}
                 </Text>
                 <Text className="text-center text-muted-foreground">
                   {t('Welcome! Please fill in the details to get started')}
@@ -326,6 +384,21 @@ function SignUpPage() {
                     />
                     <Text className="font-semibold text-black">{t('Sign In with Google')}</Text>
                   </Button>
+                  {Platform.OS === 'ios' && (
+                    <Button
+                      className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
+                      onPress={handleAppleSignIn}
+                      disabled={loading}
+                    >
+                      <Image
+                        source={icons.apple}
+                        alt="Google"
+                        className="h-5 w-5"
+                        resizeMode="contain"
+                      />
+                      <Text className="font-semibold text-white">{t('Sign In with Apple')}</Text>
+                    </Button>
+                  )}
                 </View>
 
                 <View className="my-6 flex flex-row items-center gap-3">
@@ -388,7 +461,7 @@ function SignUpPage() {
                   {loading ? (
                     <ActivityIndicator />
                   ) : (
-                    <Text className="font-semibold text-white">{t('Register')}</Text>
+                    <Text className="font-semibold text-white">{t('Sign Up')}</Text>
                   )}
                 </TouchableOpacity>
               </View>
