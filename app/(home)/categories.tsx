@@ -136,7 +136,7 @@ function CategoriesPage() {
               />
             )
           ) : (
-            <View className="flex flex-col gap-2">
+            <View className="mt-21/2 flex flex-col gap-2">
               <Skeleton className="h-12 w-full" />
               <Skeleton className="h-96 w-full" />
               {Array.from({ length: 5 }).map((_, index) => (

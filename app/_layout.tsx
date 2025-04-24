@@ -104,6 +104,7 @@ function RootLayout() {
               <Stack.Screen name="policies" />
               <Stack.Screen name="welcome" />
               <Stack.Screen name="onboarding" />
+              <Stack.Screen name="premium" />
             </Stack>
 
             <PortalHost />

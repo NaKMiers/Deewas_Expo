@@ -85,6 +85,7 @@
     "react-native-collapsible": "^1.6.2",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-gifted-charts": "^1.4.59",
+    "react-native-google-mobile-ads": "14.7.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-markdown-display": "^7.0.2",
     "react-native-progress": "^5.0.1",
@@ -98,8 +99,7 @@
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.4.7",
-    "react-native-google-mobile-ads": "14.7.1"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

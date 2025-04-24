@@ -48,6 +48,14 @@
     "plugins": [
       "expo-router",
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraProguardRules": "-dontwarn com.reactnative.voice.**"
+          }
+        }
+      ],
+      [
         "@react-native-google-signin/google-signin",
         {
           "iosUrlScheme": "com.googleusercontent.apps.173590721564-ihd7ql2dffkd1apdle5g646rkq03b33i"

@@ -47,6 +47,7 @@ function Header({ className }: HeaderProps) {
           <TouchableOpacity
             className="flex h-10 flex-row items-center rounded-md bg-secondary px-4"
             activeOpacity={0.9}
+            onPress={() => router.push('/premium')}
           >
             <Text className="font-semibold"> {t('Upgrade')}</Text>
           </TouchableOpacity>

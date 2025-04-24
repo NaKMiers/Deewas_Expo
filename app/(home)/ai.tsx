@@ -24,6 +24,7 @@ import moment from 'moment-timezone'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -34,12 +35,19 @@ import {
   View,
 } from 'react-native'
 
+let Voice: any = null
+
+if (Platform.OS === 'ios') {
+  // Voice = require('@react-native-voice/voice').default
+}
+
 function AIPage() {
   const [token, setToken] = useState<string>('')
 
   // hooks
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('aiPage.' + key)
+  const tError = (key: string) => translate('error.' + key)
   const locale = i18n.language
   const language = languages.find(l => l.value === locale)?.alternative || 'English'
 
@@ -68,6 +76,7 @@ function AIPage() {
   // states
   const [openPersonalities, setOpenPersonalities] = useState<boolean>(false)
   const [refreshed, setRefreshed] = useState<boolean>(false)
+  const [isRecording, setIsRecording] = useState(false)
 
   // values
   const samples = [t('Hello?'), t('What can you do?'), t('I bought a dumpling'), t('Set a food budget')]
@@ -118,6 +127,49 @@ function AIPage() {
     },
     [handleSubmit, input]
   )
+
+  useEffect(() => {
+    if (!isRecording || !Voice || Platform.OS !== 'ios') return
+
+    Voice.onSpeechResults = (e: any) => {
+      const value = e.value[0]
+      console.log(value)
+      handleInputChange({ target: { value } } as any)
+    }
+    Voice.onSpeechError = ({ error }: any) => {
+      if (error?.code !== 'recognition_fail') {
+        Alert.alert(tError('Error'), tError('Speech recognition failed'))
+        setIsRecording(false)
+      }
+    }
+    return () => {
+      if (!Voice || Platform.OS !== 'ios') return
+      Voice.destroy()
+      Voice.removeAllListeners()
+    }
+  }, [isRecording])
+
+  // speak
+  const toggleRecording = useCallback(async () => {
+    if (!Voice || Platform.OS !== 'ios') return
+
+    try {
+      if (isRecording) {
+        setIsRecording(false)
+        await Voice.stop()
+        Voice.destroy()
+        Voice.removeAllListeners()
+      } else {
+        Keyboard.dismiss()
+        setIsRecording(true)
+        Voice.removeAllListeners()
+        await Voice.start(locale)
+      }
+    } catch (e) {
+      Alert.alert(tError('Error'), tError('Failed to start recording'))
+      setIsRecording(false)
+    }
+  }, [isRecording, locale])
 
   // handle refresh
   const handleRefresh = useCallback(async () => {
@@ -260,7 +312,11 @@ function AIPage() {
               <Input
                 className="bg- border-transparent"
                 style={{ height: 50 }}
-                placeholder={t('How can Deewas help?')}
+                placeholder={
+                  isRecording
+                    ? `${t('Listening')} (${languages.find(l => l.value === locale)?.label})`
+                    : t('How can Deewas help?')
+                }
                 value={input}
                 onChange={e => {
                   handleInputChange({
@@ -277,6 +333,7 @@ function AIPage() {
                 }}
               />
               <View className="mt-1.5 flex flex-row items-center justify-between gap-1.5">
+                {/* MARK: Clear Chat */}
                 <TouchableOpacity
                   className={cn(
                     'flex h-full flex-row items-center justify-center gap-2 rounded-full bg-primary/10 px-21/2 shadow-lg',
@@ -296,6 +353,7 @@ function AIPage() {
                 </TouchableOpacity>
 
                 <View className="flex h-full flex-1 flex-row items-center justify-end gap-1.5">
+                  {/* MARK: Personality */}
                   <TouchableOpacity
                     className={cn(
                       'flex h-full flex-1 flex-row items-center justify-center gap-2 rounded-full bg-primary/10 px-21/2 shadow-lg',
@@ -310,31 +368,45 @@ function AIPage() {
                         : t('Mixed personalities')}
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    className={cn(
-                      'flex h-9 w-9 flex-row items-center justify-center rounded-full shadow-lg',
-                      (input.trim() !== '' || status !== 'ready') && 'opacity-50'
-                    )}
-                    disabled={input.trim() !== '' || status !== 'ready'}
-                  >
-                    <Icon
-                      render={LucideMic}
-                      size={20}
-                    />
-                  </TouchableOpacity>
+
+                  {/* MARK: Micro */}
+                  {!isRecording && Platform.OS === 'ios' && (
+                    <TouchableOpacity
+                      className={cn(
+                        'flex h-9 w-9 flex-row items-center justify-center rounded-full shadow-lg',
+                        (input.trim() !== '' || status !== 'ready') && 'opacity-50'
+                      )}
+                      disabled={input.trim() !== '' || status !== 'ready'}
+                      onPress={toggleRecording}
+                    >
+                      <Icon
+                        render={LucideMic}
+                        size={20}
+                      />
+                    </TouchableOpacity>
+                  )}
+
+                  {/* MARK: Send */}
                   <TouchableOpacity
                     className={cn(
                       'flex h-9 w-9 flex-row items-center justify-center rounded-full bg-primary shadow-lg',
-                      input.trim() === '' && status === 'ready' && 'opacity-50'
+                      input.trim() === '' && status === 'ready' && !isRecording && 'opacity-50'
                     )}
-                    disabled={input.trim() === '' && status === 'ready'}
-                    onPress={() =>
-                      status === 'submitted' || status === 'streaming' ? stop() : handleSendMessage()
-                    }
+                    disabled={input.trim() === '' && status === 'ready' && !isRecording}
+                    onPress={() => {
+                      if (isRecording) {
+                        toggleRecording()
+                      } else {
+                        if (status === 'submitted' || status === 'streaming') stop()
+                        else handleSendMessage()
+                      }
+                    }}
                   >
                     <Icon
                       render={
-                        status === 'submitted' || status === 'streaming' ? LucideSquare : LucideArrowUp
+                        status === 'submitted' || status === 'streaming' || isRecording
+                          ? LucideSquare
+                          : LucideArrowUp
                       }
                       size={20}
                       reverse

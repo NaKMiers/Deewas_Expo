@@ -77,6 +77,10 @@ declare interface IUser {
   firstName: string
   lastName: string
   initiated: boolean
+
+  plan: string
+  planExpiredAt: Date
+  paymentMethod: string
 }
 
 declare type IFullUser = IUser & { iat: number; exp: number }
