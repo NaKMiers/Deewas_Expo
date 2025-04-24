@@ -24,7 +24,7 @@ interface HistoryProps {
 
 // chart types
 const charts: ChartType[] = ['bar', 'line', 'pie']
-const transactionTypes: TransactionType[] = ['balance', 'income', 'expense', 'saving', 'invest']
+const transactionTypes: TransactionType[] = ['income', 'expense', 'saving', 'invest']
 const timeUnits: TimeUnit[] = ['week', 'month', 'year']
 
 function History({ className }: HistoryProps) {

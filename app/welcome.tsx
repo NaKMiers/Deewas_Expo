@@ -61,6 +61,7 @@ function WelcomePage() {
           </Select>
         </View>
 
+        {/* Main */}
         <View className="mx-auto max-w-[500px] flex-1">
           <Text className="flex items-end text-center text-4xl font-bold tracking-wider">
             DEEWAS

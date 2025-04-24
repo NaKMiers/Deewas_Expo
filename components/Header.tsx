@@ -1,9 +1,10 @@
+import { images } from '@/assets/images/images'
 import { shortName } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { router } from 'expo-router'
 import { LucideBell, LucideCalendarDays } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
-import { Pressable, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
@@ -44,13 +45,18 @@ function Header({ className }: HeaderProps) {
         </View>
 
         <View className="flex flex-row items-center gap-2">
-          <TouchableOpacity
-            className="flex h-10 flex-row items-center rounded-md bg-secondary px-4"
-            activeOpacity={0.9}
-            onPress={() => router.push('/premium')}
+          <ImageBackground
+            source={images.preBg}
+            className="overflow-hidden rounded-md"
           >
-            <Text className="font-semibold"> {t('Upgrade')}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              className="flex h-10 flex-row items-center px-4"
+              activeOpacity={0.9}
+              onPress={() => router.push('/premium')}
+            >
+              <Text className="font-semibold text-neutral-800"> {t('Upgrade')}</Text>
+            </TouchableOpacity>
+          </ImageBackground>
           <Button
             variant="secondary"
             size="icon"

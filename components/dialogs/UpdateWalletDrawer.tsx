@@ -28,7 +28,7 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
   const t = (key: string) => translate('updateWalletDrawer.' + key)
   const tSuccess = (key: string) => translate('success.' + key)
   const tError = (key: string) => translate('error.' + key)
-  const { closeDrawer } = useDrawer()
+  const { closeDrawer3: closeDrawer } = useDrawer()
 
   // form
   const {
@@ -101,14 +101,12 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
           text1: message,
         })
 
-        reset()
+        closeDrawer()
       } catch (err: any) {
         Toast.show({
           type: 'error',
           text1: err.message,
         })
-
-        console.log(err)
       } finally {
         // stop loading
         setSaving(false)

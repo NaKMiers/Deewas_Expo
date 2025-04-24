@@ -4,7 +4,8 @@ import emailDark from './email-dark.png'
 import email from './email.png'
 import facebook from './facebook.png'
 import google from './google.png'
+import star from './star.png'
 
-const icons: any = { apple, appleDark, facebook, google, email, emailDark }
+const icons: any = { apple, appleDark, facebook, google, email, emailDark, star }
 
 export default icons

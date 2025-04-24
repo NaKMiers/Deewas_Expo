@@ -84,6 +84,7 @@
     "Deleting all data": "Đang xóa toàn bộ dữ liệu",
     "Free Account": "Tài khoản Free",
     "Flash Sale": "Flash Sale",
+    "Wallets": "Ví",
     "Categories": "Danh mục",
     "Theme": "Giao diện",
     "light": "sáng",
@@ -99,16 +100,23 @@
     "Delete": "Xóa",
     "Cancel": "Hủy",
     "Log Out": "Đăng xuất",
-    "Are you sure you want to log out?": "Bạn có chắc chắn muốn đăng xuất không?"
+    "Are you sure you want to log out?": "Bạn có chắc chắn muốn đăng xuất không?",
+    "Version": "Phiên bản"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "Bạn chưa có ngân sách nào, hãy tạo ngay!",
     "Create Budget": "Tạo ngân sách"
   },
   "categoriesPage": {
+    "Categories": "Danh mục",
     "Failed to get categories": "Không thể lấy dữ liệu danh mục",
     "You don't have any categories yet, create one now!": "Bạn chưa có danh mục nào, hãy tạo ngay!",
     "Create Category": "Tạo danh mục"
+  },
+  "walletsPage": {
+    "Wallets": "Ví của tôi",
+    "You don't have any wallets yet, create one now!": "Bạn chưa có ví nào, hãy tạo ngay nào!",
+    "Create Wallet": "Create Wallet"
   },
   "transactionPage": {
     "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịchdịch",
@@ -613,7 +621,7 @@
   "updateWalletDrawer": {
     "Name is required": "Tên ví không được trống",
     "Updating wallet": "Đang cập nhật ví",
-    "Update wallet": "Cập nhật víví",
+    "Update wallet": "Cập nhật ví",
     "Wallets are used to group your transactions by source of funds": "Ví dùng để phân loại giao dịch của bạn theo nguồn tiền",
     "Name": "Tên ví",
     "optional": "không bắt buộc",
@@ -909,6 +917,11 @@
     "Next month": "Tháng sau",
     "Next year": "Năm sau"
   },
+  "authProvider": {
+    "Unlock Deewas": "Mở khóa Deewas",
+    "Enter PIN": "Nhập mã PIN",
+    "Cancel": "Hủy"
+  },
   "success": {
     "Sign In Success": "Đăng nhập thành công",
     "You have successfully signed in": "Bạn đã đăng nhập thành công",
@@ -929,7 +942,8 @@
     "Budget deleted": "Ngân sách đã được xóa",
     "Budget created": "Ngân sách đã được tạo",
     "Budget updated": "Ngân sách đã được cập nhật",
-    "Personalities changed": "Tính cách đã được thay đổi"
+    "Personalities changed": "Tính cách đã được thay đổi",
+    "Authentication successful": "Authentication successful"
   },
   "error": {
     "Error": "Lỗi",
@@ -966,6 +980,10 @@
     "ID token is required": "Mã ID là bắt buộc",
     "Failed to sign up with Google": "Không thể đăng ký bằng Google",
     "Speech recognition failed": "Nhận diện giọng nói thất bại",
-    "Failed to start recording": "Không thể bắt đầu ghi âm"
+    "Failed to start recording": "Không thể bắt đầu ghi âm",
+    "Authentication error": "Lỗi xác thực",
+    "Authentication failed": "Xác thực thất bại",
+    "Biometric authentication is not supported on this device": "Xác thực sinh trắc học không được hỗ trợ trên thiết bị này",
+    "Biometric authentication failed": "Xác thực sinh trắc học thất bại"
   }
 }

@@ -17,6 +17,10 @@ import theLoyalPuppy from '@/assets/images/the-loyal-puppy.png'
 import theMoodyCat from '@/assets/images/the-moody-cat.png'
 import theToughLoveMom from '@/assets/images/the-tough-love-mom.png'
 import logo from '@/assets/images/icon.png'
+import preBg from '@/assets/images/pre-bg.png'
+import preBgVFlip from '@/assets/images/pre-bg-v-flip.png'
+import preLogo from '@/assets/images/pre-logo.png'
+import splash from '@/assets/images/splash.png'
 
 export const images = {
   logo,
@@ -38,4 +42,8 @@ export const images = {
   theMoodyCat,
   theToughLoveMom,
   theLoyalPuppy,
+  preBg,
+  preLogo,
+  preBgVFlip,
+  splash,
 }

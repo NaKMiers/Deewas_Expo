@@ -10,10 +10,12 @@ import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import { Switch } from '@/components/ui/switch'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { setCurWallet } from '@/lib/reducers/walletReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
+import { cn } from '@/lib/utils'
 import { deleteAllDataApi } from '@/requests'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
@@ -21,7 +23,9 @@ import {
   LucideBookCopy,
   LucideChevronRight,
   LucideInfo,
+  LucideScanFace,
   LucideShieldQuestion,
+  LucideWalletCards,
   Moon,
   Sun,
 } from 'lucide-react-native'
@@ -37,7 +41,7 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADM
 
 function AccountPage() {
   // hooks
-  const { user, logout } = useAuth()
+  const { user, logout, switchBiometric, biometric } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('accountPage.' + key)
   const { colorScheme, setColorScheme } = useColorScheme()
@@ -94,10 +98,10 @@ function AccountPage() {
           />
         }
       >
-        <View className="flex flex-col gap-21/2 p-21/2 md:p-21">
+        <View className="flex-col gap-21/2 p-21/2 md:p-21">
           {/* MARK: Account */}
           <View className="overflow-auto rounded-md border border-border bg-secondary px-21 py-21/2">
-            <View className="flex w-full flex-row items-center gap-2 pb-2">
+            <View className="w-full flex-row items-center gap-2 pb-2">
               <View className="aspect-square max-w-[40px] flex-1 overflow-hidden rounded-full shadow-sm">
                 <Image
                   className="h-full w-full object-cover"
@@ -119,9 +123,7 @@ function AccountPage() {
                     />
                   </View>
                 </View>
-                <Text className="flex flex-row items-center gap-2 text-muted-foreground">
-                  {user.email}
-                </Text>
+                <Text className="flex-row items-center gap-2 text-muted-foreground">{user.email}</Text>
               </View>
             </View>
             <View className="mt-21/2 border-t border-primary py-2">
@@ -130,8 +132,8 @@ function AccountPage() {
           </View>
 
           {/* MARK: Ads */}
-          <View className="flex flex-col gap-2 rounded-md border border-border bg-secondary px-21 py-21/2">
-            <View className="flex flex-row justify-between gap-2">
+          <View className="flex-col gap-2 rounded-md border border-border bg-secondary px-21 py-21/2">
+            <View className="flex-row justify-between gap-2">
               <Text className="text-lg font-semibold">{t('Flash Sale')}</Text>
               <Countdown
                 timeType="once"
@@ -155,17 +157,33 @@ function AccountPage() {
           </View>
 
           {/* MARK: Categories & Wallets */}
-          <View className="flex flex-col rounded-md border border-border bg-secondary px-21 py-2">
+          <View className="flex-col rounded-md border border-border bg-secondary px-21 py-2">
+            <TouchableOpacity
+              onPress={() => router.push('/wallets')}
+              className="h-10 flex-row items-center gap-2"
+            >
+              <Icon
+                render={LucideWalletCards}
+                size={18}
+              />
+              <Text className="text-lg font-semibold">{t('Wallets')}</Text>
+              <View className="flex-1 flex-row items-center justify-end">
+                <Icon
+                  render={LucideChevronRight}
+                  size={18}
+                />
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => router.push('/categories')}
-              className="flex h-10 flex-row items-center gap-2"
+              className="h-10 flex-row items-center gap-2"
             >
               <Icon
                 render={LucideBookCopy}
                 size={18}
               />
               <Text className="text-lg font-semibold">{t('Categories')}</Text>
-              <View className="flex flex-1 flex-row items-center justify-end">
+              <View className="flex-1 flex-row items-center justify-end">
                 <Icon
                   render={LucideChevronRight}
                   size={18}
@@ -175,7 +193,7 @@ function AccountPage() {
           </View>
 
           {/* MARK: Theme */}
-          <View className="flex flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
+          <View className="flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
             <Text className="text-lg font-semibold">{t('Theme')}</Text>
 
             <Select onValueChange={option => setColorScheme(option?.value as 'light' | 'dark')}>
@@ -211,6 +229,25 @@ function AccountPage() {
             </Select>
           </View>
 
+          {/* MARK: Biometric */}
+          {biometric.isSupported && (
+            <View className="flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
+              <Icon
+                render={LucideScanFace}
+                size={20}
+              />
+              <Text className="text-lg font-semibold">Face ID</Text>
+              <View className="flex-1 flex-row items-center justify-end">
+                <Switch
+                  checked={biometric.open}
+                  onCheckedChange={() => switchBiometric()}
+                  className={cn(biometric.open ? 'bg-primary' : 'bg-muted-foreground')}
+                  style={{ transform: [{ scale: 0.9 }] }}
+                />
+              </View>
+            </View>
+          )}
+
           {!adLoadFailed && (
             <View className="flex-row items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
               <BannerAd
@@ -225,10 +262,10 @@ function AccountPage() {
           <SettingsBox isRequireInit />
 
           {/* MARK: More */}
-          <View className="flex flex-col rounded-lg border border-border bg-secondary px-21 py-2">
+          <View className="flex-col rounded-lg border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
               onPress={() => router.push('/more/about')}
-              className="flex h-11 flex-row items-center gap-2"
+              className="h-11 flex-row items-center gap-2"
             >
               <Icon
                 render={LucideInfo}
@@ -238,7 +275,7 @@ function AccountPage() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => router.push('/more/help-and-support')}
-              className="flex h-11 flex-row items-center gap-2"
+              className="h-11 flex-row items-center gap-2"
             >
               <Icon
                 render={LucideShieldQuestion}
@@ -249,7 +286,7 @@ function AccountPage() {
           </View>
 
           <Text className="text-center font-medium text-muted-foreground">
-            Version {Constants.expoConfig?.version || '1.0.0'}
+            {t('Version')} {Constants.expoConfig?.version || '1.0.0'}
           </Text>
 
           {/* MARK: Danger */}

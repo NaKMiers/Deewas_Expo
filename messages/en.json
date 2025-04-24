@@ -82,6 +82,7 @@
     "Deleting all data": "Deleting all data",
     "Free Account": "Free Account",
     "Flash Sale": "Flash Sale",
+    "Wallets": "Wallets",
     "Categories": "Categories",
     "Theme": "Theme",
     "light": "light",
@@ -97,16 +98,23 @@
     "Delete": "Delete",
     "Cancel": "Cancel",
     "Log Out": "Log Out",
-    "Are you sure you want to log out?": "Are you sure you want to log out?"
+    "Are you sure you want to log out?": "Are you sure you want to log out?",
+    "Version": "Version"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "You don't have any budgets yet, create one now!",
     "Create Budget": "Create Budget"
   },
   "categoriesPage": {
+    "Categories": "Categories",
     "Failed to get wallet": "Failed to get wallet",
     "You don't have any categories yet, create one now!": "You don't have any categories yet, create one now!",
     "Create Category": "Create Category"
+  },
+  "walletsPage": {
+    "Wallets": "Wallets",
+    "You don't have any wallets yet, create one now!": "You don't have any wallets yet, create one now!",
+    "Create Wallet": "Create Wallet"
   },
   "transactionPage": {
     "Failed to fetch transactions": "Failed to fetch transactions",
@@ -925,6 +933,11 @@
     "Next month": "Next month",
     "Next year": "Next year"
   },
+  "authProvider": {
+    "Unlock Deewas": "Unlock Deewas",
+    "Enter PIN": "Enter PIN",
+    "Cancel": "Cancel"
+  },
   "success": {
     "Sign In Success": "Sign In Success",
     "You have successfully signed in": "You have successfully signed in",
@@ -947,7 +960,8 @@
     "Budget updated": "Budget updated",
     "Personalities changed": "Personalities changed",
     "Update currency successfully": "Update currency successfully",
-    "Erase all data successfully": "Erase all data successfully"
+    "Erase all data successfully": "Erase all data successfully",
+    "Authentication successful": "Authentication successful"
   },
   "error": {
     "Error": "Error",
@@ -985,6 +999,10 @@
     "Failed to sign up with Google": "Failed to sign up with Google",
     "Failed to update your currency": "Failed to update your currency",
     "Speech recognition failed": "Speech recognition failed",
-    "Failed to start recording": "Failed to start recording"
+    "Failed to start recording": "Failed to start recording",
+    "Authentication error": "Authentication error",
+    "Authentication failed": "Authentication failed",
+    "Biometric authentication is not supported on this device": "Biometric authentication is not supported on this device",
+    "Biometric authentication failed": "Biometric authentication failed"
   }
 }

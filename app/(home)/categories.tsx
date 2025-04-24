@@ -12,10 +12,11 @@ import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { capitalize } from '@/lib/string'
 import { getMyCategoriesApi } from '@/requests/categoryRequests'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
-import { LucidePlus } from 'lucide-react-native'
+import { router } from 'expo-router'
+import { LucideChevronLeft, LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
 
@@ -97,8 +98,18 @@ function CategoriesPage() {
       >
         <View className="p-21/2 md:p-21">
           {/* Top */}
-          <View className="flex-row flex-wrap items-center justify-between gap-2">
-            <Text className="pl-1 text-xl font-bold">Categories</Text>
+          <View className="flex-row flex-wrap items-center gap-21/2">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="rounded-full bg-secondary p-1.5"
+              onPress={() => router.push('/account')}
+            >
+              <Icon
+                render={LucideChevronLeft}
+                size={22}
+              />
+            </TouchableOpacity>
+            <Text className="pl-1 text-xl font-bold">{t('Categories')}</Text>
           </View>
 
           {/* Categories Groups */}

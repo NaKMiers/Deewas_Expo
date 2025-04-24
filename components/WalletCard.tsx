@@ -1,3 +1,4 @@
+import { images } from '@/assets/images/images'
 import TransferFundDrawer from '@/components/dialogs/TransferFundDrawer'
 import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
@@ -17,7 +18,7 @@ import {
 } from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Pressable, View } from 'react-native'
+import { ActivityIndicator, ImageBackground, Pressable, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
@@ -47,7 +48,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
   const [collapsed, setCollapsed] = useState<boolean>(false)
   const [updating, setUpdating] = useState<boolean>(false)
   const [deleting, setDeleting] = useState<boolean>(false)
-  const [hide, setHide] = useState<boolean>(false)
+  const [hide, setHide] = useState<boolean>(wallet.hide)
 
   // value
   const spentRate = wallet.income
@@ -104,7 +105,10 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
   )
 
   return (
-    <View className={cn('rounded-lg bg-secondary shadow-md', className)}>
+    <ImageBackground
+      source={images.preBg}
+      className={cn('overflow-hidden rounded-lg bg-secondary shadow-md', className)}
+    >
       <Pressable
         onPress={() => {
           dispatch(setCurWallet(wallet))
@@ -117,7 +121,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
           <View className="flex flex-row flex-nowrap items-center justify-between gap-2">
             <View className="flex flex-row items-center gap-2 text-lg">
               <Text className="flex-shrink-0 text-xl">{wallet.icon}</Text>
-              <Text className="text-xl font-semibold">{wallet.name}</Text>
+              <Text className="text-xl font-semibold text-neutral-800">{wallet.name}</Text>
             </View>
 
             {!hideMenu &&
@@ -128,7 +132,10 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                       variant="ghost"
                       size="icon"
                     >
-                      <Icon render={LucideEllipsis} />
+                      <Icon
+                        render={LucideEllipsis}
+                        color="#262626"
+                      />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent onPress={e => e.stopPropagation()}>
@@ -139,7 +146,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                       <Switch
                         checked={hide}
                         onCheckedChange={handleChangeHide}
-                        className="scale-90 bg-indigo-500"
+                        className={cn(hide ? 'bg-primary' : 'bg-muted-foreground')}
                         style={{ transform: [{ scale: 0.9 }] }}
                       />
                       <Text className="font-semibold">{t('Hide')}</Text>
@@ -289,7 +296,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
           />
         </Button>
       </Pressable>
-    </View>
+    </ImageBackground>
   )
 }
 
