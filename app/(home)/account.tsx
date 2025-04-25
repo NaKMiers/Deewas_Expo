@@ -32,7 +32,14 @@ import {
 import moment from 'moment'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
@@ -132,29 +139,33 @@ function AccountPage() {
           </View>
 
           {/* MARK: Ads */}
-          <View className="flex-col gap-2 rounded-md border border-border bg-secondary px-21 py-21/2">
+          <ImageBackground
+            source={images.preBg}
+            className="flex-col gap-2 overflow-hidden rounded-md border border-border bg-secondary px-21 py-21/2"
+          >
             <View className="flex-row justify-between gap-2">
-              <Text className="text-lg font-semibold">{t('Flash Sale')}</Text>
+              <Text className="text-lg font-semibold text-neutral-800">{t('Flash Sale')}</Text>
               <Countdown
                 timeType="once"
                 start={moment().startOf('day').toISOString()}
                 expire={moment().endOf('day').toISOString()}
+                textClassName="text-neutral-800"
               />
             </View>
 
             <View
-              className="w-full overflow-hidden rounded-lg shadow-lg"
+              className="w-full shadow-lg"
               style={{ height: 165 }}
             >
               <View>
                 <Image
                   source={images.flashSale}
                   resizeMode="contain"
-                  className="h-full w-full"
+                  className="h-full w-full rounded-3xl shadow-lg"
                 />
               </View>
             </View>
-          </View>
+          </ImageBackground>
 
           {/* MARK: Categories & Wallets */}
           <View className="flex-col rounded-md border border-border bg-secondary px-21 py-2">

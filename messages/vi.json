@@ -119,7 +119,7 @@
     "Create Wallet": "Create Wallet"
   },
   "transactionPage": {
-    "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịchdịch",
+    "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịch",
     "Transactions": "Các giao dịch",
     "of": "của",
     "The selected date range is too large": "Khoảng thời gian đã chọn quá lớn",

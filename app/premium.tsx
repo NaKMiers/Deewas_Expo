@@ -88,7 +88,7 @@ function PremiumPage() {
     if (countdown > 0) {
       const timer = setInterval(() => {
         setCountdown(prev => prev - 1)
-      }, 1200)
+      }, 1100)
 
       return () => clearInterval(timer)
     }
@@ -328,10 +328,10 @@ function PremiumPage() {
                   <Text className="text-center font-medium text-white">Lifetime</Text>
                 </View>
                 <View className="py-21">
-                  <Text className="text-center text-muted-foreground line-through">1299.000đ</Text>
+                  <Text className="text-center text-muted-foreground line-through">1499.000đ</Text>
                   <Text className="text-center text-xl font-bold text-black">599.000đ</Text>
                   <Text className="text text-center text-sm font-medium text-neutral-600">
-                    Save <Text className="font-bold text-neutral-600">50%</Text>
+                    Save <Text className="font-bold text-neutral-600">60%</Text>
                   </Text>
                 </View>
               </View>

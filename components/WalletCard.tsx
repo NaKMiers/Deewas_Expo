@@ -106,7 +106,8 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
 
   return (
     <ImageBackground
-      source={images.preBg}
+      source={images.preBgVFlip}
+      resizeMode="cover"
       className={cn('overflow-hidden rounded-lg bg-secondary shadow-md', className)}
     >
       <Pressable

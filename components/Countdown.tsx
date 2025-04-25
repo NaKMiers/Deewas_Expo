@@ -8,10 +8,11 @@ interface PriceProps {
   start?: string
   duration?: number
   expire?: string
+  textClassName?: string
   className?: string
 }
 
-function CountDown({ timeType, start, duration, expire, className }: PriceProps) {
+function CountDown({ timeType, start, duration, expire, textClassName, className }: PriceProps) {
   // states
   const [timeLeft, setTimeLeft] = useState<number[]>([0, 0, 0])
 
@@ -77,38 +78,44 @@ function CountDown({ timeType, start, duration, expire, className }: PriceProps)
         <CounterItem
           value={Math.floor(timeLeft[0] / 10)}
           max={9}
+          textClassName={textClassName}
         />
         <CounterItem
           value={timeLeft[0] % 10}
           max={9}
+          textClassName={textClassName}
         />
       </View>
 
-      <Text>:</Text>
+      <Text className={cn('font-semibold', textClassName)}>:</Text>
 
       {/* Minutes */}
       <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[1] / 10)}
           max={5}
+          textClassName={textClassName}
         />
         <CounterItem
           value={timeLeft[1] % 10}
           max={9}
+          textClassName={textClassName}
         />
       </View>
 
-      <Text>:</Text>
+      <Text className={cn('font-semibold', textClassName)}>:</Text>
 
       {/* Seconds */}
       <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[2] / 10)}
           max={5}
+          textClassName={textClassName}
         />
         <CounterItem
           value={timeLeft[2] % 10}
           max={9}
+          textClassName={textClassName}
         />
       </View>
     </View>
@@ -121,10 +128,11 @@ interface CounterItem {
   max: number
   value: number
   size?: number
+  textClassName?: string
   className?: string
 }
 
-function CounterItem({ max, value, size = 25, className }: CounterItem) {
+function CounterItem({ max, value, size = 25, textClassName, className }: CounterItem) {
   const translateY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -173,7 +181,7 @@ function CounterItem({ max, value, size = 25, className }: CounterItem) {
           <Text
             key={i}
             style={{ height: 25 }}
-            className="ml-0.5 rounded-sm px-1 text-lg font-bold"
+            className={cn('ml-0.5 rounded-sm px-1 text-lg font-bold', textClassName)}
           >
             {n}
           </Text>
