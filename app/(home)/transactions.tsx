@@ -31,7 +31,7 @@ function TransactionsPage() {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('transactionPage.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // store
   const { curWallet } = useAppSelector(state => state.wallet)
@@ -80,7 +80,7 @@ function TransactionsPage() {
       dispatch(setRefreshing(false))
       setIsFirstRender(false)
     }
-  }, [dispatch, dateRange, wallet])
+  }, [dispatch, tError, dateRange, wallet])
 
   // initial fetch
   useEffect(() => {
@@ -319,6 +319,7 @@ function TransactionsPage() {
 
       {/* MARK: Create Transaction */}
       <CreateTransactionDrawer
+        disabled={loading}
         initWallet={wallet || curWallet}
         refresh={() => dispatch(refresh())}
         trigger={

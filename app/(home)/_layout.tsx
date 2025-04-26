@@ -1,6 +1,4 @@
-import { images } from '@/assets/images/images'
 import Header from '@/components/Header'
-import Image from '@/components/Image'
 import Navbar from '@/components/Navbar'
 import { useAuth } from '@/components/providers/AuthProvider'
 import useLanguage from '@/hooks/useLanguage'
@@ -9,7 +7,7 @@ import useWallets from '@/hooks/useWallets'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
 import { Redirect, router, Tabs } from 'expo-router'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 function HomeTabLayout() {
@@ -32,7 +30,6 @@ function HomeTabLayout() {
         if (!isSupported) return
 
         const biometricRaw = await AsyncStorage.getItem('biometric')
-        console.log(biometricRaw)
         const dfBio = biometricRaw ? JSON.parse(biometricRaw) : { open: false, isSupported }
         if (!biometricRaw) await AsyncStorage.setItem('biometric', JSON.stringify(dfBio))
 
@@ -50,6 +47,7 @@ function HomeTabLayout() {
           router.replace('/biometric-auth-failed')
         }
       } catch (err: any) {
+        console.error(err)
         router.replace('/biometric-auth-failed')
       } finally {
         // stop loading

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import NoItemsFound from './NoItemsFound'
 import { useAuth } from './providers/AuthProvider'
@@ -21,11 +21,9 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { user } = useAuth()
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = (key: string) => translate('latestTransactions.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
-
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   // store
   const { refreshPoint } = useAppSelector(state => state.load)
 
@@ -56,7 +54,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       setLoading(false)
       dispatch(setRefreshing(false))
     }
-  }, [user, limit])
+  }, [dispatch, tError, user, limit])
 
   // get latest transactions
   useEffect(() => {
@@ -96,15 +94,6 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
             </SelectContent>
           </Select>
         </View>
-
-        <TouchableOpacity
-          activeOpacity={0.7}
-          className="flex h-8 flex-row items-center justify-center rounded-md border border-border bg-secondary px-4 font-semibold shadow-md"
-          // onPress={() => router.push('/transactions')}
-          style={{ height: 36 }}
-        >
-          <Text className="font-semibold">{t('All')}</Text>
-        </TouchableOpacity>
       </View>
 
       {/* MARK: Transaction List */}
@@ -112,7 +101,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       {!loading ? (
         <View className="mt-21/2 flex flex-col gap-2 rounded-lg bg-secondary p-21/2 shadow-md">
           {transactions.slice(0, +limit).length > 0 ? (
-            transactions.slice(0, +limit).map((tx, index) => (
+            transactions.slice(0, +limit).map(tx => (
               <View key={tx._id}>
                 <Transaction
                   transaction={tx}

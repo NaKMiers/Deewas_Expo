@@ -124,7 +124,7 @@ function CountDown({ timeType, start, duration, expire, textClassName, className
 
 export default memo(CountDown)
 
-interface CounterItem {
+interface CounterItemProps {
   max: number
   value: number
   size?: number
@@ -132,7 +132,7 @@ interface CounterItem {
   className?: string
 }
 
-function CounterItem({ max, value, size = 25, textClassName, className }: CounterItem) {
+function CounterItem({ max, value, size = 25, textClassName, className }: CounterItemProps) {
   const translateY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -155,7 +155,7 @@ function CounterItem({ max, value, size = 25, textClassName, className }: Counte
         useNativeDriver: true,
       }).start()
     }
-  }, [max, value, size])
+  }, [max, value, size, translateY])
 
   const numbers = [...Array.from({ length: max + 1 }, (_, i) => max - i), max]
 

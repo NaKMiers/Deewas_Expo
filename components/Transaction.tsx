@@ -37,8 +37,8 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
   // hooks
   const { t: translate } = useTranslation()
   const t = (value: string) => translate('transaction.' + value)
-  const tSuccess = (value: string) => translate('success.' + value)
-  const tError = (value: string) => translate('error.' + value)
+  const tSuccess = useCallback((value: string) => translate('success.' + value), [translate])
+  const tError = useCallback((value: string) => translate('error.' + value), [translate])
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -74,7 +74,7 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
       // stop loading
       setDuplicating(false)
     }
-  }, [remove, refresh, transaction._id, t])
+  }, [remove, refresh, tError, tSuccess, transaction._id])
 
   // duplicate transaction
   const handleDuplicateTransaction = useCallback(async () => {
@@ -82,7 +82,7 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
     setDeleting(true)
 
     try {
-      const { transaction: tx, message } = await createTransactionApi({
+      await createTransactionApi({
         ...transaction,
         walletId: transaction.wallet._id,
         categoryId: transaction.category._id,
@@ -104,7 +104,7 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
       // stop loading
       setDeleting(false)
     }
-  }, [refresh, transaction, t])
+  }, [refresh, transaction, tError, tSuccess])
 
   return (
     <View className={cn('flex w-full flex-row items-start justify-between gap-2', className)}>

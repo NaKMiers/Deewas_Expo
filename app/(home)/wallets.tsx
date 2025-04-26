@@ -22,11 +22,10 @@ function WalletsPage() {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletsPage.' + key)
-  const tError = (key: string) => translate('error.' + key)
 
   // store
-  const { wallets, curWallet, loading } = useAppSelector(state => state.wallet)
-  const { refreshing, refreshPoint } = useAppSelector(state => state.load)
+  const { wallets, loading } = useAppSelector(state => state.wallet)
+  const { refreshing } = useAppSelector(state => state.load)
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
 
   useEffect(() => {
@@ -95,6 +94,7 @@ function WalletsPage() {
 
       {/* MARK: Create Wallet */}
       <CreateWalletDrawer
+        disabled={loading}
         update={(wallet: IWallet) => dispatch(addWallet(wallet))}
         refresh={() => dispatch(refresh())}
         trigger={

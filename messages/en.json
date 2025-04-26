@@ -1003,6 +1003,7 @@
     "Authentication error": "Authentication error",
     "Authentication failed": "Authentication failed",
     "Biometric authentication is not supported on this device": "Biometric authentication is not supported on this device",
-    "Biometric authentication failed": "Biometric authentication failed"
+    "Biometric authentication failed": "Biometric authentication failed",
+    "Please select a personality": "Please select a personality"
   }
 }

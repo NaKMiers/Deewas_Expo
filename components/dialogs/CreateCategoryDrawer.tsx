@@ -27,9 +27,9 @@ interface CreateCategoryDrawerProps {
 function CreateCategoryDrawer({ type, update, refresh, load, className }: CreateCategoryDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('createCategoryDrawer.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const t = useCallback((key: string) => translate('createCategoryDrawer.' + key), [translate])
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { closeDrawer3: closeDrawer } = useDrawer()
 
   // form
@@ -52,7 +52,6 @@ function CreateCategoryDrawer({ type, update, refresh, load, className }: Create
 
   // states
   const form = watch()
-  const [openEmojiPicker, setOpenEmojiPicker] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
   const [openType, setOpenType] = useState<boolean>(false)
 
@@ -88,7 +87,7 @@ function CreateCategoryDrawer({ type, update, refresh, load, className }: Create
       }
 
       try {
-        const { category, message } = await createCategoryApi({ ...data })
+        const { category } = await createCategoryApi({ ...data })
 
         if (update) update(category)
         if (refresh) refresh()
@@ -114,7 +113,7 @@ function CreateCategoryDrawer({ type, update, refresh, load, className }: Create
         }
       }
     },
-    [handleValidate, load, reset, update, refresh, t]
+    [handleValidate, load, reset, update, refresh, closeDrawer, tError, tSuccess]
   )
 
   return (
@@ -273,7 +272,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<CreateCategoryDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

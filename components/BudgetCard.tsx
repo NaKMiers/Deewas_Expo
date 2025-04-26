@@ -32,8 +32,8 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('budgetCard.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -52,7 +52,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
     setDeleting(true)
 
     try {
-      const { budget: b, message } = await deleteBudgetApi(budget._id)
+      const { budget: b } = await deleteBudgetApi(budget._id)
       Toast.show({
         type: 'success',
         text1: tSuccess('Budget deleted'),
@@ -69,7 +69,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
       // stop deleting
       setDeleting(false)
     }
-  }, [dispatch, budget._id, t])
+  }, [dispatch, tSuccess, tError, setDeleting, budget._id])
 
   return (
     <View className={cn('rounded-lg bg-secondary px-3 pb-10 pt-21/2 shadow-md', className)}>
@@ -134,7 +134,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                       <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
                     </View>
                   }
-                  reach={1}
+                  reach={2}
                 />
 
                 {/* MARK: Delete */}

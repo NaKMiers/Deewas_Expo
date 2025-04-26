@@ -11,6 +11,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
+  Platform,
   Pressable,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -55,8 +56,8 @@ function TransferFundDrawer({
   const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
   // states
-  const [open, setOpen] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
+  const [openDate, setOpenDate] = useState<boolean>(false)
 
   // form
   const {
@@ -80,7 +81,7 @@ function TransferFundDrawer({
   const form = watch()
 
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -138,7 +139,7 @@ function TransferFundDrawer({
   const handleTransferFund: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
 
       // start loading
       setSaving(true)
@@ -157,7 +158,6 @@ function TransferFundDrawer({
           text1: tSuccess('Transferred fund'),
         })
 
-        setOpen(false)
         reset()
         closeDrawer()
       } catch (err: any) {
@@ -173,7 +173,7 @@ function TransferFundDrawer({
         dispatch(setRefreshing(false))
       }
     },
-    [handleValidate, reset, refresh, dispatch, locale, t]
+    [validate, reset, refresh, dispatch, locale, t]
   )
 
   return (
@@ -248,25 +248,78 @@ function TransferFundDrawer({
           )}
 
           {/* MARK: Date */}
-          <View className="flex flex-1 flex-col">
-            <Pressable
-              onFocus={() => clearErrors('date')}
-              style={{ marginTop: -30 }}
-            >
-              <View className="mx-auto flex w-full max-w-sm scale-90 flex-col items-center px-21/2">
-                <DateTimePicker
-                  display="inline"
-                  currentDate={moment(form.date).toDate()}
-                  onChange={date => setValue('date', date)}
-                />
-              </View>
-            </Pressable>
-            {errors.date?.message && (
-              <Text className="ml-1 mt-0.5 italic text-rose-400">
-                {errors.date?.message?.toString()}
+          {Platform.OS === 'ios' ? (
+            <View className={cn('flex flex-1 flex-col', openDate ? '-mt-6' : 'mb-6')}>
+              {!openDate && (
+                <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+                  {t('Date')}
+                </Text>
+              )}
+              <TouchableWithoutFeedback
+                onPress={() => setOpenDate(!openDate)}
+                onFocus={() => clearErrors('date')}
+              >
+                {openDate ? (
+                  <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+                    <DateTimePicker
+                      display="inline"
+                      currentDate={moment(form.date).toDate()}
+                      onChange={date => {
+                        setValue('date', date)
+                        setOpenDate(false)
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
+                    <Text className="text-center font-semibold text-black">
+                      {moment(form.date).format('MMM DD, YYYY')}
+                    </Text>
+                  </View>
+                )}
+              </TouchableWithoutFeedback>
+              {errors.date?.message && (
+                <Text className="ml-1 mt-0.5 italic text-rose-400">
+                  {errors.date?.message?.toString()}
+                </Text>
+              )}
+            </View>
+          ) : (
+            <View className="mb-6 flex flex-1 flex-col">
+              <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+                {t('Date')}
               </Text>
-            )}
-          </View>
+              <TouchableWithoutFeedback
+                onPress={() => setOpenDate(!openDate)}
+                onFocus={() => clearErrors('date')}
+              >
+                <View>
+                  <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+                    <DateTimePicker
+                      display="inline"
+                      open={openDate}
+                      close={() => setOpenDate(false)}
+                      currentDate={moment(form.date).toDate()}
+                      onChange={date => {
+                        setValue('date', date)
+                        setOpenDate(false)
+                      }}
+                    />
+                  </View>
+                  <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
+                    <Text className="text-center font-semibold text-black">
+                      {moment(form.date).format('MMM DD, YYYY')}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+              {errors.date?.message && (
+                <Text className="ml-1 mt-0.5 italic text-rose-400">
+                  {errors.date?.message?.toString()}
+                </Text>
+              )}
+            </View>
+          )}
         </View>
 
         {/* MARK: Footer */}
@@ -315,7 +368,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<TransferFundDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

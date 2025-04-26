@@ -14,7 +14,7 @@ import { getMyCategoriesApi } from '@/requests/categoryRequests'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
 import { LucideChevronLeft, LucidePlus } from 'lucide-react-native'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
@@ -27,7 +27,7 @@ function CategoriesPage() {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoriesPage.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // store
   const { categories } = useAppSelector(state => state.category)
@@ -66,7 +66,7 @@ function CategoriesPage() {
     }
 
     getCategories()
-  }, [dispatch, refreshPoint])
+  }, [dispatch, tError, refreshPoint])
 
   // auto group categories by type
   useEffect(() => {

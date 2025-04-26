@@ -79,8 +79,24 @@ function UpdateTransactionDrawer({
   })
 
   const form = watch()
+
+  // check change
+  const checkChanged = useCallback(
+    (newValues: any) => {
+      if (transaction.wallet._id !== newValues.walletId) return true
+      if (transaction.name !== newValues.name) return true
+      if (transaction.category._id !== newValues.categoryId) return true
+      if (transaction.amount.toString() !== newValues.amount) return true
+      if (moment(transaction.date).format('YYYY-MM-DD').valueOf() !== newValues.date.valueOf())
+        return true
+
+      return false
+    },
+    [transaction]
+  )
+
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -129,16 +145,21 @@ function UpdateTransactionDrawer({
         isValid = false
       }
 
+      if (!checkChanged(data)) {
+        closeDrawer()
+        return false
+      }
+
       return isValid
     },
-    [setError, t]
+    [setError, t, checkChanged]
   )
 
   // update transaction
   const handleUpdateTransaction: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
 
       // start loading
       setSaving(true)
@@ -173,7 +194,7 @@ function UpdateTransactionDrawer({
         dispatch(setRefreshing(false))
       }
     },
-    [handleValidate, reset, update, refresh, dispatch, , transaction._id, locale, t]
+    [validate, reset, update, refresh, dispatch, transaction._id, locale, t]
   )
 
   return (
@@ -210,7 +231,7 @@ function UpdateTransactionDrawer({
               id="amount"
               label={t('Amount')}
               errors={errors}
-              type="currency"
+              type="number"
               control={control}
               className="bg-white text-black"
               onFocus={() => clearErrors('amount')}
@@ -376,7 +397,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<UpdateTransactionDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

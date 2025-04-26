@@ -8,9 +8,9 @@ import Wallets from '@/components/Wallets'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { LucidePlus } from 'lucide-react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
-import { AppOpenAd, BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { AdEventType, AppOpenAd, BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 const adBannerId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
 const adAppOpenId = __DEV__ ? TestIds.APP_OPEN : process.env.EXPO_PUBLIC_ADMOD_APPOPEN_ID!
@@ -20,29 +20,30 @@ const appOpenAd = AppOpenAd.createForAdRequest(adAppOpenId, {
 })
 
 function HomePage() {
+  // hooks
   const dispatch = useAppDispatch()
   const { refreshing } = useAppSelector(state => state.load)
 
-  // useEffect(() => {
-  //   // Load and show AppOpen Ad when page mounts
-  //   const unsubscribeLoaded = appOpenAd.addAdEventListener(AdEventType.LOADED, () => {
-  //     appOpenAd.show()
-  //   })
+  useEffect(() => {
+    // Load and show AppOpen Ad when page mounts
+    const unsubscribeLoaded = appOpenAd.addAdEventListener(AdEventType.LOADED, () => {
+      // appOpenAd.show()
+    })
 
-  //   // Handle errors
-  //   const unsubscribeError = appOpenAd.addAdEventListener(AdEventType.ERROR, error => {
-  //     console.error('AppOpen Ad failed:', error)
-  //   })
+    // Handle errors
+    const unsubscribeError = appOpenAd.addAdEventListener(AdEventType.ERROR, error => {
+      console.error('AppOpen Ad failed:', error)
+    })
 
-  //   // Load the ad
-  //   appOpenAd.load()
+    // Load the ad
+    appOpenAd.load()
 
-  //   // Clean up listeners on unmount
-  //   return () => {
-  //     unsubscribeLoaded()
-  //     unsubscribeError()
-  //   }
-  // }, [])
+    // Clean up listeners on unmount
+    return () => {
+      unsubscribeLoaded()
+      unsubscribeError()
+    }
+  }, [])
 
   return (
     <SafeAreaView className="flex-1">

@@ -31,7 +31,7 @@ function History({ className }: HistoryProps) {
   // hooks
   const { user } = useAuth()
   const { t: translate, i18n } = useTranslation()
-  const t = (key: string) => translate('history.' + key)
+  const t = useCallback((key: string) => translate('history.' + key), [translate])
   const dispatch = useAppDispatch()
   const locale = i18n.language
 
@@ -180,7 +180,7 @@ function History({ className }: HistoryProps) {
 
       setData(groupedData)
     }
-  }, [transactions, currency, selectedTransactionType, selectedChartType])
+  }, [chartPeriod, currency, dateRange, selectedChartType, selectedTransactionType, t, transactions])
 
   // previous time unit
   const handlePrevTimeUnit = useCallback(() => {

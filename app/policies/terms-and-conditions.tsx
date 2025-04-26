@@ -6,8 +6,6 @@ import { Link, router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
 import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useRef } from 'react'
-import { Stack } from 'expo-router'
 
 function TermsAndConditionsPage() {
   // Hooks

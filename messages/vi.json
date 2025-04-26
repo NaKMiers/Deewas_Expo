@@ -984,6 +984,7 @@
     "Authentication error": "Lỗi xác thực",
     "Authentication failed": "Xác thực thất bại",
     "Biometric authentication is not supported on this device": "Xác thực sinh trắc học không được hỗ trợ trên thiết bị này",
-    "Biometric authentication failed": "Xác thực sinh trắc học thất bại"
+    "Biometric authentication failed": "Xác thực sinh trắc học thất bại",
+    "Please select a personality": "Vui lòng chọn một tính cách"
   }
 }

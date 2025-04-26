@@ -20,7 +20,7 @@ function BiometricAuthFailedPage() {
       return true
     })
     return () => backHandler.remove()
-  }, [])
+  }, [navigation])
 
   if (!user) {
     return onboarding ? <Redirect href="/auth/sign-in" /> : <Redirect href="/welcome" />

@@ -26,7 +26,7 @@ interface EmojiPickerProps {
 function EmojiPicker({ update, className }: EmojiPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('emojiPicker.' + key)
+  const t = useCallback((key: string) => translate('emojiPicker.' + key), [translate])
   const { closeDrawer4: closeDrawer } = useDrawer()
 
   // values
@@ -77,7 +77,7 @@ function EmojiPicker({ update, className }: EmojiPickerProps) {
         icon: '#️⃣',
       },
     ],
-    []
+    [t]
   )
 
   // states
@@ -144,7 +144,7 @@ function EmojiPicker({ update, className }: EmojiPickerProps) {
       ) : (
         <NoItemsFound text={t('No emoji found')} />
       ),
-    []
+    [closeDrawer, t, update, updateFrequentlyUsed]
   )
 
   return (
@@ -245,7 +245,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<EmojiPicker {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

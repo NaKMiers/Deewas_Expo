@@ -18,7 +18,7 @@ import {
 } from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ImageBackground, Pressable, View } from 'react-native'
+import { ActivityIndicator, ImageBackground, Pressable, TouchableOpacity, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
@@ -52,7 +52,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
 
   // value
   const spentRate = wallet.income
-    ? Math.max(Math.round((wallet.expense / wallet.income) * 100 * 100) / 100, 100)
+    ? Math.round(Math.min((wallet.expense / wallet.income) * 100, 100) * 100) / 100
     : 0
 
   // delete wallet
@@ -82,7 +82,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
       // stop deleting
       setDeleting(false)
     }
-  }, [dispatch, wallet._id, wallets, , t])
+  }, [dispatch, wallet._id, wallets])
 
   // toggle hide
   const handleChangeHide = useCallback(
@@ -129,15 +129,12 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
               (!deleting && !updating ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                    >
+                    <TouchableOpacity className="rounded-md p-1">
                       <Icon
                         render={LucideEllipsis}
                         color="#262626"
                       />
-                    </Button>
+                    </TouchableOpacity>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent onPress={e => e.stopPropagation()}>
                     <Button

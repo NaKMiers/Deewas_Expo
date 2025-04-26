@@ -50,7 +50,6 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
 
   // states
   const form = watch()
-  const [openEmojiPicker, setOpenEmojiPicker] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
 
   // auto set wallet after wallet is updated
@@ -59,8 +58,19 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
     setValue('name', wallet.name)
   }, [setValue, wallet])
 
+  // check change
+  const checkChanged = useCallback(
+    (newValues: any) => {
+      if (wallet.name !== newValues.name) return true
+      if (wallet.icon !== newValues.icon) return true
+
+      return false
+    },
+    [wallet]
+  )
+
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -73,16 +83,21 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
         isValid = false
       }
 
+      if (!checkChanged(data)) {
+        closeDrawer()
+        return false
+      }
+
       return isValid
     },
-    [setError, t]
+    [setError, t, checkChanged]
   )
 
   // update wallet
   const handleUpdateWallet: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
 
       // start loading
       setSaving(true)
@@ -115,7 +130,7 @@ function UpdateWalletDrawer({ wallet, update, refresh, load, className }: Update
         }
       }
     },
-    [handleValidate, reset, update, refresh, load, wallet._id, t]
+    [validate, reset, update, refresh, load, wallet._id, t]
   )
 
   return (
@@ -213,7 +228,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<UpdateWalletDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

@@ -1,5 +1,7 @@
 import CreateCategoryDrawer from '@/components/dialogs/CreateCategoryDrawer'
 import UpdateCategoryDrawer from '@/components/dialogs/UpdateCategoryDrawer'
+import { useAppDispatch } from '@/hooks/reduxHook'
+import { refresh } from '@/lib/reducers/loadReducer'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi, getMyCategoriesApi } from '@/requests/categoryRequests'
 import { LucideChevronsUpDown, LucidePencil, LucidePlusSquare, LucideTrash } from 'lucide-react-native'
@@ -15,8 +17,6 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Skeleton } from './ui/skeleton'
-import { refresh } from '@/lib/reducers/loadReducer'
-import { useAppDispatch } from '@/hooks/reduxHook'
 
 interface CategoryPickerProps {
   categories: ICategory[]
@@ -41,8 +41,8 @@ function CategoryPicker({
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryPicker.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { closeDrawer2: closeDrawer } = useDrawer()
   const dispatch = useAppDispatch()
 
@@ -53,7 +53,7 @@ function CategoryPicker({
   // reset selected category when type changes
   useEffect(() => {
     setSelectedCategory(null)
-  }, [type])
+  }, [setSelectedCategory, type])
 
   // delete category
   const handleDeleteCategory = useCallback(
@@ -82,7 +82,7 @@ function CategoryPicker({
         setDeleting('')
       }
     },
-    [categories, setCategories, selectedCategory?._id]
+    [setCategories, setSelectedCategory, tSuccess, tError, categories, selectedCategory?._id]
   )
 
   return (
@@ -228,7 +228,7 @@ function Node({ category, type, onChange, className }: NodeProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryPicker.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { openDrawer2 } = useDrawer()
 
   // states
@@ -256,7 +256,7 @@ function Node({ category, type, onChange, className }: NodeProps) {
       // stop loading
       setGetting(false)
     }
-  }, [])
+  }, [tError])
 
   // initially get user categories
   useEffect(() => {

@@ -81,7 +81,7 @@ function PremiumPage() {
       return true
     })
     return () => backHandler.remove()
-  }, [])
+  }, [navigation])
 
   // countdown timer
   useEffect(() => {
@@ -296,7 +296,7 @@ function PremiumPage() {
                   <Text className="text-center font-medium text-white">Monthly</Text>
                 </View>
                 <View className="py-21">
-                  <Text className="text-center text-xl font-bold text-black">49.000đ</Text>
+                  <Text className="text-center text-xl font-bold text-black">$1.99</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -310,8 +310,8 @@ function PremiumPage() {
                   <Text className="text-center font-semibold text-white">Yearly</Text>
                 </View>
                 <View className="py-8">
-                  <Text className="text-center text-muted-foreground line-through">499.000đ</Text>
-                  <Text className="text-center text-xl font-bold text-black">249.000đ</Text>
+                  <Text className="text-center text-muted-foreground line-through">$20.00</Text>
+                  <Text className="text-center text-xl font-bold text-black">$9.99</Text>
                   <Text className="text text-center text-sm font-medium text-neutral-600">
                     Save <Text className="font-bold text-neutral-600">50%</Text>
                   </Text>
@@ -328,8 +328,8 @@ function PremiumPage() {
                   <Text className="text-center font-medium text-white">Lifetime</Text>
                 </View>
                 <View className="py-21">
-                  <Text className="text-center text-muted-foreground line-through">1499.000đ</Text>
-                  <Text className="text-center text-xl font-bold text-black">599.000đ</Text>
+                  <Text className="text-center text-muted-foreground line-through">$62.50</Text>
+                  <Text className="text-center text-xl font-bold text-black">$24.99</Text>
                   <Text className="text text-center text-sm font-medium text-neutral-600">
                     Save <Text className="font-bold text-neutral-600">60%</Text>
                   </Text>

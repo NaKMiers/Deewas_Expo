@@ -6,7 +6,7 @@ import { updateMySettingsApi } from '@/requests'
 import { LucideCheck } from 'lucide-react-native'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Keyboard, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, Keyboard, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import Icon from '../Icon'
 import Image from '../Image'
@@ -25,8 +25,8 @@ function ChangePersonalitiesDrawer({ update, refresh, className }: ChangePersona
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('changePersonalitiesDrawer.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { closeDrawer } = useDrawer()
   const dispatch = useAppDispatch()
 
@@ -36,15 +36,36 @@ function ChangePersonalitiesDrawer({ update, refresh, className }: ChangePersona
   const [saving, setSaving] = useState<boolean>(false)
   const [selected, setSelected] = useState<any>(null)
 
+  // initially set selected personality
   useEffect(() => {
-    if (settings?.personalities?.[0]) {
+    if ((settings?.personalities?.[0] ?? -1) >= 0) {
       const selected = personalities.find(p => p.id === settings?.personalities[0])
+      console.log('selected', selected)
       setSelected(selected)
     }
   }, [settings])
 
+  const validate = useCallback(() => {
+    let isValid = true
+
+    if (!settings) return false
+    if (!selected) {
+      Alert.alert(tError('Please select a personality'))
+      return false
+    }
+    if (settings?.personalities[0] === selected.id) {
+      closeDrawer()
+      return false
+    }
+
+    return isValid
+  }, [closeDrawer, tError, selected, settings])
+
   // change personalities
   const handleChangePersonalities = useCallback(async () => {
+    // validate
+    if (!validate()) return
+
     // start loading
     setSaving(true)
 
@@ -85,7 +106,7 @@ function ChangePersonalitiesDrawer({ update, refresh, className }: ChangePersona
       // stop loading
       setSaving(false)
     }
-  }, [dispatch, refresh, update, selected, closeDrawer])
+  }, [dispatch, refresh, update, tError, tSuccess, validate, closeDrawer, selected])
 
   return (
     <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>
@@ -183,7 +204,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
       Keyboard.dismiss()
       openDrawer(<ChangePersonalitiesDrawer {...props} />, r)
     }
-  }, [open])
+  }, [open, openDrawer, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

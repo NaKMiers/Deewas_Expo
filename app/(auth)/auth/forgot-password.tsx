@@ -24,9 +24,9 @@ import Toast from 'react-native-toast-message'
 function ForgotPasswordPage() {
   // hooks
   let { t: translate } = useTranslation()
-  const t = (key: string) => translate('forgotPasswordPage.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const t = useCallback((key: string) => translate('forgotPasswordPage.' + key), [translate])
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { isDarkColorScheme } = useColorScheme()
 
   // states
@@ -58,6 +58,7 @@ function ForgotPasswordPage() {
         isValid = false
       }
       // email must be valid
+      // eslint-disable-next-line no-useless-escape
       else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/.test(data.email)) {
         setError('email', {
           type: 'manual',
@@ -73,7 +74,7 @@ function ForgotPasswordPage() {
 
       return isValid
     },
-    [setError, t]
+    [t, setError]
   )
 
   // MARK: Forgot Password Submission
@@ -106,7 +107,7 @@ function ForgotPasswordPage() {
         setLoading(false)
       }
     },
-    [setLoading, t]
+    [handleValidate, tSuccess, tError]
   )
 
   return (

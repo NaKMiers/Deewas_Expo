@@ -48,11 +48,10 @@ function CreateWalletDrawer({ update, refresh, load, className }: CreateWalletDr
 
   // states
   const form = watch()
-  const [openEmojiPicker, setOpenEmojiPicker] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
 
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -74,7 +73,7 @@ function CreateWalletDrawer({ update, refresh, load, className }: CreateWalletDr
   const handleCreateWallet: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
 
       // start loading
       setSaving(true)
@@ -109,7 +108,7 @@ function CreateWalletDrawer({ update, refresh, load, className }: CreateWalletDr
         }
       }
     },
-    [handleValidate, reset, update, refresh, load, t]
+    [validate, reset, update, refresh, load, t]
   )
 
   return (
@@ -206,7 +205,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<CreateWalletDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

@@ -73,8 +73,8 @@ function Box({ type, desc, list, init, className }: BoxProps) {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('settingsBox.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { changeLanguage } = useLanguage()
 
   // states
@@ -127,7 +127,7 @@ function Box({ type, desc, list, init, className }: BoxProps) {
         setLoading(false)
       }
     },
-    [dispatch, type, nextSelected]
+    [dispatch, tError, tSuccess, nextSelected]
   )
 
   // handle change option
@@ -145,7 +145,7 @@ function Box({ type, desc, list, init, className }: BoxProps) {
         setNextSelected(option)
       }
     },
-    [loading, selected, type]
+    [changeLanguage, type, loading, selected]
   )
 
   return (

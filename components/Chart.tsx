@@ -60,7 +60,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
             animationDuration={700}
           />
         )
-      case 'pie':
+      case 'pie': {
         const pieData = data.map(datum => ({
           // label: datum.label,
           value: Math.abs(datum.value),
@@ -98,6 +98,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
             />
           </View>
         )
+      }
 
       default:
         return (
@@ -128,7 +129,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
           />
         )
     }
-  }, [data, chartType, transactionType])
+  }, [data, chartType, transactionType, currency])
 
   return <View className={cn('overflow-hidden', className)}>{renderChart()}</View>
 }

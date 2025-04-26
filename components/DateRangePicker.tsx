@@ -247,7 +247,7 @@ interface NodeProps extends DateRangePickerProps {
   className?: string
 }
 
-function Node({ trigger, disabled, className, ...props }: NodeProps) {
+function Node({ disabled, className, ...props }: NodeProps) {
   const { openDrawer2 } = useDrawer()
   const { from, to } = props.values
 

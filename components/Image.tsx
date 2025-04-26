@@ -12,7 +12,7 @@ function Image({ className, source, fallbackSource, style, ...props }: Props) {
     <RNImage
       source={error ? fallbackSource : source}
       onError={() => setError(true)}
-      // onLoad={() => setError(false)}
+      onLoad={() => setError(false)}
       className={className}
       style={style}
       {...props}

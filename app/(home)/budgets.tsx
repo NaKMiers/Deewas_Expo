@@ -86,7 +86,7 @@ function BudgetsPage() {
     setGroups(results)
     setTab(results?.[0]?.[0])
 
-    const tabLabels = results.map(([key, { begin, end }]) => formatTimeRange(begin, end))
+    const tabLabels = results.map(([_key, { begin, end }]) => formatTimeRange(begin, end))
     setTabLabels(tabLabels)
   }, [budgets])
 

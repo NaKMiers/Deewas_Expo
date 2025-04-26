@@ -88,7 +88,7 @@ function AccountPage() {
       setDeleting(false)
       dispatch(setRefreshing(false))
     }
-  }, [dispatch, t])
+  }, [dispatch])
 
   if (!user) return <Redirect href="/auth/sign-in" />
 

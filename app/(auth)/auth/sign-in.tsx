@@ -37,9 +37,9 @@ function SignInPage() {
   // hooks
   const dispatch = useAppDispatch()
   let { t: translate } = useTranslation()
-  const t = (key: string) => translate('signInPage.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const t = useCallback((key: string) => translate('signInPage.' + key), [translate])
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { isDarkColorScheme } = useColorScheme()
 
   // states
@@ -88,42 +88,45 @@ function SignInPage() {
   )
 
   // MARK: Sign In Submission
-  const handleCredentialSignIn: SubmitHandler<FieldValues> = useCallback(async (data: any) => {
-    if (!handleValidate(data)) return
+  const handleCredentialSignIn: SubmitHandler<FieldValues> = useCallback(
+    async (data: any) => {
+      if (!handleValidate(data)) return
 
-    // start loading
-    setLoading(true)
+      // start loading
+      setLoading(true)
 
-    try {
-      const { token } = await signInCredentialsApi(data)
-      const decodedUser: IFullUser = jwtDecode(token)
+      try {
+        const { token } = await signInCredentialsApi(data)
+        const decodedUser: IFullUser = jwtDecode(token)
 
-      // save token and user
-      await AsyncStorage.setItem('token', token)
-      dispatch(setUser(decodedUser))
-      dispatch(setToken(token))
+        // save token and user
+        await AsyncStorage.setItem('token', token)
+        dispatch(setUser(decodedUser))
+        dispatch(setToken(token))
 
-      // show success message
-      Toast.show({
-        type: 'success',
-        text1: tSuccess('Sign In Success'),
-        text2: tSuccess('You have successfully logged in'),
-      })
+        // show success message
+        Toast.show({
+          type: 'success',
+          text1: tSuccess('Sign In Success'),
+          text2: tSuccess('You have successfully logged in'),
+        })
 
-      // go home
-      router.replace('/home')
-    } catch (err: any) {
-      console.log(err)
-      Toast.show({
-        type: 'error',
-        text1: tError('Sign In Failed'),
-        text2: tError(err.message),
-      })
-    } finally {
-      // stop loading
-      setLoading(false)
-    }
-  }, [])
+        // go home
+        router.replace('/home')
+      } catch (err: any) {
+        console.log(err)
+        Toast.show({
+          type: 'error',
+          text1: tError('Sign In Failed'),
+          text2: tError(err.message),
+        })
+      } finally {
+        // stop loading
+        setLoading(false)
+      }
+    },
+    [dispatch, handleValidate, tError, tSuccess]
+  )
 
   // MARK: Google Sign In
   const handleGoogleSignIn = useCallback(async () => {
@@ -195,7 +198,7 @@ function SignInPage() {
       // stop loading
       setLoading(false)
     }
-  }, [])
+  }, [dispatch, t, tError, tSuccess])
 
   // MARK: Apple Sign In
   const handleAppleSignIn = useCallback(async () => {
@@ -252,7 +255,7 @@ function SignInPage() {
       // stop loading
       setLoading(false)
     }
-  }, [])
+  }, [dispatch, tError, tSuccess])
 
   return (
     <>

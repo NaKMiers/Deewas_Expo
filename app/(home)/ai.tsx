@@ -47,7 +47,7 @@ function AIPage() {
   // hooks
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('aiPage.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const locale = i18n.language
   const language = languages.find(l => l.value === locale)?.alternative || 'English'
 
@@ -106,7 +106,7 @@ function AIPage() {
     }
 
     getMessages()
-  }, [refreshPoint])
+  }, [setMessages, refreshPoint])
 
   // sync messages to async storage
   useEffect(() => {
@@ -123,9 +123,10 @@ function AIPage() {
       if (input.trim() === '') return
       Keyboard.dismiss()
       handleSubmit(e)
+      handleInputChange({ target: { value: '' } } as any)
       setRefreshed(false)
     },
-    [handleSubmit, input]
+    [handleInputChange, handleSubmit, input]
   )
 
   useEffect(() => {
@@ -133,7 +134,6 @@ function AIPage() {
 
     Voice.onSpeechResults = (e: any) => {
       const value = e.value[0]
-      console.log(value)
       handleInputChange({ target: { value } } as any)
     }
     Voice.onSpeechError = ({ error }: any) => {
@@ -147,7 +147,7 @@ function AIPage() {
       Voice.destroy()
       Voice.removeAllListeners()
     }
-  }, [isRecording])
+  }, [handleInputChange, tError, isRecording])
 
   // speak
   const toggleRecording = useCallback(async () => {
@@ -165,11 +165,12 @@ function AIPage() {
         Voice.removeAllListeners()
         await Voice.start(locale)
       }
-    } catch (e) {
+    } catch (err: any) {
       Alert.alert(tError('Error'), tError('Failed to start recording'))
       setIsRecording(false)
+      console.log(err)
     }
-  }, [isRecording, locale])
+  }, [tError, isRecording, locale])
 
   // handle refresh
   const handleRefresh = useCallback(async () => {
@@ -180,7 +181,7 @@ function AIPage() {
 
     stop()
     dispatch(refresh())
-  }, [])
+  }, [dispatch, setMessages, stop, error])
 
   // refresh
   useEffect(() => {
@@ -206,10 +207,7 @@ function AIPage() {
     ]
 
     if (toolNames.includes(toolName)) {
-      console.log(1)
-
       if (!refreshed) {
-        console.log(2)
         setRefreshed(true)
 
         // refresh without loading

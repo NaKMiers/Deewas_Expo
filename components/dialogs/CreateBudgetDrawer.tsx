@@ -39,9 +39,9 @@ function CreateBudgetDrawer({
 }: CreateBudgetDrawerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('createBudgetDrawer.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const t = useCallback((key: string) => translate('createBudgetDrawer.' + key), [translate])
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { closeDrawer } = useDrawer()
 
   // store
@@ -60,7 +60,6 @@ function CreateBudgetDrawer({
     control,
     clearErrors,
     reset,
-    watch,
   } = useForm<FieldValues>({
     defaultValues: {
       categoryId: initCategory?._id || '',
@@ -79,7 +78,7 @@ function CreateBudgetDrawer({
   })
 
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -137,13 +136,13 @@ function CreateBudgetDrawer({
   const handleCreateBudget: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
 
       // start loading
       setSaving(true)
 
       try {
-        const { budget, message } = await createBudgetApi({
+        const { budget } = await createBudgetApi({
           ...data,
           begin: toUTC(moment(data.begin).startOf('day').toDate()),
           end: toUTC(moment(data.end).endOf('day').toDate()),
@@ -172,7 +171,7 @@ function CreateBudgetDrawer({
         setSaving(false)
       }
     },
-    [handleValidate, reset, update, locale, refresh]
+    [validate, reset, update, closeDrawer, tError, tSuccess, refresh, locale]
   )
 
   return (
@@ -192,7 +191,7 @@ function CreateBudgetDrawer({
             id="total"
             label={t('Total')}
             errors={errors}
-            type="currency"
+            type="number"
             className="bg-white text-black"
             control={control}
             onFocus={() => clearErrors('total')}
@@ -240,7 +239,7 @@ function CreateBudgetDrawer({
               clearErrors('begin')
               clearErrors('begin')
             }}
-            className="h-12 justify-center bg-white"
+            className="mt-1 h-12 justify-center bg-white"
             textClassName="text-black"
           />
           {(errors.begin || errors.end)?.message && (
@@ -296,7 +295,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<CreateBudgetDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

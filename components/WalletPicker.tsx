@@ -34,11 +34,11 @@ interface WalletPickerProps {
 function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) {
   // hooks
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('walletPicker.' + key)
+  const t = useCallback((key: string) => translate('walletPicker.' + key), [translate])
   const dispatch = useAppDispatch()
 
   // store
-  const { wallets, loading } = useAppSelector(state => state.wallet)
+  const { wallets } = useAppSelector(state => state.wallet)
   const { closeDrawer2: closeDrawer } = useDrawer()
   const [deleting, setDeleting] = useState<string>('')
 
@@ -51,7 +51,7 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
       setDeleting(id)
 
       try {
-        const { wallet: w, message } = await deleteWalletApi(id)
+        const { wallet: w } = await deleteWalletApi(id)
 
         if (wallets.length > 1) {
           dispatch(deleteWallet(w))
@@ -74,7 +74,7 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
         setDeleting('')
       }
     },
-    [dispatch, wallets, , t]
+    [dispatch, wallets, t]
   )
 
   return (

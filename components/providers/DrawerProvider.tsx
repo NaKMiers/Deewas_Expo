@@ -7,11 +7,11 @@ import Drawer3 from '../Drawer3'
 import Drawer4 from '../Drawer4'
 
 interface DrawerContextType {
-  openDrawer0: (content: ReactNode, reach?: number) => void
-  openDrawer: (content: ReactNode, reach?: number) => void
-  openDrawer2: (content: ReactNode, reach?: number) => void
-  openDrawer3: (content: ReactNode, reach?: number) => void
-  openDrawer4: (content: ReactNode, reach?: number) => void
+  openDrawer0: (_content: ReactNode, _reach?: number) => void
+  openDrawer: (_content: ReactNode, _reach?: number) => void
+  openDrawer2: (_content: ReactNode, _reach?: number) => void
+  openDrawer3: (_content: ReactNode, _reach?: number) => void
+  openDrawer4: (_content: ReactNode, _reach?: number) => void
   closeDrawer0: () => void
   closeDrawer: () => void
   closeDrawer2: () => void

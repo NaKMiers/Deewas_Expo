@@ -11,11 +11,10 @@ import { useAuth } from './providers/AuthProvider'
 interface NavbarProps {
   className?: string
   state: any
-  navigation: any
   [key: string]: any
 }
 
-function Navbar({ className, state, navigation, ...props }: { className?: string; [key: string]: any }) {
+function Navbar({ className, state }: NavbarProps) {
   // hooks
   const { user } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
@@ -57,7 +56,7 @@ function Navbar({ className, state, navigation, ...props }: { className?: string
         fallbackSource: images.defaultAvatar,
       },
     ],
-    [user?.avatar, isDarkColorScheme, images]
+    [user?.avatar, isDarkColorScheme]
   )
 
   return (

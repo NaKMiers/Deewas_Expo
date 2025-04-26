@@ -1,20 +1,19 @@
 import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { updateCategoryApi } from '@/requests/categoryRequests'
-import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import { LucideCircleOff } from 'lucide-react-native'
 import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Modal, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import CustomInput from '../CustomInput'
+import EmojiPicker from '../EmojiPicker'
 import Icon from '../Icon'
 import { useDrawer } from '../providers/DrawerProvider'
 import Text from '../Text'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
-import EmojiPicker from '../EmojiPicker'
 
 interface UpdateCategoryDrawerProps {
   category: ICategory
@@ -60,8 +59,19 @@ function UpdateCategoryDrawer({
   const [openEmojiPicker, setOpenEmojiPicker] = useState<boolean>(false)
   const [saving, setSaving] = useState<boolean>(false)
 
+  // check change
+  const checkChanged = useCallback(
+    (newValues: any) => {
+      if (category.name !== newValues.name) return true
+      if (category.icon !== newValues.icon) return true
+
+      return false
+    },
+    [category]
+  )
+
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -74,16 +84,21 @@ function UpdateCategoryDrawer({
         isValid = false
       }
 
+      if (!checkChanged(data)) {
+        closeDrawer()
+        return false
+      }
+
       return isValid
     },
-    [setError, t]
+    [setError, t, checkChanged]
   )
 
   // update category
   const handleUpdateCategory: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
       // start loading
       setSaving(true)
       if (load) {
@@ -117,7 +132,7 @@ function UpdateCategoryDrawer({
         }
       }
     },
-    [handleValidate, load, reset, update, refresh, category._id, t]
+    [validate, load, reset, update, refresh, category._id, t]
   )
 
   return (
@@ -226,7 +241,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<UpdateCategoryDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

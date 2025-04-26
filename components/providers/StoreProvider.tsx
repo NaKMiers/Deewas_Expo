@@ -1,11 +1,11 @@
 import i18next from '@/i18n'
-import { useRef } from 'react'
+import { ReactNode, useRef } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
 import { AppStore, makeStore } from '../../lib/store'
 import AuthProvider from './AuthProvider'
 
-function StoreProvider({ children }: { children: React.ReactNode }) {
+function StoreProvider({ children }: { children: ReactNode }) {
   const storeRef = useRef<AppStore | null>(null)
 
   if (!storeRef.current) {

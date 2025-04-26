@@ -38,9 +38,9 @@ function SignUpPage() {
   // hooks
   const dispatch = useAppDispatch()
   let { t: translate } = useTranslation()
-  const t = (key: string) => translate('signUpPage.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const t = useCallback((key: string) => translate('signUpPage.' + key), [translate])
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { isDarkColorScheme } = useColorScheme()
 
   // states
@@ -90,6 +90,7 @@ function SignUpPage() {
         isValid = false
       }
       // email must be valid
+      // eslint-disable-next-line no-useless-escape
       else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/.test(data.email)) {
         setError('email', {
           type: 'manual',
@@ -127,55 +128,58 @@ function SignUpPage() {
   )
 
   // MARK: Sign Up Submission
-  const handleCredentialSignUp: SubmitHandler<FieldValues> = useCallback(async (data: any) => {
-    if (!handleValidate(data)) return
+  const handleCredentialSignUp: SubmitHandler<FieldValues> = useCallback(
+    async (data: any) => {
+      if (!handleValidate(data)) return
 
-    // start loading
-    setLoading(true)
+      // start loading
+      setLoading(true)
 
-    try {
-      const { token } = await registerCredentialsApi(data)
-      const decodedUser: IFullUser = jwtDecode(token)
+      try {
+        const { token } = await registerCredentialsApi(data)
+        const decodedUser: IFullUser = jwtDecode(token)
 
-      // save token and user
-      await AsyncStorage.setItem('token', token)
-      dispatch(setUser(decodedUser))
-      dispatch(setToken(token))
+        // save token and user
+        await AsyncStorage.setItem('token', token)
+        dispatch(setUser(decodedUser))
+        dispatch(setToken(token))
 
-      // currency at onboarding
-      const currency = await AsyncStorage.getItem('currency')
-      const personalities = await AsyncStorage.getItem('personalities')
+        // currency at onboarding
+        const currency = await AsyncStorage.getItem('currency')
+        const personalities = await AsyncStorage.getItem('personalities')
 
-      if (currency || personalities) {
-        const data = {
-          currency: currency ? JSON.parse(currency) : 'USD',
-          personalities: personalities ? JSON.parse(personalities) : [0],
+        if (currency || personalities) {
+          const data = {
+            currency: currency ? JSON.parse(currency) : 'USD',
+            personalities: personalities ? JSON.parse(personalities) : [0],
+          }
+
+          await updateMySettingsApi(data)
         }
 
-        await updateMySettingsApi(data)
+        // show success message
+        Toast.show({
+          type: 'success',
+          text1: tSuccess('Sign Up Success'),
+          text2: tSuccess('You have successfully registered'),
+        })
+
+        // go home
+        router.replace('/home')
+      } catch (err: any) {
+        console.log(err)
+        Toast.show({
+          type: 'error',
+          text1: tError('Sign Up Failed'),
+          text2: tError(err.message),
+        })
+      } finally {
+        // stop loading
+        setLoading(false)
       }
-
-      // show success message
-      Toast.show({
-        type: 'success',
-        text1: tSuccess('Sign Up Success'),
-        text2: tSuccess('You have successfully registered'),
-      })
-
-      // go home
-      router.replace('/home')
-    } catch (err: any) {
-      console.log(err)
-      Toast.show({
-        type: 'error',
-        text1: tError('Sign Up Failed'),
-        text2: tError(err.message),
-      })
-    } finally {
-      // stop loading
-      setLoading(false)
-    }
-  }, [])
+    },
+    [dispatch, handleValidate, tError, tSuccess]
+  )
 
   // MARK: Google Sign Up
   const handleGoogleSignUp = useCallback(async () => {
@@ -274,7 +278,7 @@ function SignUpPage() {
       // stop loading
       setLoading(false)
     }
-  }, [])
+  }, [dispatch, t, tError, tSuccess])
 
   // MARK: Apple Sign In
   const handleAppleSignIn = useCallback(async () => {
@@ -331,7 +335,7 @@ function SignUpPage() {
       // stop loading
       setLoading(false)
     }
-  }, [])
+  }, [dispatch, tError, tSuccess])
 
   return (
     <>

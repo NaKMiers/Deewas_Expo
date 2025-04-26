@@ -61,8 +61,21 @@ function UpdateBudgetDrawer({ budget, update, refresh, className }: UpdateBudget
     to: moment(budget.end).endOf('month').toDate(),
   })
 
+  // check change
+  const checkChanged = useCallback(
+    (newValues: any) => {
+      if (budget.category._id !== newValues.categoryId) return true
+      if (budget.total.toString() !== newValues.total) return true
+      if (moment(budget.begin).valueOf() !== moment(newValues.begin).valueOf()) return true
+      if (moment(budget.end).valueOf() !== moment(newValues.end).valueOf()) return true
+
+      return false
+    },
+    [budget]
+  )
+
   // validate form
-  const handleValidate: SubmitHandler<FieldValues> = useCallback(
+  const validate: SubmitHandler<FieldValues> = useCallback(
     data => {
       let isValid = true
 
@@ -111,16 +124,21 @@ function UpdateBudgetDrawer({ budget, update, refresh, className }: UpdateBudget
         isValid = false
       }
 
+      if (!checkChanged(data)) {
+        closeDrawer()
+        return false
+      }
+
       return isValid
     },
-    [setError, t]
+    [setError, t, checkChanged]
   )
 
   // update transaction
   const handleUpdateBudget: SubmitHandler<FieldValues> = useCallback(
     async data => {
       // validate form
-      if (!handleValidate(data)) return
+      if (!validate(data)) return
 
       // start loading
       setSaving(true)
@@ -155,7 +173,7 @@ function UpdateBudgetDrawer({ budget, update, refresh, className }: UpdateBudget
         setSaving(false)
       }
     },
-    [handleValidate, reset, update, refresh, budget._id, locale, t]
+    [validate, reset, update, refresh, budget._id, locale, t]
   )
 
   return (
@@ -221,7 +239,7 @@ function UpdateBudgetDrawer({ budget, update, refresh, className }: UpdateBudget
               clearErrors('begin')
               clearErrors('begin')
             }}
-            className="h-12 justify-center bg-white"
+            className="mt-1 h-12 justify-center bg-white"
             textClassName="text-black"
           />
           {(errors.begin || errors.end)?.message && (
@@ -277,7 +295,7 @@ function Node({ open, onClose, reach, disabled, trigger, className, ...props }: 
 
   useEffect(() => {
     if (open === true) openDrawer(<UpdateBudgetDrawer {...props} />, r)
-  }, [open])
+  }, [openDrawer, open, props, r])
 
   useEffect(() => {
     if (onClose && openState) onClose()

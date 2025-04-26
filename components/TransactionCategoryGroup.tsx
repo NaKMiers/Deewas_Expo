@@ -20,7 +20,7 @@ import {
 import moment from 'moment-timezone'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
@@ -101,8 +101,8 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('transactionItem.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -117,7 +117,7 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
     setDeleting(true)
 
     try {
-      const { transaction: tx, message } = await deleteTransactionApi(transaction._id)
+      await deleteTransactionApi(transaction._id)
 
       Toast.show({
         type: 'success',
@@ -137,7 +137,7 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
       setDeleting(false)
       dispatch(setRefreshing(false))
     }
-  }, [dispatch, transaction._id, t])
+  }, [dispatch, tSuccess, tError, transaction._id])
 
   // duplicate transaction
   const handleDuplicateTransaction = useCallback(async () => {
@@ -145,7 +145,7 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
     setDuplicating(true)
 
     try {
-      const { transaction: tx, message } = await createTransactionApi({
+      await createTransactionApi({
         ...transaction,
         walletId: transaction.wallet._id,
         categoryId: transaction.category._id,
@@ -168,7 +168,7 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
       // stop loading
       setDuplicating(false)
     }
-  }, [dispatch, transaction, t])
+  }, [dispatch, tSuccess, tError, transaction])
 
   const { color, hex } = checkTranType(transaction.type)
 

@@ -35,9 +35,8 @@ function Category({ category, hideMenu, className }: CategoryProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('category.' + key)
-  const tSuccess = (key: string) => translate('success.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const t = useCallback((key: string) => translate('category.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -55,7 +54,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
     setDeleting(true)
 
     try {
-      const { category: w, message } = await deleteCategoryApi(category._id)
+      const { message } = await deleteCategoryApi(category._id)
       Toast.show({
         type: 'success',
         text1: message,
@@ -73,7 +72,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
       setDeleting(false)
       dispatch(setRefreshing(false))
     }
-  }, [dispatch, category._id, t])
+  }, [dispatch, tError, category._id])
 
   return (
     <View

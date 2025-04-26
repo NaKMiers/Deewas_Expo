@@ -1,4 +1,5 @@
 import DrawerProvider from '@/components/providers/DrawerProvider'
+import RevenueCatProvider from '@/components/providers/RevenueCatProvider'
 import StoreProvider from '@/components/providers/StoreProvider'
 import '@/global.scss'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
@@ -96,20 +97,22 @@ function RootLayout() {
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
         <StoreProvider>
           <DrawerProvider>
-            <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+            <RevenueCatProvider>
+              <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
 
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="(home)" />
-              <Stack.Screen name="(auth)" />
-              <Stack.Screen name="policies/privacy-policy" />
-              <Stack.Screen name="policies/terms-and-conditions" />
-              <Stack.Screen name="welcome" />
-              <Stack.Screen name="onboarding" />
-              <Stack.Screen name="premium" />
-              <Stack.Screen name="biometric-auth-failed" />
-            </Stack>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(home)" />
+                <Stack.Screen name="(auth)" />
+                <Stack.Screen name="policies/privacy-policy" />
+                <Stack.Screen name="policies/terms-and-conditions" />
+                <Stack.Screen name="welcome" />
+                <Stack.Screen name="onboarding" />
+                <Stack.Screen name="premium" />
+                <Stack.Screen name="biometric-auth-failed" />
+              </Stack>
 
-            <PortalHost />
+              <PortalHost />
+            </RevenueCatProvider>
           </DrawerProvider>
         </StoreProvider>
 

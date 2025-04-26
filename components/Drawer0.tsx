@@ -15,7 +15,7 @@ function Drawer0() {
   useEffect(() => {
     if (open) drawerRef.current?.snapToIndex(Platform.OS === 'android' ? reach - 1 : reach)
     else drawerRef.current?.close()
-  }, [open])
+  }, [open, reach])
 
   return (
     <BottomSheet

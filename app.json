@@ -20,12 +20,12 @@
         "origin": false
       },
       "eas": {
-        "projectId": "b2914141-eb7f-4935-8de3-f5f205d3448b"
+        "projectId": "6f094dfa-357a-4068-9daf-3650253a3a14"
       }
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anphagroup.deewas",
+      "bundleIdentifier": "com.nakmiers.deewas",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSMicrophoneUsageDescription": "Allows use of microphone for voice text input",
@@ -38,7 +38,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anphagroup.deewas",
+      "package": "com.nakmiers.deewas",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.USE_FINGERPRINT",

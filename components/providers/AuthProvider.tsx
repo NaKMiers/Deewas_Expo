@@ -25,8 +25,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch()
   const { token, user, loading, onboarding } = useAppSelector(state => state.user)
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('authProvider.' + key)
-  const tError = (key: string) => translate('error.' + key)
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // states
   const [biometric, setBiometric] = useState<any>({
@@ -126,7 +125,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         Alert.alert(tError('Authentication error'), err.message)
       }
     },
-    [biometric]
+    [tError, biometric]
   )
 
   // handle logout

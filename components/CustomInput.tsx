@@ -180,18 +180,20 @@ function CustomInput({
         )
     }
   }, [
+    onChange,
+    showPassword,
     control,
     errors,
     id,
-    isShowPassword,
     label,
-    locale,
-    onChange,
     options,
     required,
     rest,
-    showPassword,
     type,
+    className,
+    disabled,
+    locale,
+    isShowPassword,
   ])
 
   return (

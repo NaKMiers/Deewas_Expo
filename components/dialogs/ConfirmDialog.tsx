@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { memo, ReactNode } from 'react'
+import Text from '../Text'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,11 +13,10 @@ import {
   AlertDialogTrigger,
 } from '../ui/alert-dialog'
 import { Separator } from '../ui/separator'
-import Text from '../Text'
 
 interface ConfirmDialogProps {
   open?: boolean
-  close?: (open: boolean) => void
+  close?: (_open: boolean) => void
   trigger?: ReactNode
   label: string
   desc: string

@@ -71,7 +71,7 @@ function CalendarPage() {
       setLoading(false)
       dispatch(setRefreshing(false))
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     getTransactions()

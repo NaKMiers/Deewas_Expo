@@ -23,7 +23,6 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
   const locale = i18n.language
 
   // states
-  const [open, setOpen] = useState<boolean>(true)
   const [newMonth, setNewMonth] = useState<number>(currentMonth.getMonth())
   const [newYear, setNewYear] = useState<number>(currentMonth.getFullYear())
 
@@ -51,7 +50,6 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
 
     const newDate = new Date(newY, newMonth)
     setCurrentMonth(newDate)
-    setOpen(false)
   }, [newMonth, newYear, setCurrentMonth])
 
   return (

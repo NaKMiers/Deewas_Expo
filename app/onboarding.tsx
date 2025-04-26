@@ -13,7 +13,7 @@ import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Redirect, router } from 'expo-router'
 import { LucideChevronLeft, LucideRotateCcw } from 'lucide-react-native'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, FlatList, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -29,6 +29,7 @@ function OnboardingPage() {
   const progressAnim = useRef(new Animated.Value(0)).current
 
   // states
+  const [slides, setSlides] = useState<ReactNode[]>([])
   const [slide, setSlide] = useState<number>(1)
   const [form, setForm] = useState<any[]>([])
 
@@ -49,48 +50,7 @@ function OnboardingPage() {
     } catch (err: any) {
       console.log(err)
     }
-  }, [form])
-
-  // MARK: Slides
-  const slides = [
-    <Slide1
-      onChange={value => {
-        const newForm = [...form]
-        newForm[0] = value
-        setForm(newForm)
-        nextSlide()
-      }}
-    />,
-    <Slide2
-      onChange={value => {
-        const newForm = [...form]
-        newForm[1] = value
-        setForm(newForm)
-        nextSlide()
-      }}
-    />,
-    <Slide3
-      onChange={value => {
-        const newForm = [...form]
-        newForm[2] = value
-        setForm(newForm)
-        nextSlide()
-      }}
-    />,
-    <Slide4
-      onChange={async value => {
-        await AsyncStorage.setItem('currency', JSON.stringify(value))
-        nextSlide()
-      }}
-    />,
-    <Slide5
-      onChange={async value => {
-        await AsyncStorage.setItem('personalities', JSON.stringify(value))
-        nextSlide()
-      }}
-    />,
-    <Slide6 onPress={handleSendReport} />,
-  ]
+  }, [form, dispatch])
 
   // MARK: Indicators
   const nextSlide = useCallback(() => {
@@ -108,7 +68,49 @@ function OnboardingPage() {
       // back to previous screen if on first slide
       if (slide === 1) router.back()
     }
-  }, [swiperRef, slide, slides])
+  }, [swiperRef, slide])
+
+  useEffect(() => {
+    setSlides([
+      <Slide1
+        onChange={value => {
+          const newForm = [...form]
+          newForm[0] = value
+          setForm(newForm)
+          nextSlide()
+        }}
+      />,
+      <Slide2
+        onChange={value => {
+          const newForm = [...form]
+          newForm[1] = value
+          setForm(newForm)
+          nextSlide()
+        }}
+      />,
+      <Slide3
+        onChange={value => {
+          const newForm = [...form]
+          newForm[2] = value
+          setForm(newForm)
+          nextSlide()
+        }}
+      />,
+      <Slide4
+        onChange={async value => {
+          await AsyncStorage.setItem('currency', JSON.stringify(value))
+          nextSlide()
+        }}
+      />,
+      <Slide5
+        onChange={async value => {
+          await AsyncStorage.setItem('personalities', JSON.stringify(value))
+          nextSlide()
+        }}
+      />,
+      <Slide6 onPress={handleSendReport} />,
+    ])
+  }, [form, handleSendReport, nextSlide])
 
   // calculate progress bar
   useEffect(() => {
@@ -118,7 +120,7 @@ function OnboardingPage() {
       duration: 300,
       useNativeDriver: false,
     }).start()
-  }, [progressAnim, slide, slides])
+  }, [slides, slide, progressAnim])
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />

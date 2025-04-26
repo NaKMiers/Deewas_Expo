@@ -3,7 +3,7 @@ import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { FlatList, View } from 'react-native'
 import BudgetCard from '../BudgetCard'
 import Category from '../Category'
-import { Transaction } from '../LatestTransactions'
+import Transaction from '../Transaction'
 import WalletCard from '../WalletCard'
 import { Markdown } from './markdown'
 
@@ -21,7 +21,7 @@ function Message({ role, content, parts }: MessageProps) {
 
   // if tool is invoked, show the result of the tool
   if (toolInvocations && toolInvocations?.result) {
-    const { args, result, state, step, toolCallId, toolName } = toolInvocations
+    const { _args, result, _state, _step, _toolCallId, toolName } = toolInvocations
     const message = result?.message || ''
     const error = result?.error
 
