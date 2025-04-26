@@ -1,15 +1,15 @@
+import { images } from '@/assets/images/images'
 import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
-import { Card } from '@/components/ui/card'
 import { TabsContent } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { addBudget } from '@/lib/reducers/budgetReducer'
 import { refresh } from '@/lib/reducers/loadReducer'
-import { formatCompactNumber, formatCurrency } from '@/lib/string'
+import { checkLevel, formatCompactNumber, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { differenceInDays } from 'date-fns'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { ImageBackground, View } from 'react-native'
 import { Bar as ProgressBar } from 'react-native-progress'
 import BudgetCard from './BudgetCard'
 import Text from './Text'
@@ -45,11 +45,12 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
       className={cn(className)}
     >
       {/* Budget Overview */}
-      <Card className="flex flex-col items-center justify-center gap-21 rounded-md p-21 px-21/2 py-21 text-center md:px-21">
+      <ImageBackground
+        source={images.preBgVFlip}
+        className="flex flex-col items-center justify-center gap-21 overflow-hidden rounded-b-3xl rounded-t-md p-21 px-21/2 py-21 text-center shadow-lg md:px-21"
+      >
         <View className="flex flex-col items-center gap-21/2">
-          <Text className="text-center font-semibold text-muted-foreground">
-            {t('Amount you can spend')}
-          </Text>
+          <Text className="text-center font-semibold text-neutral-800">{t('Amount you can spend')}</Text>
           {currency && (
             <Text className="text-4xl font-semibold text-green-500">
               {formatCurrency(currency, total - amount)}
@@ -59,7 +60,7 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
             progress={amount / total}
             width={250}
             height={8}
-            color="#fff"
+            color={checkLevel((amount / total) * 100).hex}
             unfilledColor="#333"
             borderWidth={0}
             borderRadius={5}
@@ -71,33 +72,33 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
           <>
             <View className="flex w-full flex-row items-start justify-center gap-21">
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold">
+                <Text className="font-semibold text-violet-500">
                   {formatCompactNumber(formatCurrency(currency, total), true)}
                 </Text>
-                <Text className="tracking-tight text-muted-foreground">{t('Total budgets')}</Text>
+                <Text className="font-semibold tracking-tight text-black">{t('Total budgets')}</Text>
               </View>
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold">
+                <Text className="font-semibold text-violet-500">
                   {formatCompactNumber(formatCurrency(currency, amount), true)}
                 </Text>
-                <Text className="tracking-tight text-muted-foreground">{t('Total spent')}</Text>
+                <Text className="font-semibold tracking-tight text-black">{t('Total spent')}</Text>
               </View>
             </View>
             <View className="flex w-full flex-row items-start justify-center gap-21">
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold">
+                <Text className="font-semibold text-violet-500">
                   {daysLeft} {t('day')}
                   {daysLeft !== 1 && locale === 'en' && 's'}
                 </Text>
-                <Text className="tracking-tight text-muted-foreground">{t('End of month')}</Text>
+                <Text className="font-semibold tracking-tight text-black">{t('End of month')}</Text>
               </View>
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold">
+                <Text className="font-semibold text-violet-500">
                   {total - amount > 0
                     ? formatCurrency(currency, dailyLimit) + '/' + t('day')
                     : formatCurrency(currency, 0)}
                 </Text>
-                <Text className="tracking-tight text-muted-foreground">{t('Daily limit')}</Text>
+                <Text className="font-semibold tracking-tight text-black">{t('Daily limit')}</Text>
               </View>
             </View>
           </>
@@ -114,7 +115,7 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
           }
           reach={2}
         />
-      </Card>
+      </ImageBackground>
 
       {/* Budget List */}
       <View className="mt-21/2 flex flex-col gap-2">

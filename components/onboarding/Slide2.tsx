@@ -35,7 +35,6 @@ function Slide2({ onChange }: { onChange: (value: any) => void }) {
             `${t('I feel confident')} 😊`,
           ].map((item, index) => (
             <TouchableOpacity
-              activeOpacity={0.7}
               onPress={() =>
                 onChange({ question: 'How do you feel about your finances?', answer: item })
               }

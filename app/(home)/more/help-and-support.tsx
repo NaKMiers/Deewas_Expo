@@ -7,7 +7,6 @@ import { BookOpen, LifeBuoy, Mail, MessageSquare } from 'lucide-react-native'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import Collapsible from 'react-native-collapsible'
 
 function HelpAndSupportPage() {
   // hooks
@@ -37,7 +36,7 @@ function HelpAndSupportPage() {
     },
     {
       question: t('What if I forget my password?'),
-      answer: `${t('Use the “Forgot Password” link on the sign in page to reset it via email')}.`,
+      answer: `${t('Use the “Forgot Password” link on the sign-in screen to reset it via email')}.`,
     },
   ]
 
@@ -158,11 +157,11 @@ function HelpAndSupportPage() {
                       <Text className="text-lg font-semibold">{faq.question}</Text>
                       <Text className="text-lg">{expandedIndex === index ? '−' : '+'}</Text>
                     </TouchableOpacity>
-                    <Collapsible collapsed={expandedIndex !== index}>
-                      <View className="p-4 pt-0">
+                    {expandedIndex === index && (
+                      <View className="flex-row p-4 pt-0">
                         <Text className="text-muted-foreground">{faq.answer}</Text>
                       </View>
-                    </Collapsible>
+                    )}
                   </View>
                 ))}
               </View>
@@ -198,7 +197,7 @@ function HelpAndSupportPage() {
           {/* Footer */}
           <View className="py-6">
             <Text className="text-center text-muted-foreground">
-              © {new Date().getFullYear()} {t('Deewas')}. {t('All rights reserved')}.
+              © 2025 Deewas. All rights reserved.
             </Text>
           </View>
         </View>

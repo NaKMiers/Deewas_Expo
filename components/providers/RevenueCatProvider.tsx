@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
-import Purchases, { CustomerInfo, PurchasesPackage } from 'react-native-purchases'
+import { Platform } from 'react-native'
+import Purchases, { CustomerInfo, LOG_LEVEL, PurchasesPackage } from 'react-native-purchases'
 
 interface RevenueCatProps {
   purchasePackage?: (_pack: PurchasesPackage) => Promise<void>
@@ -36,20 +37,20 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    // const init = async () => {
-    //   if (Platform.OS === 'ios') {
-    //     // Initialize RevenueCat for iOS
-    //     console.log('Initializing RevenueCat for iOS')
-    //     Purchases.configure({ apiKey: 'appl_IitkYytCPghMjjdqUmClSxblSfT' })
-    //     Purchases.setLogLevel(LOG_LEVEL.DEBUG)
-    //     await loadOfferings()
-    //   } else if (Platform.OS === 'android') {
-    //     // Initialize RevenueCat for Android
-    //     // console.log('Initializing RevenueCat for Android')
-    //   }
-    // }
-    setIsReady(true)
-    // init()
+    const init = async () => {
+      if (Platform.OS === 'ios') {
+        // Initialize RevenueCat for iOS
+        // console.log('Initializing RevenueCat for iOS')
+        // Purchases.configure({ apiKey: 'appl_IitkYytCPghMjjdqUmClSxblSfT' })
+        // Purchases.setLogLevel(LOG_LEVEL.DEBUG)
+        // await loadOfferings()
+      } else if (Platform.OS === 'android') {
+        // Initialize RevenueCat for Android
+        // console.log('Initializing RevenueCat for Android')
+      }
+      setIsReady(true)
+    }
+    init()
   }, [loadOfferings])
 
   // purchase a package

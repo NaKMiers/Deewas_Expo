@@ -74,7 +74,7 @@ function Navbar({ className, state }: NavbarProps) {
 
           return (
             <TouchableOpacity
-              onPress={() => router.replace(route.href as any)}
+              onPress={() => router.push(route.href as any)}
               className={cn(
                 'trans-200 flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1'
               )}

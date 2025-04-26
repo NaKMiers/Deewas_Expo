@@ -55,7 +55,10 @@ function TransactionCategoryGroup({
             <View className="flex flex-col">
               <Text className="font-semibold">{category.name}</Text>
               <Text className={cn('ml-0.5 mt-0.5 tracking-tight', checkTranType(category.type).color)}>
-                {formatCurrency(currency, category.amount)}
+                {formatCurrency(
+                  currency,
+                  transactions.reduce((total, tx) => total + tx.amount, 0)
+                )}
               </Text>
             </View>
           )}

@@ -1,13 +1,26 @@
+import { images } from '@/assets/images/images'
 import Icon from '@/components/Icon'
+import Image from '@/components/Image'
 import Text from '@/components/Text'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { router } from 'expo-router'
-import { BarChart, LucideBrainCog, LucidePieChart, LucideWallet } from 'lucide-react-native'
+import {
+  BarChart,
+  LucideBrainCog,
+  LucideLayoutDashboard,
+  LucidePieChart,
+  LucideWallet,
+} from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 
 const features = [
+  {
+    title: 'Clean interface',
+    description: 'A clean and intuitive interface for easy navigation and management',
+    icon: LucideLayoutDashboard,
+  },
   {
     title: 'Multi-Wallet Support',
     description: 'Manage multiple wallets seamlessly to keep your finances organized',
@@ -40,10 +53,21 @@ function AboutPage() {
       <ScrollView>
         <View className="p-21/2 md:p-21">
           {/* Header */}
-          <View className="py-10">
+          <View className="pb-10">
+            <View
+              className="my-6"
+              style={{ height: 150 }}
+            >
+              <Image
+                source={images.preLogo}
+                resizeMode="contain"
+                className="h-full w-full"
+              />
+            </View>
+
             <Text className="text-center text-4xl font-bold tracking-tight">{t('About Deewas')}</Text>
             <Text className="mt-2 text-center text-lg text-muted-foreground">
-              {t('Your personal expense management companion')}
+              {t('Your personal expense management companion')}.
             </Text>
           </View>
 
@@ -70,20 +94,30 @@ function AboutPage() {
               <View className="flex flex-wrap gap-6">
                 {features.map((feature, index) => (
                   <Card
-                    className="w-full"
+                    className="w-full overflow-hidden"
                     key={index}
                   >
-                    <CardHeader>
-                      <View className="flex-row items-center gap-2">
-                        <Icon render={feature.icon} />
-                        <Text className="font-body text-xl font-semibold">{t(feature.title)}</Text>
-                      </View>
-                    </CardHeader>
-                    <CardContent>
-                      <Text className="text-lg leading-6 text-muted-foreground">
-                        {t(feature.description)}.
-                      </Text>
-                    </CardContent>
+                    <ImageBackground
+                      source={images.preBg}
+                      className="overflow-hidden"
+                    >
+                      <CardHeader>
+                        <View className="flex-row items-center gap-2">
+                          <Icon
+                            render={feature.icon}
+                            color="#262626"
+                          />
+                          <Text className="font-body text-xl font-semibold text-neutral-800">
+                            {t(feature.title)}
+                          </Text>
+                        </View>
+                      </CardHeader>
+                      <CardContent>
+                        <Text className="font-body text-lg leading-6 tracking-wider text-neutral-600">
+                          {t(feature.description)}.
+                        </Text>
+                      </CardContent>
+                    </ImageBackground>
                   </Card>
                 ))}
               </View>
@@ -124,7 +158,7 @@ function AboutPage() {
           {/* Footer */}
           <View className="py-6">
             <Text className="text-center text-muted-foreground">
-              © {new Date().getFullYear()} {t('Deewas')}. {t('All rights reserved')}.
+              © 2025 Deewas. All rights reserved.
             </Text>
           </View>
         </View>

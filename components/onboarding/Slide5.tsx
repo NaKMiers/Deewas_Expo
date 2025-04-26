@@ -31,7 +31,6 @@ function Slide5({ onChange }: { onChange: (value: any) => void }) {
               key={index}
             >
               <TouchableOpacity
-                activeOpacity={0.7}
                 className={cn(
                   'relative flex w-full rounded-lg border-2 border-transparent bg-secondary p-2',
                   selected?.id === item.id && 'border-primary'

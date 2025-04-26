@@ -26,7 +26,6 @@ function Slide1({ onChange }: { onChange: (value: any) => void }) {
             'Podcast',
           ].map((item, index) => (
             <TouchableOpacity
-              activeOpacity={0.7}
               className="flex flex-row items-center justify-start rounded-lg bg-secondary px-21"
               onPress={() => onChange({ question: 'How did you hear about us?', answer: item })}
               style={{ height: 56 }}

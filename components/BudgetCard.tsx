@@ -72,7 +72,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
   }, [dispatch, tSuccess, tError, setDeleting, budget._id])
 
   return (
-    <View className={cn('rounded-lg bg-secondary px-3 pb-10 pt-21/2 shadow-md', className)}>
+    <View className={cn('rounded-lg bg-secondary px-3 pb-10 pt-21/2 shadow-lg', className)}>
       <View className="flex flex-row items-center justify-between gap-1">
         {/* MARK: Category & Amount */}
         <View className="flex flex-row items-center gap-2 text-sm font-semibold">

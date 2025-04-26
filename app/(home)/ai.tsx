@@ -1,3 +1,4 @@
+import { images } from '@/assets/images/images'
 import Message from '@/components/ai/message'
 import { useScrollToBottom } from '@/components/ai/useScrollToBottom'
 import ChangePersonalitiesDrawer from '@/components/dialogs/ChangePersonalitiesDrawer'
@@ -21,10 +22,12 @@ import {
   LucideTrash,
 } from 'lucide-react-native'
 import moment from 'moment-timezone'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Alert,
+  Animated,
+  ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -264,6 +267,11 @@ function AIPage() {
                   </Text>
                 </View>
               )}
+              {status === 'submitted' && (
+                <View className="row -mx-2 flex-row items-center py-2">
+                  <PulseDot />
+                </View>
+              )}
             </View>
           </ScrollView>
 
@@ -306,113 +314,120 @@ function AIPage() {
               </View>
             )}
 
-            <View className="rounded-3xl border border-primary/5 bg-secondary p-21/2 shadow-md">
-              <Input
-                className="bg- border-transparent"
-                style={{ height: 50 }}
-                placeholder={
-                  isRecording
-                    ? `${t('Listening')} (${languages.find(l => l.value === locale)?.label})`
-                    : t('How can Deewas help?')
-                }
-                value={input}
-                onChange={e => {
-                  handleInputChange({
-                    ...e,
-                    target: {
-                      ...e.target,
-                      value: e.nativeEvent.text,
-                    },
-                  } as unknown as ChangeEvent<HTMLInputElement>)
-                }}
-                onSubmitEditing={e => {
-                  e.preventDefault()
-                  handleSendMessage(e)
-                }}
-              />
-              <View className="mt-1.5 flex flex-row items-center justify-between gap-1.5">
-                {/* MARK: Clear Chat */}
-                <TouchableOpacity
-                  className={cn(
-                    'flex h-full flex-row items-center justify-center gap-2 rounded-full bg-primary/10 px-21/2 shadow-lg',
-                    status === 'streaming' || (status === 'submitted' && 'opacity-50')
-                  )}
-                  disabled={status === 'streaming' || status === 'submitted'}
-                  onPress={() => {
-                    setMessages([])
-                    stop()
+            <ImageBackground
+              source={images.preBg}
+              className="overflow-hidden rounded-3xl p-21/2 shadow-lg"
+            >
+              <View className="shadow-md">
+                <Input
+                  className="border-transparent bg-transparent text-neutral-800"
+                  style={{ height: 50 }}
+                  placeholder={
+                    isRecording
+                      ? `${t('Listening')} (${languages.find(l => l.value === locale)?.label})`
+                      : t('How can Deewas help?')
+                  }
+                  value={input}
+                  onChange={e => {
+                    handleInputChange({
+                      ...e,
+                      target: {
+                        ...e.target,
+                        value: e.nativeEvent.text,
+                      },
+                    } as unknown as ChangeEvent<HTMLInputElement>)
                   }}
-                >
-                  <Icon
-                    render={LucideTrash}
-                    size={16}
-                  />
-                  <Text className="font-semibold">{t('Clear')}</Text>
-                </TouchableOpacity>
-
-                <View className="flex h-full flex-1 flex-row items-center justify-end gap-1.5">
-                  {/* MARK: Personality */}
+                  onSubmitEditing={e => {
+                    e.preventDefault()
+                    handleSendMessage(e)
+                  }}
+                />
+                <View className="mt-1.5 flex flex-row items-center justify-between gap-1.5">
+                  {/* MARK: Clear Chat */}
                   <TouchableOpacity
                     className={cn(
-                      'flex h-full flex-1 flex-row items-center justify-center gap-2 rounded-full bg-primary/10 px-21/2 shadow-lg',
-                      (status === 'streaming' || status === 'submitted') && 'opacity-50'
+                      'flex h-full flex-row items-center justify-center gap-2 rounded-full bg-black/10 px-21/2 shadow-lg',
+                      status === 'streaming' || (status === 'submitted' && 'opacity-50')
                     )}
                     disabled={status === 'streaming' || status === 'submitted'}
-                    onPress={() => setOpenPersonalities(true)}
-                  >
-                    <Text className="line-clamp-1 text-ellipsis font-semibold">
-                      {settings?.personalities && settings?.personalities?.length === 1
-                        ? t(personalities[settings?.personalities[0]].title)
-                        : t('Mixed personalities')}
-                    </Text>
-                  </TouchableOpacity>
-
-                  {/* MARK: Micro */}
-                  {!isRecording && Platform.OS === 'ios' && (
-                    <TouchableOpacity
-                      className={cn(
-                        'flex h-9 w-9 flex-row items-center justify-center rounded-full shadow-lg',
-                        (input.trim() !== '' || status !== 'ready') && 'opacity-50'
-                      )}
-                      disabled={input.trim() !== '' || status !== 'ready'}
-                      onPress={toggleRecording}
-                    >
-                      <Icon
-                        render={LucideMic}
-                        size={20}
-                      />
-                    </TouchableOpacity>
-                  )}
-
-                  {/* MARK: Send */}
-                  <TouchableOpacity
-                    className={cn(
-                      'flex h-9 w-9 flex-row items-center justify-center rounded-full bg-primary shadow-lg',
-                      input.trim() === '' && status === 'ready' && !isRecording && 'opacity-50'
-                    )}
-                    disabled={input.trim() === '' && status === 'ready' && !isRecording}
                     onPress={() => {
-                      if (isRecording) {
-                        toggleRecording()
-                      } else {
-                        if (status === 'submitted' || status === 'streaming') stop()
-                        else handleSendMessage()
-                      }
+                      setMessages([])
+                      stop()
                     }}
                   >
                     <Icon
-                      render={
-                        status === 'submitted' || status === 'streaming' || isRecording
-                          ? LucideSquare
-                          : LucideArrowUp
-                      }
-                      size={20}
-                      reverse
+                      render={LucideTrash}
+                      size={16}
+                      color="#262626"
                     />
+                    <Text className="font-semibold text-neutral-800">{t('Clear')}</Text>
                   </TouchableOpacity>
+
+                  <View className="flex h-full flex-1 flex-row items-center justify-end gap-1.5">
+                    {/* MARK: Personality */}
+                    <TouchableOpacity
+                      className={cn(
+                        'flex h-full flex-1 flex-row items-center justify-center gap-2 rounded-full bg-black/10 px-21/2 shadow-lg',
+                        (status === 'streaming' || status === 'submitted') && 'opacity-50'
+                      )}
+                      disabled={status === 'streaming' || status === 'submitted'}
+                      onPress={() => setOpenPersonalities(true)}
+                    >
+                      <Text className="line-clamp-1 text-ellipsis font-semibold text-neutral-800">
+                        {settings?.personalities && settings?.personalities?.length === 1
+                          ? t(personalities[settings?.personalities[0]].title)
+                          : t('Mixed personalities')}
+                      </Text>
+                    </TouchableOpacity>
+
+                    {/* MARK: Micro */}
+                    {!isRecording && Platform.OS === 'ios' && (
+                      <TouchableOpacity
+                        className={cn(
+                          'flex h-9 w-9 flex-row items-center justify-center rounded-full shadow-lg',
+                          (input.trim() !== '' || status !== 'ready') && 'opacity-50'
+                        )}
+                        disabled={input.trim() !== '' || status !== 'ready'}
+                        onPress={toggleRecording}
+                      >
+                        <Icon
+                          render={LucideMic}
+                          size={20}
+                          color="#262626"
+                        />
+                      </TouchableOpacity>
+                    )}
+
+                    {/* MARK: Send */}
+                    <TouchableOpacity
+                      className={cn(
+                        'flex h-9 w-9 flex-row items-center justify-center rounded-full bg-primary shadow-lg',
+                        input.trim() === '' && status === 'ready' && !isRecording && 'opacity-50'
+                      )}
+                      disabled={input.trim() === '' && status === 'ready' && !isRecording}
+                      onPress={() => {
+                        if (isRecording) {
+                          toggleRecording()
+                        } else {
+                          if (status === 'submitted' || status === 'streaming') stop()
+                          else handleSendMessage()
+                        }
+                      }}
+                    >
+                      <Icon
+                        render={
+                          status === 'submitted' || status === 'streaming' || isRecording
+                            ? LucideSquare
+                            : LucideArrowUp
+                        }
+                        size={20}
+                        reverse
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
+            </ImageBackground>
           </View>
         </View>
       </KeyboardAvoidingView>
@@ -432,3 +447,32 @@ function AIPage() {
 }
 
 export default AIPage
+
+// MARK PulseDot
+export function PulseDot({ className }: { className?: string }) {
+  const scale = useRef(new Animated.Value(1)).current
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale, {
+          toValue: 1.3,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start()
+  }, [scale])
+
+  return (
+    <Animated.View
+      className={cn('h-4 w-4 rounded-full bg-primary', className)}
+      style={{ transform: [{ scale }] }}
+    />
+  )
+}

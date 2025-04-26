@@ -29,7 +29,6 @@ function Slide3({ onChange }: { onChange: (value: any) => void }) {
             t('My pets'),
           ].map((item, index) => (
             <TouchableOpacity
-              activeOpacity={0.7}
               onPress={() =>
                 setSelected(prev =>
                   prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]

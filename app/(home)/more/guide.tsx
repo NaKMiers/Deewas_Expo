@@ -34,9 +34,9 @@ function GuidePage() {
           content: [
             `- ${t('Navigate to the “Transactions“ screen from the navbar')}.`,
             `- ${t('Click the Add “Transaction“ button')}.`,
-            `- ${t('Fill in details: name (e.g., Coffee), amount (e.g., $5), date, wallet, and category')}.`,
+            `- ${t('Fill in details')}: ${t('name (Coffee), amount ($5), date, wallet, and category')}.`,
             `- ${t('Click “Save“ to record it')}.`,
-            `_${t('Tip: Use the AI chat to say Add $5 coffee expense today for a quicker way!')}_`,
+            `_${t('Tip Use the AI chat to say Add $5 coffee expense today for a quicker way!')}`,
           ],
         },
         {
@@ -110,7 +110,7 @@ function GuidePage() {
           title: `3. ${t('Deleting a Category')}`,
           content: [
             `- ${t('Click 🗑️ next to the category')}.`,
-            `- ${t('Confirm deletion (note: only deletable categories can be removed)')}.`,
+            `- ${t('Confirm deletion (note only deletable categories can be removed)')}.`,
           ],
         },
       ],
@@ -132,7 +132,7 @@ function GuidePage() {
         {
           title: `2. ${t('Monitoring Your Budget')}`,
           content: [
-            `- ${t('View the budget card to see spent vs')}. ${t('total amount')}.`,
+            `- ${t('View the budget to see spent vs')}. ${t('total amount')}.`,
             `- ${t('Transactions in the category auto-update the budget')}.`,
           ],
         },
@@ -172,12 +172,6 @@ function GuidePage() {
                 )}
                 . {t("Let's get started!")}
               </Text>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                className="mt-4 rounded-lg border border-border px-4 py-2"
-              >
-                <Text className="text-center text-primary">{t('Jump to Guide')}</Text>
-              </TouchableOpacity>
             </View>
 
             {/* Separator */}
@@ -278,7 +272,7 @@ function GuidePage() {
           {/* Footer */}
           <View className="py-6">
             <Text className="text-center text-muted-foreground">
-              © {new Date().getFullYear()} {t('Deewas')}. {t('All rights reserved')}.
+              © 2025 Deewas. All rights reserved.
             </Text>
           </View>
         </View>

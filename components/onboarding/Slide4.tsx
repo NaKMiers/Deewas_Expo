@@ -24,7 +24,6 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
       <View className="mt-6 w-full flex-1">
         <View>
           <TouchableOpacity
-            activeOpacity={0.7}
             className="flex h-12 w-full flex-row items-center gap-2 rounded-lg bg-primary px-3 font-semibold"
             onPress={() => setOpen(!open)}
           >
@@ -37,7 +36,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
             <View className="overflow-hidden rounded-lg border border-border">
               <Input
                 value={search}
-                placeholder="Find a currency..."
+                placeholder={`${t('Find a currency')}...`}
                 onChangeText={value => setSearch(value)}
                 className="w-full border-transparent"
               />

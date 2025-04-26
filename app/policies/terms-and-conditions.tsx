@@ -73,9 +73,8 @@ function TermsAndConditionsPage() {
               <View>
                 <Text className="mt-4 text-2xl font-semibold">{t('Introduction')}</Text>
                 <Text>
-                  {t('These terms and conditions apply to the Deewas app')} ({t('hereby referred to as')}{' '}
-                  "{t('Application')}") {t('for mobile devices that was created by Anh Khoa Nguyen')} (
-                  {t('hereby referred to as')} "{t('Service Provider')}") {t('as a Free service')}.
+                  {t('These terms and conditions apply to the Deewas app')}{' '}
+                  {t('for mobile devices that was created by Anh Khoa Nguyen')} {t('as a Free service')}.
                 </Text>
               </View>
 
@@ -163,7 +162,6 @@ function TermsAndConditionsPage() {
                       name: 'Google Play Services',
                       url: 'https://policies.google.com/terms',
                     },
-                    { name: 'Facebook', url: 'https://www.facebook.com/legal/terms' },
                     {
                       name: 'Apple',
                       url: 'https://www.apple.com/legal/internet-services/terms/site.html',
@@ -313,7 +311,7 @@ function TermsAndConditionsPage() {
           {/* Footer */}
           <View className="px-4 py-6 text-center sm:px-6 lg:px-8">
             <Text className="text-center text-primary">
-              © {new Date().getFullYear()} Deewas. {t('All rights reserved')} | {t('Contact us at')}{' '}
+              © 2025 Deewas. All rights reserved | {t('Contact us at')}{' '}
               <Link
                 href="mailto:deewas.now@gmail.com"
                 className="text-sky-600 hover:underline"

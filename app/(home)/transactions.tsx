@@ -19,7 +19,14 @@ import { LucideCalendarDays, LucidePlus, LucideSearch, LucideX } from 'lucide-re
 import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from 'react-native'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
 
@@ -188,133 +195,139 @@ function TransactionsPage() {
           />
         }
       >
-        <View className="p-21/2 md:p-21">
-          {/* MARK: Top */}
-          <View className="flex flex-row flex-wrap items-center gap-x-2.5 gap-y-1">
-            <Text className="pl-1 text-xl font-bold">
-              {t('Transactions')} <Text className="text-muted-foreground/50">{t('of')}</Text>
-            </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          className="flex-1 items-center justify-center"
+          keyboardVerticalOffset={21}
+        >
+          <View className="p-21/2 md:p-21">
+            {/* MARK: Top */}
+            <View className="flex flex-row flex-wrap items-center gap-x-2.5 gap-y-1">
+              <Text className="pl-1 text-xl font-bold">
+                {t('Transactions')} <Text className="text-muted-foreground/50">{t('of')}</Text>
+              </Text>
 
-            <WalletPicker
-              wallet={wallet as IWallet}
-              isAllowedAll
-              onChange={(wallet: IWallet | null) => setWallet(wallet)}
-            />
-          </View>
+              <WalletPicker
+                wallet={wallet as IWallet}
+                isAllowedAll
+                onChange={(wallet: IWallet | null) => setWallet(wallet)}
+              />
+            </View>
 
-          {/* MARK: Date Range */}
-          <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
-            <DateRangeSegments
-              segments={['week', 'month', 'year']}
-              segment={timeSegment}
-              onChangeSegment={(segment: string) => {
-                setTimeSegment(segment as TimeUnit)
-                setDateRange({
-                  from: moment()
-                    .startOf(segment as TimeUnit)
-                    .toDate(),
-                  to: moment()
-                    .endOf(segment as TimeUnit)
-                    .toDate(),
-                })
-              }}
-              dateRange={dateRange}
-              indicatorLabel={timeSegment}
-              reset={handleResetTimeUnit}
-              next={handleNextTimeUnit}
-              prev={handlePrevTimeUnit}
-              disabledNext={moment(dateRange.from).add(1, timeSegment).isAfter(moment())}
-              disabledPrev={moment(dateRange.from)
-                .subtract(1, timeSegment)
-                .isBefore(moment(user?.createdAt).subtract(1, timeSegment))}
-            />
-          </View>
+            {/* MARK: Date Range */}
+            <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
+              <DateRangeSegments
+                segments={['week', 'month', 'year']}
+                segment={timeSegment}
+                onChangeSegment={(segment: string) => {
+                  setTimeSegment(segment as TimeUnit)
+                  setDateRange({
+                    from: moment()
+                      .startOf(segment as TimeUnit)
+                      .toDate(),
+                    to: moment()
+                      .endOf(segment as TimeUnit)
+                      .toDate(),
+                  })
+                }}
+                dateRange={dateRange}
+                indicatorLabel={timeSegment}
+                reset={handleResetTimeUnit}
+                next={handleNextTimeUnit}
+                prev={handlePrevTimeUnit}
+                disabledNext={moment(dateRange.from).add(1, timeSegment).isAfter(moment())}
+                disabledPrev={moment(dateRange.from)
+                  .subtract(1, timeSegment)
+                  .isBefore(moment(user?.createdAt).subtract(1, timeSegment))}
+              />
+            </View>
 
-          {/* MARK: Search & Calendar */}
-          <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
-            {/* Search */}
-            <View
-              className="flex w-full flex-1 flex-row"
-              style={{ height: 42 }}
-            >
+            {/* MARK: Search & Calendar */}
+            <View className="mt-21/2 flex flex-row items-center justify-end gap-2">
+              {/* Search */}
+              <View
+                className="flex w-full flex-1 flex-row"
+                style={{ height: 42 }}
+              >
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="border- flex-shrink-0 rounded-r-none border border-primary bg-secondary"
+                  style={{ width: 42, height: 42 }}
+                >
+                  <Icon
+                    render={LucideSearch}
+                    size={18}
+                  />
+                </Button>
+
+                <Input
+                  className="flex-1 rounded-l-none bg-secondary pr-10 text-base !ring-0 md:text-sm"
+                  placeholder={t('Search') + '...'}
+                  value={search}
+                  onChangeText={value => setSearch(value)}
+                />
+
+                {search.trim() && (
+                  <Button
+                    variant="ghost"
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                    size="icon"
+                    onPress={() => setSearch('')}
+                  >
+                    <Icon render={LucideX} />
+                  </Button>
+                )}
+              </View>
+
+              {/* Calendar */}
               <Button
                 variant="outline"
                 size="icon"
-                className="flex-shrink-0 rounded-r-none"
-                style={{ width: 42, height: 42 }}
+                className="h-12 w-12 flex-shrink-0 bg-secondary"
+                onPress={() => router.push('/calendar')}
               >
                 <Icon
-                  render={LucideSearch}
-                  size={18}
+                  render={LucideCalendarDays}
+                  size={20}
                 />
               </Button>
-
-              <Input
-                className="flex-1 rounded-l-none border border-l-0 pr-10 text-base !ring-0 md:text-sm"
-                placeholder={t('Search') + '...'}
-                value={search}
-                onChangeText={value => setSearch(value)}
-              />
-
-              {search.trim() && (
-                <Button
-                  variant="ghost"
-                  className="absolute right-0 top-1/2 -translate-y-1/2"
-                  size="icon"
-                  onPress={() => setSearch('')}
-                >
-                  <Icon render={LucideX} />
-                </Button>
-              )}
             </View>
 
-            {/* Calendar */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-12 w-12 flex-shrink-0"
-              onPress={() => router.push('/calendar')}
-            >
-              <Icon
-                render={LucideCalendarDays}
-                size={20}
-              />
-            </Button>
+            {isFirstRender ? (
+              <View className="mt-21/2 flex flex-col gap-2">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton
+                    className="h-[300px]"
+                    key={i}
+                  />
+                ))}
+              </View>
+            ) : (
+              <View className="mt-21/2 flex flex-col gap-2">
+                {groups.length > 0 ? (
+                  groups.map(([type, group]) => (
+                    <TransactionTypeGroup
+                      type={type}
+                      categoryGroups={Object.entries(group).map(g => g[1])}
+                      key={type}
+                    />
+                  ))
+                ) : (
+                  <View className="flex flex-row items-center justify-center rounded-md border border-muted-foreground/50 px-2 py-7">
+                    <Text className="text-center text-lg font-semibold text-muted-foreground/50">
+                      {t('No transactions found for this wallet, just add one now!')}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
+
+            {/* MARK: Groups */}
           </View>
 
-          {isFirstRender ? (
-            <View className="mt-21/2 flex flex-col gap-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton
-                  className="h-[300px]"
-                  key={i}
-                />
-              ))}
-            </View>
-          ) : (
-            <View className="mt-21/2 flex flex-col gap-2">
-              {groups.length > 0 ? (
-                groups.map(([type, group]) => (
-                  <TransactionTypeGroup
-                    type={type}
-                    categoryGroups={Object.entries(group).map(g => g[1])}
-                    key={type}
-                  />
-                ))
-              ) : (
-                <View className="flex flex-row items-center justify-center rounded-md border border-muted-foreground/50 px-2 py-7">
-                  <Text className="text-center text-lg font-semibold text-muted-foreground/50">
-                    {t('No transactions found for this wallet, just add one now!')}
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
-
-          {/* MARK: Groups */}
-        </View>
-
-        <Separator className="my-24 h-0" />
+          <Separator className="my-24 h-0" />
+        </KeyboardAvoidingView>
       </ScrollView>
 
       {/* MARK: Create Transaction */}

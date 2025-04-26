@@ -30,7 +30,7 @@ export const formatSymbol = (currency: string): string =>
   currencies.find(c => c.value === currency)?.symbol || ''
 
 export const formatCurrency = (currency: string, amount: number): string => {
-  const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
+  // const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
   const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -140,14 +140,17 @@ const levelColors = {
   hard: {
     text: 'text-rose-500',
     background: 'bg-rose-500',
+    hex: '#f43f5e',
   },
   medium: {
     text: 'text-yellow-500',
     background: 'bg-yellow-500',
+    hex: '#eab308',
   },
   easy: {
     text: 'text-emerald-500',
     background: 'bg-emerald-500',
+    hex: '#10b981',
   },
 }
 

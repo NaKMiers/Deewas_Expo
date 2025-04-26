@@ -13,7 +13,7 @@ import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Redirect, router } from 'expo-router'
 import { LucideChevronLeft, LucideRotateCcw } from 'lucide-react-native'
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, FlatList, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -21,7 +21,7 @@ const IPAD_THRESHOLD = 768
 
 function OnboardingPage() {
   // hooks
-  const { user, onboarding } = useAuth()
+  const { user } = useAuth()
   const dispatch = useAppDispatch()
 
   // refs
@@ -29,7 +29,6 @@ function OnboardingPage() {
   const progressAnim = useRef(new Animated.Value(0)).current
 
   // states
-  const [slides, setSlides] = useState<ReactNode[]>([])
   const [slide, setSlide] = useState<number>(1)
   const [form, setForm] = useState<any[]>([])
 
@@ -55,10 +54,10 @@ function OnboardingPage() {
   // MARK: Indicators
   const nextSlide = useCallback(() => {
     if (swiperRef.current) {
-      swiperRef.current.scrollToIndex({ index: Math.min(slides.length, slide + 1) - 1 })
-      setSlide(Math.min(slides.length, slide + 1))
+      swiperRef.current.scrollToIndex({ index: Math.min(6, slide + 1) - 1 })
+      setSlide(Math.min(6, slide + 1))
     }
-  }, [swiperRef, slide, slides])
+  }, [swiperRef, slide])
 
   const prevSlide = useCallback(() => {
     if (swiperRef.current) {
@@ -70,8 +69,9 @@ function OnboardingPage() {
     }
   }, [swiperRef, slide])
 
-  useEffect(() => {
-    setSlides([
+  // slides
+  const slides = useMemo(
+    () => [
       <Slide1
         onChange={value => {
           const newForm = [...form]
@@ -104,13 +104,17 @@ function OnboardingPage() {
       />,
       <Slide5
         onChange={async value => {
+          console.log('value', value)
+          console.log('form', form)
+
           await AsyncStorage.setItem('personalities', JSON.stringify(value))
           nextSlide()
         }}
       />,
       <Slide6 onPress={handleSendReport} />,
-    ])
-  }, [form, handleSendReport, nextSlide])
+    ],
+    [form, handleSendReport, nextSlide]
+  )
 
   // calculate progress bar
   useEffect(() => {
@@ -124,7 +128,6 @@ function OnboardingPage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
-  if (onboarding) return <Redirect href="/auth/sign-up" />
 
   return (
     <SafeAreaView className="flex-1">

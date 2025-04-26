@@ -35,7 +35,11 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
 
   // values
   const { Icon: renderIcon, background, border } = checkTranType(type)
-  const total = categoryGroups.reduce((total, group) => total + group.category.amount, 0)
+  const total = categoryGroups.reduce(
+    (total, group) =>
+      total + (group.transactions as IFullTransaction[]).reduce((totalTx, tx) => totalTx + tx.amount, 0),
+    0
+  )
 
   return (
     <View className={cn('flex flex-col gap-21/2', className)}>

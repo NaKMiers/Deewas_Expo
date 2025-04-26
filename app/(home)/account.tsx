@@ -93,7 +93,8 @@ function AccountPage() {
   if (!user) return <Redirect href="/auth/sign-in" />
 
   // values
-  const authImage = icons[`${user.authType}${colorScheme === 'dark' ? '' : 'Dark'}`]
+  const authImage =
+    icons[`${user.authType}${user.authType === 'google' ? '' : colorScheme === 'dark' ? '' : 'Dark'}`]
 
   return (
     <SafeAreaView>

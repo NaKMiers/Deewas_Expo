@@ -73,15 +73,13 @@ function PrivacyPolicyPage() {
               <View>
                 <Text className="mt-4 text-2xl font-semibold">{t('Introduction')}</Text>
                 <Text>
-                  {t('This privacy policy applies to the Deewas app')} ({t('hereby referred to as')} "
-                  {t('Application')}") {t('for mobile devices that was created by Anh Khoa Nguyen')} (
-                  {t('hereby referred to as')} "{t('Service Provider')}") {t('as a Free service')}.{' '}
-                  {t('This service is intended for use')} "{t('AS IS')}".
+                  {t('This privacy policy applies to the Deewas app')}{' '}
+                  {t('for mobile devices that was created by Anh Khoa Nguyen')} {t('as a Free service')}.
                 </Text>
               </View>
 
               <View>
-                <Text className="mt-4 pl-4 text-2xl font-semibold">
+                <Text className="mt-4 text-2xl font-semibold">
                   {t('Information Collection and Use')}
                 </Text>
                 <Text>
@@ -157,7 +155,6 @@ function PrivacyPolicyPage() {
                       name: 'Google Play Services',
                       url: 'https://policies.google.com/privacy',
                     },
-                    { name: 'Facebook', url: 'https://www.facebook.com/about/privacy' },
                     {
                       name: 'Apple',
                       url: 'https://www.apple.com/legal/internet-services/terms/site.html',
@@ -217,7 +214,7 @@ function PrivacyPolicyPage() {
               </View>
 
               <View>
-                <Text className="mt-4 text-2xl font-semibold">Data Retention Policy</Text>
+                <Text className="mt-4 text-2xl font-semibold">{t('Data Retention Policy')}</Text>
                 <Text>
                   {t(
                     'The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter'
@@ -329,7 +326,7 @@ function PrivacyPolicyPage() {
           {/* Footer */}
           <View className="px-4 py-6 text-center sm:px-6 lg:px-8">
             <Text className="text-center text-primary">
-              © {new Date().getFullYear()} Deewas. All rights reserved. | Contact us at{' '}
+              © 2025 Deewas. All rights reserved. | Contact us at{' '}
               <Link
                 href="mailto:deewas.now@gmail.com"
                 className="text-sky-600 hover:underline"

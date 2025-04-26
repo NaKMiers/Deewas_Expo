@@ -130,10 +130,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   // handle logout
   const logout = useCallback(async () => {
+    await switchBiometric(-1)
+    dispatch(clearUser())
     await AsyncStorage.removeItem('token')
     await AsyncStorage.removeItem('messages')
-    dispatch(clearUser())
-    switchBiometric(-1)
   }, [dispatch, switchBiometric])
 
   const value: AuthContextValue = {
