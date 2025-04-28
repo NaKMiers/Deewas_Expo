@@ -1,9 +1,11 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
-import { Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import Purchases, { CustomerInfo, LOG_LEVEL, PurchasesPackage } from 'react-native-purchases'
 
+Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
+
 interface RevenueCatProps {
-  purchasePackage?: (_pack: PurchasesPackage) => Promise<void>
+  purchasePackage: (pack: PurchasesPackage) => Promise<void>
   restorePermissions?: () => Promise<CustomerInfo>
   user: UserState
   packages: PurchasesPackage[]
@@ -20,7 +22,6 @@ const RevenueCatContext = createContext<RevenueCatProps | null>(null)
 function RevenueCatProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserState>({ cookies: 0, items: [], premium: false })
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
-  const [isReady, setIsReady] = useState<boolean>(false)
 
   // load all offerings a user can (currently) purchase
   const loadOfferings = useCallback(async () => {
@@ -40,25 +41,32 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     const init = async () => {
       if (Platform.OS === 'ios') {
         // Initialize RevenueCat for iOS
-        // console.log('Initializing RevenueCat for iOS')
-        // Purchases.configure({ apiKey: 'appl_IitkYytCPghMjjdqUmClSxblSfT' })
-        // Purchases.setLogLevel(LOG_LEVEL.DEBUG)
-        // await loadOfferings()
+        console.log('Initializing RevenueCat for iOS')
+        Purchases.configure({ apiKey: 'appl_IitkYytCPghMjjdqUmClSxblSfT' })
+        await loadOfferings()
       } else if (Platform.OS === 'android') {
         // Initialize RevenueCat for Android
         // console.log('Initializing RevenueCat for Android')
       }
-      setIsReady(true)
     }
     init()
   }, [loadOfferings])
 
   // purchase a package
-  const purchasePackage = useCallback(async (pack: PurchasesPackage) => {}, [])
+  const purchasePackage = useCallback(async (pack: PurchasesPackage) => {
+    try {
+      await Purchases.purchasePackage(pack)
+
+      if (pack.product.identifier === '') {
+        // setUser
+      }
+    } catch (err: any) {
+      console.log(err)
+      Alert.alert(err)
+    }
+  }, [])
 
   const updateCustomerInformation = useCallback(async (customerInfo: CustomerInfo) => {}, [])
-
-  if (!isReady) return null
 
   const value: RevenueCatProps = {
     purchasePackage,

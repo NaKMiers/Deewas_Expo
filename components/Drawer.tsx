@@ -30,7 +30,6 @@ function Drawer() {
       backgroundStyle={{
         backgroundColor: isDarkColorScheme ? '#161616' : '#fff',
         borderColor: isDarkColorScheme ? '#333' : '#ccc',
-        borderTopWidth: 0,
         borderWidth: 2,
         borderRadius: 24,
       }}

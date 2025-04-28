@@ -991,6 +991,7 @@
     "Authentication failed": "Xác thực thất bại",
     "Biometric authentication is not supported on this device": "Xác thực sinh trắc học không được hỗ trợ trên thiết bị này",
     "Biometric authentication failed": "Xác thực sinh trắc học thất bại",
-    "Please select a personality": "Vui lòng chọn một tính cách"
+    "Please select a personality": "Vui lòng chọn một tính cách",
+    "This account is authenticated by google": "Tài khoản này được xác thực bởi google"
   }
 }

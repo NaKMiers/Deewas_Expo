@@ -13,14 +13,16 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "extra": {
       "webServerUrl": "http://localhost:3000",
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "6f094dfa-357a-4068-9daf-3650253a3a14"
+        "projectId": "428174c8-cad5-4616-b860-0aa5bab784f7"
       }
     },
     "ios": {
