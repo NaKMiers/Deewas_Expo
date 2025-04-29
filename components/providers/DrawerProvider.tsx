@@ -1,93 +1,27 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Drawer from '../Drawer'
-import Drawer0 from '../Drawer0'
-import Drawer2 from '../Drawer2'
-import Drawer3 from '../Drawer3'
-import Drawer4 from '../Drawer4'
 
 interface DrawerContextType {
-  openDrawer0: (_content: ReactNode, _reach?: number) => void
   openDrawer: (_content: ReactNode, _reach?: number) => void
-  openDrawer2: (_content: ReactNode, _reach?: number) => void
-  openDrawer3: (_content: ReactNode, _reach?: number) => void
-  openDrawer4: (_content: ReactNode, _reach?: number) => void
-  closeDrawer0: () => void
   closeDrawer: () => void
-  closeDrawer2: () => void
-  closeDrawer3: () => void
-  closeDrawer4: () => void
-  content0: ReactNode | null
   content: ReactNode | null
-  content2: ReactNode | null
-  content3: ReactNode | null
-  content4: ReactNode | null
-  open0: boolean
   open: boolean
-  open2: boolean
-  open3: boolean
-  open4: boolean
-  reach0: number
   reach: number
-  reach2: number
-  reach3: number
-  reach4: number
 }
 
 const DrawerContext = createContext<DrawerContextType | undefined>(undefined)
 
 const DEFAULT_REACH = 2
 function DrawerProvider({ children }: { children: ReactNode }) {
-  const [open0, setOpen0] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
-  const [open2, setOpen2] = useState<boolean>(false)
-  const [open3, setOpen3] = useState<boolean>(false)
-  const [open4, setOpen4] = useState<boolean>(false)
-  const [content0, setContent0] = useState<ReactNode | null>(null)
   const [content, setContent] = useState<ReactNode | null>(null)
-  const [content2, setContent2] = useState<ReactNode | null>(null)
-  const [content3, setContent3] = useState<ReactNode | null>(null)
-  const [content4, setContent4] = useState<ReactNode | null>(null)
-  const [reach0, setReach0] = useState<number>(DEFAULT_REACH)
   const [reach, setReach] = useState<number>(DEFAULT_REACH)
-  const [reach2, setReach2] = useState<number>(DEFAULT_REACH)
-  const [reach3, setReach3] = useState<number>(DEFAULT_REACH)
-  const [reach4, setReach4] = useState<number>(DEFAULT_REACH)
-
-  const openDrawer0 = (content: ReactNode, reach?: number) => {
-    setContent0(content)
-    setOpen0(true)
-    setReach0(reach || DEFAULT_REACH)
-  }
 
   const openDrawer = (content: ReactNode, reach?: number) => {
     setContent(content)
     setOpen(true)
     setReach(reach || DEFAULT_REACH)
-  }
-
-  const openDrawer2 = (content: ReactNode, reach?: number) => {
-    setContent2(content)
-    setOpen2(true)
-    setReach2(reach || DEFAULT_REACH)
-  }
-
-  const openDrawer3 = (content: ReactNode, reach?: number) => {
-    setContent3(content)
-    setOpen3(true)
-    setReach3(reach || DEFAULT_REACH)
-  }
-
-  const openDrawer4 = (content: ReactNode, reach?: number) => {
-    setContent4(content)
-    setOpen4(true)
-    setReach4(reach || DEFAULT_REACH)
-  }
-
-  const closeDrawer0 = () => {
-    setOpen0(false)
-    setContent0(null)
-    setReach0(2)
   }
 
   const closeDrawer = () => {
@@ -96,62 +30,20 @@ function DrawerProvider({ children }: { children: ReactNode }) {
     setReach(2)
   }
 
-  const closeDrawer2 = () => {
-    setOpen2(false)
-    setContent2(null)
-    setReach2(2)
-  }
-
-  const closeDrawer3 = () => {
-    setOpen3(false)
-    setContent3(null)
-    setReach3(2)
-  }
-
-  const closeDrawer4 = () => {
-    setOpen4(false)
-    setContent4(null)
-    setReach4(2)
-  }
-
   return (
     <GestureHandlerRootView className="flex-1">
       <DrawerContext.Provider
         value={{
-          openDrawer0,
           openDrawer,
-          openDrawer2,
-          openDrawer3,
-          openDrawer4,
-          closeDrawer0,
           closeDrawer,
-          closeDrawer2,
-          closeDrawer3,
-          closeDrawer4,
-          content0,
           content,
-          content2,
-          content3,
-          content4,
-          open0,
           open,
-          open2,
-          open3,
-          open4,
-          reach0,
           reach,
-          reach2,
-          reach3,
-          reach4,
         }}
       >
         {children}
 
-        <Drawer0 />
         <Drawer />
-        <Drawer2 />
-        <Drawer3 />
-        <Drawer4 />
       </DrawerContext.Provider>
     </GestureHandlerRootView>
   )

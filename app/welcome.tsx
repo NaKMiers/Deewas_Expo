@@ -112,14 +112,14 @@ function WelcomePage() {
                 {t('Deewas')}{' '}
                 <Text
                   className="font-semibold tracking-tight text-sky-500"
-                  onPress={() => router.push('/policies/privacy-policy')}
+                  onPress={() => router.push('/privacy-policy')}
                 >
                   {t('Privacy Policy')}
                 </Text>{' '}
                 {t('and')}{' '}
                 <Text
                   className="font-semibold tracking-tight text-sky-500"
-                  onPress={() => router.push('/policies/terms-and-conditions')}
+                  onPress={() => router.push('/terms-and-conditions')}
                 >
                   {t('Terms of Conditions')}
                 </Text>{' '}

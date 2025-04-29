@@ -1,7 +1,7 @@
-import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
 import Icon from '@/components/Icon'
 import MonthYearPicker from '@/components/MonthYearPicker'
 import NoItemsFound from '@/components/NoItemsFound'
+import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import Transaction from '@/components/Transaction'
 import { Button } from '@/components/ui/button'
@@ -25,8 +25,8 @@ import {
   subMonths,
 } from 'date-fns'
 import * as Haptics from 'expo-haptics'
+import { router } from 'expo-router'
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react-native'
-import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -37,6 +37,7 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADM
 
 function CalendarPage() {
   // hooks
+  const { isPremium } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('calendarPage.' + key)
   const dispatch = useAppDispatch()
@@ -51,7 +52,6 @@ function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
-  const [openCreateTransaction, setOpenCreateTransaction] = useState<Date | undefined>(undefined)
 
   // ad states
   const [adLoadFailed, setAdLoadFailed] = useState<boolean>(false)
@@ -180,7 +180,7 @@ function CalendarPage() {
                         onPress={() => setSelectedDate(day)}
                         onLongPress={() => {
                           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-                          setOpenCreateTransaction(day)
+                          router.push(`/create-transaction?initDate=${day.toISOString()}`)
                         }}
                         delayLongPress={500}
                         key={day.toString()}
@@ -204,7 +204,7 @@ function CalendarPage() {
                                     total < 0 ? 'text-rose-500' : 'text-emerald-500'
                                   )}
                                 >
-                                  {currency && `${total > 0 ? '+' : '-'}`}
+                                  {currency && `${total > 0 ? '+' : total < 0 ? '-' : ''}`}
                                 </Text>
                               )}
                               <Text
@@ -213,7 +213,7 @@ function CalendarPage() {
                                   total < 0 ? 'text-rose-500' : 'text-emerald-500'
                                 )}
                               >
-                                {formatCompactNumber(Math.abs(total), true)}
+                                {formatCompactNumber(Math.abs(total), locale)}
                               </Text>
                             </View>
                             <View className="mt-1 h-0.5 w-full overflow-hidden rounded-full bg-muted-foreground/20">
@@ -239,7 +239,7 @@ function CalendarPage() {
                 </View>
               </View>
 
-              {!adLoadFailed && (
+              {!isPremium && !adLoadFailed && (
                 <View className="flex-row items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
                   <BannerAd
                     unitId={adUnitId}
@@ -309,14 +309,6 @@ function CalendarPage() {
 
         <Separator className="my-16 h-0" />
       </ScrollView>
-
-      <CreateTransactionDrawer
-        initDate={moment(openCreateTransaction).toString()}
-        open={!!openCreateTransaction}
-        onClose={() => setOpenCreateTransaction(undefined)}
-        refresh={() => dispatch(refresh())}
-        reach={3}
-      />
     </SafeAreaView>
   )
 }

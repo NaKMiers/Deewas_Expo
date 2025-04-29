@@ -1,10 +1,9 @@
-import CreateWalletDrawer from '@/components/dialogs/CreateWalletDrawer'
-import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh } from '@/lib/reducers/loadReducer'
-import { addWallet, deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
+import { setWalletToEdit } from '@/lib/reducers/screenReducer'
+import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi } from '@/requests/walletRequests'
+import { router } from 'expo-router'
 import {
   LucideChevronsUpDown,
   LucideGalleryVerticalEnd,
@@ -16,14 +15,14 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
-import ConfirmDialog from './dialogs/ConfirmDialog'
-import Icon from './Icon'
-import { useDrawer } from './providers/DrawerProvider'
-import Text from './Text'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import { Separator } from './ui/separator'
-import { Skeleton } from './ui/skeleton'
+import Icon from '../Icon'
+import { useDrawer } from '../providers/DrawerProvider'
+import Text from '../Text'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+import { Separator } from '../ui/separator'
+import { Skeleton } from '../ui/skeleton'
+import ConfirmDialog from './ConfirmDialog'
 
 interface WalletPickerProps {
   onChange: (wallet: IWallet | null) => void
@@ -39,7 +38,7 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
 
   // store
   const { wallets } = useAppSelector(state => state.wallet)
-  const { closeDrawer2: closeDrawer } = useDrawer()
+  const { closeDrawer } = useDrawer()
   const [deleting, setDeleting] = useState<string>('')
 
   const [filterText, setFilterText] = useState<string>('')
@@ -87,7 +86,7 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
           </Text>
         </View>
 
-        <View className="mt-6 rounded-lg border">
+        <View className="mt-6 rounded-lg border border-primary">
           <Input
             autoFocus={false}
             className="text-base md:text-sm"
@@ -96,19 +95,18 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
             onChangeText={text => setFilterText(text)}
           />
 
-          <CreateWalletDrawer
-            update={wallet => dispatch(addWallet(wallet))}
-            refresh={() => dispatch(refresh())}
-            trigger={
-              <View className="mb-0.5 flex h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4">
-                <Icon
-                  render={LucidePlusSquare}
-                  size={18}
-                />
-                <Text className="font-semibold">{t('Create Wallet')}</Text>
-              </View>
-            }
-          />
+          {/* MARK: Create Wallet */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => router.push('/create-wallet')}
+            className="mb-0.5 flex h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4"
+          >
+            <Icon
+              render={LucidePlusSquare}
+              size={18}
+            />
+            <Text className="font-semibold">{t('Create Wallet')}</Text>
+          </TouchableOpacity>
 
           {isAllowedAll && (
             <TouchableOpacity
@@ -136,7 +134,7 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
               .map(wallet => (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  className="flex h-10 flex-1 flex-row items-center justify-between gap-2 py-2"
+                  className="flex h-10 flex-1 flex-row items-center justify-between gap-2 px-2 py-2"
                   onPress={() => {
                     onChange(wallet)
                     isAllowedAll && dispatch(setCurWallet(wallet))
@@ -152,20 +150,19 @@ function WalletPicker({ isAllowedAll, onChange, className }: WalletPickerProps) 
 
                   <View className="flex flex-row items-center justify-end gap-1">
                     {/* MARK: Update Wallet */}
-                    <UpdateWalletDrawer
-                      wallet={wallet}
-                      update={(wallet: IWallet) => dispatch(updateWallet(wallet))}
-                      refresh={() => dispatch(refresh())}
-                      trigger={
-                        <View>
-                          <Icon
-                            render={LucidePencil}
-                            size={18}
-                            color="#0ea5e9"
-                          />
-                        </View>
-                      }
-                    />
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        dispatch(setWalletToEdit(wallet))
+                        router.push('/update-wallet')
+                      }}
+                    >
+                      <Icon
+                        render={LucidePencil}
+                        size={18}
+                        color="#0ea5e9"
+                      />
+                    </TouchableOpacity>
 
                     {/* MARK: Delete Wallet */}
                     <ConfirmDialog
@@ -218,7 +215,7 @@ const Node = ({ wallet, isAllowedAll, onChange, className, ...rest }: WalletPick
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletPicker.' + key)
-  const { openDrawer2: openDrawer } = useDrawer()
+  const { openDrawer } = useDrawer()
 
   // store
   const { loading } = useAppSelector(state => state.wallet)

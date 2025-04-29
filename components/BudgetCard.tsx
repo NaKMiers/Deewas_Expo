@@ -1,17 +1,16 @@
-import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
-import UpdateBudgetDrawer from '@/components/dialogs/UpdateBudgetDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { addBudget, deleteBudget, updateBudget } from '@/lib/reducers/budgetReducer'
-import { refresh } from '@/lib/reducers/loadReducer'
+import { deleteBudget } from '@/lib/reducers/budgetReducer'
+import { setBudgetToEdit, setInitCategory } from '@/lib/reducers/screenReducer'
 import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteBudgetApi } from '@/requests/budgetRequests'
 import { differenceInDays } from 'date-fns'
+import { router } from 'expo-router'
 import { LucideEllipsis, LucideLayers2, LucidePencil, LucideTrash } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
@@ -99,43 +98,40 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {/* MARK: Duplicate */}
-                <CreateBudgetDrawer
-                  initTotal={budget.total}
-                  initCategory={budget.category}
-                  initBegin={moment(budget.begin).add(1, 'month').toDate()}
-                  initEnd={moment(budget.end).add(1, 'month').toDate()}
-                  update={(budget: IFullBudget) => dispatch(addBudget(budget))}
-                  refresh={() => dispatch(refresh())}
-                  trigger={
-                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                      <Icon
-                        render={LucideLayers2}
-                        size={16}
-                        color="#8b5cf6"
-                      />
-                      <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
-                    </View>
-                  }
-                  reach={2}
-                />
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    dispatch(setInitCategory(budget.category))
+                    router.push(
+                      `/create-budget?initTotal=${budget.total}&initBegin=${moment(budget.begin).add(1, 'month').toISOString()}&initEnd=${moment(budget.end).add(1, 'month').toISOString()}`
+                    )
+                  }}
+                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                >
+                  <Icon
+                    render={LucideLayers2}
+                    size={16}
+                    color="#8b5cf6"
+                  />
+                  <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
+                </TouchableOpacity>
 
                 {/* MARK: Update */}
-                <UpdateBudgetDrawer
-                  update={(budget: IFullBudget) => dispatch(updateBudget(budget))}
-                  refresh={() => dispatch(refresh())}
-                  budget={budget}
-                  trigger={
-                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                      <Icon
-                        render={LucidePencil}
-                        size={16}
-                        color="#0ea5e9"
-                      />
-                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                    </View>
-                  }
-                  reach={2}
-                />
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    dispatch(setBudgetToEdit(budget))
+                    router.push('/update-budget')
+                  }}
+                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                >
+                  <Icon
+                    render={LucidePencil}
+                    size={16}
+                    color="#0ea5e9"
+                  />
+                  <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                </TouchableOpacity>
 
                 {/* MARK: Delete */}
                 <ConfirmDialog

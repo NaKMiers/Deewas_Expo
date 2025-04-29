@@ -80,6 +80,7 @@
   },
   "accountPage": {
     "Deleting all data": "Deleting all data",
+    "Premium Account": "Premium Account",
     "Free Account": "Free Account",
     "Flash Sale": "Flash Sale",
     "Wallets": "Wallets",
@@ -461,7 +462,7 @@
     "Hi": "Hi",
     "Upgrade": "Upgrade"
   },
-  "createBudgetDrawer": {
+  "createBudgetPage": {
     "Failed to create budget": "Failed to create budget",
     "Amount is required": "Amount is required",
     "Amount must be greater than 0": "Amount must be greater than 0",
@@ -471,13 +472,14 @@
     "Failed to create transaction": "Failed to create transaction",
     "Create Budget": "Create Budget",
     "Budget helps you manage money wisely": "Budget helps you manage money wisely",
+    "Select Category": "Select Category",
     "Total": "Total",
     "Category": "Category",
     "From - To": "From - To",
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "createCategoryDrawer": {
+  "createCategoryPage": {
     "Name is required": "Name is required",
     "Creating category": "Creating category",
     "Create": "Create",
@@ -503,7 +505,7 @@
     "Save": "Save",
     "Category name": "Category name"
   },
-  "createTransactionDrawer": {
+  "createTransactionPage": {
     "Wallet is required": "Wallet is required",
     "Name is required": "Name is required",
     "Amount is required": "Amount is required",
@@ -532,12 +534,12 @@
     "Category": "Category",
     "Date": "Date",
     "Select Date": "Select Date",
+    "Select Category": "Select Category",
     "When did this transaction happen?": "When did this transaction happen?",
     "Cancel": "Cancel",
-    "Save": "Save",
-    "Transaction name": "Transaction name"
+    "Save": "Save"
   },
-  "createWalletDrawer": {
+  "createWalletPage": {
     "Name is required": "Name is required",
     "Creating wallet": "Creating wallet",
     "Create wallet": "Create wallet",
@@ -552,7 +554,7 @@
     "Save": "Save",
     "Wallet name": "Wallet name"
   },
-  "updateBudgetDrawer": {
+  "updateBudgetPage": {
     "Amount is required": "Amount is required",
     "Amount must be greater than 0": "Amount must be greater than 0",
     "Category is required": "Category is required",
@@ -567,7 +569,7 @@
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "updateCategoryDrawer": {
+  "updateCategoryPage": {
     "Name is required": "Name is required",
     "Updating category": "Updating category",
     "Update": "Update",
@@ -591,7 +593,7 @@
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "updateTransactionDrawer": {
+  "updateTransactionPage": {
     "Wallet is required": "Wallet is required",
     "Name is required": "Name is required",
     "Amount is required": "Amount is required",
@@ -618,11 +620,12 @@
     "Category": "Category",
     "Date": "Date",
     "Select Date": "Select Date",
+    "Select Category": "Select Category",
     "When did this transaction happen?": "When did this transaction happen?",
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "updateWalletDrawer": {
+  "updateWalletPage": {
     "Name is required": "Name is required",
     "Updating wallet": "Updating wallet",
     "Update wallet": "Update wallet",
@@ -636,7 +639,7 @@
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "transferFundDrawer": {
+  "transferFundPage": {
     "Source wallet is required": "Source wallet is required",
     "Destination wallet is required": "Destination wallet is required",
     "Source wallet and destination wallet must be different": "Source wallet and destination wallet must be different",
@@ -655,7 +658,7 @@
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "changePersonalitiesDrawer": {
+  "changePersonalityPage": {
     "Pick a personality for Deewas assistant?": "Pick a personality for Deewas assistant?",
     "Select multiple if you'd like to mix styles": "Select multiple if you'd like to mix styles",
     "Save": "Save",
@@ -711,7 +714,7 @@
     "transfer": "transfer",
     "Transfer": "Transfer"
   },
-  "categoryPicker": {
+  "categoryPickerPage": {
     "Failed to get categories": "Failed to get categories",
     "Select Category": "Select Category",
     "Categories are used to group your transactions": "Categories are used to group your transactions",
@@ -736,7 +739,7 @@
     "Delete": "Delete",
     "Cancel": "Cancel"
   },
-  "emojiPicker": {
+  "emojiPickerPage": {
     "Pick an emoji": "Pick an emoji",
     "Emojis are a fun way to express yourself": "Emojis are a fun way to express yourself",
     "Find an emoji": "Find an emoji",
@@ -945,6 +948,18 @@
     "Enter PIN": "Enter PIN",
     "Cancel": "Cancel"
   },
+  "revenueCatProvider": {
+    "Purchase Success": "Purchase Success",
+    "You are now Premium!": "You are now Premium!",
+    "Purchase Failed": "Purchase Failed",
+    "No active premium found": "No active premium found",
+    "Restore Success": "Restore Success",
+    "Your Premium access has been restored!": "Your Premium access has been restored!",
+    "Restore Failed": "Restore Failed",
+    "No active premium found to restore": "No active premium found to restore",
+    "Restore Error": "Restore Error",
+    "Unknown error during restore": "Unknown error during restore"
+  },
   "success": {
     "Sign In Success": "Sign In Success",
     "You have successfully signed in": "You have successfully signed in",
@@ -968,7 +983,8 @@
     "Personalities changed": "Personalities changed",
     "Update currency successfully": "Update currency successfully",
     "Erase all data successfully": "Erase all data successfully",
-    "Authentication successful": "Authentication successful"
+    "Authentication successful": "Authentication successful",
+    "Wallet updated": "Wallet updated"
   },
   "error": {
     "Error": "Error",
@@ -1012,6 +1028,7 @@
     "Biometric authentication is not supported on this device": "Biometric authentication is not supported on this device",
     "Biometric authentication failed": "Biometric authentication failed",
     "Please select a personality": "Please select a personality",
-    "This account is authenticated by google": "This account is authenticated by google"
+    "This account is authenticated by google": "This account is authenticated by google",
+    "Failed to update wallet": "Failed to update wallet"
   }
 }

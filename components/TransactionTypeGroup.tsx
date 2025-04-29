@@ -1,12 +1,11 @@
-import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh } from '@/lib/reducers/loadReducer'
+import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
+import { router } from 'expo-router'
 import { LucideEllipsisVertical, LucidePlusCircle } from 'lucide-react-native'
 import { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TouchableWithoutFeedback, View } from 'react-native'
+import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import Icon from './Icon'
 import Text from './Text'
@@ -22,7 +21,6 @@ interface ITransactionTypeGroupProps {
 
 function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionTypeGroupProps) {
   // hooks
-  const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('transactionTypeGroup.' + key)
 
@@ -91,20 +89,18 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="max-w-max p-0">
-                <CreateTransactionDrawer
-                  type={type}
-                  refresh={() => dispatch(refresh())}
-                  trigger={
-                    <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal">
-                      <Icon
-                        render={LucidePlusCircle}
-                        size={18}
-                      />
-                      <Text className="font-semibold">{t('Add Transaction')}</Text>
-                    </View>
-                  }
-                  reach={3}
-                />
+                {/* MARK: Create Transaction */}
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => router.push(`/create-transaction?type=${type}`)}
+                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal"
+                >
+                  <Icon
+                    render={LucidePlusCircle}
+                    size={18}
+                  />
+                  <Text className="font-semibold">{t('Add Transaction')}</Text>
+                </TouchableOpacity>
               </DropdownMenuContent>
             </DropdownMenu>
           </View>

@@ -1,12 +1,10 @@
-import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
-import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
-import UpdateCategoryDrawer from '@/components/dialogs/UpdateCategoryDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { updateCategory } from '@/lib/reducers/categoryReduce'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
+import { setCategoryToEdit, setInitCategory } from '@/lib/reducers/screenReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi } from '@/requests/categoryRequests'
+import { router } from 'expo-router'
 import {
   LucideBarChart2,
   LucideEllipsisVertical,
@@ -16,7 +14,7 @@ import {
 } from 'lucide-react-native'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
@@ -42,7 +40,6 @@ function Category({ category, hideMenu, className }: CategoryProps) {
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
   // states
-  const [updating, setUpdating] = useState<boolean>(false)
   const [deleting, setDeleting] = useState<boolean>(false)
 
   // values
@@ -110,7 +107,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
 
           {/* MARK: Menu */}
           {!hideMenu &&
-            (!updating && !deleting ? (
+            (!deleting ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -125,57 +122,58 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
+                  {/* MARK: Create Transaction */}
                   {category.type === 'expense' && (
-                    <CreateTransactionDrawer
-                      initCategory={category}
-                      refresh={() => dispatch(refresh())}
-                      trigger={
-                        <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                          <Icon
-                            render={LucidePlus}
-                            size={16}
-                          />
-                          <Text className="font-semibold">{t('Add Transaction')}</Text>
-                        </View>
-                      }
-                      reach={3}
-                    />
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        dispatch(setInitCategory(category))
+                        router.push('/create-transaction')
+                      }}
+                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                    >
+                      <Icon
+                        render={LucidePlus}
+                        size={16}
+                      />
+                      <Text className="font-semibold">{t('Add Transaction')}</Text>
+                    </TouchableOpacity>
                   )}
 
                   {category.type === 'expense' && (
-                    <CreateBudgetDrawer
-                      initCategory={category}
-                      refresh={() => dispatch(refresh())}
-                      trigger={
-                        <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                          <Icon
-                            render={LucideBarChart2}
-                            size={16}
-                            color="#f97316"
-                          />
-                          <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
-                        </View>
-                      }
-                      reach={2}
-                    />
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        dispatch(setInitCategory(category))
+                        router.push('/create-budget')
+                      }}
+                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                    >
+                      <Icon
+                        render={LucideBarChart2}
+                        size={16}
+                        color="#f97316"
+                      />
+                      <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
+                    </TouchableOpacity>
                   )}
 
-                  <UpdateCategoryDrawer
-                    category={category}
-                    update={(category: ICategory) => dispatch(updateCategory(category))}
-                    refresh={() => dispatch(refresh())}
-                    load={setUpdating}
-                    trigger={
-                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                        <Icon
-                          render={LucidePencil}
-                          size={16}
-                          color="#0ea5e9"
-                        />
-                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                      </View>
-                    }
-                  />
+                  {/* MARK: Update Category */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      dispatch(setCategoryToEdit(category))
+                      router.push('/update-category')
+                    }}
+                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                  >
+                    <Icon
+                      render={LucidePencil}
+                      size={16}
+                      color="#0ea5e9"
+                    />
+                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                  </TouchableOpacity>
 
                   {category.deletable && (
                     <ConfirmDialog

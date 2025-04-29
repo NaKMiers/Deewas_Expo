@@ -54,7 +54,7 @@ function PrivacyPolicyPage() {
             <TouchableOpacity>
               <Text className="underline">{t('Privacy Policy')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.replace('/policies/terms-and-conditions')}>
+            <TouchableOpacity onPress={() => router.replace('/terms-and-conditions')}>
               <Text>{t('Terms And Conditions')}</Text>
             </TouchableOpacity>
           </View>

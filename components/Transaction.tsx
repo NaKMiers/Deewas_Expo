@@ -1,10 +1,11 @@
-import UpdateTransactionDrawer from '@/components/dialogs/UpdateTransactionDrawer'
 import { currencies } from '@/constants/settings'
-import { useAppSelector } from '@/hooks/reduxHook'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { setTransactionToEdit } from '@/lib/reducers/screenReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi } from '@/requests'
+import { router } from 'expo-router'
 import {
   LucideChevronDown,
   LucideChevronUp,
@@ -16,7 +17,7 @@ import {
 import moment from 'moment-timezone'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
@@ -39,6 +40,7 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
   const t = (value: string) => translate('transaction.' + value)
   const tSuccess = useCallback((value: string) => translate('success.' + value), [translate])
   const tError = useCallback((value: string) => translate('error.' + value), [translate])
+  const dispatch = useAppDispatch()
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -196,23 +198,22 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
                     }
                   />
 
-                  {/* MARK: Update */}
-                  <UpdateTransactionDrawer
-                    transaction={transaction}
-                    update={update}
-                    refresh={refresh}
-                    trigger={
-                      <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4">
-                        <Icon
-                          render={LucidePencil}
-                          size={16}
-                          color="#0ea5e9"
-                        />
-                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                      </View>
-                    }
-                    reach={3}
-                  />
+                  {/* MARK: Update Transaction */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      dispatch(setTransactionToEdit(transaction))
+                      router.push('/update-transaction')
+                    }}
+                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4"
+                  >
+                    <Icon
+                      render={LucidePencil}
+                      size={16}
+                      color="#0ea5e9"
+                    />
+                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                  </TouchableOpacity>
 
                   {/* MARK: Delete */}
                   <ConfirmDialog

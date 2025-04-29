@@ -21,3 +21,26 @@ export * from './walletRequests'
 
 // Reports
 export * from './reportRequests'
+
+import { BASE_URL, getToken } from '@/lib/utils'
+const API = BASE_URL + '/api'
+
+// [GET]: /
+export const initApi = async () => {
+  const token = await getToken()
+  if (!token) throw new Error('No token found')
+
+  const res = await fetch(API, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}

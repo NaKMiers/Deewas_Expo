@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import budgetReducer from './reducers/budgetReducer'
-import categoryReduce from './reducers/categoryReduce'
+import categoryReducer from './reducers/categoryReducer'
 import loadReducer from './reducers/loadReducer'
+import screenReducer from './reducers/screenReducer'
 import settingsReducer from './reducers/settingsReducer'
 import transactionReducer from './reducers/transactionReducer'
 import userReducer from './reducers/userReducer'
@@ -10,10 +11,11 @@ import walletReducer from './reducers/walletReducer'
 export const makeStore = () => {
   return configureStore({
     reducer: {
+      screen: screenReducer,
       load: loadReducer,
       settings: settingsReducer,
       wallet: walletReducer,
-      category: categoryReduce,
+      category: categoryReducer,
       transaction: transactionReducer,
       budget: budgetReducer,
       user: userReducer,

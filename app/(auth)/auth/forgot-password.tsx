@@ -34,16 +34,18 @@ function ForgotPasswordPage() {
 
   // form
   const {
+    setValue,
     handleSubmit,
-    formState: { errors },
     setError,
     clearErrors,
-    control,
+    watch,
+    formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
       email: '',
     },
   })
+  const form = watch()
 
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
@@ -151,13 +153,13 @@ function ForgotPasswordPage() {
                   <CustomInput
                     id="email"
                     label={t('Email')}
-                    type="email"
-                    control={control}
-                    errors={errors}
-                    onFocus={() => clearErrors('email')}
-                    labelClassName="text-black"
-                    className="bg-white text-black"
+                    value={form.email}
                     placeholder="..."
+                    onChange={setValue}
+                    onFocus={() => clearErrors('email')}
+                    errors={errors}
+                    labelClassName="text-black"
+                    containerClassName="bg-white"
                   />
                 </View>
 

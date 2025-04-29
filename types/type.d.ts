@@ -79,8 +79,8 @@ declare interface IUser {
   initiated: boolean
 
   plan: string
-  planExpiredAt: Date
-  paymentMethod: string
+  planExpiredAt: Date | null
+  purchasedAtPlatform: string
 }
 
 declare type IFullUser = IUser & { iat: number; exp: number }
@@ -106,23 +106,6 @@ declare interface IWallet {
 }
 
 declare type IFullWallet = IWallet & { user: IUser }
-
-declare interface IBudget {
-  _id: string
-  createdAt: string
-  updatedAt: string
-
-  user: string
-  category: string
-
-  total: number
-  begin: string
-  end: string
-
-  amount: number
-}
-
-declare type IFullBudget = IBudget & { user: IUser; category: ICategory }
 
 // Components
 declare type ChartType = 'bar' | 'line' | 'pie' | 'radar' | 'pyramid'

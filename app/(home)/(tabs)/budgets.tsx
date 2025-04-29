@@ -1,62 +1,41 @@
 import BudgetTab from '@/components/BudgetTab'
-import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
 import Icon from '@/components/Icon'
+import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { addBudget, setBudgets } from '@/lib/reducers/budgetReducer'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { formatTimeRange } from '@/lib/time'
-import { getMyBudgetsApi } from '@/requests'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { router } from 'expo-router'
 import { LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
 
 function BudgetsPage() {
   // hooks
+  const { isPremium } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('budgetPage.' + key)
 
   // store
-  const { budgets } = useAppSelector(state => state.budget)
-  const { refreshing, refreshPoint } = useAppSelector(state => state.load)
+  const { budgets, loading } = useAppSelector(state => state.budget)
+  const { refreshing } = useAppSelector(state => state.load)
 
   // states
-  const [loading, setLoading] = useState<boolean>(false)
   const [groups, setGroups] = useState<any[]>([])
   const [tab, setTab] = useState<string>(groups?.[0]?.[0])
   const [tabLabels, setTabLabels] = useState<string[]>([])
 
   // ad states
   const [adLoaded, setAdLoaded] = useState<boolean>(false)
-
-  // initial fetch
-  useEffect(() => {
-    const getBudgets = async () => {
-      // start loading
-      setLoading(true)
-
-      try {
-        const { budgets } = await getMyBudgetsApi()
-        dispatch(setBudgets(budgets))
-      } catch (err: any) {
-        console.log(err)
-      } finally {
-        // stop loading
-        setLoading(false)
-      }
-    }
-
-    getBudgets()
-  }, [dispatch, refreshPoint])
 
   useEffect(() => {
     const groups: {
@@ -154,33 +133,32 @@ function BudgetsPage() {
       </ScrollView>
 
       {/* MARK: Create Transaction */}
-      <CreateBudgetDrawer
-        update={(budget: IFullBudget) => dispatch(addBudget(budget))}
-        trigger={
-          <View
-            className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
-            style={{ bottom: adLoaded ? 78 : 10 }}
-          >
-            <Icon
-              render={LucidePlus}
-              size={20}
-              reverse
-            />
-            <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
-          </View>
-        }
-        reach={2}
-      />
-
-      <View className="absolute bottom-2.5 z-20 flex flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
-        <BannerAd
-          unitId={adUnitId}
-          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          onAdLoaded={() => setAdLoaded(true)}
-          onAdFailedToLoad={() => setAdLoaded(false)}
-          onAdClosed={() => setAdLoaded(false)}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => router.push('/create-budget')}
+        className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+        style={{ bottom: adLoaded && !isPremium ? 78 : 10 }}
+      >
+        <Icon
+          render={LucidePlus}
+          size={20}
+          reverse
         />
-      </View>
+        <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
+      </TouchableOpacity>
+
+      {/* MARK: Ads */}
+      {!isPremium && (
+        <View className="absolute bottom-2.5 z-20 flex flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+          <BannerAd
+            unitId={adUnitId}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            onAdLoaded={() => setAdLoaded(true)}
+            onAdFailedToLoad={() => setAdLoaded(false)}
+            onAdClosed={() => setAdLoaded(false)}
+          />
+        </View>
+      )}
     </SafeAreaView>
   )
 }

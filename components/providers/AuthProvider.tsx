@@ -1,9 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { clearUser, setLoading, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
+import { refreshTokenApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
 import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
+import moment from 'moment'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert } from 'react-native'
@@ -11,7 +13,9 @@ import { Alert } from 'react-native'
 interface AuthContextValue {
   token: string | null
   user: IFullUser | null
+  isPremium: boolean
   loading: boolean
+  refreshToken: () => Promise<void>
   logout: () => Promise<void>
   onboarding: any
   switchBiometric: (value?: -1 | 0 | 1) => Promise<void>
@@ -28,16 +32,32 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // states
+  const [isPremium, setIsPremium] = useState<boolean>(false)
   const [biometric, setBiometric] = useState<any>({
     open: false,
     isSupported: false,
   })
 
+  // check if user is premium
+  useEffect(() => {
+    if (!user) return
+
+    switch (user.plan) {
+      case 'premium-lifetime':
+        setIsPremium(true)
+        break
+      case 'premium-monthly':
+      case 'premium-yearly':
+        setIsPremium(moment(user.planExpiredAt).isAfter(moment())) // not expire yet
+        break
+      default:
+        setIsPremium(false)
+    }
+  }, [user])
+
   // load user data from AsyncStorage
   useEffect(() => {
     const loadUserData = async () => {
-      dispatch(setLoading(true))
-
       try {
         const storedToken = await AsyncStorage.getItem('token')
         const onboarding = await AsyncStorage.getItem('onboarding')
@@ -65,13 +85,29 @@ function AuthProvider({ children }: { children: ReactNode }) {
         console.log(err)
         await AsyncStorage.removeItem('token')
         dispatch(clearUser())
-      } finally {
-        dispatch(setLoading(false))
       }
     }
 
     loadUserData()
   }, [dispatch, token])
+
+  // refresh token
+  const refreshToken = useCallback(async () => {
+    try {
+      const { token } = await refreshTokenApi()
+
+      // save token and user
+      await AsyncStorage.setItem('token', token)
+      dispatch(setToken(token))
+    } catch (err: any) {
+      console.log(err)
+    }
+  }, [dispatch])
+
+  // refresh token
+  useEffect(() => {
+    refreshToken()
+  }, [refreshToken])
 
   // load biometric values
   useEffect(() => {
@@ -99,7 +135,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         return
       }
 
-      const val = value === 1 ? true : value === 0 ? false : !biometric.open
+      const val = value === 1 ? true : value === 0 || value === -1 ? false : !biometric.open
 
       try {
         let isSuccess = false
@@ -139,8 +175,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthContextValue = {
     token,
     user,
+    isPremium,
     onboarding,
     loading,
+    refreshToken,
     logout,
     switchBiometric,
     biometric,

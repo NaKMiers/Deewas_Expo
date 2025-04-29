@@ -1,7 +1,7 @@
 import { images } from '@/assets/images/images'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { router } from 'expo-router'
+import { router, usePathname } from 'expo-router'
 import { LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
 import { memo, useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -10,14 +10,14 @@ import { useAuth } from './providers/AuthProvider'
 
 interface NavbarProps {
   className?: string
-  state: any
   [key: string]: any
 }
 
-function Navbar({ className, state }: NavbarProps) {
+function Navbar({ className }: NavbarProps) {
   // hooks
   const { user } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
+  const pathname = usePathname()
 
   const routes = useMemo(
     () => [
@@ -69,39 +69,37 @@ function Navbar({ className, state }: NavbarProps) {
       }}
     >
       <View className="flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary">
-        {routes.map(route => {
-          const isFocused = state.routes[state.index]?.name === route.label.toLowerCase()
-
-          return (
-            <TouchableOpacity
-              onPress={() => router.push(route.href as any)}
-              className={cn(
-                'trans-200 flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1'
-              )}
-              key={route.href}
-            >
-              {route.icon ? (
-                <route.icon
-                  size={24}
-                  color={isFocused ? route.activeColor : isDarkColorScheme ? 'black' : 'white'}
+        {routes.map(route => (
+          <TouchableOpacity
+            onPress={() => router.push(route.href as any)}
+            className={cn(
+              'trans-200 flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1'
+            )}
+            key={route.href}
+          >
+            {route.icon ? (
+              <route.icon
+                size={24}
+                color={
+                  pathname === route.href ? route.activeColor : isDarkColorScheme ? 'black' : 'white'
+                }
+              />
+            ) : (
+              <View
+                className={cn('overflow-hidden rounded-full', route.className)}
+                style={{ height: route.height || 26, width: route.width || 26 }}
+              >
+                <Image
+                  className="h-full w-full"
+                  source={route.source}
+                  fallbackSource={route.fallbackSource}
+                  resizeMode="cover"
+                  alt="account"
                 />
-              ) : (
-                <View
-                  className={cn('overflow-hidden rounded-full', route.className)}
-                  style={{ height: route.height || 26, width: route.width || 26 }}
-                >
-                  <Image
-                    className="h-full w-full"
-                    source={route.source}
-                    fallbackSource={route.fallbackSource}
-                    resizeMode="cover"
-                    alt="account"
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-          )
-        })}
+              </View>
+            )}
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   )

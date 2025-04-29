@@ -9,6 +9,7 @@ import {
   LucideTrendingUp,
   LucideWalletCards,
 } from 'lucide-react-native'
+import 'intl-locales-supported'
 
 export const shortName = (user: IUser) => {
   if (user?.firstName) {
@@ -30,9 +31,9 @@ export const formatSymbol = (currency: string): string =>
   currencies.find(c => c.value === currency)?.symbol || ''
 
 export const formatCurrency = (currency: string, amount: number): string => {
-  // const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
+  const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
 
-  const formattedAmount = new Intl.NumberFormat('en-US', {
+  const formattedAmount = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
     maximumFractionDigits: 2,
@@ -46,30 +47,16 @@ export function parseCurrency(currency: string): number {
   return Number(currency.replace(/\D+/g, ''))
 }
 
-export const formatPrice = (price: number = 0) => {
-  return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
+export const formatPrice = (
+  price: number = 0,
+  locale: string = 'en-US',
+  currencyCode: string = 'USD'
+) => {
+  return Intl.NumberFormat(locale, { style: 'currency', currency: currencyCode }).format(price)
 }
 
-export const formatCompactNumber = (num: number | string, isCurrency: boolean = false) => {
-  let value: number
-  if (isCurrency && typeof num === 'string') {
-    value = parseCurrency(num)
-  } else {
-    value = typeof num === 'string' ? parseFloat(num) : num
-  }
-
-  if (isNaN(value)) return '0'
-
-  const absValue = Math.abs(value)
-  if (absValue >= 1_000_000_000) {
-    return `${(value / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`
-  } else if (absValue >= 1_000_000) {
-    return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
-  } else if (absValue >= 1_000) {
-    return `${(value / 1_000).toFixed(1).replace(/\.0$/, '')}K`
-  } else {
-    return value.toFixed(0)
-  }
+export function formatCompactNumber(num: number, locale: string = 'en'): string {
+  return new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' }).format(num)
 }
 
 export const getLocale = (locale: string): locales.Locale => {
@@ -166,14 +153,15 @@ export const adjustCurrency = (input: string, locale: string) => {
 }
 
 export const revertAdjustedCurrency = (input: string, locale: string) => {
-  const decimalSeparator = locale === 'en-US' ? '.' : ','
-  const groupSeparator = locale === 'en-US' ? ',' : '.'
+  const formatter = new Intl.NumberFormat(locale)
+  const parts = formatter.formatToParts(1234.56)
 
-  const cleanValue = input
-    .replace(new RegExp(`\\${groupSeparator}`, 'g'), '')
-    .replace(decimalSeparator, '.')
+  const groupSeparator = parts.find(p => p.type === 'group')?.value || ','
+  const decimalSeparator = parts.find(p => p.type === 'decimal')?.value || '.'
 
-  return Number(cleanValue) || 0
+  return (
+    Number(input.replace(new RegExp(`\\${groupSeparator}`, 'g'), '').replace(decimalSeparator, '.')) || 0
+  )
 }
 
 export const ellipsis = (text: string, length: number = 100) => {

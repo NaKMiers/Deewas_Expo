@@ -1,15 +1,13 @@
 import { images } from '@/assets/images/images'
-import CreateBudgetDrawer from '@/components/dialogs/CreateBudgetDrawer'
 import { TabsContent } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { addBudget } from '@/lib/reducers/budgetReducer'
-import { refresh } from '@/lib/reducers/loadReducer'
-import { checkLevel, formatCompactNumber, formatCurrency } from '@/lib/string'
+import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { differenceInDays } from 'date-fns'
+import { router } from 'expo-router'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, View } from 'react-native'
+import { ImageBackground, TouchableOpacity, View } from 'react-native'
 import { Bar as ProgressBar } from 'react-native-progress'
 import BudgetCard from './BudgetCard'
 import Text from './Text'
@@ -72,15 +70,11 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
           <>
             <View className="flex w-full flex-row items-start justify-center gap-21">
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold text-violet-500">
-                  {formatCompactNumber(formatCurrency(currency, total), true)}
-                </Text>
+                <Text className="font-semibold text-violet-500">{formatCurrency(currency, total)}</Text>
                 <Text className="font-semibold tracking-tight text-black">{t('Total budgets')}</Text>
               </View>
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold text-violet-500">
-                  {formatCompactNumber(formatCurrency(currency, amount), true)}
-                </Text>
+                <Text className="font-semibold text-violet-500">{formatCurrency(currency, total)}</Text>
                 <Text className="font-semibold tracking-tight text-black">{t('Total spent')}</Text>
               </View>
             </View>
@@ -105,16 +99,13 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
         )}
 
         {/* MARK: Create Budget */}
-        <CreateBudgetDrawer
-          update={(budget: IFullBudget) => dispatch(addBudget(budget))}
-          refresh={() => dispatch(refresh())}
-          trigger={
-            <View className="flex h-12 flex-row items-center justify-center rounded-full bg-primary px-21">
-              <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
-            </View>
-          }
-          reach={2}
-        />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => router.push('/create-budget')}
+          className="flex h-12 flex-row items-center justify-center rounded-full bg-primary px-21"
+        >
+          <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
+        </TouchableOpacity>
       </ImageBackground>
 
       {/* Budget List */}

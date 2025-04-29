@@ -103,11 +103,13 @@ function RootLayout() {
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="(home)" />
                 <Stack.Screen name="(auth)" />
-                <Stack.Screen name="policies/privacy-policy" />
-                <Stack.Screen name="policies/terms-and-conditions" />
+                <Stack.Screen name="(policies)" />
                 <Stack.Screen name="welcome" />
                 <Stack.Screen name="onboarding" />
-                <Stack.Screen name="premium" />
+                <Stack.Screen
+                  name="premium"
+                  options={{ presentation: 'modal', contentStyle: { backgroundColor: 'transparent' } }}
+                />
                 <Stack.Screen name="biometric-auth-failed" />
               </Stack>
 

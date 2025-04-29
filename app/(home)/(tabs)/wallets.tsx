@@ -1,4 +1,3 @@
-import CreateWalletDrawer from '@/components/dialogs/CreateWalletDrawer'
 import Icon from '@/components/Icon'
 import NoItemsFound from '@/components/NoItemsFound'
 import Text from '@/components/Text'
@@ -7,7 +6,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import WalletCard from '@/components/WalletCard'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
-import { addWallet } from '@/lib/reducers/walletReducer'
 import { router } from 'expo-router'
 import { LucideChevronLeft, LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
@@ -28,14 +26,14 @@ function WalletsPage() {
   const { refreshing } = useAppSelector(state => state.load)
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
 
+  // ad states
+  const [adLoaded, setAdLoaded] = useState<boolean>(false)
+
   useEffect(() => {
     if (wallets.length > 0) {
       setIsFirstRender(false)
     }
   }, [wallets])
-
-  // ad states
-  const [adLoaded, setAdLoaded] = useState<boolean>(false)
 
   return (
     <SafeAreaView className="flex-1">
@@ -93,24 +91,19 @@ function WalletsPage() {
       </ScrollView>
 
       {/* MARK: Create Wallet */}
-      <CreateWalletDrawer
-        disabled={loading}
-        update={(wallet: IWallet) => dispatch(addWallet(wallet))}
-        refresh={() => dispatch(refresh())}
-        trigger={
-          <View
-            className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
-            style={{ bottom: adLoaded ? 78 : 10 }}
-          >
-            <Icon
-              render={LucidePlus}
-              size={20}
-              reverse
-            />
-            <Text className="font-semibold text-secondary">{t('Create Wallet')}</Text>
-          </View>
-        }
-      />
+      <TouchableOpacity
+        className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+        activeOpacity={0.7}
+        onPress={() => router.push('/create-wallet')}
+        style={{ bottom: adLoaded ? 78 : 10 }}
+      >
+        <Icon
+          render={LucidePlus}
+          size={20}
+          reverse
+        />
+        <Text className="font-semibold text-secondary">{t('Create Wallet')}</Text>
+      </TouchableOpacity>
 
       <View className="absolute bottom-2.5 z-20 flex flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
         <BannerAd

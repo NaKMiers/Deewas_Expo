@@ -3,17 +3,16 @@ import History from '@/components/History'
 import Icon from '@/components/Icon'
 import LatestTransactions from '@/components/LatestTransactions'
 import Overview from '@/components/Overview'
-import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
+import { useAuth } from '@/components/providers/AuthProvider'
 import { Separator } from '@/components/ui/separator'
 import Wallets from '@/components/Wallets'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { LucidePlus } from 'lucide-react-native'
-import React, { useCallback, useEffect } from 'react'
-import { Alert, Modal, RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
 import { AdEventType, AppOpenAd, BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
-import RevenueCatUI, { PAYWALL_RESULT } from 'react-native-purchases-ui'
 
 const adBannerId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
 const adAppOpenId = __DEV__ ? TestIds.APP_OPEN : process.env.EXPO_PUBLIC_ADMOD_APPOPEN_ID!
@@ -24,10 +23,13 @@ const appOpenAd = AppOpenAd.createForAdRequest(adAppOpenId, {
 
 function HomePage() {
   // hooks
+  const { user, isPremium } = useAuth()
   const dispatch = useAppDispatch()
   const { refreshing } = useAppSelector(state => state.load)
 
   useEffect(() => {
+    if (!user || isPremium) return
+
     // Load and show AppOpen Ad when page mounts
     const unsubscribeLoaded = appOpenAd.addAdEventListener(AdEventType.LOADED, () => {
       // appOpenAd.show()
@@ -46,26 +48,13 @@ function HomePage() {
       unsubscribeLoaded()
       unsubscribeError()
     }
-  }, [])
+  }, [user, isPremium])
 
-  const checkSubscribed = useCallback(async () => {
-    const paywallResults = await RevenueCatUI.presentPaywallIfNeeded({
-      requiredEntitlementIdentifier: 'premium',
-    })
+  const bottomSheetRef = useRef<BottomSheetModal>(null)
 
-    console.log('Paywall result:', paywallResults)
-
-    switch (paywallResults) {
-      case PAYWALL_RESULT.NOT_PRESENTED:
-      case PAYWALL_RESULT.ERROR:
-      case PAYWALL_RESULT.CANCELLED:
-        return false
-      case PAYWALL_RESULT.PURCHASED:
-      case PAYWALL_RESULT.RESTORED:
-        return true
-      default:
-        return false
-    }
+  useEffect(() => {
+    // Auto open when component is mounted
+    bottomSheetRef.current?.present()
   }, [])
 
   return (
@@ -80,17 +69,6 @@ function HomePage() {
         }
       >
         <View className="p-21/2 md:p-21">
-          <Button
-            variant="destructive"
-            onPress={async () => {
-              if (await checkSubscribed()) {
-                Alert.alert('User has access')
-              }
-            }}
-          >
-            <Text>Pro Subscription</Text>
-          </Button>
-
           <Overview />
 
           <Separator className="my-4 h-0" />
@@ -106,15 +84,16 @@ function HomePage() {
           <LatestTransactions />
         </View>
 
-        <View className="px-21/2">
-          <View className="mt-21 items-center justify-center overflow-hidden rounded-lg border border-border bg-white">
-            <BannerAd
-              unitId={adBannerId}
-              size={BannerAdSize.LARGE_BANNER}
-            />
+        {!isPremium && (
+          <View className="px-21/2">
+            <View className="mt-21 items-center justify-center overflow-hidden rounded-lg border border-border bg-white">
+              <BannerAd
+                unitId={adBannerId}
+                size={BannerAdSize.LARGE_BANNER}
+              />
+            </View>
           </View>
-        </View>
-
+        )}
         <Separator className="my-16 h-0" />
       </ScrollView>
 
@@ -130,16 +109,6 @@ function HomePage() {
           </View>
         }
       />
-
-      <Modal
-        visible={!true}
-        animationType="slide"
-        presentationStyle="pageSheet"
-      >
-        <View className="x flex-1 items-center justify-center bg-green-500">
-          <Text className="text-xl">This is a PageSheet!</Text>
-        </View>
-      </Modal>
     </SafeAreaView>
   )
 }

@@ -48,7 +48,7 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADM
 
 function AccountPage() {
   // hooks
-  const { user, logout, switchBiometric, biometric } = useAuth()
+  const { user, isPremium, logout, switchBiometric, biometric } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('accountPage.' + key)
   const { colorScheme, setColorScheme } = useColorScheme()
@@ -110,15 +110,23 @@ function AccountPage() {
           {/* MARK: Account */}
           <View className="overflow-auto rounded-md border border-border bg-secondary px-21 py-21/2">
             <View className="w-full flex-row items-center gap-2 pb-2">
-              <View className="aspect-square max-w-[40px] flex-1 overflow-hidden rounded-full shadow-sm">
+              <View className="relative aspect-square max-w-[40px] flex-1 rounded-full shadow-sm">
                 <Image
-                  className="h-full w-full object-cover"
+                  className="h-full w-full rounded-full object-cover"
                   source={{ uri: user.avatar }}
                   fallbackSource={images.defaultAvatar}
                   width={50}
                   height={50}
                   alt="avatar"
                 />
+                {isPremium && (
+                  <Image
+                    className="absolute"
+                    style={{ top: -14, right: -5, width: 28, height: 28, transform: 'rotate(30deg)' }}
+                    source={icons.crown}
+                    resizeMode="contain"
+                  />
+                )}
               </View>
               <View>
                 <View className="flex-row items-center gap-2">
@@ -135,38 +143,42 @@ function AccountPage() {
               </View>
             </View>
             <View className="mt-21/2 border-t border-primary py-2">
-              <Text className="text-center text-lg font-semibold capitalize">{t('Free Account')}</Text>
+              <Text className="text-center text-lg font-semibold capitalize">
+                {isPremium ? t('Premium Account') : t('Free Account')}
+              </Text>
             </View>
           </View>
 
           {/* MARK: Ads */}
-          <ImageBackground
-            source={images.preBg}
-            className="flex-col gap-2 overflow-hidden rounded-md border border-border bg-secondary px-21 py-21/2"
-          >
-            <View className="flex-row justify-between gap-2">
-              <Text className="text-lg font-semibold text-neutral-800">{t('Flash Sale')}</Text>
-              <Countdown
-                timeType="once"
-                start={moment().startOf('day').toISOString()}
-                expire={moment().endOf('day').toISOString()}
-                textClassName="text-neutral-800"
-              />
-            </View>
-
-            <View
-              className="w-full shadow-lg"
-              style={{ height: 165 }}
+          {!isPremium && (
+            <ImageBackground
+              source={images.preBg}
+              className="flex-col gap-2 overflow-hidden rounded-md border border-border bg-secondary px-21 py-21/2"
             >
-              <View>
-                <Image
-                  source={images.flashSale}
-                  resizeMode="contain"
-                  className="h-full w-full rounded-3xl shadow-lg"
+              <View className="flex-row justify-between gap-2">
+                <Text className="text-lg font-semibold text-neutral-800">{t('Flash Sale')}</Text>
+                <Countdown
+                  timeType="once"
+                  start={moment().startOf('day').toISOString()}
+                  expire={moment().endOf('day').toISOString()}
+                  textClassName="text-neutral-800"
                 />
               </View>
-            </View>
-          </ImageBackground>
+
+              <View
+                className="w-full shadow-lg"
+                style={{ height: 165 }}
+              >
+                <View>
+                  <Image
+                    source={images.flashSale}
+                    resizeMode="contain"
+                    className="h-full w-full rounded-3xl shadow-lg"
+                  />
+                </View>
+              </View>
+            </ImageBackground>
+          )}
 
           {/* MARK: Categories & Wallets */}
           <View className="flex-col rounded-md border border-border bg-secondary px-21 py-2">
@@ -260,7 +272,7 @@ function AccountPage() {
             </View>
           )}
 
-          {!adLoadFailed && (
+          {!isPremium && !adLoadFailed && (
             <View className="flex-row items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
               <BannerAd
                 unitId={adUnitId}

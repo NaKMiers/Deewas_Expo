@@ -1,8 +1,6 @@
 import { images } from '@/assets/images/images'
-import TransferFundDrawer from '@/components/dialogs/TransferFundDrawer'
-import UpdateWalletDrawer from '@/components/dialogs/UpdateWalletDrawer'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh } from '@/lib/reducers/loadReducer'
+import { setInitFromWallet, setInitWallet, setWalletToEdit } from '@/lib/reducers/screenReducer'
 import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { checkLevel, checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
@@ -22,7 +20,6 @@ import { ActivityIndicator, ImageBackground, Pressable, TouchableOpacity, View }
 import Collapsible from 'react-native-collapsible'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
-import CreateTransactionDrawer from './dialogs/CreateTransactionDrawer'
 import Icon from './Icon'
 import Text from './Text'
 import { Button } from './ui/button'
@@ -151,54 +148,56 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                     </Button>
 
                     {wallets.length > 1 && (
-                      <TransferFundDrawer
-                        initFromWallet={wallet}
-                        refresh={() => dispatch(refresh())}
-                        trigger={
-                          <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                            <Icon
-                              render={LucideArrowRightLeft}
-                              size={16}
-                              color="#6366f1"
-                            />
-                            <Text className="font-semibold text-indigo-500">{t('Transfer')}</Text>
-                          </View>
-                        }
-                        reach={3}
-                      />
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() => {
+                          dispatch(setInitFromWallet(wallet))
+                          router.push('/transfer-fund')
+                        }}
+                        className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                      >
+                        <Icon
+                          render={LucideArrowRightLeft}
+                          size={16}
+                          color="#6366f1"
+                        />
+                        <Text className="font-semibold text-indigo-500">{t('Transfer')}</Text>
+                      </TouchableOpacity>
                     )}
 
-                    <CreateTransactionDrawer
-                      initWallet={wallet}
-                      refresh={() => dispatch(refresh())}
-                      trigger={
-                        <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                          <Icon
-                            render={LucidePlus}
-                            size={16}
-                          />
-                          <Text className="font-semibold">{t('Add Transaction')}</Text>
-                        </View>
-                      }
-                      reach={3}
-                    />
+                    {/* MARK: Create Transaction */}
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        dispatch(setInitWallet(wallet))
+                        router.push('/create-transaction')
+                      }}
+                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                    >
+                      <Icon
+                        render={LucidePlus}
+                        size={16}
+                      />
+                      <Text className="font-semibold">{t('Add Transaction')}</Text>
+                    </TouchableOpacity>
 
-                    <UpdateWalletDrawer
-                      update={wallet => dispatch(updateWallet(wallet))}
-                      refresh={() => dispatch(refresh())}
-                      wallet={wallet}
-                      load={setUpdating}
-                      trigger={
-                        <View className="fle h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                          <Icon
-                            render={LucidePencil}
-                            size={16}
-                            color="#0ea5e9"
-                          />
-                          <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                        </View>
-                      }
-                    />
+                    {/* MARK: Create Wallet */}
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        dispatch(setWalletToEdit(wallet))
+                        router.push('/update-wallet')
+                      }}
+                    >
+                      <View className="fle h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                        <Icon
+                          render={LucidePencil}
+                          size={16}
+                          color="#0ea5e9"
+                        />
+                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                      </View>
+                    </TouchableOpacity>
 
                     <ConfirmDialog
                       label={t('Delete Wallet')}

@@ -82,6 +82,7 @@
   },
   "accountPage": {
     "Deleting all data": "Đang xóa toàn bộ dữ liệu",
+    "Premium Account": "Tài khoản Premium",
     "Free Account": "Tài khoản Free",
     "Flash Sale": "Flash Sale",
     "Wallets": "Ví",
@@ -463,7 +464,7 @@
     "Hi": "Chào",
     "Upgrade": "Nâng cấp"
   },
-  "createBudgetDrawer": {
+  "createBudgetPage": {
     "Failed to create budget": "Không thể tạo ngân sách",
     "Amount is required": "Số tiền không được trống",
     "Amount must be greater than 0": "Số tiền phải lớn hơn 0",
@@ -473,13 +474,14 @@
     "Failed to create transaction": "Không thể tạo giao dịch",
     "Create Budget": "Tạo ngân sách",
     "Budget helps you manage money wisely": "Ngân sách giúp bạn quản lý chi tiêu một cách thông minh",
+    "Select Category": "Chọn danh mục",
     "Total": "Tổng",
     "Category": "Danh mục",
     "From - To": "Từ ngày - Đến ngày",
     "Cancel": "Hủy",
     "Save": "Lưu"
   },
-  "createCategoryDrawer": {
+  "createCategoryPage": {
     "Name is required": "Tên danh mục không được trống",
     "Creating category": "Đang tạo danh mục",
     "Create": "Tạo danh mục",
@@ -505,7 +507,7 @@
     "Save": "Lưu",
     "Category name": "Tên danh mục"
   },
-  "createTransactionDrawer": {
+  "createTransactionPage": {
     "Wallet is required": "Vui lòng chọn ví",
     "Name is required": "Tên không được trống",
     "Amount is required": "Số tiền là bắt buộc",
@@ -534,12 +536,13 @@
     "Category": "Danh mục",
     "Date": "Ngày",
     "Select Date": "Chọn ngày",
+    "Select Category": "Chọn danh mục",
     "When did this transaction happen?": "Bạn đã thực hiện giao dịch này vào lúc nào?",
     "Cancel": "Hủy",
     "Save": "Lưu",
     "Transaction name": "Tên giao dịch"
   },
-  "createWalletDrawer": {
+  "createWalletPage": {
     "Name is required": "Tên ví không được trống",
     "Creating wallet": "Đang tạo ví",
     "Create wallet": "Tạo ví",
@@ -554,7 +557,7 @@
     "Save": "Lưu",
     "Wallet name": "Wallet name"
   },
-  "updateBudgetDrawer": {
+  "updateBudgetPage": {
     "Amount is required": "Số tiền không được trống",
     "Amount must be greater than 0": "Số tiền phải lớn hơn 0",
     "Category is required": "Vui lòng chọn danh mục",
@@ -569,7 +572,7 @@
     "Cancel": "Hủy",
     "Save": "Lưu"
   },
-  "updateCategoryDrawer": {
+  "updateCategoryPage": {
     "Name is required": "Tên danh mục không được trống",
     "Updating category": "Đang cập nhật danh mục",
     "Update": "Cập nhật danh mục",
@@ -593,14 +596,14 @@
     "Cancel": "Hủy",
     "Save": "Lưu"
   },
-  "updateTransactionDrawer": {
+  "updateTransactionPage": {
     "Wallet is required": "Vui lòng chọn ví",
     "Name is required": "Tên không được trống",
     "Amount is required": "Số tiền là bắt buộc",
     "Category is required": "Hãy chọn danh mục",
     "Date is required": "Ngày giao dịch không được trống",
     "Updating transaction": "Đang cập nhật giao dịch",
-    "Failed to update transaction": "Không thể cập nhật giao dịchdịch",
+    "Failed to update transaction": "Không thể cập nhật giao dịch",
     "Update": "Cập nhật giao dịch",
     "transaction": "",
     "income": "thu nhập",
@@ -620,11 +623,12 @@
     "Category": "Danh mục",
     "Date": "Ngày",
     "Select Date": "Chọn ngày",
+    "Select Category": "Chọn danh mục",
     "When did this transaction happen?": "Bạn đã thực hiện giao dịch này vào lúc nào?",
     "Cancel": "Cancel",
     "Save": "Save"
   },
-  "updateWalletDrawer": {
+  "updateWalletPage": {
     "Name is required": "Tên ví không được trống",
     "Updating wallet": "Đang cập nhật ví",
     "Update wallet": "Cập nhật ví",
@@ -638,7 +642,7 @@
     "Cancel": "Hủy",
     "Save": "Lưu"
   },
-  "TransferFundDrawer": {
+  "transferFundPage": {
     "Source wallet is required": "Vui lòng chọn ví nguồn",
     "Destination wallet is required": "Vui lòng chọn ví đích",
     "Source wallet and destination wallet must be different": "Ví nguồn và ví đích phải khác nhau",
@@ -657,7 +661,7 @@
     "Cancel": "Hủy",
     "Save": "Lưu"
   },
-  "changePersonalitiesDrawer": {
+  "changePersonalityPage": {
     "Pick a personality for Deewas assistant?": "Chọn tính cách cho trợ lý Deewas?",
     "Select multiple if you'd like to mix styles": "Chọn nhiều nếu bạn muốn trộn tính cách",
     "Save": "Lưu",
@@ -713,7 +717,7 @@
     "transfer": "chuyển tiền",
     "Transfer": "Chuyển tiền"
   },
-  "categoryPicker": {
+  "categoryPickerPage": {
     "Failed to get categories": "Không thấy lấy dữ liệu danh mục",
     "Select Category": "Chọn danh mục",
     "Categories are used to group your transactions": "Danh mục được sử dụng để nhóm các giao dịch của bạn",
@@ -737,6 +741,25 @@
     "Are you sure you want to delete": "Bạn có chắc muốn xóa",
     "Delete": "Xóa",
     "Cancel": "Hủy"
+  },
+  "emojiPickerPage": {
+    "Pick an emoji": "Chọn biểu tượng cảm xúc",
+    "Emojis are a fun way to express yourself": "Biểu tượng cảm xúc là cách thú vị để thể hiện bản thân",
+    "Find an emoji": "Tìm biểu tượng cảm xúc",
+    "Search Results": "Kết quả tìm kiếm",
+    "Frequently used": "Thường dùng",
+    "Smileys & Emotion": "Mặt cười & Cảm xúc",
+    "People & Body": "Con người & Cơ thể",
+    "Animals & Nature": "Động vật & Thiên nhiên",
+    "Food & Drink": "Thức ăn & Đồ uống",
+    "Activities": "Hoạt động",
+    "Travel & Places": "Du lịch & Địa điểm",
+    "Objects": "Đồ vật",
+    "Flags": "Cờ",
+    "Component": "Thành phần",
+    "Symbols": "Biểu tượng",
+    "Cancel": "Hủy",
+    "No emoji found": "Không tìm thấy biểu tượng cảm xúc nào"
   },
   "history": {
     "History": "Lịch sử",
@@ -928,6 +951,18 @@
     "Enter PIN": "Nhập mã PIN",
     "Cancel": "Hủy"
   },
+  "revenueCatProvider": {
+    "Purchase Success": "Mua thành công",
+    "You are now Premium!": "Bạn đã trở thành thành viên Premium!",
+    "Purchase Failed": "Mua thất bại",
+    "No active premium found": "Không tìm thấy gói Premium đang hoạt động",
+    "Restore Success": "Khôi phục thành công",
+    "Your Premium access has been restored!": "Quyền truy cập Premium của bạn đã được khôi phục!",
+    "Restore Failed": "Khôi phục thất bại",
+    "No active premium found to restore": "Không tìm thấy gói Premium nào để khôi phục",
+    "Restore Error": "Lỗi khôi phục",
+    "Unknown error during restore": "Lỗi không xác định khi khôi phục"
+  },
   "success": {
     "Sign In Success": "Đăng nhập thành công",
     "You have successfully signed in": "Bạn đã đăng nhập thành công",
@@ -949,7 +984,8 @@
     "Budget created": "Ngân sách đã được tạo",
     "Budget updated": "Ngân sách đã được cập nhật",
     "Personalities changed": "Tính cách đã được thay đổi",
-    "Authentication successful": "Authentication successful"
+    "Authentication successful": "Xác thực thành công",
+    "Wallet updated": "Đã cập nhật ví"
   },
   "error": {
     "Error": "Lỗi",
@@ -965,14 +1001,14 @@
     "Failed to delete category": "Không thể xóa danh mục",
     "The selected date range is too large": "Khoảng thời gian đã chọn quá lớn",
     "Max allowed range is 90 days!": "Phạm vi tối đa cho phép là 90 ngày!",
-    "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịchdịch",
+    "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịch",
     "Failed to delete transaction": "Không thể xóa giao dịch",
     "Failed to duplicate transaction": "Không thể nhân bản giao dịch",
     "Failed to delete wallet": "Không thể xóa ví",
     "Failed to get categories": "Không thấy lấy dữ liệu danh mục",
     "Failed to create wallet": "Không thể tạo ví",
     "Failed to transfer": "Không thể chuyển",
-    "Failed to update transaction": "Không thể cập nhật giao dịchdịch",
+    "Failed to update transaction": "Không thể cập nhật giao dịch",
     "Failed to create category": "Không thể tạo danh mục",
     "Failed to update category": "Không thể cập nhật danh mục",
     "Failed to delete budget": "Không thể xóa ngân sách",
@@ -992,6 +1028,7 @@
     "Biometric authentication is not supported on this device": "Xác thực sinh trắc học không được hỗ trợ trên thiết bị này",
     "Biometric authentication failed": "Xác thực sinh trắc học thất bại",
     "Please select a personality": "Vui lòng chọn một tính cách",
-    "This account is authenticated by google": "Tài khoản này được xác thực bởi google"
+    "This account is authenticated by google": "Tài khoản này được xác thực bởi google",
+    "Failed to update wallet": "Không thể cập nhật ví"
   }
 }

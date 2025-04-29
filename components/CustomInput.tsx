@@ -1,235 +1,121 @@
 import Text from '@/components/Text'
-import { currencies } from '@/constants/settings'
-import { useAppSelector } from '@/hooks/reduxHook'
-import { adjustCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { LucideEye, LucideEyeOff } from 'lucide-react-native'
 import { memo, ReactNode, useCallback, useState } from 'react'
-import { Controller, FieldErrors } from 'react-hook-form'
+import { FieldErrors } from 'react-hook-form'
 import { TouchableOpacity, View } from 'react-native'
 import { Input } from './ui/input'
-import { Label } from './ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
 interface InputProps {
   id: string
   type?: string
+  value: string
   label: string
   icon?: ReactNode
+  placeholder?: string
 
+  onChange: (id: string, value: string) => void
   disabled?: boolean
   required?: boolean
   errors: FieldErrors
-  options?: any[]
-  control: any
-  onChange?: (value: string) => void
 
-  className?: string
+  containerClassName?: string
   labelClassName?: string
   iconClassName?: string
-  // rest
+  inputClassName?: string
+
   [key: string]: any
 }
 
 function CustomInput({
   id,
   type = 'text',
+  value,
   label,
   icon: Icon,
+  placeholder,
 
-  disabled,
-  required,
-  errors,
-  options,
-  control,
   onChange,
+  disabled,
+  errors,
 
-  className,
+  containerClassName,
   labelClassName,
   iconClassName,
-  // rest
-  ...rest
+  inputClassName,
 }: InputProps) {
-  // store
-  const currency = useAppSelector(state => state.settings.settings?.currency)
-
-  // values
-  const locale = currencies.find(c => c.value === currency)?.locale || 'en-US'
-
   // states
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
+  const [showPW, setShowPW] = useState<boolean>(false)
 
   // show password
   const showPassword = useCallback(() => {
-    setIsShowPassword(prev => !prev)
+    setShowPW(prev => !prev)
   }, [])
-
-  const renderField = useCallback(() => {
-    switch (type) {
-      case 'select':
-        return (
-          <Controller
-            name={id}
-            control={control}
-            rules={{ required }}
-            render={({ field: { onChange: onFieldChange, value } }) => (
-              <Select
-                onValueChange={(option: any) => {
-                  onFieldChange(option.value)
-                  if (onChange) onChange(option.value)
-                }}
-                defaultValue={value}
-              >
-                <SelectTrigger
-                  className={cn(
-                    'border',
-                    className,
-                    errors[id]?.message ? 'border-rose-500' : 'border-dark'
-                  )}
-                >
-                  <SelectValue placeholder={label} />
-                </SelectTrigger>
-                <SelectContent className="">
-                  {options?.map(option => (
-                    <SelectItem
-                      value={option.value}
-                      label={option.label}
-                      key={option.value}
-                    />
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-        )
-      case 'number':
-      case 'currency':
-        return (
-          <Controller
-            name={id}
-            control={control}
-            rules={{ required: required ? `${label} is required` : false }}
-            render={({ field: { onChange: onFieldChange, value } }) => (
-              <Input
-                id={id}
-                className={cn(
-                  'peer block h-full flex-1 touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
-                  className,
-                  errors[id]?.message ? 'border-rose-500' : 'border-dark'
-                )}
-                editable={!disabled}
-                keyboardType="numeric"
-                value={type === 'currency' ? adjustCurrency(value || '', locale) : value}
-                onChangeText={text => {
-                  onFieldChange(text)
-                  if (onChange) onChange(text)
-                }}
-                placeholder="0"
-                {...rest}
-              />
-            )}
-          />
-        )
-      default:
-        return (
-          <>
-            <Controller
-              control={control}
-              name={id}
-              rules={{ required: required ? `${label} is required` : false }}
-              render={({ field: { onChange: onFieldChange, value } }) => (
-                <Input
-                  id={id}
-                  className={cn(
-                    'peer block h-full flex-1 touch-manipulation appearance-none rounded-lg px-2.5 text-base focus:outline-none focus:ring-0 md:text-sm',
-                    className,
-                    errors[id]?.message ? 'border-rose-500' : 'border-dark',
-                    type === 'password' ? 'pr-10' : ''
-                  )}
-                  editable={disabled}
-                  secureTextEntry={type === 'password' && !isShowPassword}
-                  value={value || ''}
-                  onChangeText={text => {
-                    onFieldChange(text)
-                    if (onChange) onChange(text)
-                  }}
-                  placeholder=""
-                  {...rest}
-                />
-              )}
-            />
-
-            {type === 'password' && (
-              <View className="absolute right-2 top-1/2 -translate-y-1/2">
-                <TouchableOpacity onPress={showPassword}>
-                  {isShowPassword ? (
-                    <LucideEye
-                      size={20}
-                      color="#111"
-                    />
-                  ) : (
-                    <LucideEyeOff
-                      size={20}
-                      color="#111"
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            )}
-          </>
-        )
-    }
-  }, [
-    onChange,
-    showPassword,
-    control,
-    errors,
-    id,
-    label,
-    options,
-    required,
-    rest,
-    type,
-    className,
-    disabled,
-    locale,
-    isShowPassword,
-  ])
 
   return (
     <View>
-      <Label
-        htmlFor={id}
-        className={cn('ml-1 font-semibold', labelClassName, errors[id] ? 'text-rose-500' : '')}
-      >
+      {/* Label */}
+      <Text className={cn('ml-1 font-semibold', labelClassName, errors[id] ? 'text-rose-500' : '')}>
         {label}
-      </Label>
+      </Text>
 
       <View
         className={cn(
-          'relative mt-2 flex h-9 flex-row items-center gap-1 rounded-lg',
-          errors[id] ? 'border-rose-500' : 'border-dark'
+          'relative mt-1.5 h-12 w-full flex-row items-center rounded-lg bg-primary shadow-lg',
+          containerClassName,
+          errors[id] ? 'border border-rose-500' : 'border-dark border'
         )}
       >
+        {/* Icon */}
         {Icon && (
           <View
             className={cn(
-              'flex flex-row items-center justify-center rounded-lg border bg-primary',
+              'h-12 w-12 items-center justify-center rounded-l-lg border-r border-primary',
               iconClassName
             )}
-            style={{ height: 42, width: 42 }}
           >
             {Icon}
           </View>
         )}
 
         {/* Field */}
-        {renderField()}
+        <Input
+          id={id}
+          className={cn(
+            'h-full w-full flex-1 rounded-lg border-0 bg-transparent px-21/2 text-secondary',
+            inputClassName,
+            type === 'password' ? 'pr-10' : ''
+          )}
+          value={value}
+          keyboardType={type === 'number' ? 'decimal-pad' : 'default'}
+          editable={disabled}
+          secureTextEntry={type === 'password' && !showPW}
+          placeholder={placeholder}
+          onChangeText={text => onChange(id, text)}
+        />
+
+        {type === 'password' && (
+          <View className="absolute right-21/2 top-1/2 -translate-y-1/2">
+            <TouchableOpacity onPress={showPassword}>
+              {showPW ? (
+                <LucideEye
+                  size={20}
+                  color="#111"
+                />
+              ) : (
+                <LucideEyeOff
+                  size={20}
+                  color="#111"
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       {/* MARK: Error */}
       {errors[id]?.message && (
-        <Text className="mt ml-1 mt-4 text-sm text-rose-500 drop-shadow-lg">
+        <Text className="mt ml-1 mt-0.5 text-rose-500 drop-shadow-lg">
           {errors[id]?.message?.toString()}
         </Text>
       )}

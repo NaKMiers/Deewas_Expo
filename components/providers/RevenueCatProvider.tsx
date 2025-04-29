@@ -1,27 +1,33 @@
+import { useAppDispatch } from '@/hooks/reduxHook'
+import { setToken, setUser } from '@/lib/reducers/userReducer'
+import { upgradePlanApi } from '@/requests'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { jwtDecode } from 'jwt-decode'
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Alert, Platform } from 'react-native'
-import Purchases, { CustomerInfo, LOG_LEVEL, PurchasesPackage } from 'react-native-purchases'
+import Purchases, { LOG_LEVEL, PurchasesPackage } from 'react-native-purchases'
 
 Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
 
 interface RevenueCatProps {
   purchasePackage: (pack: PurchasesPackage) => Promise<void>
-  restorePermissions?: () => Promise<CustomerInfo>
-  user: UserState
+  restorePurchase?: () => Promise<void>
   packages: PurchasesPackage[]
-}
-
-export interface UserState {
-  cookies: number
-  items: string[]
-  premium: boolean
+  purchasing: boolean
 }
 
 const RevenueCatContext = createContext<RevenueCatProps | null>(null)
 
 function RevenueCatProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserState>({ cookies: 0, items: [], premium: false })
+  // hooks
+  const dispatch = useAppDispatch()
+  const { t: translate } = useTranslation()
+  const t = useCallback((key: string) => translate('revenueCatProvider.' + key), [translate])
+
+  // states
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
+  const [purchasing, setPurchasing] = useState<boolean>(false)
 
   // load all offerings a user can (currently) purchase
   const loadOfferings = useCallback(async () => {
@@ -30,8 +36,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
       if (offerings.current) {
         setPackages(offerings.current.availablePackages)
       }
-
-      console.log('Loaded offerings:', offerings)
     } catch (error) {
       console.error('Error loading offerings:', error)
     }
@@ -40,38 +44,85 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const init = async () => {
       if (Platform.OS === 'ios') {
-        // Initialize RevenueCat for iOS
-        console.log('Initializing RevenueCat for iOS')
-        Purchases.configure({ apiKey: 'appl_IitkYytCPghMjjdqUmClSxblSfT' })
+        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY! })
         await loadOfferings()
       } else if (Platform.OS === 'android') {
         // Initialize RevenueCat for Android
-        // console.log('Initializing RevenueCat for Android')
       }
     }
     init()
   }, [loadOfferings])
 
   // purchase a package
-  const purchasePackage = useCallback(async (pack: PurchasesPackage) => {
-    try {
-      await Purchases.purchasePackage(pack)
+  const purchasePackage = useCallback(
+    async (pack: PurchasesPackage) => {
+      // start loading
+      setPurchasing(true)
 
-      if (pack.product.identifier === '') {
-        // setUser
+      try {
+        await Purchases.purchasePackage(pack)
+
+        const customerInfo = await Purchases.getCustomerInfo()
+
+        if (customerInfo.entitlements.active['Premium']) {
+          const { token } = await upgradePlanApi(customerInfo.originalAppUserId)
+
+          const decodedUser: IFullUser = jwtDecode(token)
+          // save token and user
+          await AsyncStorage.setItem('token', token)
+          dispatch(setUser(decodedUser))
+          dispatch(setToken(token))
+
+          Alert.alert(t('Purchase Success'), t('You are now Premium!'))
+        } else {
+          Alert.alert(t('Purchase Failed'), t('No active premium found'))
+        }
+      } catch (err: any) {
+        console.log(err)
+        Alert.alert('Error', err?.message || 'Unknown error')
+      } finally {
+        // stop loading
+        setPurchasing(false)
+      }
+    },
+    [dispatch, t]
+  )
+
+  // restore permissions
+  const restorePurchase = useCallback(async () => {
+    // start loading
+    setPurchasing(true)
+
+    try {
+      const customerInfo = await Purchases.restorePurchases()
+
+      if (customerInfo.entitlements.active['Premium']) {
+        const { token } = await upgradePlanApi(customerInfo.originalAppUserId)
+
+        const decodedUser: IFullUser = jwtDecode(token)
+        // save token and user
+        await AsyncStorage.setItem('token', token)
+        dispatch(setUser(decodedUser))
+        dispatch(setToken(token))
+
+        Alert.alert(t('Restore Success'), t('Your Premium access has been restored!'))
+      } else {
+        Alert.alert(t('Restore Failed'), t('No active premium found to restore'))
       }
     } catch (err: any) {
+      Alert.alert(t('Restore Error'), t('Unknown error during restore'))
       console.log(err)
-      Alert.alert(err)
+    } finally {
+      // stop loading
+      setPurchasing(false)
     }
-  }, [])
-
-  const updateCustomerInformation = useCallback(async (customerInfo: CustomerInfo) => {}, [])
+  }, [dispatch, t])
 
   const value: RevenueCatProps = {
     purchasePackage,
-    user,
+    restorePurchase,
     packages,
+    purchasing,
   }
 
   return <RevenueCatContext.Provider value={value}>{children}</RevenueCatContext.Provider>

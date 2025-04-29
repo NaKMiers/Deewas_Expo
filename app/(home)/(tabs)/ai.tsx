@@ -1,7 +1,6 @@
 import { images } from '@/assets/images/images'
 import Message from '@/components/ai/message'
 import { useScrollToBottom } from '@/components/ai/useScrollToBottom'
-import ChangePersonalitiesDrawer from '@/components/dialogs/ChangePersonalitiesDrawer'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Input } from '@/components/ui/input'
@@ -77,7 +76,6 @@ function AIPage() {
   const dispatch = useAppDispatch()
 
   // states
-  const [openPersonalities, setOpenPersonalities] = useState<boolean>(false)
   const [refreshed, setRefreshed] = useState<boolean>(false)
   const [isRecording, setIsRecording] = useState(false)
 
@@ -371,7 +369,7 @@ function AIPage() {
                         (status === 'streaming' || status === 'submitted') && 'opacity-50'
                       )}
                       disabled={status === 'streaming' || status === 'submitted'}
-                      onPress={() => setOpenPersonalities(true)}
+                      onPress={() => router.push('/change-personality')}
                     >
                       <Text className="line-clamp-1 text-ellipsis font-semibold text-neutral-800">
                         {settings?.personalities && settings?.personalities?.length === 1
@@ -431,17 +429,6 @@ function AIPage() {
           </View>
         </View>
       </KeyboardAvoidingView>
-
-      <ChangePersonalitiesDrawer
-        open={!!openPersonalities}
-        onClose={() => setOpenPersonalities(false)}
-        update={async () => {
-          stop()
-          setMessages([])
-          await AsyncStorage.removeItem('messages')
-        }}
-        reach={3}
-      />
     </SafeAreaView>
   )
 }

@@ -1,20 +1,17 @@
-import Header from '@/components/Header'
-import Navbar from '@/components/Navbar'
 import { useAuth } from '@/components/providers/AuthProvider'
+import useInit from '@/hooks/useInit'
 import useLanguage from '@/hooks/useLanguage'
 import useSettings from '@/hooks/useSettings'
-import useWallets from '@/hooks/useWallets'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
-import { Redirect, router, Tabs } from 'expo-router'
+import { Redirect, router, Stack } from 'expo-router'
 import { useLayoutEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
-function HomeTabLayout() {
+function HomeLayout() {
   // hooks
   const { user, loading, onboarding } = useAuth()
   useSettings()
-  useWallets()
+  useInit()
   useLanguage()
 
   const [bioAuthenticating, setBioAuthenticating] = useState(false)
@@ -64,17 +61,17 @@ function HomeTabLayout() {
   }
 
   return (
-    <SafeAreaView className="flex-1">
-      <Tabs
-        initialRouteName="home"
-        tabBar={props => <Navbar {...props} />}
-        screenOptions={{
-          header: () => <Header />,
-          animation: 'fade',
-        }}
-      />
-    </SafeAreaView>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        presentation: 'modal',
+        contentStyle: { backgroundColor: 'transparent' },
+      }}
+    >
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(drawers)" />
+    </Stack>
   )
 }
 
-export default HomeTabLayout
+export default HomeLayout

@@ -32,6 +32,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import Purchases from 'react-native-purchases'
 import Toast from 'react-native-toast-message'
 
 function SignUpPage() {
@@ -48,11 +49,12 @@ function SignUpPage() {
 
   // form
   const {
+    setValue,
     handleSubmit,
-    formState: { errors },
     setError,
     clearErrors,
-    control,
+    watch,
+    formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
       username: '',
@@ -60,6 +62,7 @@ function SignUpPage() {
       password: '',
     },
   })
+  const form = watch()
 
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
@@ -139,6 +142,9 @@ function SignUpPage() {
         const { token } = await registerCredentialsApi(data)
         const decodedUser: IFullUser = jwtDecode(token)
 
+        // sync user id and revenue cat id
+        await Purchases.logIn(decodedUser._id)
+
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
@@ -203,6 +209,9 @@ function SignUpPage() {
 
         const { token, isNewUser } = await signInGoogleApi(idToken, user.id)
         const decodedUser: IFullUser = jwtDecode(token)
+
+        // sync user id and revenue cat id
+        await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -306,6 +315,9 @@ function SignUpPage() {
 
       const { token } = await signInAppleApi(identityToken, user, nonce)
       const decodedUser: IFullUser = jwtDecode(token)
+
+      // sync user id and revenue cat id
+      await Purchases.logIn(decodedUser._id)
 
       // save token and user
       await AsyncStorage.setItem('token', token)
@@ -416,39 +428,40 @@ function SignUpPage() {
                   <CustomInput
                     id="username"
                     label={t('Username')}
-                    type="text"
-                    control={control}
-                    errors={errors}
-                    onFocus={() => clearErrors('username')}
-                    labelClassName="text-black"
-                    className="bg-white text-black"
+                    value={form.username}
                     placeholder="..."
+                    onChange={setValue}
+                    onFocus={() => clearErrors('username')}
+                    errors={errors}
+                    labelClassName="text-black"
+                    containerClassName="bg-white"
                   />
 
                   {/* MARK: Password */}
                   <CustomInput
                     id="email"
                     label={t('Email')}
-                    type="email"
-                    control={control}
-                    errors={errors}
-                    onFocus={() => clearErrors('email')}
-                    labelClassName="text-black"
-                    className="bg-white text-black"
+                    value={form.email}
                     placeholder="..."
+                    onChange={setValue}
+                    onFocus={() => clearErrors('email')}
+                    errors={errors}
+                    labelClassName="text-black"
+                    containerClassName="bg-white"
                   />
 
                   {/* MARK: Password */}
                   <CustomInput
                     id="password"
                     label={t('Password')}
+                    value={form.password}
                     type="password"
-                    control={control}
-                    errors={errors}
-                    onFocus={() => clearErrors('password')}
-                    labelClassName="text-black"
-                    className="bg-white text-black"
                     placeholder="..."
+                    onChange={setValue}
+                    onFocus={() => clearErrors('password')}
+                    errors={errors}
+                    labelClassName="text-black"
+                    containerClassName="bg-white"
                   />
                 </View>
 

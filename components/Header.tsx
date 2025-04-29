@@ -18,7 +18,7 @@ function Header({ className }: HeaderProps) {
   // hooks
   let { t: translate } = useTranslation()
   const t = (key: string) => translate('header.' + key)
-  const { user } = useAuth()
+  const { user, isPremium } = useAuth()
 
   return (
     <SafeAreaView className={cn(className)}>
@@ -39,24 +39,26 @@ function Header({ className }: HeaderProps) {
             onPress={() => router.push('/home')}
           >
             <Text className="line-clamp-1 text-ellipsis text-nowrap text-lg font-semibold tracking-wide text-secondary">
-              {t('Hi')} {user ? shortName(user) : 'there'}!👋
+              {t('Hi')} {user ? shortName(user) : 'there'}! 👋
             </Text>
           </TouchableOpacity>
         </View>
 
         <View className="flex flex-row items-center gap-2">
-          <ImageBackground
-            source={images.preBg}
-            className="overflow-hidden rounded-md"
-          >
-            <TouchableOpacity
-              className="flex h-10 flex-row items-center px-4"
-              activeOpacity={0.9}
-              onPress={() => router.push('/premium')}
+          {!isPremium && (
+            <ImageBackground
+              source={images.preBg}
+              className="overflow-hidden rounded-md"
             >
-              <Text className="font-semibold text-neutral-800"> {t('Upgrade')}</Text>
-            </TouchableOpacity>
-          </ImageBackground>
+              <TouchableOpacity
+                className="flex h-10 flex-row items-center px-4"
+                activeOpacity={0.9}
+                onPress={() => router.push('/premium')}
+              >
+                <Text className="font-semibold text-neutral-800"> {t('Upgrade')}</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+          )}
           <Button
             variant="secondary"
             size="icon"

@@ -104,9 +104,6 @@ function OnboardingPage() {
       />,
       <Slide5
         onChange={async value => {
-          console.log('value', value)
-          console.log('form', form)
-
           await AsyncStorage.setItem('personalities', JSON.stringify(value))
           nextSlide()
         }}

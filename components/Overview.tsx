@@ -5,10 +5,10 @@ import { LucideAsterisk, LucideChevronDown, LucideEye } from 'lucide-react-nativ
 import { Dispatch, memo, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableWithoutFeedback, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
 import Icon from './Icon'
 import Text from './Text'
 import { Button } from './ui/button'
-import Collapsible from 'react-native-collapsible'
 
 interface OverviewProps {
   className?: string

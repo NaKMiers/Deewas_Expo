@@ -1,0 +1,278 @@
+import { images } from '@/assets/images/images'
+import CustomInput from '@/components/CustomInput'
+import Icon from '@/components/Icon'
+import Text from '@/components/Text'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { refresh } from '@/lib/reducers/loadReducer'
+import { setSelectedEmoji } from '@/lib/reducers/screenReducer'
+import { checkTranType } from '@/lib/string'
+import { cn } from '@/lib/utils'
+import { createCategoryApi } from '@/requests/categoryRequests'
+import { BlurView } from 'expo-blur'
+import { router, useLocalSearchParams } from 'expo-router'
+import { LucideCircle, LucideCircleOff } from 'lucide-react-native'
+import { useCallback, useEffect, useState } from 'react'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { ActivityIndicator, ImageBackground, ScrollView, TouchableOpacity, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
+
+function CreateCategoryPage() {
+  // hooks
+  const { t: translate } = useTranslation()
+  const t = useCallback((key: string) => translate('createCategoryPage.' + key), [translate])
+  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
+  const dispatch = useAppDispatch()
+  const { type } = useLocalSearchParams()
+
+  // store
+  const selectedEmoji = useAppSelector(state => state.screen.selectedEmoji)
+
+  // form
+  const {
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+    clearErrors,
+    watch,
+  } = useForm<FieldValues>({
+    defaultValues: {
+      name: '',
+      icon: selectedEmoji || '',
+      type: type || 'expense',
+    },
+  })
+
+  // states
+  const form = watch()
+  const [saving, setSaving] = useState<boolean>(false)
+  const [openType, setOpenType] = useState<boolean>(false)
+
+  useEffect(() => {
+    setValue('icon', selectedEmoji)
+  }, [setValue, selectedEmoji])
+
+  // validate form
+  const validate: SubmitHandler<FieldValues> = useCallback(
+    data => {
+      let isValid = true
+
+      // name is required
+      if (!data.name.trim()) {
+        setError('name', {
+          type: 'manual',
+          message: t('Name is required'),
+        })
+        isValid = false
+      }
+
+      return isValid
+    },
+    [setError, t]
+  )
+
+  // create category
+  const handleCreateCategory: SubmitHandler<FieldValues> = useCallback(
+    async data => {
+      // validate form
+      if (!validate(data)) return
+
+      // start loading
+      setSaving(true)
+
+      try {
+        await createCategoryApi({ ...data })
+
+        Toast.show({
+          type: 'success',
+          text1: tSuccess('Category created'),
+        })
+
+        dispatch(refresh())
+        router.back()
+      } catch (err: any) {
+        Toast.show({
+          type: 'error',
+          text1: tError('Failed to create category'),
+        })
+        console.log(err)
+      } finally {
+        // stop loading
+        setSaving(false)
+      }
+    },
+    [dispatch, validate, tError, tSuccess]
+  )
+
+  return (
+    <SafeAreaView className="flex-1">
+      <BlurView
+        className="flex-1"
+        intensity={80}
+        tint="prominent"
+      >
+        <ScrollView className="flex-1">
+          <View className="mx-auto w-full max-w-[500px] flex-1 p-21">
+            <View>
+              <Text className="text-center text-xl font-semibold text-primary">
+                {t('Create') + ' '}
+                {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
+                {' ' + t('category')}
+              </Text>
+              <Text className="text-center tracking-wider text-muted-foreground">
+                {t('Categories are used to group your') + ' '}
+                {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
+                {' ' + t('transactions')}
+              </Text>
+            </View>
+
+            <View className="mt-6 flex flex-col gap-6">
+              <CustomInput
+                id="name"
+                label={t('Name')}
+                value={form.name}
+                placeholder="..."
+                clearErrors={clearErrors}
+                onChange={setValue}
+                errors={errors}
+                containerClassName="bg-white"
+                inputClassName="text-black"
+              />
+
+              {/* MARK: Type */}
+              {!type && (
+                <View className="flex flex-col gap-1.5">
+                  <View className="">
+                    <Text className="px-1 font-semibold text-primary">{t('Type')}</Text>
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      className="mt-1.5 flex h-11 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3"
+                      onPress={() => setOpenType(!openType)}
+                    >
+                      <Icon
+                        render={LucideCircle}
+                        size={18}
+                        color={checkTranType(form.type).hex}
+                      />
+                      <Text
+                        className={cn(
+                          'font-semibold capitalize text-black',
+                          checkTranType(form.type).color
+                        )}
+                      >
+                        {form.type}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <Collapsible
+                    collapsed={!openType}
+                    duration={200}
+                  >
+                    <View className="flex flex-col overflow-hidden rounded-lg">
+                      {['expense', 'income', 'saving', 'invest'].map(tranType => (
+                        <Button
+                          variant="default"
+                          className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary bg-white"
+                          onPress={() => {
+                            setValue('type', tranType as TransactionType)
+                            setOpenType(false)
+                          }}
+                          key={tranType}
+                        >
+                          <Icon
+                            render={LucideCircle}
+                            size={18}
+                            color={checkTranType(tranType as any).hex}
+                          />
+                          <Text
+                            className={cn(
+                              'font-semibold capitalize',
+                              checkTranType(tranType as any).color
+                            )}
+                          >
+                            {t(tranType)}
+                          </Text>
+                        </Button>
+                      ))}
+                    </View>
+                  </Collapsible>
+                </View>
+              )}
+
+              {/* MARK: Icon */}
+              <View>
+                <Text className="font-semibold">
+                  Icon <Text className="font-normal">({t('optional')})</Text>
+                </Text>
+
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => router.push('/emoji-picker')}
+                >
+                  <ImageBackground
+                    source={images.preBgVFlip}
+                    className="mt-1.5 flex h-[150px] items-center justify-center overflow-hidden rounded-lg border border-primary p-21"
+                  >
+                    {form.icon ? (
+                      <Text style={{ fontSize: 60 }}>{form.icon}</Text>
+                    ) : (
+                      <Icon
+                        render={LucideCircleOff}
+                        size={60}
+                        color="#262626"
+                        style={{ opacity: 0.7 }}
+                      />
+                    )}
+                  </ImageBackground>
+                </TouchableOpacity>
+
+                <Text className="mt-2 text-muted-foreground">
+                  {t('This is how your category will appear in the app')}
+                </Text>
+              </View>
+            </View>
+
+            {/* MARK: Footer */}
+            <View className="mb-21 mt-6 px-0">
+              <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
+                <View>
+                  <Button
+                    variant="secondary"
+                    className="h-10 rounded-md px-21/2"
+                    onPress={() => {
+                      dispatch(setSelectedEmoji(''))
+                      router.back()
+                    }}
+                  >
+                    <Text className="font-semibold text-primary">{t('Cancel')}</Text>
+                  </Button>
+                </View>
+                <Button
+                  variant="default"
+                  className="h-10 min-w-[60px] rounded-md px-21/2"
+                  onPress={handleSubmit(handleCreateCategory)}
+                >
+                  {saving ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <Text className="font-semibold text-secondary">{t('Save')}</Text>
+                  )}
+                </Button>
+              </View>
+            </View>
+
+            <Separator className="my-8 h-0" />
+          </View>
+        </ScrollView>
+      </BlurView>
+    </SafeAreaView>
+  )
+}
+
+export default CreateCategoryPage

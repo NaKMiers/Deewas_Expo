@@ -1,12 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { setWallets } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
+import { router } from 'expo-router'
 import { LucidePlusSquare } from 'lucide-react-native'
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, FlatList, View } from 'react-native'
-import CreateWalletDrawer from './dialogs/CreateWalletDrawer'
+import { FlatList, TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
 import NoItemsFound from './NoItemsFound'
 import Text from './Text'
@@ -28,9 +27,6 @@ function Wallets({ className }: WalletProps) {
   // store
   const { wallets, loading } = useAppSelector(state => state.wallet)
 
-  // states
-  const [creating, setCreating] = useState<boolean>(false)
-
   // values
   const isIpad = SCREEN_WIDTH > IPAD_THRESHOLD
 
@@ -42,24 +38,17 @@ function Wallets({ className }: WalletProps) {
 
         <View className="flex flex-row items-center justify-end gap-2">
           {/* MARK: Create Wallet */}
-          <CreateWalletDrawer
-            update={wallet => dispatch(setWallets([wallet, ...wallets]))}
-            load={setCreating}
-            disabled={creating}
-            trigger={
-              !creating ? (
-                <View className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary px-3">
-                  <Text className="font-semibold">{t('New Wallet')}</Text>
-                  <Icon
-                    render={LucidePlusSquare}
-                    size={18}
-                  />
-                </View>
-              ) : (
-                <ActivityIndicator size={16} />
-              )
-            }
-          />
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => router.push('/create-wallet')}
+            className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary px-3"
+          >
+            <Text className="font-semibold">{t('New Wallet')}</Text>
+            <Icon
+              render={LucidePlusSquare}
+              size={18}
+            />
+          </TouchableOpacity>
         </View>
       </View>
 

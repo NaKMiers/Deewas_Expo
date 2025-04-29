@@ -31,6 +31,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import Purchases from 'react-native-purchases'
 import Toast from 'react-native-toast-message'
 
 function SignInPage() {
@@ -47,17 +48,19 @@ function SignInPage() {
 
   // form
   const {
+    setValue,
     handleSubmit,
-    formState: { errors },
     setError,
     clearErrors,
-    control,
+    watch,
+    formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
       usernameOrEmail: '',
       password: '',
     },
   })
+  const form = watch()
 
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
@@ -98,6 +101,9 @@ function SignInPage() {
       try {
         const { token } = await signInCredentialsApi(data)
         const decodedUser: IFullUser = jwtDecode(token)
+
+        // sync user id and revenue cat id
+        await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -150,6 +156,9 @@ function SignInPage() {
 
         const { token } = await signInGoogleApi(idToken, user.id)
         const decodedUser: IFullUser = jwtDecode(token)
+
+        // sync user id and revenue cat id
+        await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -226,6 +235,9 @@ function SignInPage() {
 
       const { token } = await signInAppleApi(identityToken, user, nonce)
       const decodedUser: IFullUser = jwtDecode(token)
+
+      // sync user id and revenue cat id
+      await Purchases.logIn(decodedUser._id)
 
       // save token and user
       await AsyncStorage.setItem('token', token)
@@ -336,26 +348,27 @@ function SignInPage() {
                   <CustomInput
                     id="usernameOrEmail"
                     label={t('Username / Email')}
-                    type="text"
-                    control={control}
-                    errors={errors}
-                    onFocus={() => clearErrors('usernameOrEmail')}
-                    labelClassName="text-black"
-                    className="bg-white text-black"
+                    value={form.usernameOrEmail}
                     placeholder="..."
+                    onChange={setValue}
+                    onFocus={() => clearErrors('usernameOrEmail')}
+                    errors={errors}
+                    labelClassName="text-black"
+                    containerClassName="bg-white"
                   />
 
                   {/* MARK: Password */}
                   <CustomInput
                     id="password"
                     label={t('Password')}
+                    value={form.password}
                     type="password"
-                    control={control}
-                    errors={errors}
-                    onFocus={() => clearErrors('password')}
-                    labelClassName="text-black"
-                    className="bg-white text-black"
                     placeholder="..."
+                    onChange={setValue}
+                    onFocus={() => clearErrors('password')}
+                    errors={errors}
+                    labelClassName="text-black"
+                    containerClassName="bg-white"
                   />
                 </View>
 

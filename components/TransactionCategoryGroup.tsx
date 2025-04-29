@@ -1,14 +1,13 @@
-import CreateTransactionDrawer from '@/components/dialogs/CreateTransactionDrawer'
-import UpdateTransactionDrawer from '@/components/dialogs/UpdateTransactionDrawer'
 import { Button } from '@/components/ui/button'
 import { currencies } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
-import { addTransaction, updateTransaction } from '@/lib/reducers/transactionReducer'
+import { setInitCategory, setTransactionToEdit } from '@/lib/reducers/screenReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi } from '@/requests'
+import { router } from 'expo-router'
 import {
   LucideChevronDown,
   LucideChevronUp,
@@ -20,7 +19,7 @@ import {
 import moment from 'moment-timezone'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
@@ -65,17 +64,16 @@ function TransactionCategoryGroup({
         </View>
 
         {/* MARK: New Transaction for category */}
-        <CreateTransactionDrawer
-          initCategory={category}
-          update={(transaction: IFullTransaction) => dispatch(addTransaction(transaction))}
-          refresh={() => dispatch(refresh())}
-          trigger={
-            <View className="flex h-8 flex-row items-center gap-2 rounded-md border border-secondary px-2">
-              <Text className="font-semibold">{t('Add Transaction')}</Text>
-            </View>
-          }
-          reach={3}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(setInitCategory(category))
+            router.push('/create-transaction')
+          }}
+          activeOpacity={0.7}
+          className="flex h-8 flex-row items-center gap-2 rounded-md border border-secondary px-2"
+        >
+          <Text className="font-semibold">{t('Add Transaction')}</Text>
+        </TouchableOpacity>
       </View>
 
       {/*  MARK: Transactions of category */}
@@ -246,23 +244,24 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
                 }
               />
 
-              <UpdateTransactionDrawer
-                transaction={transaction}
-                update={(transaction: IFullTransaction) => dispatch(updateTransaction(transaction))}
-                refresh={() => dispatch(refresh())}
-                trigger={
-                  <View className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                    <Icon
-                      render={LucidePencil}
-                      size={16}
-                      color="#0ea5e9"
-                    />
-                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                  </View>
-                }
-                reach={3}
-              />
+              {/* MARK: Update Transaction */}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  dispatch(setTransactionToEdit(transaction))
+                  router.push('/update-transaction')
+                }}
+                className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+              >
+                <Icon
+                  render={LucidePencil}
+                  size={16}
+                  color="#0ea5e9"
+                />
+                <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+              </TouchableOpacity>
 
+              {/* MARK: Delete Transaction */}
               <ConfirmDialog
                 label={t('Delete Transaction')}
                 desc={t('Are you sure you want to delete this transaction?')}
