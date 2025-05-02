@@ -21,6 +21,24 @@ export const getMySettingsApi = async (query: string = '') => {
   return await res.json()
 }
 
+// [GET]: /settings/extract-all-data
+export const getAllDataToExportApi = async () => {
+  const token = await getToken()
+  if (!token) throw new Error('No token found')
+
+  const res = await fetch(API + '/extract-all-data', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  // check status
+  if (!res.ok) throw await res.json()
+
+  return await res.json()
+}
+
 // [PUT]: /settings/update
 export const updateMySettingsApi = async (data: any) => {
   const token = await getToken()

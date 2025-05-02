@@ -103,7 +103,7 @@ function SignInPage() {
         const decodedUser: IFullUser = jwtDecode(token)
 
         // sync user id and revenue cat id
-        await Purchases.logIn(decodedUser._id)
+        if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -158,7 +158,7 @@ function SignInPage() {
         const decodedUser: IFullUser = jwtDecode(token)
 
         // sync user id and revenue cat id
-        await Purchases.logIn(decodedUser._id)
+        if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -237,7 +237,7 @@ function SignInPage() {
       const decodedUser: IFullUser = jwtDecode(token)
 
       // sync user id and revenue cat id
-      await Purchases.logIn(decodedUser._id)
+      if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
       // save token and user
       await AsyncStorage.setItem('token', token)
@@ -400,11 +400,6 @@ function SignInPage() {
                   )}
                 </TouchableOpacity>
               </View>
-
-              {/* MARK: Footer */}
-              <TouchableOpacity onPress={() => router.replace('/auth/sign-up')}>
-                <Text className="font-semibold text-black underline">Sign Up</Text>
-              </TouchableOpacity>
 
               <Separator className="h-5" />
             </View>

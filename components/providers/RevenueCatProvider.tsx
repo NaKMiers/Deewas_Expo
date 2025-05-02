@@ -8,8 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { Alert, Platform } from 'react-native'
 import Purchases, { LOG_LEVEL, PurchasesPackage } from 'react-native-purchases'
 
-Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
-
 interface RevenueCatProps {
   purchasePackage: (pack: PurchasesPackage) => Promise<void>
   restorePurchase?: () => Promise<void>
@@ -18,12 +16,6 @@ interface RevenueCatProps {
 }
 
 const RevenueCatContext = createContext<RevenueCatProps | null>(null)
-
-if (Platform.OS === 'ios') {
-  Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY! })
-} else if (Platform.OS === 'android') {
-  // Initialize RevenueCat for Android
-}
 
 function RevenueCatProvider({ children }: { children: ReactNode }) {
   // hooks
@@ -50,6 +42,13 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const init = async () => {
+      if (Platform.OS === 'ios') {
+        Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
+        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY! })
+      } else if (Platform.OS === 'android') {
+        // Initialize RevenueCat for Android
+      }
+
       await loadOfferings()
       setIsReady(true)
     }

@@ -45,7 +45,7 @@ const premiumFeatures = [
   'No advertisement',
   'Up to 4.500.000 AI tokens per month',
   'Priority support',
-  'Export data to Google Sheets, Excel, CSV',
+  'Export data to CSV, Excel',
   'Unlock advanced charts (pie, line, bar, etc.)',
   'Mobile and web',
 ]

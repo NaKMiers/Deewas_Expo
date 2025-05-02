@@ -992,6 +992,20 @@
     "Restore Error": "Lỗi khôi phục",
     "Unknown error during restore": "Lỗi không xác định khi khôi phục"
   },
+  "fileExporter": {
+    "Export Complete": "Xuất hoàn tất",
+    "All CSV files have been exported and zipped": "Tất cả tệp CSV đã được xuất và nén",
+    "All data has been exported to Excel file": "Tất cả dữ liệu đã được xuất sang tệp Excel",
+    "Export CSV": "Xuất CSV",
+    "Export Excel": "Xuất Excel",
+    "Are you sure you want to export all data as CSV?": "Bạn có chắc chắn muốn xuất tất cả dữ liệu dưới dạng CSV không?",
+    "Are you sure you want to export all data as Excel?": "Bạn có chắc chắn muốn xuất tất cả dữ liệu dưới dạng Excel không?",
+    "Export": "Xuất",
+    "Cancel": "Hủy",
+    "Please upgrade to Premium to continue using the assistant": "Vui lòng nâng cấp lên Premium để tiếp tục sử dụng trợ lý",
+    "You've reached your free token limit for today": "Bạn đã đạt giới hạn token miễn phí cho hôm nay",
+    "Upgrade Now": "Nâng cấp ngay"
+  },
   "success": {
     "Sign In Success": "Đăng nhập thành công",
     "You have successfully signed in": "Bạn đã đăng nhập thành công",
@@ -1016,7 +1030,8 @@
     "Update currency successfully": "Cập nhật tiền tệ thành công",
     "Erase all data successfully": "Xóa tất cả dữ liệu thành công",
     "Authentication successful": "Xác thực thành công",
-    "Wallet updated": "Đã cập nhật ví"
+    "Wallet updated": "Đã cập nhật ví",
+    "You have successfully logged in": "Bạn đã đăng nhập thành công"
   },
   "error": {
     "Error": "Lỗi",
@@ -1064,6 +1079,9 @@
     "Failed to update wallet": "Không thể cập nhật ví",
     "Failed to change username": "Không thể thay đổi tên người dùng",
     "Username already exists": "Tên người dùng đã tồn tại",
-    "Username must be at least 5 characters": "Tên người dùng phải có ít nhất 5 ký tự"
+    "Username must be at least 5 characters": "Tên người dùng phải có ít nhất 5 ký tự",
+    "Export Failed": "Xuất dữ liệu thất bại",
+    "An error occurred while exporting CSV files": "Đã xảy ra lỗi trong khi xuất tệp CSV",
+    "An error occurred while exporting Excel file": "Đã xảy ra lỗi trong khi xuất tệp Excel"
   }
 }

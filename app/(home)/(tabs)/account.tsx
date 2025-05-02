@@ -2,6 +2,7 @@ import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import Countdown from '@/components/Countdown'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
+import FileExporter from '@/components/FileExporter'
 import Icon from '@/components/Icon'
 import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
@@ -137,7 +138,7 @@ function AccountPage() {
           />
         }
       >
-        <View className="flex-col gap-21/2 p-21/2 md:p-21">
+        <View className="gap-21/2 p-21/2 md:p-21">
           {/* MARK: Account */}
           <View className="overflow-auto rounded-md border border-border bg-secondary px-21 py-21/2">
             <View className="w-full flex-row items-center gap-2 pb-2">
@@ -253,7 +254,7 @@ function AccountPage() {
           {!isPremium && (
             <ImageBackground
               source={images.preBg}
-              className="flex-col gap-2 overflow-hidden rounded-md border border-border bg-secondary px-21 py-21/2"
+              className="gap-2 overflow-hidden rounded-md border border-border bg-secondary px-21 py-21/2"
             >
               <View className="flex-row justify-between gap-2">
                 <Text className="text-lg font-semibold text-neutral-800">{t('Flash Sale')}</Text>
@@ -281,7 +282,7 @@ function AccountPage() {
           )}
 
           {/* MARK: Categories & Wallets */}
-          <View className="flex-col rounded-md border border-border bg-secondary px-21 py-2">
+          <View className="rounded-md border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
               onPress={() => router.push('/wallets')}
               className="h-10 flex-row items-center gap-2"
@@ -382,11 +383,13 @@ function AccountPage() {
             </View>
           )}
 
-          {/* MARK: Settings */}
+          {/* MARK: Settings & Exporter */}
           <SettingsBox isRequireInit />
 
+          <FileExporter className="rounded-lg border border-border bg-secondary px-21 py-2" />
+
           {/* MARK: More */}
-          <View className="flex-col rounded-lg border border-border bg-secondary px-21 py-2">
+          <View className="rounded-lg border border-border bg-secondary px-21 py-2">
             <TouchableOpacity
               onPress={() => router.push('/more/about')}
               className="h-11 flex-row items-center gap-2"

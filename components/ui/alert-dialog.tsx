@@ -74,12 +74,12 @@ const AlertDialogContent = React.forwardRef<
         <BlurView
           tint="prominent"
           intensity={30}
-          className="overflow-hidden rounded-3xl"
+          className="overflow-hidden rounded-lg"
         >
           <AlertDialogPrimitive.Content
             ref={ref}
             className={cn(
-              'z-50 max-w-lg gap-4 rounded-3xl border border-border p-6 shadow-lg shadow-foreground/10 web:duration-200',
+              'z-50 max-w-lg gap-4 rounded-lg border border-border p-6 shadow-lg shadow-foreground/10 web:duration-200',
               open
                 ? 'web:animate-in web:fade-in-0 web:zoom-in-95'
                 : 'web:animate-out web:fade-out-0 web:zoom-out-95',

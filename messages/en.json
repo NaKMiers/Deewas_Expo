@@ -992,6 +992,20 @@
     "Restore Error": "Restore Error",
     "Unknown error during restore": "Unknown error during restore"
   },
+  "fileExporter": {
+    "Export Complete": "Export Complete",
+    "All CSV files have been exported and zipped": "All CSV files have been exported and zipped",
+    "All data has been exported to Excel file": "All data has been exported to Excel file",
+    "Export CSV": "Export CSV",
+    "Export Excel": "Export Excel",
+    "Are you sure you want to export all data as CSV?": "Are you sure you want to export all data as CSV?",
+    "Are you sure you want to export all data as Excel?": "Are you sure you want to export all data as Excel?",
+    "Export": "Export",
+    "Cancel": "Cancel",
+    "Please upgrade to Premium to continue using the assistant": "Please upgrade to Premium to continue using the assistant",
+    "You've reached your free token limit for today": "You've reached your free token limit for today",
+    "Upgrade Now": "Upgrade Now"
+  },
   "success": {
     "Sign In Success": "Sign In Success",
     "You have successfully signed in": "You have successfully signed in",
@@ -1016,7 +1030,8 @@
     "Update currency successfully": "Update currency successfully",
     "Erase all data successfully": "Erase all data successfully",
     "Authentication successful": "Authentication successful",
-    "Wallet updated": "Wallet updated"
+    "Wallet updated": "Wallet updated",
+    "You have successfully logged in": "You have successfully logged in"
   },
   "error": {
     "Error": "Error",
@@ -1064,6 +1079,9 @@
     "Failed to update wallet": "Failed to update wallet",
     "Failed to change username": "Failed to change username",
     "Username already exists": "Username already exists",
-    "Username must be at least 5 characters": "Username must be at least 5 characters"
+    "Username must be at least 5 characters": "Username must be at least 5 characters",
+    "Export Failed": "Export Failed",
+    "An error occurred while exporting CSV files": "An error occurred while exporting CSV files",
+    "An error occurred while exporting Excel file": "An error occurred while exporting Excel file"
   }
 }

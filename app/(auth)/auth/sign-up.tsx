@@ -143,7 +143,7 @@ function SignUpPage() {
         const decodedUser: IFullUser = jwtDecode(token)
 
         // sync user id and revenue cat id
-        await Purchases.logIn(decodedUser._id)
+        if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -211,7 +211,7 @@ function SignUpPage() {
         const decodedUser: IFullUser = jwtDecode(token)
 
         // sync user id and revenue cat id
-        await Purchases.logIn(decodedUser._id)
+        if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -317,7 +317,7 @@ function SignUpPage() {
       const decodedUser: IFullUser = jwtDecode(token)
 
       // sync user id and revenue cat id
-      await Purchases.logIn(decodedUser._id)
+      if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
       // save token and user
       await AsyncStorage.setItem('token', token)
