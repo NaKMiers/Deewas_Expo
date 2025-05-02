@@ -25,7 +25,7 @@ function CategoriesPage() {
   const t = (key: string) => translate('categoriesPage.' + key)
 
   // store
-  const { categories, loading } = useAppSelector(state => state.category)
+  const { categories } = useAppSelector(state => state.category)
   const { refreshing } = useAppSelector(state => state.load)
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
 
@@ -54,7 +54,10 @@ function CategoriesPage() {
       return acc
     }, {})
 
+    const order = ['expense', 'income', 'invest', 'saving']
     const results = Object.entries(groups)
+      .sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))
+      .map(([key, value]) => [key, value])
     setGroups(results)
 
     const labels = results.map(([key]) => key)
@@ -103,6 +106,7 @@ function CategoriesPage() {
               onValueChange={value => setTab(value as TransactionType)}
               className="w-full"
             >
+              {/* MARK: Segments */}
               <View className="mb-2.5 mt-21/2">
                 <SegmentedControl
                   values={tabLabels.map(label => capitalize(label))}

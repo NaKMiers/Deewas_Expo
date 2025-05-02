@@ -7,6 +7,19 @@ import google from './google.png'
 import star from './star.png'
 import crown from './crown.png'
 
-const icons: any = { apple, appleDark, facebook, google, email, emailDark, star, crown }
+const icons: any = {
+  apple,
+  appleLight: apple,
+  appleDark,
+  facebook,
+  google,
+  googleLight: google,
+  googleDark: google,
+  local: email,
+  localLight: email,
+  localDark: emailDark,
+  star,
+  crown,
+}
 
 export default icons

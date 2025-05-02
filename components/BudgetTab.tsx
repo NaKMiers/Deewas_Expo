@@ -1,6 +1,6 @@
 import { images } from '@/assets/images/images'
 import { TabsContent } from '@/components/ui/tabs'
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { useAppSelector } from '@/hooks/reduxHook'
 import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { differenceInDays } from 'date-fns'
@@ -22,7 +22,6 @@ interface IBudgetTabProps {
 
 function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
   // hooks
-  const dispatch = useAppDispatch()
   const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('budgetTab.' + key)
   const locale = i18n.language
@@ -74,7 +73,7 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
                 <Text className="font-semibold tracking-tight text-black">{t('Total budgets')}</Text>
               </View>
               <View className="flex flex-1 flex-col items-center gap-1">
-                <Text className="font-semibold text-violet-500">{formatCurrency(currency, total)}</Text>
+                <Text className="font-semibold text-violet-500">{formatCurrency(currency, amount)}</Text>
                 <Text className="font-semibold tracking-tight text-black">{t('Total spent')}</Text>
               </View>
             </View>

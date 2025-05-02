@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { clearUser, setLoading, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
+import { clearUser, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
 import { refreshTokenApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
@@ -9,6 +9,7 @@ import moment from 'moment'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert } from 'react-native'
+import Purchases from 'react-native-purchases'
 
 interface AuthContextValue {
   token: string | null
@@ -48,7 +49,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         break
       case 'premium-monthly':
       case 'premium-yearly':
-        setIsPremium(moment(user.planExpiredAt).isAfter(moment())) // not expire yet
+        setIsPremium(moment(user.planExpiredAt).isAfter(moment()))
         break
       default:
         setIsPremium(false)
@@ -92,21 +93,29 @@ function AuthProvider({ children }: { children: ReactNode }) {
   }, [dispatch, token])
 
   // refresh token
-  const refreshToken = useCallback(async () => {
-    try {
-      const { token } = await refreshTokenApi()
+  const refreshToken = useCallback(
+    async (option: any = { reload: true }) => {
+      try {
+        const { token } = await refreshTokenApi()
 
-      // save token and user
-      await AsyncStorage.setItem('token', token)
-      dispatch(setToken(token))
-    } catch (err: any) {
-      console.log(err)
-    }
-  }, [dispatch])
+        // save token and user
+        await AsyncStorage.setItem('token', token)
+        dispatch(setToken(token))
+
+        if (option.reload) {
+          const decodedUser: IFullUser = jwtDecode(token)
+          dispatch(setUser(decodedUser))
+        }
+      } catch (err: any) {
+        console.log(err)
+      }
+    },
+    [dispatch]
+  )
 
   // refresh token
   useEffect(() => {
-    refreshToken()
+    refreshToken({ reload: false })
   }, [refreshToken])
 
   // load biometric values
@@ -166,6 +175,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   // handle logout
   const logout = useCallback(async () => {
+    await Purchases.logOut()
     await switchBiometric(-1)
     dispatch(clearUser())
     await AsyncStorage.removeItem('token')

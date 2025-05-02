@@ -1,5 +1,4 @@
 import DateRangeSegments from '@/components/DateRangeSegments'
-import WalletPicker from '@/components/dialogs/WalletPicker'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
@@ -10,12 +9,18 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
-import { setInitWallet } from '@/lib/reducers/screenReducer'
+import { setSelectedWallet } from '@/lib/reducers/screenReducer'
 import { setTransactions } from '@/lib/reducers/transactionReducer'
 import { toUTC } from '@/lib/time'
 import { getMyTransactionsApi } from '@/requests'
 import { router } from 'expo-router'
-import { LucideCalendarDays, LucidePlus, LucideSearch, LucideX } from 'lucide-react-native'
+import {
+  LucideCalendarDays,
+  LucideChevronsUpDown,
+  LucidePlus,
+  LucideSearch,
+  LucideX,
+} from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -30,20 +35,19 @@ function TransactionsPage() {
   const { user, isPremium } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('transactionPage.' + key)
+  const t = (key: string) => translate('transactionsPage.' + key)
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // store
-  const { curWallet } = useAppSelector(state => state.wallet)
   const { transactions } = useAppSelector(state => state.transaction)
   const { refreshing, refreshPoint } = useAppSelector(state => state.load)
+  const { ofWallet, selectedWallet } = useAppSelector(state => state.screen)
 
   // states
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: moment().startOf('month').toDate(),
     to: moment().endOf('month').toDate(),
   })
-  const [wallet, setWallet] = useState<IWallet | null>(curWallet)
   const [groups, setGroups] = useState<any[]>([])
   const [search, setSearch] = useState<string>('')
   const [timeSegment, setTimeSegment] = useState<TimeUnit>('month')
@@ -52,14 +56,10 @@ function TransactionsPage() {
   // ads states
   const [adLoaded, setAdLoaded] = useState<boolean>(false)
 
-  useEffect(() => {
-    if (curWallet) setWallet(curWallet)
-  }, [curWallet])
-
   // get my transactions of selected wallet
   const getMyTransactions = useCallback(async () => {
     let query = `?from=${toUTC(dateRange.from)}&to=${toUTC(dateRange.to)}`
-    if (wallet) query += `&wallet=${wallet._id}`
+    if (ofWallet) query += `&wallet=${ofWallet._id}`
 
     try {
       const { transactions } = await getMyTransactionsApi(query)
@@ -75,7 +75,7 @@ function TransactionsPage() {
       dispatch(setRefreshing(false))
       setIsFirstRender(false)
     }
-  }, [dispatch, tError, dateRange, wallet])
+  }, [dispatch, tError, dateRange, ofWallet])
 
   // initial fetch
   useEffect(() => {
@@ -190,11 +190,25 @@ function TransactionsPage() {
               {t('Transactions')} <Text className="text-muted-foreground/50">{t('of')}</Text>
             </Text>
 
-            <WalletPicker
-              wallet={wallet as IWallet}
-              isAllowedAll
-              onChange={(wallet: IWallet | null) => setWallet(wallet)}
-            />
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+              onPress={() => router.push('/wallet-picker?showAllOption=true')}
+            >
+              {ofWallet ? (
+                <View className="flex flex-row items-center gap-2">
+                  <Text className="text-base text-black">{ofWallet.icon}</Text>
+                  <Text className="text-base font-semibold text-black">{ofWallet.name}</Text>
+                </View>
+              ) : (
+                <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
+              )}
+              <Icon
+                render={LucideChevronsUpDown}
+                size={18}
+                color="black"
+              />
+            </TouchableOpacity>
           </View>
 
           {/* MARK: Date Range */}
@@ -316,7 +330,7 @@ function TransactionsPage() {
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
-          dispatch(setInitWallet(wallet || curWallet))
+          dispatch(setSelectedWallet(selectedWallet))
           router.push('/create-transaction')
         }}
         className="absolute right-21/2 z-20 h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"

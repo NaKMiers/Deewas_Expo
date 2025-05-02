@@ -1,10 +1,16 @@
 import { images } from '@/assets/images/images'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { setInitFromWallet, setInitWallet, setWalletToEdit } from '@/lib/reducers/screenReducer'
-import { deleteWallet, setCurWallet, updateWallet } from '@/lib/reducers/walletReducer'
+import {
+  setFromWallet,
+  setOfWallet,
+  setSelectedWallet,
+  setWalletToEdit,
+} from '@/lib/reducers/screenReducer'
+import { deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { checkLevel, checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi, updateWalletApi } from '@/requests/walletRequests'
+import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideArrowRightLeft,
@@ -43,7 +49,6 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
 
   // states
   const [collapsed, setCollapsed] = useState<boolean>(false)
-  const [updating, setUpdating] = useState<boolean>(false)
   const [deleting, setDeleting] = useState<boolean>(false)
   const [hide, setHide] = useState<boolean>(wallet.hide)
 
@@ -109,8 +114,10 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
     >
       <Pressable
         onPress={() => {
-          dispatch(setCurWallet(wallet))
-          if (wallets.find(w => w._id === wallet._id)) router.push('/transactions')
+          if (wallets.find(w => w._id === wallet._id)) {
+            dispatch(setOfWallet(wallet))
+            router.push('/transactions')
+          }
         }}
         className="overflow-hidden rounded-lg"
       >
@@ -118,12 +125,12 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
         <View className="px-21 py-2">
           <View className="flex flex-row flex-nowrap items-center justify-between gap-2">
             <View className="flex flex-row items-center gap-2 text-lg">
-              <Text className="flex-shrink-0 text-xl">{wallet.icon}</Text>
+              {wallet.icon && <Text className="flex-shrink-0 text-xl">{wallet.icon}</Text>}
               <Text className="text-xl font-semibold text-neutral-800">{wallet.name}</Text>
             </View>
 
             {!hideMenu &&
-              (!deleting && !updating ? (
+              (!deleting ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <TouchableOpacity className="rounded-md p-1">
@@ -133,95 +140,104 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                       />
                     </TouchableOpacity>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent onPress={e => e.stopPropagation()}>
-                    <Button
-                      variant="ghost"
-                      className="flex h-8 w-full flex-row items-center justify-start gap-2 px-1 text-violet-500"
+                  <DropdownMenuContent
+                    className="rounded-xl bg-transparent px-0 py-0"
+                    onPress={e => e.stopPropagation()}
+                  >
+                    <BlurView
+                      className="px-1 py-2"
+                      tint="prominent"
+                      intensity={90}
                     >
-                      <Switch
-                        checked={hide}
-                        onCheckedChange={handleChangeHide}
-                        className={cn(hide ? 'bg-primary' : 'bg-muted-foreground')}
-                        style={{ transform: [{ scale: 0.9 }] }}
-                      />
-                      <Text className="font-semibold">{t('Hide')}</Text>
-                    </Button>
+                      <Button
+                        variant="ghost"
+                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-1 text-violet-500"
+                      >
+                        <Switch
+                          checked={hide}
+                          onCheckedChange={handleChangeHide}
+                          className={cn(hide ? 'bg-primary' : 'bg-muted-foreground')}
+                          style={{ transform: [{ scale: 0.9 }] }}
+                        />
+                        <Text className="font-semibold">{t('Hide')}</Text>
+                      </Button>
 
-                    {wallets.length > 1 && (
+                      {/* MARK: Create Transaction */}
                       <TouchableOpacity
                         activeOpacity={0.7}
                         onPress={() => {
-                          dispatch(setInitFromWallet(wallet))
-                          router.push('/transfer-fund')
+                          dispatch(setSelectedWallet(wallet))
+                          router.push('/create-transaction')
                         }}
                         className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
                       >
                         <Icon
-                          render={LucideArrowRightLeft}
+                          render={LucidePlus}
                           size={16}
-                          color="#6366f1"
                         />
-                        <Text className="font-semibold text-indigo-500">{t('Transfer')}</Text>
+                        <Text className="font-semibold">{t('Add Transaction')}</Text>
                       </TouchableOpacity>
-                    )}
 
-                    {/* MARK: Create Transaction */}
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      onPress={() => {
-                        dispatch(setInitWallet(wallet))
-                        router.push('/create-transaction')
-                      }}
-                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
-                    >
-                      <Icon
-                        render={LucidePlus}
-                        size={16}
-                      />
-                      <Text className="font-semibold">{t('Add Transaction')}</Text>
-                    </TouchableOpacity>
-
-                    {/* MARK: Create Wallet */}
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      onPress={() => {
-                        dispatch(setWalletToEdit(wallet))
-                        router.push('/update-wallet')
-                      }}
-                    >
-                      <View className="fle h-10 w-full flex-row items-center justify-start gap-2 px-5">
-                        <Icon
-                          render={LucidePencil}
-                          size={16}
-                          color="#0ea5e9"
-                        />
-                        <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                      </View>
-                    </TouchableOpacity>
-
-                    <ConfirmDialog
-                      label={t('Delete Wallet')}
-                      desc={
-                        wallets.length > 1
-                          ? t('Are you sure you want to delete this wallet?')
-                          : t('deleteOnlyWalletMessage')
-                      }
-                      confirmLabel={wallets.length > 1 ? 'Delete' : 'Clear'}
-                      onConfirm={handleDeleteWallet}
-                      trigger={
-                        <Button
-                          variant="ghost"
-                          className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                      {wallets.length > 1 && (
+                        <TouchableOpacity
+                          activeOpacity={0.7}
+                          onPress={() => {
+                            dispatch(setFromWallet(wallet))
+                            router.push('/transfer-fund')
+                          }}
+                          className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
                         >
                           <Icon
-                            render={LucideTrash}
+                            render={LucideArrowRightLeft}
                             size={16}
-                            color="#f43f5e"
+                            color="#ec4899"
                           />
-                          <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                        </Button>
-                      }
-                    />
+                          <Text className="font-semibold text-pink-500">{t('Transfer')}</Text>
+                        </TouchableOpacity>
+                      )}
+
+                      {/* MARK: Update Wallet */}
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() => {
+                          dispatch(setWalletToEdit(wallet))
+                          router.push('/update-wallet')
+                        }}
+                      >
+                        <View className="fle h-10 w-full flex-row items-center justify-start gap-2 px-5">
+                          <Icon
+                            render={LucidePencil}
+                            size={16}
+                            color="#0ea5e9"
+                          />
+                          <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                        </View>
+                      </TouchableOpacity>
+
+                      <ConfirmDialog
+                        label={t('Delete Wallet')}
+                        desc={
+                          wallets.length > 1
+                            ? t('Are you sure you want to delete this wallet?')
+                            : t('deleteOnlyWalletMessage')
+                        }
+                        confirmLabel={wallets.length > 1 ? 'Delete' : 'Clear'}
+                        onConfirm={handleDeleteWallet}
+                        trigger={
+                          <Button
+                            variant="ghost"
+                            className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                          >
+                            <Icon
+                              render={LucideTrash}
+                              size={16}
+                              color="#f43f5e"
+                            />
+                            <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                          </Button>
+                        }
+                      />
+                    </BlurView>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (

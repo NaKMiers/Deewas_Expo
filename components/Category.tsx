@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
-import { setCategoryToEdit, setInitCategory } from '@/lib/reducers/screenReducer'
+import { setCategoryToEdit, setSelectedCategory } from '@/lib/reducers/screenReducer'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi } from '@/requests/categoryRequests'
+import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideBarChart2,
@@ -121,13 +122,17 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                     />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {/* MARK: Create Transaction */}
-                  {category.type === 'expense' && (
+                <DropdownMenuContent className="rounded-xl bg-transparent px-0 py-0">
+                  <BlurView
+                    className="px-1 py-2"
+                    tint="prominent"
+                    intensity={90}
+                  >
+                    {/* MARK: Create Transaction */}
                     <TouchableOpacity
                       activeOpacity={0.7}
                       onPress={() => {
-                        dispatch(setInitCategory(category))
+                        dispatch(setSelectedCategory(category))
                         router.push('/create-transaction')
                       }}
                       className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
@@ -138,64 +143,64 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                       />
                       <Text className="font-semibold">{t('Add Transaction')}</Text>
                     </TouchableOpacity>
-                  )}
 
-                  {category.type === 'expense' && (
+                    {category.type === 'expense' && (
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() => {
+                          dispatch(setSelectedCategory(category))
+                          router.push('/create-budget')
+                        }}
+                        className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                      >
+                        <Icon
+                          render={LucideBarChart2}
+                          size={16}
+                          color="#f97316"
+                        />
+                        <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
+                      </TouchableOpacity>
+                    )}
+
+                    {/* MARK: Update Category */}
                     <TouchableOpacity
                       activeOpacity={0.7}
                       onPress={() => {
-                        dispatch(setInitCategory(category))
-                        router.push('/create-budget')
+                        dispatch(setCategoryToEdit(category))
+                        router.push('/update-category')
                       }}
                       className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
                     >
                       <Icon
-                        render={LucideBarChart2}
+                        render={LucidePencil}
                         size={16}
-                        color="#f97316"
+                        color="#0ea5e9"
                       />
-                      <Text className="font-semibold text-orange-500">{t('Set Budget')}</Text>
+                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
                     </TouchableOpacity>
-                  )}
 
-                  {/* MARK: Update Category */}
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      dispatch(setCategoryToEdit(category))
-                      router.push('/update-category')
-                    }}
-                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
-                  >
-                    <Icon
-                      render={LucidePencil}
-                      size={16}
-                      color="#0ea5e9"
-                    />
-                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                  </TouchableOpacity>
-
-                  {category.deletable && (
-                    <ConfirmDialog
-                      label="Delete Wallet"
-                      desc="Are you sure you want to delete this wallet?"
-                      confirmLabel="Delete"
-                      onConfirm={handleDeleteCategory}
-                      trigger={
-                        <Button
-                          variant="ghost"
-                          className="flex h-8 w-full flex-row items-center justify-start gap-2 px-4"
-                        >
-                          <Icon
-                            render={LucideTrash}
-                            size={16}
-                            color="#f43f5e"
-                          />
-                          <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                        </Button>
-                      }
-                    />
-                  )}
+                    {category.deletable && (
+                      <ConfirmDialog
+                        label="Delete Wallet"
+                        desc="Are you sure you want to delete this wallet?"
+                        confirmLabel="Delete"
+                        onConfirm={handleDeleteCategory}
+                        trigger={
+                          <Button
+                            variant="ghost"
+                            className="flex h-8 w-full flex-row items-center justify-start gap-2 px-4"
+                          >
+                            <Icon
+                              render={LucideTrash}
+                              size={16}
+                              color="#f43f5e"
+                            />
+                            <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                          </Button>
+                        }
+                      />
+                    )}
+                  </BlurView>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (

@@ -16,9 +16,7 @@ export const getMyCategoriesApi = async (query: string = '') => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -38,9 +36,7 @@ export const createCategoryApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -60,9 +56,7 @@ export const updateCategoryApi = async (id: string, data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -81,9 +75,7 @@ export const deleteCategoryApi = async (id: string) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }

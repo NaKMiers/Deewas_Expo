@@ -16,9 +16,7 @@ export const getMyTransactionsApi = async (query: string = '') => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -36,9 +34,7 @@ export const getHistoryApi = async (query: string = '') => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -58,9 +54,7 @@ export const createTransactionApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -80,9 +74,7 @@ export const updateTransactionApi = async (id: string, data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -101,9 +93,7 @@ export const deleteTransactionApi = async (id: string) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }

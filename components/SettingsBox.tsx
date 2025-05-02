@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import useLanguage from '@/hooks/useLanguage'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { setSettings } from '@/lib/reducers/settingsReducer'
-import { setCurWallet } from '@/lib/reducers/walletReducer'
 import { cn } from '@/lib/utils'
 import { deleteAllDataApi, updateMySettingsApi } from '@/requests'
 import { memo, useCallback, useState } from 'react'
@@ -112,7 +111,6 @@ function Box({ type, desc, list, init, className }: BoxProps) {
         })
 
         dispatch(refresh())
-        dispatch(setCurWallet(null))
         setSelected(nextSelected)
         setNextSelected(null)
         dispatch(setSettings(settings))

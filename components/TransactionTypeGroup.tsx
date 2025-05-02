@@ -12,6 +12,7 @@ import Text from './Text'
 import TransactionCategoryGroup from './TransactionCategoryGroup'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { BlurView } from 'expo-blur'
 
 interface ITransactionTypeGroupProps {
   type: TransactionType
@@ -88,19 +89,25 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
                   />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="max-w-max p-0">
-                {/* MARK: Create Transaction */}
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => router.push(`/create-transaction?type=${type}`)}
-                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal"
+              <DropdownMenuContent className="max-w-max rounded-xl bg-transparent px-0 py-0">
+                <BlurView
+                  className="px-1 py-2"
+                  tint="prominent"
+                  intensity={90}
                 >
-                  <Icon
-                    render={LucidePlusCircle}
-                    size={18}
-                  />
-                  <Text className="font-semibold">{t('Add Transaction')}</Text>
-                </TouchableOpacity>
+                  {/* MARK: Create Transaction */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => router.push(`/create-transaction?type=${type}`)}
+                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal"
+                  >
+                    <Icon
+                      render={LucidePlusCircle}
+                      size={18}
+                    />
+                    <Text className="font-semibold">{t('Add Transaction')}</Text>
+                  </TouchableOpacity>
+                </BlurView>
               </DropdownMenuContent>
             </DropdownMenu>
           </View>

@@ -32,7 +32,7 @@ const freeFeatures = [
   'Max 2 wallets',
   'Max 4 budgets',
   'Annoying ads',
-  '500 AI tokens per month',
+  '10.000 AI tokens every day',
   'No priority support',
   "Can't export data",
   'Bar chart only',
@@ -43,7 +43,7 @@ const premiumFeatures = [
   'Unlimited wallets',
   'Unlimited budgets',
   'No advertisement',
-  'Up to 50.000 AI tokens per month',
+  'Up to 4.500.000 AI tokens per month',
   'Priority support',
   'Export data to Google Sheets, Excel, CSV',
   'Unlock advanced charts (pie, line, bar, etc.)',
@@ -81,7 +81,7 @@ function PremiumPage() {
   const { packages, purchasing, purchasePackage, restorePurchase } = useRevenueCat()
 
   // states
-  const [countdown, setCountdown] = useState(10) // seconds
+  const [countdown, setCountdown] = useState(1) // seconds
   const [selectedPackage, setSelectedPackage] = useState<PurchasesPackage | null>(null)
 
   // values

@@ -44,7 +44,8 @@ const DateTimePicker = ({ currentDate, onChange, open, close, className, ...rest
                 if (close) close()
               }
             }}
-            className={cn('flex-1', className)}
+            // className={cn('flex-1', className)}
+            style={{ width: 100 }}
             {...rest}
           />
         )

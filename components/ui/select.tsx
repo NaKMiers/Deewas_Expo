@@ -3,6 +3,7 @@ import { ChevronUp } from '@/lib/icons/ChevronUp'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import * as SelectPrimitive from '@rn-primitives/select'
+import { BlurView } from 'expo-blur'
 import { LucideChevronDown } from 'lucide-react-native'
 import * as React from 'react'
 import { Platform, StyleSheet } from 'react-native'
@@ -21,23 +22,29 @@ const SelectTrigger = React.forwardRef<SelectPrimitive.TriggerRef, SelectPrimiti
     const { isDarkColorScheme } = useColorScheme()
 
     return (
-      <SelectPrimitive.Trigger
-        ref={ref}
-        className={cn(
-          'native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input bg-primary-foreground px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
-          props.disabled && 'opacity-50 web:cursor-not-allowed',
-          className
-        )}
-        {...props}
+      <BlurView
+        className="overflow-hidden rounded-md"
+        tint="prominent"
+        intensity={100}
       >
-        <>{children}</>
-        <LucideChevronDown
-          size={16}
-          aria-hidden={true}
-          color={isDarkColorScheme ? '#fff' : '#111'}
-          className="opacity-70"
-        />
-      </SelectPrimitive.Trigger>
+        <SelectPrimitive.Trigger
+          ref={ref}
+          className={cn(
+            'native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
+            props.disabled && 'opacity-50 web:cursor-not-allowed',
+            className
+          )}
+          {...props}
+        >
+          <>{children}</>
+          <LucideChevronDown
+            size={16}
+            aria-hidden={true}
+            color={isDarkColorScheme ? '#fff' : '#111'}
+            className="opacity-70"
+          />
+        </SelectPrimitive.Trigger>
+      </BlurView>
     )
   }
 )
@@ -100,7 +107,7 @@ const SelectContent = React.forwardRef<
           <SelectPrimitive.Content
             ref={ref}
             className={cn(
-              'relative z-50 max-h-96 min-w-[8rem] rounded-md border border-border bg-primary-foreground px-1 py-2 shadow-md shadow-foreground/10 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+              'relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border border-border shadow-md shadow-foreground/10 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
               position === 'popper' &&
                 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
               open
@@ -111,17 +118,23 @@ const SelectContent = React.forwardRef<
             position={position}
             {...props}
           >
-            <SelectScrollUpButton />
-            <SelectPrimitive.Viewport
-              className={cn(
-                'p-1',
-                position === 'popper' &&
-                  'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]'
-              )}
+            <BlurView
+              className="px-1 py-2"
+              intensity={80}
+              tint="prominent"
             >
-              {children}
-            </SelectPrimitive.Viewport>
-            <SelectScrollDownButton />
+              <SelectScrollUpButton />
+              <SelectPrimitive.Viewport
+                className={cn(
+                  'p-1',
+                  position === 'popper' &&
+                    'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]'
+                )}
+              >
+                {children}
+              </SelectPrimitive.Viewport>
+              <SelectScrollDownButton />
+            </BlurView>
           </SelectPrimitive.Content>
         </Animated.View>
       </SelectPrimitive.Overlay>

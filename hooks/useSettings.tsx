@@ -35,7 +35,7 @@ function useSettings() {
   // initial get settings
   useEffect(() => {
     getSettings()
-  }, [dispatch, user, refreshPoint])
+  }, [dispatch, getSettings, user, refreshPoint])
 
   return { refetch: getSettings, settings, loading }
 }

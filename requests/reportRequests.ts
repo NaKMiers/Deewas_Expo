@@ -11,9 +11,7 @@ export const sendReportApi = async (results: any[]) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }

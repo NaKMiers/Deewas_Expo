@@ -40,6 +40,8 @@ declare interface ISettings {
   personalities: number[]
   currency: string
   language: string
+
+  freeTokensUsed: number
 }
 
 declare type IFullSettings = ISettings & { user: IUser }
@@ -74,8 +76,7 @@ declare interface IUser {
   role: TUserRole
 
   avatar: string
-  firstName: string
-  lastName: string
+  name: string
   initiated: boolean
 
   plan: string

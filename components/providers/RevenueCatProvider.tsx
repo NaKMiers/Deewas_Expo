@@ -19,6 +19,12 @@ interface RevenueCatProps {
 
 const RevenueCatContext = createContext<RevenueCatProps | null>(null)
 
+if (Platform.OS === 'ios') {
+  Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY! })
+} else if (Platform.OS === 'android') {
+  // Initialize RevenueCat for Android
+}
+
 function RevenueCatProvider({ children }: { children: ReactNode }) {
   // hooks
   const dispatch = useAppDispatch()
@@ -28,6 +34,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
   // states
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
   const [purchasing, setPurchasing] = useState<boolean>(false)
+  const [isReady, setIsReady] = useState<boolean>(false)
 
   // load all offerings a user can (currently) purchase
   const loadOfferings = useCallback(async () => {
@@ -43,12 +50,8 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const init = async () => {
-      if (Platform.OS === 'ios') {
-        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY! })
-        await loadOfferings()
-      } else if (Platform.OS === 'android') {
-        // Initialize RevenueCat for Android
-      }
+      await loadOfferings()
+      setIsReady(true)
     }
     init()
   }, [loadOfferings])
@@ -64,14 +67,20 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
         const customerInfo = await Purchases.getCustomerInfo()
 
+        console.log('Customer Info:', customerInfo.originalAppUserId)
+
         if (customerInfo.entitlements.active['Premium']) {
           const { token } = await upgradePlanApi(customerInfo.originalAppUserId)
 
           const decodedUser: IFullUser = jwtDecode(token)
+
+          console.log(21312)
+
           // save token and user
           await AsyncStorage.setItem('token', token)
           dispatch(setUser(decodedUser))
           dispatch(setToken(token))
+          console.log(222)
 
           Alert.alert(t('Purchase Success'), t('You are now Premium!'))
         } else {
@@ -94,7 +103,10 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     setPurchasing(true)
 
     try {
-      const customerInfo = await Purchases.restorePurchases()
+      const customerInfo = await Purchases.getCustomerInfo()
+
+      console.log('Customer Info:', customerInfo.originalAppUserId)
+      console.log('customerInfo.entitlements:', customerInfo.entitlements)
 
       if (customerInfo.entitlements.active['Premium']) {
         const { token } = await upgradePlanApi(customerInfo.originalAppUserId)
@@ -125,6 +137,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     purchasing,
   }
 
+  if (!isReady) return null
   return <RevenueCatContext.Provider value={value}>{children}</RevenueCatContext.Provider>
 }
 

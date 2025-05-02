@@ -4,7 +4,6 @@
     "description": "Công cụ uản lý chi tiêu cá nhân với các tính năng AI mạnh mẽ và giao diện đơn giản"
   },
   "signInPage": {
-    "Sign In - Deewas": "Đăng nhập - Deewas",
     "Sign In to Deewas": "Đăng nhập Deewas",
     "Welcome back, please sign in to continue!": "Chào mừng trở lại, vui lòng đăng nhập để tiếp tục!",
     "Sign In with Google": "Đăng nhập với Google",
@@ -25,7 +24,6 @@
     "Google sign in is in progress": "Đang đăng nhập bằng Google"
   },
   "signUpPage": {
-    "Sign Up - Deewas": "Đăng ký - Deewas",
     "Sign Up to Deewas": "Đăng ký Deewas",
     "Welcome! Please fill in the details to get started": "Chào mừng! Vui lòng điền thông tin để bắt đầu",
     "or": "hoặc",
@@ -102,7 +100,8 @@
     "Cancel": "Hủy",
     "Log Out": "Đăng xuất",
     "Are you sure you want to log out?": "Bạn có chắc chắn muốn đăng xuất không?",
-    "Version": "Phiên bản"
+    "Version": "Phiên bản",
+    "Username": "Tên người dùng"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "Bạn chưa có ngân sách nào, hãy tạo ngay!",
@@ -119,7 +118,7 @@
     "You don't have any wallets yet, create one now!": "Bạn chưa có ví nào, hãy tạo ngay nào!",
     "Create Wallet": "Create Wallet"
   },
-  "transactionPage": {
+  "transactionsPage": {
     "Failed to fetch transactions": "Không thể lấy dữ liệu của giao dịch",
     "Transactions": "Các giao dịch",
     "of": "của",
@@ -127,6 +126,7 @@
     "Max allowed range is": "Phạm vi tối đa cho phép là",
     "days!": "ngày!",
     "Search": "Tìm kiếm",
+    "Select wallet": "Chọn ví",
     "No transactions found for this wallet, just add one now!": "Không có giao dịch nào cho ví này, hãy thêm ngay!",
     "Add Transaction": "Thêm giao dịch"
   },
@@ -155,7 +155,11 @@
     "The Gentle Dad": "Người cha điềm đạm",
     "The Loyal Puppy": "Cún con trung thành",
     "The Moody Cat": "Con mòe khó ở",
-    "Listening": "Đang lắng nghe"
+    "Listening": "Đang lắng nghe",
+    "Please upgrade to Premium to continue using the assistant": "Vui lòng nâng cấp lên Premium để tiếp tục sử dụng trợ lý",
+    "You've reached your free token limit for today": "Bạn đã đạt giới hạn token miễn phí cho hôm nay",
+    "Cancel": "Hủy",
+    "Upgrade Now": "Nâng cấp ngay"
   },
   "welcomePage": {
     "Ever wonder where your money goes - and why it's never enough?": "Bạn có bao giờ tự hỏi tiền của mình đi đâu - và tại sao nó không bao giờ đủ",
@@ -274,7 +278,6 @@
     "Privacy Policy": "Chính sách Bảo mật",
     "Terms And Conditions": "Điều khoản và Điều kiện",
     "Effective as of April 12, 2025": "Có hiệu lực từ ngày 12 tháng 4 năm 2025",
-    "Table of Contents": "Mục lục",
     "Introduction": "Giới thiệu",
     "These terms and conditions apply to the Deewas app": "Các điều khoản và điều kiện này áp dụng cho ứng dụng Deewas",
     "hereby referred to as": "sau đây được gọi là",
@@ -377,12 +380,12 @@
     "How do I set a budget?": "Làm sao để thiết lập ngân sách?",
     "Navigate to Budgets, click “Create Budget,” and specify the category, total amount, and time range": "Vào phần Ngân sách, nhấn “Tạo ngân sách” và chọn danh mục, số tiền tổng và khoảng thời gian",
     "What if I forget my password?": "Nếu tôi quên mật khẩu thì sao?",
-    "Use the “Forgot Password” link on the sign-in screen to reset it via email": "Sử dụng liên kết “Quên mật khẩu” ở trang đăng nhập để đặt lại mật khẩu qua email",
     "Still Need Help?": "Vẫn cần hỗ trợ?",
     "Our support team is available 24/7 to assist you": "Đội ngũ hỗ trợ của chúng tôi hoạt động 24/7 để giúp đỡ bạn",
     "Drop us a message, and we'll get back to you as soon as possible": "Gửi tin nhắn cho chúng tôi, chúng tôi sẽ phản hồi sớm nhất có thể",
     "Deewas": "Deewas",
-    "All rights reserved": "Đã đăng ký bản quyền"
+    "All rights reserved": "All rights reserved",
+    "Use the “Forgot Password” link on the sign-in screen to reset it via email": "Use the “Forgot Password” link on the sign-in screen to reset it via email"
   },
   "guidePage": {
     "Transactions": "Giao dịch",
@@ -474,7 +477,7 @@
     "Failed to create transaction": "Không thể tạo giao dịch",
     "Create Budget": "Tạo ngân sách",
     "Budget helps you manage money wisely": "Ngân sách giúp bạn quản lý chi tiêu một cách thông minh",
-    "Select Category": "Chọn danh mục",
+    "Select category": "Chọn danh mục",
     "Total": "Tổng",
     "Category": "Danh mục",
     "From - To": "Từ ngày - Đến ngày",
@@ -536,7 +539,8 @@
     "Category": "Danh mục",
     "Date": "Ngày",
     "Select Date": "Chọn ngày",
-    "Select Category": "Chọn danh mục",
+    "Select category": "Chọn danh mục",
+    "Select wallet": "Chọn ví",
     "When did this transaction happen?": "Bạn đã thực hiện giao dịch này vào lúc nào?",
     "Cancel": "Hủy",
     "Save": "Lưu",
@@ -555,7 +559,10 @@
     "This is how your wallet will appear in the app": "Đây là cách ví của bạn sẽ xuất hiện trong ứng dụng",
     "Cancel": "Hủy",
     "Save": "Lưu",
-    "Wallet name": "Wallet name"
+    "Wallet name": "Wallet name",
+    "Please upgrade to Premium to create more wallets": "Vui lòng nâng cấp lên Premium để tạo thêm ví",
+    "You've reached the limit of 2 wallets": "Bạn đã đạt giới hạn 2 ví",
+    "Upgrade Now": "Nâng cấp ngay"
   },
   "updateBudgetPage": {
     "Amount is required": "Số tiền không được trống",
@@ -565,6 +572,7 @@
     "Updating budget": "Đang cập nhật ngân sách",
     "Failed to update budget": "Không thể cập nhật ngân sách",
     "Update Budget": "Cập nhật ngân sách",
+    "Select category": "Chọn danh mục",
     "Budget helps you manage money wisely": "Ngân sách giúp bạn quản lý chi tiêu một cách thông minh",
     "Total": "Tổng",
     "Category": "Danh mục",
@@ -624,6 +632,7 @@
     "Date": "Ngày",
     "Select Date": "Chọn ngày",
     "Select Category": "Chọn danh mục",
+    "Select wallet": "Chọn ví",
     "When did this transaction happen?": "Bạn đã thực hiện giao dịch này vào lúc nào?",
     "Cancel": "Cancel",
     "Save": "Save"
@@ -657,6 +666,8 @@
     "Amount": "Số tiền",
     "Date": "Ngày",
     "Select Date": "Chọn ngày",
+    "Select category": "Chọn danh mục",
+    "Select wallet": "Chọn ví",
     "When did this transferring happen?": "Bạn đã thực hiện chuyển tiền này vào lúc nào?",
     "Cancel": "Hủy",
     "Save": "Lưu"
@@ -718,8 +729,10 @@
     "Transfer": "Chuyển tiền"
   },
   "categoryPickerPage": {
+    "Select": "Chọn danh mục",
+    "category": "",
     "Failed to get categories": "Không thấy lấy dữ liệu danh mục",
-    "Select Category": "Chọn danh mục",
+    "Select category": "Chọn danh mục",
     "Categories are used to group your transactions": "Danh mục được sử dụng để nhóm các giao dịch của bạn",
     "Find a category": "Tìm danh mục",
     "Create Category": "Tạo danh mục mới",
@@ -727,12 +740,17 @@
     "Delete category": "Xóa danh mục",
     "Are you sure you want to delete": "Bạn có chắc muốn xóa danh mục",
     "Delete": "Xóa",
-    "Cancel": "Hủy"
+    "Cancel": "Hủy",
+    "income": "thu nhập",
+    "expense": "chi tiêu",
+    "saving": "tiết kiệm",
+    "invest": "đầu tư",
+    "transfer": "chuyển tiền"
   },
-  "walletPicker": {
+  "walletPickerPage": {
     "All wallets": "Tất cả ví",
     "Deleting wallet": "Đang xóa ví",
-    "Select Wallet": "Chọn ví",
+    "Select wallet": "Chọn ví",
     "Wallets are used to group your transactions by source of funds": "Ví dùng để phân loại giao dịch của bạn theo nguồn tiền",
     "Find a wallet": "Tìm kiếm ví",
     "Create Wallet": "Tạo ví mới",
@@ -786,7 +804,10 @@
     "Previous year": "Năm trước",
     "Next week": "Tuần sau",
     "Next month": "Tháng sau",
-    "Next year": "Năm sau"
+    "Next year": "Năm sau",
+    "Please upgrade to Premium to unlock more charts": "Vui lòng nâng cấp lên Premium để mở khóa thêm biểu đồ",
+    "Cancel": "Hủy",
+    "Upgrade Now": "Nâng cấp ngay"
   },
   "multipleSelection": {
     "All": "Tất Cả",
@@ -902,21 +923,27 @@
     "transfer": "chuyển tiền",
     "spent": "đã chi"
   },
-  "dateRangePicker": {
+  "dateRangePickerPage": {
     "Today": "Hôm nay",
     "Yesterday": "Hôm qua",
     "Last 7 days": "7 ngày qua",
     "Last 14 days": "14 ngày qua",
     "Last 30 days": "30 ngày qua",
-    "This Week": "Tuần này",
-    "Last Week": "Tuần trước",
-    "This Month": "Tháng này",
-    "Last Month": "Tháng trước",
+    "This week": "Tuần này",
+    "Next week": "Tuần sau",
+    "Last week": "Tuần trước",
+    "This month": "Tháng này",
+    "Next month": "Tháng sau",
+    "Last month": "Tháng trước",
+    "This year": "Năm nay",
+    "Next year": "Năm sau",
+    "Last year": "Năm trước",
     "Update": "Cập nhật",
     "Cancel": "Hủy",
     "Confirm": "Xác nhận",
     "From Date": "Từ ngày",
-    "To Date": "Đến ngày"
+    "To Date": "Đến ngày",
+    "Custom": "Tùy chỉnh"
   },
   "settingsBox": {
     "Set your currency": "Thiết lập tiền tệ",
@@ -932,7 +959,9 @@
     "Change Currency": "Thay đổi tiền tệ",
     "Confirm": "Xác nhận"
   },
-  "montYearPicker": {
+  "monthYearPicker": {
+    "Month": "Tháng",
+    "Year": "Năm",
     "Apply": "Áp dụng"
   },
   "dateRangeSegments": {
@@ -984,6 +1013,8 @@
     "Budget created": "Ngân sách đã được tạo",
     "Budget updated": "Ngân sách đã được cập nhật",
     "Personalities changed": "Tính cách đã được thay đổi",
+    "Update currency successfully": "Cập nhật tiền tệ thành công",
+    "Erase all data successfully": "Xóa tất cả dữ liệu thành công",
     "Authentication successful": "Xác thực thành công",
     "Wallet updated": "Đã cập nhật ví"
   },
@@ -1021,6 +1052,7 @@
     "An error occurred": "Đã xảy ra lỗi",
     "ID token is required": "Mã ID là bắt buộc",
     "Failed to sign up with Google": "Không thể đăng ký bằng Google",
+    "Failed to update your currency": "Không thể cập nhật tiền tệ của bạn",
     "Speech recognition failed": "Nhận diện giọng nói thất bại",
     "Failed to start recording": "Không thể bắt đầu ghi âm",
     "Authentication error": "Lỗi xác thực",
@@ -1029,6 +1061,9 @@
     "Biometric authentication failed": "Xác thực sinh trắc học thất bại",
     "Please select a personality": "Vui lòng chọn một tính cách",
     "This account is authenticated by google": "Tài khoản này được xác thực bởi google",
-    "Failed to update wallet": "Không thể cập nhật ví"
+    "Failed to update wallet": "Không thể cập nhật ví",
+    "Failed to change username": "Không thể thay đổi tên người dùng",
+    "Username already exists": "Tên người dùng đã tồn tại",
+    "Username must be at least 5 characters": "Tên người dùng phải có ít nhất 5 ký tự"
   }
 }

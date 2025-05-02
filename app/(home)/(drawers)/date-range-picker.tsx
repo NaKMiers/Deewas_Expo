@@ -1,25 +1,23 @@
+import DateTimePicker from '@/components/DateTimePicker'
+import DrawerWrapper from '@/components/DrawerWrapper'
+import Icon from '@/components/Icon'
+import Text from '@/components/Text'
+import { Button } from '@/components/ui/button'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { setDateRange } from '@/lib/reducers/screenReducer'
+import { capitalize, getLocale } from '@/lib/string'
+import { isSameDate } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { Separator } from '@rn-primitives/select'
-import { isSameDay } from 'date-fns'
+import { format } from 'date-fns'
+import { router, useLocalSearchParams } from 'expo-router'
 import { LucideChevronDown, LucideMinus } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, TouchableOpacity, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import DateTimePicker from './DateTimePicker'
-import Icon from './Icon'
-import Text from './Text'
-import { useDrawer } from './providers/DrawerProvider'
-import { Button } from './ui/button'
-
-interface DateRangePickerProps {
-  values: { from: Date; to: Date }
-  update: ({ from, to }: { from: Date; to: Date }) => void
-  className?: string
-  [key: string]: any
-}
 
 const ranges = [
   {
@@ -37,58 +35,98 @@ const ranges = [
     },
   },
   {
-    label: 'Last 7 Days',
+    label: 'Last 7 days',
     value: {
       from: moment().subtract(6, 'days').startOf('day').toDate(),
       to: moment().endOf('day').toDate(),
     },
   },
   {
-    label: 'Last 30 Days',
+    label: 'Last 30 days',
     value: {
       from: moment().subtract(29, 'days').startOf('day').toDate(),
       to: moment().endOf('day').toDate(),
     },
   },
   {
-    label: 'This Week',
+    label: 'This week',
     value: {
       from: moment().startOf('week').toDate(),
       to: moment().endOf('week').toDate(),
     },
   },
   {
-    label: 'Last Week',
+    label: 'Next week',
+    value: {
+      from: moment().add(1, 'week').startOf('week').toDate(),
+      to: moment().add(1, 'week').endOf('week').toDate(),
+    },
+  },
+  {
+    label: 'Last week',
     value: {
       from: moment().subtract(1, 'week').startOf('week').toDate(),
       to: moment().subtract(1, 'week').endOf('week').toDate(),
     },
   },
   {
-    label: 'This Month',
+    label: 'This month',
     value: {
       from: moment().startOf('month').toDate(),
       to: moment().endOf('month').toDate(),
     },
   },
   {
-    label: 'Last Month',
+    label: 'Next month',
+    value: {
+      from: moment().add(1, 'month').startOf('month').toDate(),
+      to: moment().add(1, 'month').endOf('month').toDate(),
+    },
+  },
+  {
+    label: 'Last month',
     value: {
       from: moment().subtract(1, 'month').startOf('month').toDate(),
       to: moment().subtract(1, 'month').endOf('month').toDate(),
     },
   },
+  {
+    label: 'This year',
+    value: {
+      from: moment().startOf('year').toDate(),
+      to: moment().endOf('year').toDate(),
+    },
+  },
+  {
+    label: 'Next year',
+    value: {
+      from: moment().add(1, 'year').startOf('year').toDate(),
+      to: moment().add(1, 'year').endOf('year').toDate(),
+    },
+  },
+  {
+    label: 'Last year',
+    value: {
+      from: moment().subtract(1, 'year').startOf('year').toDate(),
+      to: moment().subtract(1, 'year').endOf('year').toDate(),
+    },
+  },
 ]
 
-function DateRangePicker({ values, update, className }: DateRangePickerProps) {
+function DateRangePickerPage() {
   // hooks
-  const { t: translate } = useTranslation()
-  const t = (key: string) => translate('dateRangePicker.' + key)
-  const { closeDrawer2: closeDrawer } = useDrawer()
+  const { t: translate, i18n } = useTranslation()
+  const t = (key: string) => translate('dateRangePickerPage.' + key)
+  const dispatch = useAppDispatch()
+  const { isFuture } = useLocalSearchParams()
+  const locale = i18n.language
+
+  // store
+  const dateRange = useAppSelector(state => state.screen.dateRange)
 
   // states
-  const [from, setFrom] = useState<Date>(values.from)
-  const [to, setTo] = useState<Date>(values.to)
+  const [from, setFrom] = useState<Date>(moment(dateRange.from).toDate())
+  const [to, setTo] = useState<Date>(moment(dateRange.to).toDate())
   const [slide, setSlide] = useState<number>(1)
   const [openRangeSelection, setOpenRangeSelection] = useState<boolean>(false)
   const [selectedRange, setSelectedRange] = useState<any>(null)
@@ -98,10 +136,18 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
   // refs
   const flatListRef = useRef<FlatList>(null)
 
+  // values
+  const rangeOptions =
+    isFuture === 'true'
+      ? ranges.filter(range => moment(range.value.to).isAfter(moment().endOf('day')))
+      : ranges
+
   const handleConfirm = useCallback(() => {
-    update({ from, to })
-    closeDrawer()
-  }, [from, to, update, closeDrawer])
+    console.log('Confirm', { from, to })
+
+    dispatch(setDateRange({ from: moment(from).toISOString(), to: moment(to).toISOString() }))
+    router.back()
+  }, [dispatch, from, to])
 
   // scroll when slide changes
   useEffect(() => {
@@ -113,35 +159,43 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
     }
   }, [slide])
 
+  useEffect(() => {
+    const matchRange = ranges.find(
+      range => isSameDate(range.value.from, from) && isSameDate(range.value.to, to)
+    )
+    setSelectedRange(matchRange || null)
+  }, [from, to])
+
   return (
-    <View
-      className={cn('mx-auto w-full max-w-sm', className)}
-      style={{ marginTop: 21 }}
-    >
+    <DrawerWrapper>
       {/* From - To */}
-      <View className={cn('flex flex-row items-center justify-center gap-3')}>
-        <View className="flex flex-1 flex-col items-center gap-2">
+      <View className={cn('mt-21 flex-row items-center justify-center gap-3')}>
+        <View className="flex-1 flex-col items-center gap-2">
           <Text className="px-2 font-semibold">{t('From Date')}</Text>
           <Button
             variant="outline"
-            className={cn('w-full', slide === 1 && Platform.OS === 'ios' && 'border-yellow-500')}
+            className={cn('w-full', slide === 1 && Platform.OS === 'ios' && 'border-sky-500')}
             onPress={() => (Platform.OS === 'ios' ? setSlide(1) : setOpenFrom(!openFrom))}
           >
-            <Text className="font-semibold">{moment(from).format('MMM DD, YYYY')}</Text>
+            <Text className="font-semibold">
+              {capitalize(format(from, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
+            </Text>
           </Button>
         </View>
         <Icon
           render={LucideMinus}
           style={{ marginBottom: -21 }}
         />
-        <View className="flex flex-1 flex-col items-center gap-2">
+        <View className="flex-1 flex-col items-center gap-2">
           <Text className="px-2 font-semibold">{t('To Date')}</Text>
           <Button
             variant="outline"
-            className={cn('w-full', slide === 2 && Platform.OS === 'ios' && 'border-yellow-500')}
+            className={cn('w-full', slide === 2 && Platform.OS === 'ios' && 'border-sky-500')}
             onPress={() => (Platform.OS === 'ios' ? setSlide(2) : setOpenTo(!openFrom))}
           >
-            <Text className="font-semibold">{moment(to).format('MMM DD, YYYY')}</Text>
+            <Text className="font-semibold">
+              {capitalize(format(to, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
+            </Text>
           </Button>
         </View>
       </View>
@@ -149,11 +203,11 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
       {/* Quick Range Selection */}
       <TouchableOpacity
         activeOpacity={0.7}
-        className="mt-2 flex h-11 w-full flex-row items-center justify-between gap-1 rounded-lg border border-primary px-3"
+        className="mt-2 w-full flex-row items-center justify-between gap-1 rounded-lg border border-primary px-3 py-3"
         onPress={() => setOpenRangeSelection(!openRangeSelection)}
       >
         <Text className={cn('font-semibold capitalize')}>
-          {selectedRange?.label || 'Select range...'}
+          {selectedRange ? t(selectedRange.label) : t('Custom')}
         </Text>
         <Icon
           render={LucideChevronDown}
@@ -162,11 +216,10 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
         />
       </TouchableOpacity>
       <Collapsible collapsed={!openRangeSelection}>
-        <View className="mt-1 flex flex-col overflow-hidden rounded-lg bg-secondary shadow-lg">
-          {ranges.map((range, index) => (
-            <Button
-              variant="secondary"
-              className="flex flex-row items-center justify-start gap-2 rounded-none border border-b border-secondary"
+        <View className="mt-1 flex-col overflow-hidden rounded-lg border border-primary shadow-lg">
+          {rangeOptions.map((range, index) => (
+            <TouchableOpacity
+              className="flex-row items-center justify-start gap-2 rounded-none border-b border-primary bg-transparent px-3 py-3"
               onPress={() => {
                 setFrom(range.value.from)
                 setTo(range.value.to)
@@ -175,8 +228,8 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
               }}
               key={index}
             >
-              <Text className={cn('font-semibold capitalize')}>{range.label}</Text>
-            </Button>
+              <Text className={cn('font-semibold capitalize')}>{t(range.label)}</Text>
+            </TouchableOpacity>
           ))}
         </View>
       </Collapsible>
@@ -192,7 +245,10 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
         ]}
         keyExtractor={item => item.type}
         renderItem={({ item }) => (
-          <View className={cn('flex flex-col items-center gap-1', Platform.OS === 'ios' && 'mt-4')}>
+          <View
+            className={cn('flex-1 items-center gap-1', Platform.OS === 'ios' && 'mt-4')}
+            style={{ width: SCREEN_WIDTH - 42 }}
+          >
             {Platform.OS === 'ios' && (
               <Text className="px-2 text-lg font-semibold">{t(item.label)}</Text>
             )}
@@ -202,15 +258,31 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
                 setOpenFrom(false)
                 setOpenTo(false)
               }}
+              className="bg-white"
               currentDate={item.type === 'from' ? from : to}
-              onChange={date => date && (item.type === 'from' ? setFrom(date) : setTo(date))}
-              minimumDate={item.type === 'to' ? from : undefined}
-              maximumDate={item.type === 'from' ? to : undefined}
+              onChange={date => {
+                if (date) {
+                  if (item.type === 'from') {
+                    setFrom(date)
+                    setOpenFrom(false)
+                  } else {
+                    if (moment(date).isBefore(from)) {
+                      // exchange from and to
+                      setTo(from)
+                      setFrom(date)
+                      setOpenTo(false)
+                    } else {
+                      setTo(date)
+                      setOpenTo(false)
+                    }
+                  }
+                }
+              }}
             />
           </View>
         )}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={SCREEN_WIDTH}
+        snapToInterval={SCREEN_WIDTH - 200}
         decelerationRate="fast"
         scrollEnabled={false}
       />
@@ -219,11 +291,13 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
         className="mb-21 mt-8"
         style={{ paddingLeft: 21, paddingRight: 21 }}
       >
-        <View className="mt-3 flex flex-row items-center justify-center gap-21">
+        <View className="mt-3 flex-row items-center justify-center gap-21">
           <Button
             variant="secondary"
             className="h-10 flex-1 rounded-md px-21/2"
-            onPress={() => closeDrawer()}
+            onPress={() => {
+              router.back()
+            }}
           >
             <Text className="font-semibold">{t('Cancel')}</Text>
           </Button>
@@ -238,38 +312,8 @@ function DateRangePicker({ values, update, className }: DateRangePickerProps) {
       </View>
 
       <Separator className="my-8" />
-    </View>
+    </DrawerWrapper>
   )
 }
 
-interface NodeProps extends DateRangePickerProps {
-  disabled?: boolean
-  className?: string
-}
-
-function Node({ disabled, className, ...props }: NodeProps) {
-  const { openDrawer2 } = useDrawer()
-  const { from, to } = props.values
-
-  return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      className={cn(
-        'flex h-10 flex-row items-center gap-2 rounded-md border border-primary px-3',
-        className,
-        disabled && 'opacity-50'
-      )}
-      onPress={() => openDrawer2(<DateRangePicker {...props} />)}
-    >
-      <Text className={cn('font-semibold', props.textClassName)}>
-        {moment(from).format(isSameDay(from, to) ? 'MMM DD' : 'MMM DD, YYYY')}
-      </Text>
-      <Text className={cn('font-semibold', props.textClassName)}>-</Text>
-      <Text className={cn('font-semibold', props.textClassName)}>
-        {moment(to).format('MMM DD, YYYY')}
-      </Text>
-    </TouchableOpacity>
-  )
-}
-
-export default Node
+export default DateRangePickerPage

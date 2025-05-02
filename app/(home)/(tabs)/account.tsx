@@ -13,19 +13,22 @@ import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
-import { setCurWallet } from '@/lib/reducers/walletReducer'
+import { capitalize, shortName } from '@/lib/string'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
-import { deleteAllDataApi } from '@/requests'
+import { deleteAllDataApi, updateUserApi } from '@/requests'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
 import {
   LucideBookCopy,
   LucideChevronRight,
   LucideInfo,
+  LucidePencil,
+  LucideSave,
   LucideScanFace,
   LucideShieldQuestion,
   LucideWalletCards,
+  LucideX,
   Moon,
   Sun,
 } from 'lucide-react-native'
@@ -40,7 +43,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { RefreshControl } from 'react-native-gesture-handler'
+import { RefreshControl, TextInput } from 'react-native-gesture-handler'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
 
@@ -48,9 +51,10 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADM
 
 function AccountPage() {
   // hooks
-  const { user, isPremium, logout, switchBiometric, biometric } = useAuth()
+  const { user, isPremium, logout, switchBiometric, biometric, refreshToken } = useAuth()
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('accountPage.' + key)
+  const t = useCallback((key: string) => translate('accountPage.' + key), [translate])
+  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { colorScheme, setColorScheme } = useColorScheme()
   const dispatch = useAppDispatch()
 
@@ -59,6 +63,10 @@ function AccountPage() {
 
   // states
   const [deleting, setDeleting] = useState<boolean>(false)
+  const [editMode, setEditMode] = useState<boolean>(false)
+  const [usnValue, setUsnValue] = useState<string>(shortName(user, ''))
+  const [updating, setUpdating] = useState<boolean>(false)
+  const [error, setError] = useState<string>('')
 
   // ad states
   const [adLoadFailed, setAdLoadFailed] = useState<boolean>(false)
@@ -76,7 +84,6 @@ function AccountPage() {
       })
 
       dispatch(refresh())
-      dispatch(setCurWallet(null))
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -90,11 +97,35 @@ function AccountPage() {
     }
   }, [dispatch])
 
-  if (!user) return <Redirect href="/auth/sign-in" />
+  // handle update settings
+  const handleChangeUsername = useCallback(async () => {
+    if (!user) return
+    if (!usnValue.trim()) return
+    if (usnValue.trim().length < 5) return setError('Username must be at least 5 characters')
 
-  // values
-  const authImage =
-    icons[`${user.authType}${user.authType === 'google' ? '' : colorScheme === 'dark' ? '' : 'Dark'}`]
+    // start loading
+    setUpdating(true)
+
+    try {
+      const data: any = {}
+      // change username if local auth, change name if 3rd party auth
+      if (user.authType === 'local') data.username = usnValue.trim()
+      else data.name = usnValue.trim()
+      await updateUserApi(data)
+
+      // reset
+      setEditMode(false)
+      setError('')
+      refreshToken()
+    } catch (err: any) {
+      err.errorCode === 'USERNAME_EXISTS' ? setError(err.message) : setError('Failed to change username')
+    } finally {
+      // stop loading
+      setUpdating(false)
+    }
+  }, [refreshToken, user, usnValue])
+
+  if (!user) return <Redirect href="/auth/sign-in" />
 
   return (
     <SafeAreaView>
@@ -110,46 +141,115 @@ function AccountPage() {
           {/* MARK: Account */}
           <View className="overflow-auto rounded-md border border-border bg-secondary px-21 py-21/2">
             <View className="w-full flex-row items-center gap-2 pb-2">
-              <View className="relative aspect-square max-w-[40px] flex-1 rounded-full shadow-sm">
-                <Image
-                  className="h-full w-full rounded-full object-cover"
-                  source={{ uri: user.avatar }}
-                  fallbackSource={images.defaultAvatar}
-                  width={50}
-                  height={50}
-                  alt="avatar"
-                />
-                {isPremium && (
+              {user.authType === 'google' && (
+                <View className="relative aspect-square max-w-[40px] flex-1 rounded-full shadow-sm">
                   <Image
-                    className="absolute"
-                    style={{ top: -14, right: -5, width: 28, height: 28, transform: 'rotate(30deg)' }}
-                    source={icons.crown}
-                    resizeMode="contain"
+                    className="h-full w-full rounded-full object-cover"
+                    source={{ uri: user.avatar }}
+                    fallbackSource={images.defaultAvatar}
+                    width={50}
+                    height={50}
+                    alt="avatar"
                   />
-                )}
-              </View>
-              <View>
-                <View className="flex-row items-center gap-2">
-                  <Text className="text-xl font-bold">{user.username}</Text>
-                  <View className="h-5 w-5">
+                  {isPremium && (
                     <Image
-                      source={authImage}
+                      className="absolute"
+                      style={{ top: -14, right: -5, width: 28, height: 28, transform: 'rotate(30deg)' }}
+                      source={icons.crown}
                       resizeMode="contain"
-                      className="h-full w-full"
                     />
-                  </View>
+                  )}
+                </View>
+              )}
+              <View className="flex-1">
+                <View className="flex-1 flex-row items-center gap-2">
+                  {!editMode ? (
+                    <>
+                      <Text className="text-xl font-bold">{shortName(user)}</Text>
+                      <View className="h-5 w-5">
+                        <Image
+                          source={
+                            icons[user.authType + capitalize(colorScheme === 'light' ? 'Dark' : 'Light')]
+                          }
+                          resizeMode="contain"
+                          className="h-full w-full"
+                        />
+                      </View>
+                    </>
+                  ) : (
+                    <View>
+                      {error && (
+                        <Text className="mb-0.5 text-sm text-rose-500 drop-shadow-lg">
+                          {tError(error)}
+                        </Text>
+                      )}
+                      <TextInput
+                        className={cn(
+                          'mb-1 w-[200px] rounded-lg bg-primary/20 px-21/2 py-2 font-medium tracking-wider text-primary',
+                          user.authType === 'local' && 'lowercase'
+                        )}
+                        placeholder={t('Username') + '...'}
+                        value={usnValue}
+                        onChangeText={value => setUsnValue(value)}
+                        onFocus={() => setError('')}
+                      />
+                    </View>
+                  )}
                 </View>
                 <Text className="flex-row items-center gap-2 text-muted-foreground">{user.email}</Text>
               </View>
+
+              <View className="h-full flex-row items-start gap-2.5">
+                {!updating && (
+                  <TouchableOpacity
+                    className="py-2.5"
+                    onPress={() => {
+                      setEditMode(!editMode)
+                      setError('')
+                    }}
+                  >
+                    {editMode ? (
+                      <Icon
+                        render={LucideX}
+                        size={18}
+                      />
+                    ) : (
+                      <Icon
+                        render={LucidePencil}
+                        size={16}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )}
+
+                {usnValue.trim() && usnValue.trim() !== shortName(user) && !updating && editMode && (
+                  <TouchableOpacity
+                    className="py-2.5"
+                    onPress={handleChangeUsername}
+                  >
+                    <Icon
+                      render={LucideSave}
+                      size={18}
+                      color="#4ade80"
+                    />
+                  </TouchableOpacity>
+                )}
+
+                {updating && (
+                  <View className="py-2.5">
+                    <ActivityIndicator />
+                  </View>
+                )}
+              </View>
             </View>
-            <View className="mt-21/2 border-t border-primary py-2">
+            <View className="mt-2 border-t border-primary py-2">
               <Text className="text-center text-lg font-semibold capitalize">
                 {isPremium ? t('Premium Account') : t('Free Account')}
               </Text>
             </View>
           </View>
 
-          {/* MARK: Ads */}
+          {/* MARK: Flash Sale */}
           {!isPremium && (
             <ImageBackground
               source={images.preBg}

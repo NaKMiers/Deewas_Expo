@@ -17,9 +17,7 @@ export const refreshTokenApi = async () => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -39,9 +37,7 @@ export const updateUserApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }

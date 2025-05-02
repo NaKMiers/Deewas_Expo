@@ -1,6 +1,7 @@
 import { currencies } from '@/constants/settings'
 import * as locales from 'date-fns/locale'
 import 'intl'
+import 'intl-locales-supported'
 import {
   LucideArrowRightLeft,
   LucideBarChart4,
@@ -9,22 +10,12 @@ import {
   LucideTrendingUp,
   LucideWalletCards,
 } from 'lucide-react-native'
-import 'intl-locales-supported'
 
-export const shortName = (user: IUser) => {
-  if (user?.firstName) {
-    return user.firstName
-  }
-  if (user?.lastName) {
-    return user.lastName
-  }
-  if (user?.username) {
-    return user.username
-  }
-  if (user?.email) {
-    return user.email.split('@')[0]
-  }
-  return 'User'
+export const shortName = (user: any, defaultValue: string = '') => {
+  if (user?.name) return user.name
+  if (user?.username) return user.username
+  if (user?.email) return user.email.split('@')[0]
+  return defaultValue
 }
 
 export const formatSymbol = (currency: string): string =>

@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setLoading as setBudgetLoading, setBudgets } from '@/lib/reducers/budgetReducer'
 import { setCategories, setLoading as setCategoryLoading } from '@/lib/reducers/categoryReducer'
 import { setRefreshing } from '@/lib/reducers/loadReducer'
-import { setCurWallet, setLoading as setWalletLoading, setWallets } from '@/lib/reducers/walletReducer'
+import { setLoading as setWalletLoading, setWallets } from '@/lib/reducers/walletReducer'
 import { initApi } from '@/requests'
 import { useCallback, useEffect } from 'react'
 import { useAuth } from '../components/providers/AuthProvider'
@@ -14,7 +14,7 @@ function useInit() {
 
   // store
   const { refreshPoint } = useAppSelector(state => state.load)
-  const { curWallet, wallets, loading } = useAppSelector(state => state.wallet)
+  const { wallets, loading } = useAppSelector(state => state.wallet)
 
   // fetch wallets, categories, and budgets
   const init = useCallback(async () => {
@@ -28,7 +28,6 @@ function useInit() {
     try {
       const { wallets, categories, budgets } = await initApi()
       dispatch(setWallets(wallets))
-      dispatch(setCurWallet(wallets[0]))
       dispatch(setCategories(categories))
       dispatch(setBudgets(budgets))
     } catch (err: any) {
@@ -47,7 +46,7 @@ function useInit() {
     init()
   }, [init, refreshPoint])
 
-  return { refetch: init, curWallet, wallets, loading }
+  return { refetch: init, wallets, loading }
 }
 
 export default useInit

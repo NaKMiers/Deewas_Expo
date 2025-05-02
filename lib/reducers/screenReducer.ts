@@ -1,64 +1,129 @@
 import { createSlice } from '@reduxjs/toolkit'
+import moment from 'moment'
+
+const initialState = {
+  // wallet
+  walletToEdit: null as IWallet | null,
+  fromWallet: null as IWallet | null,
+  toWallet: null as IWallet | null,
+  selectedWallet: null as IWallet | null,
+  ofWallet: null as IWallet | null,
+
+  // category
+  categoryToEdit: null as ICategory | null,
+  selectedCategory: null as ICategory | null,
+
+  // transaction
+  transactionToEdit: null as IFullTransaction | null,
+
+  // category
+  budgetToEdit: null as IFullBudget | null,
+
+  // emoji
+  selectedEmoji: '' as string,
+
+  // date range
+  dateRange: {
+    from: moment().startOf('month').toISOString(),
+    to: moment().endOf('month').toISOString(),
+  },
+}
 
 export const screen = createSlice({
   name: 'screen',
-  initialState: {
-    walletToEdit: null as IWallet | null,
-    initWallet: null as IWallet | null,
-    initFromWallet: null as IWallet | null,
-    initToWallet: null as IWallet | null,
-    categoryToEdit: null as ICategory | null,
-    initCategory: null as ICategory | null,
-    transactionToEdit: null as IFullTransaction | null,
-    budgetToEdit: null as IFullBudget | null,
-    selectedEmoji: '' as string,
-    selectedCategory: null as ICategory | null,
-  },
+  initialState,
   reducers: {
+    // wallet
     setWalletToEdit: (state, action) => {
       state.walletToEdit = action.payload
     },
-    setInitWallet: (state, action) => {
-      state.initWallet = action.payload
+    setFromWallet: (state, action) => {
+      state.fromWallet = action.payload
     },
-    setInitFromWallet: (state, action) => {
-      state.initFromWallet = action.payload
+    setToWallet: (state, action) => {
+      state.toWallet = action.payload
     },
-    setInitToWallet: (state, action) => {
-      state.initToWallet = action.payload
+    setSelectedWallet: (state, action) => {
+      state.selectedWallet = action.payload
     },
+    setOfWallet: (state, action) => {
+      state.ofWallet = action.payload
+    },
+
+    // category
     setCategoryToEdit: (state, action) => {
       state.categoryToEdit = action.payload
-    },
-    setInitCategory: (state, action) => {
-      state.initCategory = action.payload
-    },
-    setTransactionToEdit: (state, action) => {
-      state.transactionToEdit = action.payload
-    },
-    setBudgetToEdit: (state, action) => {
-      state.budgetToEdit = action.payload
-    },
-    setSelectedEmoji: (state, action) => {
-      state.selectedEmoji = action.payload
     },
     setSelectedCategory: (state, action) => {
       state.selectedCategory = action.payload
     },
+
+    // transaction
+    setTransactionToEdit: (state, action) => {
+      state.transactionToEdit = action.payload
+    },
+
+    // budget
+    setBudgetToEdit: (state, action) => {
+      state.budgetToEdit = action.payload
+    },
+
+    // emoji
+    setSelectedEmoji: (state, action) => {
+      state.selectedEmoji = action.payload
+    },
+
+    // date range
+    setDateRange: (state, action) => {
+      state.dateRange = action.payload
+    },
+    setFromDate: (state, action) => {
+      state.dateRange.from = action.payload
+    },
+    setToDate: (state, action) => {
+      state.dateRange.to = action.payload
+    },
+    resetDateRange: state => {
+      state.dateRange = {
+        from: moment().startOf('month').toISOString(),
+        to: moment().endOf('month').toISOString(),
+      }
+    },
+
+    // reset
+    resetScreen: () => initialState,
   },
 })
 
 export const {
+  // wallet
   setWalletToEdit,
-  setInitWallet,
-  setInitFromWallet,
-  setInitToWallet,
+  setFromWallet,
+  setToWallet,
+  setSelectedWallet,
+  setOfWallet,
+
+  // category
   setCategoryToEdit,
-  setInitCategory,
-  setTransactionToEdit,
-  setBudgetToEdit,
-  setSelectedEmoji,
   setSelectedCategory,
+
+  // transaction
+  setTransactionToEdit,
+
+  // budget
+  setBudgetToEdit,
+
+  // emoji
+  setSelectedEmoji,
+
+  // date range
+  setDateRange,
+  setFromDate,
+  setToDate,
+  resetDateRange,
+
+  // reset
+  resetScreen,
 } = screen.actions
 
 export default screen.reducer

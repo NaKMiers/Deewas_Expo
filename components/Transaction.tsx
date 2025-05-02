@@ -5,6 +5,7 @@ import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi } from '@/requests'
+import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideChevronDown,
@@ -27,14 +28,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dro
 
 interface TransactionProps {
   transaction: IFullTransaction
-  update?: (transaction: IFullTransaction) => void
   remove?: (transaction: IFullTransaction) => void
   refresh?: () => void
   hideMenu?: boolean
   className?: string
 }
 
-function Transaction({ transaction, update, remove, refresh, hideMenu, className }: TransactionProps) {
+function Transaction({ transaction, remove, refresh, hideMenu, className }: TransactionProps) {
   // hooks
   const { t: translate } = useTranslation()
   const t = (value: string) => translate('transaction.' + value)
@@ -175,66 +175,72 @@ function Transaction({ transaction, update, remove, refresh, hideMenu, className
                     />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {/* MARK: Duplicate */}
-                  <ConfirmDialog
-                    label={t('Duplicate Transaction')}
-                    desc={t('Are you sure you want to duplicate this transaction?')}
-                    confirmLabel={t('Duplicate')}
-                    cancelLabel={t('Cancel')}
-                    onConfirm={handleDuplicateTransaction}
-                    trigger={
-                      <Button
-                        variant="ghost"
-                        className="flex w-full flex-row items-center justify-start gap-2 px-2"
-                      >
-                        <Icon
-                          render={LucideLayers2}
-                          size={16}
-                          color="#8b5cf6"
-                        />
-                        <Text className="font-semibold text-violet-500">{t('Duplicate')}</Text>
-                      </Button>
-                    }
-                  />
-
-                  {/* MARK: Update Transaction */}
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      dispatch(setTransactionToEdit(transaction))
-                      router.push('/update-transaction')
-                    }}
-                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4"
+                <DropdownMenuContent className="rounded-xl bg-transparent px-0 py-0">
+                  <BlurView
+                    className="px-1 py-2"
+                    tint="prominent"
+                    intensity={90}
                   >
-                    <Icon
-                      render={LucidePencil}
-                      size={16}
-                      color="#0ea5e9"
+                    {/* MARK: Duplicate */}
+                    <ConfirmDialog
+                      label={t('Duplicate Transaction')}
+                      desc={t('Are you sure you want to duplicate this transaction?')}
+                      confirmLabel={t('Duplicate')}
+                      cancelLabel={t('Cancel')}
+                      onConfirm={handleDuplicateTransaction}
+                      trigger={
+                        <Button
+                          variant="ghost"
+                          className="flex w-full flex-row items-center justify-start gap-2 px-2"
+                        >
+                          <Icon
+                            render={LucideLayers2}
+                            size={16}
+                            color="#8b5cf6"
+                          />
+                          <Text className="font-semibold text-violet-500">{t('Duplicate')}</Text>
+                        </Button>
+                      }
                     />
-                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                  </TouchableOpacity>
 
-                  {/* MARK: Delete */}
-                  <ConfirmDialog
-                    label={t('Delete Transaction')}
-                    desc={t('Are you sure you want to delete this transaction?')}
-                    confirmLabel="Delete"
-                    onConfirm={handleDeleteTransaction}
-                    trigger={
-                      <Button
-                        variant="ghost"
-                        className="flex w-full flex-row items-center justify-start gap-2 px-2"
-                      >
-                        <Icon
-                          render={LucideTrash}
-                          size={16}
-                          color="#f43f5e"
-                        />
-                        <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                      </Button>
-                    }
-                  />
+                    {/* MARK: Update Transaction */}
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => {
+                        dispatch(setTransactionToEdit(transaction))
+                        router.push('/update-transaction')
+                      }}
+                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4"
+                    >
+                      <Icon
+                        render={LucidePencil}
+                        size={16}
+                        color="#0ea5e9"
+                      />
+                      <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                    </TouchableOpacity>
+
+                    {/* MARK: Delete */}
+                    <ConfirmDialog
+                      label={t('Delete Transaction')}
+                      desc={t('Are you sure you want to delete this transaction?')}
+                      confirmLabel="Delete"
+                      onConfirm={handleDeleteTransaction}
+                      trigger={
+                        <Button
+                          variant="ghost"
+                          className="flex w-full flex-row items-center justify-start gap-2 px-2"
+                        >
+                          <Icon
+                            render={LucideTrash}
+                            size={16}
+                            color="#f43f5e"
+                          />
+                          <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                        </Button>
+                      }
+                    />
+                  </BlurView>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (

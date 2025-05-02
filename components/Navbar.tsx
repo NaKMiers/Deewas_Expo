@@ -2,7 +2,7 @@ import { images } from '@/assets/images/images'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { router, usePathname } from 'expo-router'
-import { LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
+import { LucideCircleUserRound, LucideHome, LucidePieChart, LucideWallet } from 'lucide-react-native'
 import { memo, useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Image from './Image'
@@ -38,7 +38,6 @@ function Navbar({ className }: NavbarProps) {
         href: '/ai',
         activeColor: '#f43f5e',
         source: isDarkColorScheme ? images.roundedLogoDark : images.roundedLogoLight,
-        fallbackSource: isDarkColorScheme ? images.roundedLogoDark : images.roundedLogoLight,
         width: 32,
         height: 32,
         className: 'rounded-none',
@@ -53,10 +52,12 @@ function Navbar({ className }: NavbarProps) {
         label: 'Account',
         href: '/account',
         source: { uri: user?.avatar },
-        fallbackSource: images.defaultAvatar,
+        icon: user?.authType === 'google' ? undefined : LucideCircleUserRound,
+        size: 25,
+        activeColor: '#f59e0b',
       },
     ],
-    [user?.avatar, isDarkColorScheme]
+    [user, isDarkColorScheme]
   )
 
   return (
@@ -79,7 +80,7 @@ function Navbar({ className }: NavbarProps) {
           >
             {route.icon ? (
               <route.icon
-                size={24}
+                size={route.size || 24}
                 color={
                   pathname === route.href ? route.activeColor : isDarkColorScheme ? 'black' : 'white'
                 }
@@ -92,7 +93,6 @@ function Navbar({ className }: NavbarProps) {
                 <Image
                   className="h-full w-full"
                   source={route.source}
-                  fallbackSource={route.fallbackSource}
                   resizeMode="cover"
                   alt="account"
                 />

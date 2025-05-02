@@ -16,9 +16,7 @@ export const getMyWalletsApi = async () => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -36,9 +34,7 @@ export const getWalletApi = async (id: string) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -58,9 +54,7 @@ export const createWalletApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -80,9 +74,7 @@ export const transferFundApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -102,9 +94,7 @@ export const updateWalletApi = async (id: string, data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -123,9 +113,7 @@ export const deleteWalletApi = async (id: string) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }

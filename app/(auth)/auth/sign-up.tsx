@@ -177,7 +177,7 @@ function SignUpPage() {
         Toast.show({
           type: 'error',
           text1: tError('Sign Up Failed'),
-          text2: tError(err.message),
+          text2: err.message,
         })
       } finally {
         // stop loading
@@ -434,10 +434,11 @@ function SignUpPage() {
                     onFocus={() => clearErrors('username')}
                     errors={errors}
                     labelClassName="text-black"
+                    inputClassName="lowercase"
                     containerClassName="bg-white"
                   />
 
-                  {/* MARK: Password */}
+                  {/* MARK: Email */}
                   <CustomInput
                     id="email"
                     label={t('Email')}
@@ -447,6 +448,7 @@ function SignUpPage() {
                     onFocus={() => clearErrors('email')}
                     errors={errors}
                     labelClassName="text-black"
+                    inputClassName="lowercase"
                     containerClassName="bg-white"
                   />
 

@@ -1,12 +1,15 @@
 import { images } from '@/assets/images/images'
 import Message from '@/components/ai/message'
 import { useScrollToBottom } from '@/components/ai/useScrollToBottom'
+import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import Icon from '@/components/Icon'
+import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Input } from '@/components/ui/input'
 import { personalities } from '@/constants'
 import { languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import useSettings from '@/hooks/useSettings'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { BASE_URL, cn, getToken } from '@/lib/utils'
 import { useChat, useCompletion } from '@ai-sdk/react'
@@ -47,8 +50,10 @@ function AIPage() {
   const [token, setToken] = useState<string>('')
 
   // hooks
+  const { isPremium } = useAuth()
+  const { refetch: refetchSettings } = useSettings()
   const { t: translate, i18n } = useTranslation()
-  const t = (key: string) => translate('aiPage.' + key)
+  const t = useCallback((key: string) => translate('aiPage.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const locale = i18n.language
   const language = languages.find(l => l.value === locale)?.alternative || 'English'
@@ -78,6 +83,7 @@ function AIPage() {
   // states
   const [refreshed, setRefreshed] = useState<boolean>(false)
   const [isRecording, setIsRecording] = useState(false)
+  const [openPremiumModal, setOpenPremiumModal] = useState<boolean>(false)
 
   // values
   const samples = [t('Hello?'), t('What can you do?'), t('I bought a dumpling'), t('Set a food budget')]
@@ -118,18 +124,38 @@ function AIPage() {
     setMessagesToStorage()
   }, [messages])
 
-  // send message
+  useEffect(() => {
+    if (status === 'ready') {
+      console.log('refetch settings')
+      refetchSettings()
+    }
+  }, [refetchSettings, status])
+
+  // MARK: Check token limit
+  const checkTokenLimit = useCallback(() => {
+    if (!settings) return false
+    if (!isPremium && settings.freeTokensUsed > +process.env.EXPO_PUBLIC_FREE_TOKENS_LIMIT!) {
+      setOpenPremiumModal(true)
+      return false
+    }
+    return true
+  }, [settings, isPremium])
+
+  // MARK: Send message
   const handleSendMessage = useCallback(
     (e?: any) => {
       if (input.trim() === '') return
       Keyboard.dismiss()
+      if (!checkTokenLimit()) return
+
       handleSubmit(e)
       handleInputChange({ target: { value: '' } } as any)
       setRefreshed(false)
     },
-    [handleInputChange, handleSubmit, input]
+    [handleInputChange, handleSubmit, checkTokenLimit, input]
   )
 
+  // MARK: Record voice
   useEffect(() => {
     if (!isRecording || !Voice || Platform.OS !== 'ios') return
 
@@ -302,6 +328,7 @@ function AIPage() {
                       className="flex-1 flex-row items-center justify-center rounded-lg border border-primary/5 bg-secondary px-21/2 py-2"
                       onPress={() => {
                         Keyboard.dismiss()
+                        if (!checkTokenLimit()) return
                         append({ content: sample, role: 'user' })
                       }}
                     >
@@ -428,6 +455,17 @@ function AIPage() {
             </ImageBackground>
           </View>
         </View>
+
+        {/* Premium Modal */}
+        <PremiumLimitModal
+          open={openPremiumModal}
+          close={() => setOpenPremiumModal(false)}
+          label={t('Please upgrade to Premium to continue using the assistant')}
+          desc={`${t("You've reached your free token limit for today")} (${process.env.EXPO_PUBLIC_FREE_TOKENS_LIMIT}/${process.env.EXPO_PUBLIC_FREE_TOKENS_LIMIT})`}
+          confirmLabel={t('Upgrade Now')}
+          cancelLabel={t('Cancel')}
+          onConfirm={() => router.push('/premium')}
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   )

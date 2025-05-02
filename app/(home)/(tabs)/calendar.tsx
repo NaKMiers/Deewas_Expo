@@ -125,6 +125,7 @@ function CalendarPage() {
                   <View className="flex flex-row items-center gap-1">
                     <Button
                       variant="outline"
+                      className="bg-primary-foreground"
                       size="icon"
                       onPress={() => setCurrentMonth(subMonths(currentMonth, 1))}
                     >
@@ -132,6 +133,7 @@ function CalendarPage() {
                     </Button>
                     <Button
                       variant="outline"
+                      className="bg-primary-foreground"
                       size="icon"
                       onPress={() => setCurrentMonth(addMonths(currentMonth, 1))}
                     >
@@ -254,7 +256,7 @@ function CalendarPage() {
                 <Text className="mb-4 flex-1 text-lg font-semibold">
                   {t('Transactions for') + ' '}
                   <Text className="text-muted-foreground/80">
-                    {format(selectedDate, 'd MMMM, yyyy', { locale: getLocale(locale) })}
+                    {format(selectedDate, 'MMM dd, yyyy', { locale: getLocale(locale) })}
                   </Text>
                 </Text>
                 <ScrollView className="max-h-[500px] flex-1 gap-1">

@@ -354,6 +354,7 @@ function SignInPage() {
                     onFocus={() => clearErrors('usernameOrEmail')}
                     errors={errors}
                     labelClassName="text-black"
+                    inputClassName="lowercase"
                     containerClassName="bg-white"
                   />
 
@@ -399,6 +400,11 @@ function SignInPage() {
                   )}
                 </TouchableOpacity>
               </View>
+
+              {/* MARK: Footer */}
+              <TouchableOpacity onPress={() => router.replace('/auth/sign-up')}>
+                <Text className="font-semibold text-black underline">Sign Up</Text>
+              </TouchableOpacity>
 
               <Separator className="h-5" />
             </View>

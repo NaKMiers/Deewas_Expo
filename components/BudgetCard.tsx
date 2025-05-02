@@ -1,10 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { deleteBudget } from '@/lib/reducers/budgetReducer'
-import { setBudgetToEdit, setInitCategory } from '@/lib/reducers/screenReducer'
+import { setBudgetToEdit, setSelectedCategory } from '@/lib/reducers/screenReducer'
 import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteBudgetApi } from '@/requests/budgetRequests'
 import { differenceInDays } from 'date-fns'
+import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import { LucideEllipsis, LucideLayers2, LucidePencil, LucideTrash } from 'lucide-react-native'
 import moment from 'moment-timezone'
@@ -96,63 +97,69 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                   <Icon render={LucideEllipsis} />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {/* MARK: Duplicate */}
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => {
-                    dispatch(setInitCategory(budget.category))
-                    router.push(
-                      `/create-budget?initTotal=${budget.total}&initBegin=${moment(budget.begin).add(1, 'month').toISOString()}&initEnd=${moment(budget.end).add(1, 'month').toISOString()}`
-                    )
-                  }}
-                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+              <DropdownMenuContent className="rounded-xl bg-transparent px-0 py-0">
+                <BlurView
+                  className="px-1 py-2"
+                  tint="prominent"
+                  intensity={90}
                 >
-                  <Icon
-                    render={LucideLayers2}
-                    size={16}
-                    color="#8b5cf6"
-                  />
-                  <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
-                </TouchableOpacity>
+                  {/* MARK: Duplicate */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      dispatch(setSelectedCategory(budget.category))
+                      router.push(
+                        `/create-budget?initTotal=${budget.total}&initBegin=${moment(budget.begin).add(1, 'month').toISOString()}&initEnd=${moment(budget.end).add(1, 'month').toISOString()}`
+                      )
+                    }}
+                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                  >
+                    <Icon
+                      render={LucideLayers2}
+                      size={16}
+                      color="#8b5cf6"
+                    />
+                    <Text className="font-semibold text-violet-500">{t('Create Similar')}</Text>
+                  </TouchableOpacity>
 
-                {/* MARK: Update */}
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => {
-                    dispatch(setBudgetToEdit(budget))
-                    router.push('/update-budget')
-                  }}
-                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
-                >
-                  <Icon
-                    render={LucidePencil}
-                    size={16}
-                    color="#0ea5e9"
-                  />
-                  <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
-                </TouchableOpacity>
+                  {/* MARK: Update */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      dispatch(setBudgetToEdit(budget))
+                      router.push('/update-budget')
+                    }}
+                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                  >
+                    <Icon
+                      render={LucidePencil}
+                      size={16}
+                      color="#0ea5e9"
+                    />
+                    <Text className="font-semibold text-sky-500">{t('Edit')}</Text>
+                  </TouchableOpacity>
 
-                {/* MARK: Delete */}
-                <ConfirmDialog
-                  label={t('Delete Budget')}
-                  desc={t('Are you sure you want to delete this budget?')}
-                  confirmLabel={t('Delete')}
-                  onConfirm={handleDeleteBudget}
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
-                    >
-                      <Icon
-                        render={LucideTrash}
-                        size={16}
-                        color="#f43f5e"
-                      />
-                      <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
-                    </Button>
-                  }
-                />
+                  {/* MARK: Delete */}
+                  <ConfirmDialog
+                    label={t('Delete Budget')}
+                    desc={t('Are you sure you want to delete this budget?')}
+                    confirmLabel={t('Delete')}
+                    onConfirm={handleDeleteBudget}
+                    trigger={
+                      <Button
+                        variant="ghost"
+                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                      >
+                        <Icon
+                          render={LucideTrash}
+                          size={16}
+                          color="#f43f5e"
+                        />
+                        <Text className="font-semibold text-rose-500">{t('Delete')}</Text>
+                      </Button>
+                    }
+                  />
+                </BlurView>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

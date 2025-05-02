@@ -11,9 +11,7 @@ export const signInCredentialsApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -26,9 +24,7 @@ export const registerCredentialsApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -41,9 +37,7 @@ export const signInGoogleApi = async (idToken: string, googleUserId: string) => 
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -56,9 +50,7 @@ export const signInAppleApi = async (idToken: string, appleUserId: string, nonce
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -71,9 +63,7 @@ export const forgotPasswordApi = async (data: any) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }
@@ -86,9 +76,7 @@ export const resetPasswordApi = async (token: string, newPassword: string) => {
   })
 
   // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
+  if (!res.ok) throw await res.json()
 
   return await res.json()
 }

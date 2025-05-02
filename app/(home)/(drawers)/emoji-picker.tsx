@@ -1,3 +1,4 @@
+import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import NoItemsFound from '@/components/NoItemsFound'
 import Text from '@/components/Text'
@@ -10,13 +11,11 @@ import { setSelectedEmoji } from '@/lib/reducers/screenReducer'
 import { decodeEmoji } from '@/lib/string'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import { LucideSearch, LucideX } from 'lucide-react-native'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 function EmojiPickerPage() {
   // hooks
@@ -143,95 +142,83 @@ function EmojiPickerPage() {
   )
 
   return (
-    <SafeAreaView className="flex-1">
-      <BlurView
-        className="flex-1"
-        tint="prominent"
-        intensity={80}
-      >
-        <ScrollView className="flex-1">
-          <View className="mx-auto w-full max-w-[500px] flex-1 p-21 pt-21/2">
-            <View>
-              <Text className="text-center text-xl font-semibold text-primary">
-                {t('Pick an emoji')}
-              </Text>
-              <Text className="text-center text-muted-foreground">
-                {t('Emojis are a fun way to express yourself')}
-              </Text>
-            </View>
+    <DrawerWrapper>
+      <View>
+        <Text className="text-center text-xl font-semibold text-primary">{t('Pick an emoji')}</Text>
+        <Text className="text-center text-muted-foreground">
+          {t('Emojis are a fun way to express yourself')}
+        </Text>
+      </View>
 
-            <View className="mt-6 flex flex-1 flex-col gap-6">
-              {/* Tab */}
-              <SegmentedControl
-                values={categories.map(item => item.icon)}
-                style={{ flex: 1, width: '100%', height: 40 }}
-                selectedIndex={categories.indexOf(category)}
-                onChange={event => {
-                  const index = event.nativeEvent.selectedSegmentIndex
-                  setCategory(categories[index])
-                }}
+      <View className="mt-6 flex flex-1 flex-col gap-6">
+        {/* Tab */}
+        <SegmentedControl
+          values={categories.map(item => item.icon)}
+          style={{ flex: 1, width: '100%', height: 40 }}
+          selectedIndex={categories.indexOf(category)}
+          onChange={event => {
+            const index = event.nativeEvent.selectedSegmentIndex
+            setCategory(categories[index])
+          }}
+        />
+
+        {/* Search */}
+        <View className="flex-row items-center justify-center rounded-lg bg-primary/10">
+          <Icon
+            render={LucideSearch}
+            size={18}
+            width={40}
+          />
+          <Input
+            className="flex-1 border-transparent bg-transparent pl-0"
+            placeholder={t('Find an emoji') + '...'}
+            value={search}
+            onChangeText={text => setSearch(text)}
+          />
+          {search.trim() !== '' && (
+            <TouchableWithoutFeedback onPress={() => setSearch('')}>
+              <Icon
+                render={LucideX}
+                size={18}
+                width={40}
               />
+            </TouchableWithoutFeedback>
+          )}
+        </View>
 
-              {/* Search */}
-              <View className="flex-row items-center justify-center rounded-lg bg-primary/10">
-                <Icon
-                  render={LucideSearch}
-                  size={18}
-                  width={40}
-                />
-                <Input
-                  className="flex-1 border-transparent bg-transparent pl-0"
-                  placeholder={t('Find an emoji') + '...'}
-                  value={search}
-                  onChangeText={text => setSearch(text)}
-                />
-                {search.trim() !== '' && (
-                  <TouchableWithoutFeedback onPress={() => setSearch('')}>
-                    <Icon
-                      render={LucideX}
-                      size={18}
-                      width={40}
-                    />
-                  </TouchableWithoutFeedback>
-                )}
-              </View>
-
-              {/* Emoji */}
-              <ScrollView style={{ maxHeight: 418 }}>
-                <View className="flex-1">
-                  {search.trim() !== ''
-                    ? renderEmojis(
-                        t('Search Results'),
-                        emojiData.filter(emoji =>
-                          emoji.short_name.toLowerCase().includes(search.toLowerCase())
-                        )
-                      )
-                    : category.name === t('Frequently used')
-                      ? renderEmojis(t('Frequently used'), frequentlyUsed)
-                      : renderEmojis(category.name, emojiGroups[category.name])}
-                </View>
-              </ScrollView>
-            </View>
-
-            <View className="mb-21 mt-6 px-0">
-              <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-                <View>
-                  <Button
-                    variant="default"
-                    className="h-10 rounded-md px-21/2"
-                    onPress={() => router.back()}
-                  >
-                    <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
-                  </Button>
-                </View>
-              </View>
-            </View>
-
-            <Separator className="my-8 h-0" />
+        {/* Emoji */}
+        <ScrollView style={{ maxHeight: 418 }}>
+          <View className="flex-1">
+            {search.trim() !== ''
+              ? renderEmojis(
+                  t('Search Results'),
+                  emojiData.filter(emoji =>
+                    emoji.short_name.toLowerCase().includes(search.toLowerCase())
+                  )
+                )
+              : category.name === t('Frequently used')
+                ? renderEmojis(t('Frequently used'), frequentlyUsed)
+                : renderEmojis(category.name, emojiGroups[category.name])}
           </View>
         </ScrollView>
-      </BlurView>
-    </SafeAreaView>
+      </View>
+
+      <View className="mb-21 mt-6 px-0">
+        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
+          <View>
+            <Button
+              variant="default"
+              className="h-10 rounded-md px-21/2"
+              onPress={() => router.back()}
+            >
+              <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
+            </Button>
+          </View>
+        </View>
+      </View>
+
+      <Separator className="my-8 h-0" />
+    </DrawerWrapper>
   )
 }
 

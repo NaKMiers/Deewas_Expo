@@ -1,49 +1,44 @@
 import CustomInput from '@/components/CustomInput'
-import DateRangePicker from '@/components/DateRangePicker'
+import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
-import { setBudgetToEdit, setSelectedCategory, setWalletToEdit } from '@/lib/reducers/screenReducer'
-import { formatSymbol } from '@/lib/string'
+import {
+  resetDateRange,
+  setBudgetToEdit,
+  setFromDate,
+  setSelectedCategory,
+  setToDate,
+} from '@/lib/reducers/screenReducer'
+import { capitalize, formatSymbol, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { updateBudgetApi } from '@/requests/budgetRequests'
-import { BlurView } from 'expo-blur'
+import { format, isSameDay } from 'date-fns'
 import { router } from 'expo-router'
 import { LucideChevronsUpDown } from 'lucide-react-native'
 import moment from 'moment'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function UpdateBudgetPage() {
   // hooks
-  const { t: translate } = useTranslation()
+  const { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('updateBudgetPage.' + key), [translate])
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const dispatch = useAppDispatch()
+  const locale = i18n.language
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
-  const budget = useAppSelector(state => state.screen.budgetToEdit)
-  const selectedCategory = useAppSelector(state => state.screen.selectedCategory)
-
-  const defaultValues = useMemo(
-    () => ({
-      categoryId: budget?.category._id || '',
-      total: budget?.total.toString() || '',
-      begin: moment(budget?.begin).toDate(),
-      end: moment(budget?.end).toDate(),
-    }),
-    [budget]
-  )
+  const { budgetToEdit: budget, selectedCategory, dateRange } = useAppSelector(state => state.screen)
 
   // form
   const {
@@ -54,21 +49,47 @@ function UpdateBudgetPage() {
     clearErrors,
     watch,
   } = useForm<FieldValues>({
-    defaultValues,
+    defaultValues: {
+      categoryId: budget?.category._id || '',
+      total: budget?.total.toString() || '',
+      begin: moment(budget?.begin).toDate(),
+      end: moment(budget?.end).toDate(),
+    },
   })
   const form = watch()
 
   // states
   const [saving, setSaving] = useState<boolean>(false)
-  const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
-    from: moment(budget?.begin).startOf('month').toDate(),
-    to: moment(budget?.end).endOf('month').toDate(),
-  })
+
+  // refs
+  const didSetInitialDate = useRef<boolean>(false)
+
+  useEffect(() => {
+    if (selectedCategory) setValue('categoryId', selectedCategory._id)
+    if (didSetInitialDate.current) {
+      if (dateRange.from) setValue('begin', dateRange.from)
+      if (dateRange.to) setValue('end', dateRange.to)
+    } else {
+      didSetInitialDate.current = true
+      if (budget?.begin) dispatch(setFromDate(moment(budget.begin).toISOString()))
+      if (budget?.begin) dispatch(setToDate(moment(budget.end).toISOString()))
+    }
+  }, [dispatch, setValue, selectedCategory, budget, dateRange])
 
   useEffect(() => {
     if (!budget) return
     dispatch(setSelectedCategory(budget.category))
   }, [dispatch, budget])
+
+  // leave screen
+  useEffect(
+    () => () => {
+      dispatch(setBudgetToEdit(null))
+      dispatch(setSelectedCategory(null))
+      dispatch(resetDateRange())
+    },
+    [dispatch]
+  )
 
   // check change
   const checkChanged = useCallback(
@@ -136,14 +157,13 @@ function UpdateBudgetPage() {
       }
 
       if (!checkChanged(data)) {
-        dispatch(setWalletToEdit(null))
         router.back()
         return false
       }
 
       return isValid
     },
-    [dispatch, setError, checkChanged, t]
+    [setError, checkChanged, t]
   )
 
   // update transaction
@@ -170,7 +190,6 @@ function UpdateBudgetPage() {
         })
 
         dispatch(refresh())
-        dispatch(setBudgetToEdit(null))
         router.back()
       } catch (err: any) {
         Toast.show({
@@ -188,141 +207,128 @@ function UpdateBudgetPage() {
   )
 
   return (
-    <SafeAreaView className="flex-1">
-      <BlurView
-        className="flex-1"
-        intensity={80}
-        tint="prominent"
-      >
-        <ScrollView className="flex-1">
-          <View className="mx-auto w-full max-w-[500px] flex-1 p-21">
-            <View>
-              <Text className="text-center text-xl font-semibold text-primary">
-                {t('Update Budget')}
-              </Text>
-              <Text className="text-center tracking-wider text-muted-foreground">
-                {t('Budget helps you manage money wisely')}
-              </Text>
-            </View>
+    <DrawerWrapper>
+      <View>
+        <Text className="text-center text-xl font-semibold text-primary">{t('Update Budget')}</Text>
+        <Text className="text-center tracking-wider text-muted-foreground">
+          {t('Budget helps you manage money wisely')}
+        </Text>
+      </View>
 
-            {/* MARK: Total */}
-            <View className="mt-6 flex flex-col gap-6">
-              {currency && (
-                <CustomInput
-                  id="total"
-                  type="number"
-                  value={form.total}
-                  label={t('Total')}
-                  placeholder="..."
-                  clearErrors={clearErrors}
-                  onChange={setValue}
-                  icon={
-                    <Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>
-                  }
-                  errors={errors}
-                  containerClassName="bg-white"
-                  inputClassName="text-black"
-                />
+      {/* MARK: Total */}
+      <View className="mt-6 flex flex-col gap-6">
+        {currency && (
+          <CustomInput
+            id="total"
+            type="number"
+            value={form.total}
+            label={t('Total')}
+            placeholder="..."
+            clearErrors={clearErrors}
+            onChange={setValue}
+            icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
+            errors={errors}
+            containerClassName="bg-white"
+            inputClassName="text-black"
+          />
+        )}
+
+        {/* MARK: Category */}
+        <View className="flex flex-1 flex-col">
+          <Text className={cn('mb-1.5 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
+            {t('Category')}
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => router.push('/category-picker?type=expense')}
+          >
+            {selectedCategory ? (
+              <View className="flex flex-row items-center gap-2">
+                <Text className="text-base text-black">{selectedCategory.icon}</Text>
+                <Text className="text-base font-semibold text-black">{selectedCategory.name}</Text>
+              </View>
+            ) : (
+              <Text className="text-base font-semibold text-black">{t('Select category')}</Text>
+            )}
+            <Icon
+              render={LucideChevronsUpDown}
+              size={18}
+              color="black"
+            />
+          </TouchableOpacity>
+          {errors.categoryId?.message && (
+            <Text className="ml-1 mt-0.5 italic text-rose-400">
+              {errors.categoryId?.message?.toString()}
+            </Text>
+          )}
+        </View>
+
+        {/* MARK: Date Range */}
+        <View className="flex flex-1 flex-col">
+          <Text
+            className={cn(
+              'mb-1.5 font-semibold',
+              (errors.begin || errors.end)?.message && 'text-rose-500'
+            )}
+          >
+            {t('From - To')}
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className={cn(
+              'flex h-12 flex-row items-center justify-center gap-2 rounded-md border border-primary px-3'
+            )}
+            onPress={() => router.push('/date-range-picker?isFuture=true')}
+          >
+            <Text className="font-semibold">
+              {capitalize(
+                format(form.begin, isSameDay(form.begin, form.end) ? 'MMM dd' : 'MMM dd, yyyy', {
+                  locale: getLocale(locale),
+                })
               )}
+            </Text>
+            <Text className="font-semibold">-</Text>
+            <Text className="font-semibold">
+              {capitalize(format(form.end, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
+            </Text>
+          </TouchableOpacity>
+          {(errors.begin || errors.end)?.message && (
+            <Text className="ml-1 mt-0.5 italic text-rose-400">
+              {(errors.begin || errors.end)?.message?.toString()}
+            </Text>
+          )}
+        </View>
+      </View>
 
-              {/* MARK: Category */}
-              <View className="flex flex-1 flex-col">
-                <Text
-                  className={cn('mb-1.5 font-semibold', errors.categoryId?.message && 'text-rose-500')}
-                >
-                  {t('Category')}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-                  onPress={() => router.push('/category-picker?type=expense')}
-                >
-                  {selectedCategory ? (
-                    <View className="flex flex-row items-center gap-2">
-                      <Text className="text-base text-black">{selectedCategory.icon}</Text>
-                      <Text className="text-base font-semibold text-black">{selectedCategory.name}</Text>
-                    </View>
-                  ) : (
-                    <Text className="text-base font-semibold text-black">{t('Select Category')}</Text>
-                  )}
-                  <Icon
-                    render={LucideChevronsUpDown}
-                    size={18}
-                    color="black"
-                  />
-                </TouchableOpacity>
-                {errors.categoryId?.message && (
-                  <Text className="ml-1 mt-0.5 italic text-rose-400">
-                    {errors.categoryId?.message?.toString()}
-                  </Text>
-                )}
-              </View>
-
-              {/* MARK: Date Range */}
-              <View className="flex flex-1 flex-col">
-                <Text
-                  className={cn(
-                    'mb-1.5 font-semibold',
-                    (errors.begin || errors.end)?.message && 'text-rose-500'
-                  )}
-                >
-                  {t('From - To')}
-                </Text>
-                <DateRangePicker
-                  values={dateRange}
-                  update={({ from, to }: any) => {
-                    setDateRange({ from, to })
-                    setValue('begin', from)
-                    setValue('end', to)
-                    clearErrors('begin')
-                    clearErrors('begin')
-                  }}
-                  className="mt-1 h-12 justify-center bg-white"
-                  textClassName="text-black"
-                />
-                {(errors.begin || errors.end)?.message && (
-                  <Text className="ml-1 mt-0.5 italic text-rose-400">
-                    {(errors.begin || errors.end)?.message?.toString()}
-                  </Text>
-                )}
-              </View>
-            </View>
-
-            {/* MARK:  Footer */}
-            <View className="mb-21 mt-6 px-0">
-              <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-                <View>
-                  <Button
-                    variant="secondary"
-                    className="h-10 rounded-md px-21/2"
-                    onPress={() => {
-                      dispatch(setBudgetToEdit(null))
-                      dispatch(setSelectedCategory(null))
-                      router.back()
-                    }}
-                  >
-                    <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-                  </Button>
-                </View>
-                <Button
-                  variant="default"
-                  className="h-10 min-w-[60px] rounded-md px-21/2"
-                  onPress={handleSubmit(handleUpdateBudget)}
-                >
-                  {saving ? (
-                    <ActivityIndicator />
-                  ) : (
-                    <Text className="font-semibold text-secondary">{t('Save')}</Text>
-                  )}
-                </Button>
-              </View>
-            </View>
-
-            <Separator className="my-8 h-0" />
+      {/* MARK:  Footer */}
+      <View className="mb-21 mt-6 px-0">
+        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
+          <View>
+            <Button
+              variant="secondary"
+              className="h-10 rounded-md px-21/2"
+              onPress={router.back}
+            >
+              <Text className="font-semibold text-primary">{t('Cancel')}</Text>
+            </Button>
           </View>
-        </ScrollView>
-      </BlurView>
-    </SafeAreaView>
+          <Button
+            variant="default"
+            className="h-10 min-w-[60px] rounded-md px-21/2"
+            onPress={handleSubmit(handleUpdateBudget)}
+          >
+            {saving ? (
+              <ActivityIndicator />
+            ) : (
+              <Text className="font-semibold text-secondary">{t('Save')}</Text>
+            )}
+          </Button>
+        </View>
+      </View>
+
+      <Separator className="my-8 h-0" />
+    </DrawerWrapper>
   )
 }
 

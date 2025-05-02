@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { getLocale } from '@/lib/string'
+import { capitalize, getLocale } from '@/lib/string'
 import { format } from 'date-fns'
 import { LucideCalendarFold, LucideChevronDown } from 'lucide-react-native'
 import { memo, useCallback, useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
 import Icon from './Icon'
 import Text from './Text'
+import { BlurView } from 'expo-blur'
 
 interface MonthYearPickerProps {
   currentMonth: Date
@@ -19,7 +20,7 @@ interface MonthYearPickerProps {
 function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps) {
   // hooks
   const { t: translate, i18n } = useTranslation()
-  const t = (key: string) => translate('montYearPicker.' + key)
+  const t = (key: string) => translate('monthYearPicker.' + key)
   const locale = i18n.language
 
   // states
@@ -58,7 +59,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="flex flex-row items-center gap-2 py-0"
+          className="flex flex-row items-center gap-2 bg-primary-foreground py-0"
         >
           <Icon
             render={LucideCalendarFold}
@@ -74,17 +75,20 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="max-w-sm p-4"
+        className="max-w-sm bg-transparent p-0"
         align="start"
       >
-        <View className="grid gap-4">
+        <BlurView
+          className="gap-4 overflow-hidden rounded-xl p-4"
+          intensity={80}
+        >
           {/* MARK: Month */}
           <View className="flex flex-col gap-2">
-            <Text className="text-sm font-medium">Month</Text>
+            <Text className="text-sm font-medium">{t('Month')}</Text>
             <Select
               value={{
                 value: newMonth.toString(),
-                label: getMonthNames(locale)[newMonth].label,
+                label: capitalize(getMonthNames(locale)[newMonth].label),
               }}
               onValueChange={option => {
                 if (option) {
@@ -115,7 +119,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
 
           {/* MARK: Year */}
           <View className="flex flex-col gap-2">
-            <Text className="font-medium">Year</Text>
+            <Text className="font-medium">{t('Year')}</Text>
             <Input
               keyboardType="numeric"
               value={newYear.toString()}
@@ -129,7 +133,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
           >
             <Text className="font-semibold text-secondary">{t('Apply')}</Text>
           </Button>
-        </View>
+        </BlurView>
       </PopoverContent>
     </Popover>
   )
