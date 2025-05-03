@@ -58,7 +58,7 @@ function HomePage() {
   }, [])
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-transparent">
       <ScrollView
         className="flex-1"
         refreshControl={

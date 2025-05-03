@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
+import { BlurView } from 'expo-blur'
 import { LucideAsterisk, LucideChevronDown, LucideEye } from 'lucide-react-native'
 import { Dispatch, memo, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,7 +22,7 @@ function Overview({ className }: OverviewProps) {
   const t = (key: string) => translate('overviewCard.' + key)
 
   // store
-  const wallets = useAppSelector(state => state.wallet.wallets).filter(wallet => !wallet.hide)
+  const wallets = useAppSelector(state => state.wallet.wallets).filter(wallet => !wallet.exclude)
 
   // states
   const [collapsed, setCollapsed] = useState<boolean>(false)
@@ -35,62 +36,67 @@ function Overview({ className }: OverviewProps) {
   const totalBalance = totalIncome + totalSaving + totalInvest - totalExpense
 
   return (
-    <View className={cn('rounded-lg bg-secondary shadow-md', className)}>
-      <TouchableWithoutFeedback onPress={() => setCollapsed(!collapsed)}>
-        <View className="flex flex-row justify-between p-21/2">
-          <View className="flex-1">
-            <OverviewItem
-              title={t('Total Balance')}
-              value={totalBalance}
-              type="balance"
-              isEye
-              isShow={showValue}
-              toggle={setShowValue}
-            />
+    <View className="shadow-md">
+      <BlurView
+        intensity={80}
+        className={cn('overflow-hidden rounded-xl border border-primary/10', className)}
+      >
+        <TouchableWithoutFeedback onPress={() => setCollapsed(!collapsed)}>
+          <View className="flex flex-row justify-between p-21/2">
+            <View className="flex-1">
+              <OverviewItem
+                title={t('Total Balance')}
+                value={totalBalance}
+                type="balance"
+                isEye
+                isShow={showValue}
+                toggle={setShowValue}
+              />
 
-            <Collapsible
-              collapsed={!collapsed}
-              easing="linear"
-              duration={50}
-            >
-              <View className="flex flex-col">
-                <OverviewItem
-                  title={t('Income')}
-                  value={totalIncome}
-                  type="income"
-                  isShow={showValue}
-                />
-                <OverviewItem
-                  title={t('Expense')}
-                  value={totalExpense}
-                  type="expense"
-                  isShow={showValue}
-                />
-                <OverviewItem
-                  title={t('Saving')}
-                  value={totalSaving}
-                  type="saving"
-                  isShow={showValue}
-                />
-                <OverviewItem
-                  title={t('Invest')}
-                  value={totalInvest}
-                  type="invest"
-                  isShow={showValue}
-                />
-              </View>
-            </Collapsible>
-          </View>
+              <Collapsible
+                collapsed={!collapsed}
+                easing="linear"
+                duration={50}
+              >
+                <View className="flex flex-col">
+                  <OverviewItem
+                    title={t('Income')}
+                    value={totalIncome}
+                    type="income"
+                    isShow={showValue}
+                  />
+                  <OverviewItem
+                    title={t('Expense')}
+                    value={totalExpense}
+                    type="expense"
+                    isShow={showValue}
+                  />
+                  <OverviewItem
+                    title={t('Saving')}
+                    value={totalSaving}
+                    type="saving"
+                    isShow={showValue}
+                  />
+                  <OverviewItem
+                    title={t('Invest')}
+                    value={totalInvest}
+                    type="invest"
+                    isShow={showValue}
+                  />
+                </View>
+              </Collapsible>
+            </View>
 
-          <View className="flex h-12 flex-row items-center justify-center px-21/2">
-            <Icon
-              render={LucideChevronDown}
-              size={22}
-              className={cn('trans-200', collapsed && 'rotate-180')}
-            />
+            <View className="flex h-12 flex-row items-center justify-center px-21/2">
+              <Icon
+                render={LucideChevronDown}
+                size={22}
+                className={cn('trans-200', collapsed && 'rotate-180')}
+              />
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </BlurView>
     </View>
   )
 }

@@ -14,6 +14,7 @@ import { refresh } from '@/lib/reducers/loadReducer'
 import { BASE_URL, cn, getToken } from '@/lib/utils'
 import { useChat, useCompletion } from '@ai-sdk/react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import { fetch as expoFetch } from 'expo/fetch'
 import {
@@ -283,12 +284,20 @@ function AIPage() {
                   )}
                 </>
               ) : (
-                <View className="-mx-21/2 flex flex-col items-center justify-center gap-2 rounded-lg border border-primary/5 bg-secondary p-21 shadow-md">
-                  <Text className="text-center text-2xl font-semibold">Deewas</Text>
-                  <Text className="text-center text-muted-foreground">
-                    {t('Deewas is a personal finance assistant that helps you manage your money wisely')}
-                    .
-                  </Text>
+                <View className="shadow-md">
+                  <BlurView
+                    intensity={90}
+                    tint="systemChromeMaterial"
+                    className="-mx-21/2 flex flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/5 p-21"
+                  >
+                    <Text className="text-center text-2xl font-semibold">Deewas</Text>
+                    <Text className="text-center text-muted-foreground">
+                      {t(
+                        'Deewas is a personal finance assistant that helps you manage your money wisely'
+                      )}
+                      .
+                    </Text>
+                  </BlurView>
                 </View>
               )}
               {status === 'submitted' && (
@@ -325,14 +334,20 @@ function AIPage() {
                     key={sample}
                   >
                     <TouchableOpacity
-                      className="flex-1 flex-row items-center justify-center rounded-lg border border-primary/5 bg-secondary px-21/2 py-2"
+                      className="flex-1 flex-row rounded-lg border border-primary/10"
                       onPress={() => {
                         Keyboard.dismiss()
                         if (!checkTokenLimit()) return
                         append({ content: sample, role: 'user' })
                       }}
                     >
-                      <Text className="text-center font-body text-lg tracking-wider">{sample}</Text>
+                      <BlurView
+                        tint="systemChromeMaterial"
+                        intensity={90}
+                        className="flex-1 flex-row items-center justify-center overflow-hidden rounded-lg px-21/2 py-2"
+                      >
+                        <Text className="text-center font-body text-lg tracking-wider">{sample}</Text>
+                      </BlurView>
                     </TouchableOpacity>
                   </View>
                 ))}

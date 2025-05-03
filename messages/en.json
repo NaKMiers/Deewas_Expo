@@ -128,7 +128,8 @@
     "Search": "Search",
     "Select wallet": "Select wallet",
     "No transactions found for this wallet, just add one now!": "No transactions found for this wallet, just add one now!",
-    "Add Transaction": "Add Transaction"
+    "Add Transaction": "Add Transaction",
+    "All wallets": "All wallets"
   },
   "wizardPage": {
     "Welcome": "Welcome",
@@ -807,7 +808,8 @@
     "Next year": "Next year",
     "Please upgrade to Premium to unlock more charts": "Please upgrade to Premium to unlock more charts",
     "Cancel": "Cancel",
-    "Upgrade Now": "Upgrade Now"
+    "Upgrade Now": "Upgrade Now",
+    "Include transfers": "Include transfers"
   },
   "multipleSelection": {
     "All": "All",
@@ -902,7 +904,7 @@
   },
   "walletCard": {
     "Deleting wallet": "Deleting wallet",
-    "Hide": "Hide",
+    "Exclude": "Exclude",
     "Transfer": "Transfer",
     "Add Transaction": "Add Transaction",
     "Edit": "Edit",
@@ -944,6 +946,34 @@
     "From Date": "From Date",
     "To Date": "To Date",
     "Custom": "Custom"
+  },
+  "premiumPage": {
+    "Unlock premium to access all powerful features!": "Unlock premium to access all powerful features!",
+    "FREE": "FREE",
+    "Max 2 wallets": "Max 2 wallets",
+    "Max 4 budgets": "Max 4 budgets",
+    "Annoying ads": "Annoying ads",
+    "10.000 AI tokens every day": "10.000 AI tokens every day",
+    "No priority support": "No priority support",
+    "Can't export data": "Can't export data",
+    "Bar chart only": "Bar chart only",
+    "Mobile only": "Mobile only",
+    "Unlimited wallets": "Unlimited wallets",
+    "Unlimited budgets": "Unlimited budgets",
+    "No advertisement": "No advertisement",
+    "Up to 4.500.000 AI tokens per month": "Up to 4.500.000 AI tokens per month",
+    "Priority support": "Priority support",
+    "Export data to CSV, Excel": "Export data to CSV, Excel",
+    "Unlock advanced charts (pie, line, bar, etc.)": "Unlock advanced charts (pie, line, bar, etc.)",
+    "Mobile and web": "Mobile and web",
+    "What are users talk about Deewas?": "What are users talk about Deewas?",
+    "Contact Customer Service": "Contact Customer Service",
+    "Subscription will be auto reviewed, cancel at any time": "Subscription will be auto reviewed, cancel at any time",
+    "Start 1 Week Free Trial": "Start 1 Week Free Trial",
+    "Restore purchase": "Restore purchase",
+    "Privacy Policy": "Privacy Policy",
+    "Terms of Conditions": "Terms of Conditions",
+    "and": "and"
   },
   "settingsBox": {
     "Set your currency": "Set your currency",
@@ -1002,8 +1032,7 @@
     "Are you sure you want to export all data as Excel?": "Are you sure you want to export all data as Excel?",
     "Export": "Export",
     "Cancel": "Cancel",
-    "Please upgrade to Premium to continue using the assistant": "Please upgrade to Premium to continue using the assistant",
-    "You've reached your free token limit for today": "You've reached your free token limit for today",
+    "Please upgrade to Premium to export data": "Please upgrade to Premium to export data",
     "Upgrade Now": "Upgrade Now"
   },
   "success": {

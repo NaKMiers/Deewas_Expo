@@ -21,12 +21,16 @@ import preBg from '@/assets/images/pre-bg.png'
 import preBgVFlip from '@/assets/images/pre-bg-v-flip.png'
 import preLogo from '@/assets/images/pre-logo.png'
 import splash from '@/assets/images/splash.png'
+import darkBG from '@/assets/images/dark-bg.png'
+import lightBG from '@/assets/images/light-bg.png'
 
 export const images = {
   logo,
   textLogo,
   roundedLogoDark,
   roundedLogoLight,
+  darkBG,
+  lightBG,
   flashSale,
   defaultAvatar,
   onboarding2,

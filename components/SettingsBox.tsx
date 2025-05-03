@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Text from './Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select'
+import { BlurView } from 'expo-blur'
 
 interface SettingsBoxProps {
   className?: string
@@ -147,51 +148,54 @@ function Box({ type, desc, list, init, className }: BoxProps) {
   )
 
   return (
-    <View
-      className={cn(
-        'w-full justify-center rounded-lg border border-border bg-secondary p-21',
-        className
-      )}
-    >
-      <Text className="text-lg font-bold capitalize">{t(type)}</Text>
-      <Text className="mb-3 text-muted-foreground">{desc}</Text>
-
-      <Select
-        value={selected?.value}
-        defaultValue={init?.value}
-        onValueChange={handleChangeOption}
+    <View className="shadow-md">
+      <BlurView
+        intensity={100}
+        className={cn(
+          'w-full justify-center overflow-hidden rounded-xl border border-primary/10 p-21',
+          className
+        )}
       >
-        <SelectTrigger>
-          <Text>{selected ? selected.label : `${t('Select')} ${t(type)}`}</Text>
-        </SelectTrigger>
+        <Text className="text-lg font-bold capitalize">{t(type)}</Text>
+        <Text className="mb-3 text-muted-foreground">{desc}</Text>
 
-        <SelectContent>
-          <ScrollView>
-            {list.map((item, index) => (
-              <SelectItem
-                value={item.value}
-                label={item.label}
-                key={index}
-              />
-            ))}
-          </ScrollView>
-        </SelectContent>
-      </Select>
+        <Select
+          value={selected?.value}
+          defaultValue={init?.value}
+          onValueChange={handleChangeOption}
+        >
+          <SelectTrigger>
+            <Text>{selected ? selected.label : `${t('Select')} ${t(type)}`}</Text>
+          </SelectTrigger>
 
-      {type === 'currency' && (
-        <Text className="mt-2 pl-1 font-medium text-rose-500">
-          {t('Changing currency will erase all your data')}.
-        </Text>
-      )}
+          <SelectContent>
+            <ScrollView>
+              {list.map((item, index) => (
+                <SelectItem
+                  value={item.value}
+                  label={item.label}
+                  key={index}
+                />
+              ))}
+            </ScrollView>
+          </SelectContent>
+        </Select>
 
-      <ConfirmDialog
-        open={openConfirmDialog}
-        close={open => setOpenConfirmDialog(open)}
-        label={t('Change Currency')}
-        desc={t('Changing currency will erase all your data, are you sure you still want to change?')}
-        confirmLabel={t('Confirm')}
-        onConfirm={() => handleUpdateCurrency(nextSelected.value)}
-      />
+        {type === 'currency' && (
+          <Text className="mt-2 pl-1 font-medium text-rose-500">
+            {t('Changing currency will erase all your data')}.
+          </Text>
+        )}
+
+        <ConfirmDialog
+          open={openConfirmDialog}
+          close={open => setOpenConfirmDialog(open)}
+          label={t('Change Currency')}
+          desc={t('Changing currency will erase all your data, are you sure you still want to change?')}
+          confirmLabel={t('Confirm')}
+          onConfirm={() => handleUpdateCurrency(nextSelected.value)}
+        />
+      </BlurView>
     </View>
   )
 }

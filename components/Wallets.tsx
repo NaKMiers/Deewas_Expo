@@ -20,7 +20,6 @@ const IPAD_THRESHOLD = 768
 
 function Wallets({ className }: WalletProps) {
   // hooks
-  const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('wallets.' + key)
 
@@ -41,18 +40,19 @@ function Wallets({ className }: WalletProps) {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => router.push('/create-wallet')}
-            className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary px-3"
+            className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary bg-primary px-3"
           >
-            <Text className="font-semibold">{t('New Wallet')}</Text>
+            <Text className="font-semibold text-secondary">{t('New Wallet')}</Text>
             <Icon
               render={LucidePlusSquare}
               size={18}
+              color="#262626"
             />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Wallet List */}
+      {/* MARK: Wallets */}
       {!loading ? (
         wallets.length > 0 ? (
           <View className="flex-1">

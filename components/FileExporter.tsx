@@ -1,6 +1,7 @@
 import { capitalize } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { getAllDataToExportApi } from '@/requests'
+import { BlurView } from 'expo-blur'
 import * as FileSystem from 'expo-file-system'
 import { router } from 'expo-router'
 import * as Sharing from 'expo-sharing'
@@ -62,7 +63,7 @@ function FileExporter({ className }: FileExporterProps) {
       Expense: Math.round(w.expense * 100) / 100,
       Saving: Math.round(w.saving * 100) / 100,
       Invest: Math.round(w.invest * 100) / 100,
-      Hide: w.hide ? 'Yes' : 'No',
+      Exclude: w.exclude ? 'Yes' : 'No',
     }))
     const categories = data.categories.map(c => ({
       Name: c.icon + ' ' + c.name,
@@ -188,8 +189,11 @@ function FileExporter({ className }: FileExporterProps) {
   }, [getAllData, flatData, cleanUpOldFiles, t, tError, data, isPremium])
 
   return (
-    <>
-      <View className={cn(className)}>
+    <View className="shadow-md">
+      <BlurView
+        intensity={100}
+        className={cn('overflow-hidden', className)}
+      >
         <ConfirmDialog
           label={t('Export CSV')}
           desc={t('Are you sure you want to export all data as CSV?')}
@@ -240,19 +244,18 @@ function FileExporter({ className }: FileExporterProps) {
             </TouchableOpacity>
           }
         />
-      </View>
 
-      {/* Premium Modal */}
-      <PremiumLimitModal
-        open={openPremiumModal}
-        close={() => setOpenPremiumModal(false)}
-        label={t('Please upgrade to Premium to continue using the assistant')}
-        desc={`${t("You've reached your free token limit for today")} (${process.env.EXPO_PUBLIC_FREE_TOKENS_LIMIT}/${process.env.EXPO_PUBLIC_FREE_TOKENS_LIMIT})`}
-        confirmLabel={t('Upgrade Now')}
-        cancelLabel={t('Cancel')}
-        onConfirm={() => router.push('/premium')}
-      />
-    </>
+        {/* Premium Modal */}
+        <PremiumLimitModal
+          open={openPremiumModal}
+          close={() => setOpenPremiumModal(false)}
+          label={t('Please upgrade to Premium to export data')}
+          confirmLabel={t('Upgrade Now')}
+          cancelLabel={t('Cancel')}
+          onConfirm={() => router.push('/premium')}
+        />
+      </BlurView>
+    </View>
   )
 }
 

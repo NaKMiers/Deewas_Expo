@@ -5,6 +5,7 @@ import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { getHistoryApi } from '@/requests'
 import { format, isSameDay } from 'date-fns'
+import { BlurView } from 'expo-blur'
 import { LucideRotateCw } from 'lucide-react-native'
 import moment from 'moment-timezone'
 import { useCallback, useEffect, useState } from 'react'
@@ -17,6 +18,7 @@ import Icon from './Icon'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
 import { Skeleton } from './ui/skeleton'
+import { Switch } from './ui/switch'
 
 interface HistoryProps {
   className?: string
@@ -50,6 +52,7 @@ function History({ className }: HistoryProps) {
   const [selectedTransactionType, setSelectedTransactionType] = useState<TransactionType>('expense')
   const [chartPeriod, setChartPeriod] = useState<TimeUnit>('month')
   const [loading, setLoading] = useState<boolean>(false)
+  const [isIncludeTransfer, setIsIncludeTransfer] = useState<boolean>(false)
 
   // get history
   const getHistory = useCallback(async () => {
@@ -79,7 +82,9 @@ function History({ className }: HistoryProps) {
 
   // auto update chart data
   useEffect(() => {
-    if (!transactions.length || !currency) {
+    const tsx = isIncludeTransfer ? transactions : transactions.filter(t => !t.exclude)
+
+    if (!tsx.length || !currency) {
       setData([])
       return
     }
@@ -87,8 +92,8 @@ function History({ className }: HistoryProps) {
     // filter by selected transaction type
     const filteredTransactions =
       selectedTransactionType === 'balance' || selectedChartType === 'pie'
-        ? transactions
-        : transactions.filter(t => t.type === selectedTransactionType)
+        ? tsx
+        : tsx.filter(t => t.type === selectedTransactionType)
 
     const start = toUTC(moment(dateRange.from).startOf('day').toDate())
     const end = toUTC(moment(dateRange.to).endOf('day').toDate())
@@ -180,7 +185,16 @@ function History({ className }: HistoryProps) {
 
       setData(groupedData)
     }
-  }, [chartPeriod, currency, dateRange, selectedChartType, selectedTransactionType, t, transactions])
+  }, [
+    chartPeriod,
+    currency,
+    dateRange,
+    selectedChartType,
+    selectedTransactionType,
+    transactions,
+    isIncludeTransfer,
+    t,
+  ])
 
   // previous time unit
   const handlePrevTimeUnit = useCallback(() => {
@@ -244,104 +258,126 @@ function History({ className }: HistoryProps) {
       </View>
 
       {/* MARK: Main */}
-      <View className="mt-21/2 rounded-lg bg-secondary p-21/2 shadow-md">
-        {/* Period - Time Unit */}
-        <HistoryHeader
-          charts={charts}
-          segment={chartPeriod}
-          segments={timeUnits}
-          onChangeSegment={(segment: string) => {
-            setChartPeriod(segment as TimeUnit)
-            setDateRange({
-              from: moment()
-                .startOf(segment as TimeUnit)
-                .toDate(),
-              to: moment()
-                .endOf(segment as TimeUnit)
-                .toDate(),
-            })
-          }}
-          selected={selectedChartType}
-          onSelect={(value: string) => setSelectedChartType(value as ChartType)}
-        />
+      <View className="shadow-md">
+        <BlurView
+          intensity={100}
+          className="mt-21/2 overflow-hidden rounded-xl border border-primary/10 p-21/2"
+        >
+          {/* Period - Time Unit */}
+          <HistoryHeader
+            charts={charts}
+            segment={chartPeriod}
+            segments={timeUnits}
+            onChangeSegment={(segment: string) => {
+              setChartPeriod(segment as TimeUnit)
+              setDateRange({
+                from: moment()
+                  .startOf(segment as TimeUnit)
+                  .toDate(),
+                to: moment()
+                  .endOf(segment as TimeUnit)
+                  .toDate(),
+              })
+            }}
+            selected={selectedChartType}
+            onSelect={(value: string) => setSelectedChartType(value as ChartType)}
+          />
 
-        {/* MARK: Time Range */}
-        <View className="my-2 flex flex-row items-center gap-21/2">
-          <View className="flex flex-row items-center gap-21/2">
-            <Text className="text-lg font-semibold capitalize">
-              {format(
-                new Date(dateRange.from),
-                isSameDay(dateRange.from, dateRange.to) ? 'MMM dd' : 'MMM dd, yyyy',
-                { locale: getLocale(locale) }
-              )}
-            </Text>
-            <Text className="text-lg font-semibold">-</Text>
-            <Text className="text-lg font-semibold capitalize">
-              {format(new Date(dateRange.to), 'MMM dd, yyyy', { locale: getLocale(locale) })}
-            </Text>
+          {/* MARK: Time Range */}
+          <View className="my-2 flex flex-row gap-21/2">
+            <View className="flex flex-row items-center gap-21/2">
+              <Text className="text-lg font-semibold capitalize">
+                {format(
+                  new Date(dateRange.from),
+                  isSameDay(dateRange.from, dateRange.to) ? 'MMM dd' : 'MMM dd, yyyy',
+                  { locale: getLocale(locale) }
+                )}
+              </Text>
+              <Text className="text-lg font-semibold">-</Text>
+              <Text className="text-lg font-semibold capitalize">
+                {format(new Date(dateRange.to), 'MMM dd, yyyy', { locale: getLocale(locale) })}
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              className="rounded-full bg-primary/10 p-2"
+              onPress={handleResetTimeUnit}
+            >
+              <Icon
+                render={LucideRotateCw}
+                size={18}
+              />
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            className="rounded-full bg-primary/10 p-2"
-            onPress={handleResetTimeUnit}
-          >
-            <Icon
-              render={LucideRotateCw}
-              size={18}
+          {/* MARK: Total & Include Transfer */}
+          <View className="flex-row items-start justify-between">
+            <View>
+              <Text className="font-semibold text-muted-foreground">
+                {t('Total') + ' '}
+                {selectedChartType !== 'pie' && (
+                  <Text className={cn('capitalize', checkTranType(selectedTransactionType).color)}>
+                    {t(selectedTransactionType)}
+                  </Text>
+                )}
+              </Text>
+
+              {currency && (
+                <Text
+                  className={cn(
+                    'text-4xl font-bold',
+                    selectedChartType !== 'pie' && checkTranType(selectedTransactionType).color
+                  )}
+                >
+                  {formatCurrency(
+                    currency,
+                    data.reduce((total: number, item: any) => total + +item.value, 0)
+                  )}
+                </Text>
+              )}
+            </View>
+
+            <View className="flex-row items-center gap-2">
+              <Text className="text-right font-semibold">
+                {t('Include transfers').split(' ').join('\n')}
+              </Text>
+              <Switch
+                checked={isIncludeTransfer}
+                onCheckedChange={() => setIsIncludeTransfer(!isIncludeTransfer)}
+                className={cn(isIncludeTransfer ? 'bg-primary' : 'bg-muted-foreground')}
+                style={{ transform: [{ scale: 0.9 }] }}
+              />
+            </View>
+          </View>
+
+          {/* MARK: Chart */}
+          {!loading ? (
+            <Chart
+              data={data}
+              transactionType={selectedTransactionType}
+              chartType={selectedChartType}
+              className="mt-21/2"
             />
-          </TouchableOpacity>
-        </View>
-
-        <Text className="font-semibold text-muted-foreground">
-          {t('Total') + ' '}
-          {selectedChartType !== 'pie' && (
-            <Text className={cn('capitalize', checkTranType(selectedTransactionType).color)}>
-              {t(selectedTransactionType)}
-            </Text>
+          ) : (
+            <Skeleton className="h-[242px] w-full" />
           )}
-        </Text>
 
-        {currency && (
-          <Text
-            className={cn(
-              'text-4xl font-bold',
-              selectedChartType !== 'pie' && checkTranType(selectedTransactionType).color
-            )}
-          >
-            {formatCurrency(
-              currency,
-              data.reduce((total: number, item: any) => total + +item.value, 0)
-            )}
-          </Text>
-        )}
-
-        {/* MARK: Chart */}
-        {!loading ? (
-          <Chart
-            data={data}
-            transactionType={selectedTransactionType}
-            chartType={selectedChartType}
-            className="mt-21/2"
+          {/* MARK: Transaction Type */}
+          <HistoryFooter
+            className="mt-21"
+            segments={transactionTypes}
+            segment={selectedTransactionType}
+            indicatorLabel={chartPeriod}
+            next={handleNextTimeUnit}
+            prev={handlePrevTimeUnit}
+            onChange={(segment: string) => setSelectedTransactionType(segment as TransactionType)}
+            hideSegments={selectedChartType == 'pie'}
+            disabledNext={moment(dateRange.from).add(1, chartPeriod).isAfter(moment())}
+            disabledPrev={moment(dateRange.from)
+              .subtract(1, chartPeriod)
+              .isBefore(moment(user?.createdAt).subtract(1, chartPeriod))}
           />
-        ) : (
-          <Skeleton className="h-[242px] w-full" />
-        )}
-
-        {/* MARK: Transaction Type */}
-        <HistoryFooter
-          className="mt-21"
-          segments={transactionTypes}
-          segment={selectedTransactionType}
-          indicatorLabel={chartPeriod}
-          next={handleNextTimeUnit}
-          prev={handlePrevTimeUnit}
-          onChange={(segment: string) => setSelectedTransactionType(segment as TransactionType)}
-          hideSegments={selectedChartType == 'pie'}
-          disabledNext={moment(dateRange.from).add(1, chartPeriod).isAfter(moment())}
-          disabledPrev={moment(dateRange.from)
-            .subtract(1, chartPeriod)
-            .isBefore(moment(user?.createdAt).subtract(1, chartPeriod))}
-        />
+        </BlurView>
       </View>
     </View>
   )

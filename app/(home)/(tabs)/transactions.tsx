@@ -201,7 +201,7 @@ function TransactionsPage() {
                   <Text className="text-base font-semibold text-black">{ofWallet.name}</Text>
                 </View>
               ) : (
-                <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
+                <Text className="text-base font-semibold text-black">{t('All wallets')}</Text>
               )}
               <Icon
                 render={LucideChevronsUpDown}

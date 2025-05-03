@@ -14,6 +14,7 @@ import {
   LucideChevronUp,
   LucideEllipsisVertical,
   LucideLayers2,
+  LucideMinusCircle,
   LucidePencil,
   LucideTrash,
 } from 'lucide-react-native'
@@ -57,7 +58,7 @@ function TransactionCategoryGroup({
               <Text className={cn('ml-0.5 mt-0.5 tracking-tight', checkTranType(category.type).color)}>
                 {formatCurrency(
                   currency,
-                  transactions.reduce((total, tx) => total + tx.amount, 0)
+                  transactions.filter(t => !t.exclude).reduce((total, tx) => total + tx.amount, 0)
                 )}
               </Text>
             </View>
@@ -176,9 +177,20 @@ function TransactionItem({ transaction, className }: ITransactionProps) {
 
   return (
     <View className={cn('flex w-full flex-row items-center justify-between gap-2 pl-21/2', className)}>
-      <Text className="line-clamp-1 max-w-[200px] text-ellipsis font-semibold">{transaction.name}</Text>
+      <Text className="line-clamp-1 max-w-[200px] text-ellipsis bg-orange-500 font-semibold">
+        {transaction.name}
+      </Text>
 
       <View className="flex flex-row items-center gap-1">
+        {transaction.exclude && (
+          <Icon
+            render={LucideMinusCircle}
+            size={16}
+            color="#f97316"
+            style={{ opacity: 0.8 }}
+          />
+        )}
+
         {currency && (
           <View className="flex flex-col items-end">
             <Text className="text-muted-foreground">

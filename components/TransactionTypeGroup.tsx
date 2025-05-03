@@ -36,7 +36,10 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
   const { Icon: renderIcon, background, border } = checkTranType(type)
   const total = categoryGroups.reduce(
     (total, group) =>
-      total + (group.transactions as IFullTransaction[]).reduce((totalTx, tx) => totalTx + tx.amount, 0),
+      total +
+      (group.transactions as IFullTransaction[])
+        .filter(t => !t.exclude)
+        .reduce((totalTx, tx) => totalTx + tx.amount, 0),
     0
   )
 

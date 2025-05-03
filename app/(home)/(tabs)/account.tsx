@@ -18,6 +18,7 @@ import { capitalize, shortName } from '@/lib/string'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { deleteAllDataApi, updateUserApi } from '@/requests'
+import { BlurView } from 'expo-blur'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
 import {
@@ -140,121 +141,134 @@ function AccountPage() {
       >
         <View className="gap-21/2 p-21/2 md:p-21">
           {/* MARK: Account */}
-          <View className="overflow-auto rounded-md border border-border bg-secondary px-21 py-21/2">
-            <View className="w-full flex-row items-center gap-2 pb-2">
-              {user.authType === 'google' && (
-                <View className="relative aspect-square max-w-[40px] flex-1 rounded-full shadow-sm">
-                  <Image
-                    className="h-full w-full rounded-full object-cover"
-                    source={{ uri: user.avatar }}
-                    fallbackSource={images.defaultAvatar}
-                    width={50}
-                    height={50}
-                    alt="avatar"
-                  />
-                  {isPremium && (
+          <View className="shadow-md">
+            <BlurView
+              intensity={100}
+              className="overflow-hidden rounded-xl border border-primary/10 px-21 py-21/2"
+            >
+              <View className="w-full flex-row items-center gap-2 pb-2">
+                {user.authType === 'google' && (
+                  <View className="relative aspect-square max-w-[40px] flex-1 rounded-full shadow-sm">
                     <Image
-                      className="absolute"
-                      style={{ top: -14, right: -5, width: 28, height: 28, transform: 'rotate(30deg)' }}
-                      source={icons.crown}
-                      resizeMode="contain"
+                      className="h-full w-full rounded-full object-cover"
+                      source={{ uri: user.avatar }}
+                      fallbackSource={images.defaultAvatar}
+                      width={50}
+                      height={50}
+                      alt="avatar"
                     />
-                  )}
-                </View>
-              )}
-              <View className="flex-1">
-                <View className="flex-1 flex-row items-center gap-2">
-                  {!editMode ? (
-                    <>
-                      <Text className="text-xl font-bold">{shortName(user)}</Text>
-                      <View className="h-5 w-5">
-                        <Image
-                          source={
-                            icons[user.authType + capitalize(colorScheme === 'light' ? 'Dark' : 'Light')]
-                          }
-                          resizeMode="contain"
-                          className="h-full w-full"
+                    {isPremium && (
+                      <Image
+                        className="absolute"
+                        style={{
+                          top: -14,
+                          right: -5,
+                          width: 28,
+                          height: 28,
+                          transform: 'rotate(30deg)',
+                        }}
+                        source={icons.crown}
+                        resizeMode="contain"
+                      />
+                    )}
+                  </View>
+                )}
+                <View className="flex-1">
+                  <View className="flex-1 flex-row items-center gap-2">
+                    {!editMode ? (
+                      <>
+                        <Text className="text-xl font-bold">{shortName(user)}</Text>
+                        <View className="h-5 w-5">
+                          <Image
+                            source={
+                              icons[
+                                user.authType + capitalize(colorScheme === 'light' ? 'Dark' : 'Light')
+                              ]
+                            }
+                            resizeMode="contain"
+                            className="h-full w-full"
+                          />
+                        </View>
+                      </>
+                    ) : (
+                      <View>
+                        {error && (
+                          <Text className="mb-0.5 text-sm text-rose-500 drop-shadow-lg">
+                            {tError(error)}
+                          </Text>
+                        )}
+                        <TextInput
+                          className={cn(
+                            'mb-1 w-[200px] rounded-lg bg-primary/20 px-21/2 py-2 font-medium tracking-wider text-primary',
+                            user.authType === 'local' && 'lowercase'
+                          )}
+                          placeholder={t('Username') + '...'}
+                          value={usnValue}
+                          onChangeText={value => setUsnValue(value)}
+                          onFocus={() => setError('')}
                         />
                       </View>
-                    </>
-                  ) : (
-                    <View>
-                      {error && (
-                        <Text className="mb-0.5 text-sm text-rose-500 drop-shadow-lg">
-                          {tError(error)}
-                        </Text>
+                    )}
+                  </View>
+                  <Text className="flex-row items-center gap-2 text-muted-foreground">{user.email}</Text>
+                </View>
+
+                <View className="h-full flex-row items-start gap-2.5">
+                  {!updating && (
+                    <TouchableOpacity
+                      className="py-2.5"
+                      onPress={() => {
+                        setEditMode(!editMode)
+                        setError('')
+                      }}
+                    >
+                      {editMode ? (
+                        <Icon
+                          render={LucideX}
+                          size={18}
+                        />
+                      ) : (
+                        <Icon
+                          render={LucidePencil}
+                          size={16}
+                        />
                       )}
-                      <TextInput
-                        className={cn(
-                          'mb-1 w-[200px] rounded-lg bg-primary/20 px-21/2 py-2 font-medium tracking-wider text-primary',
-                          user.authType === 'local' && 'lowercase'
-                        )}
-                        placeholder={t('Username') + '...'}
-                        value={usnValue}
-                        onChangeText={value => setUsnValue(value)}
-                        onFocus={() => setError('')}
+                    </TouchableOpacity>
+                  )}
+
+                  {usnValue.trim() && usnValue.trim() !== shortName(user) && !updating && editMode && (
+                    <TouchableOpacity
+                      className="py-2.5"
+                      onPress={handleChangeUsername}
+                    >
+                      <Icon
+                        render={LucideSave}
+                        size={18}
+                        color="#4ade80"
                       />
+                    </TouchableOpacity>
+                  )}
+
+                  {updating && (
+                    <View className="py-2.5">
+                      <ActivityIndicator />
                     </View>
                   )}
                 </View>
-                <Text className="flex-row items-center gap-2 text-muted-foreground">{user.email}</Text>
               </View>
-
-              <View className="h-full flex-row items-start gap-2.5">
-                {!updating && (
-                  <TouchableOpacity
-                    className="py-2.5"
-                    onPress={() => {
-                      setEditMode(!editMode)
-                      setError('')
-                    }}
-                  >
-                    {editMode ? (
-                      <Icon
-                        render={LucideX}
-                        size={18}
-                      />
-                    ) : (
-                      <Icon
-                        render={LucidePencil}
-                        size={16}
-                      />
-                    )}
-                  </TouchableOpacity>
-                )}
-
-                {usnValue.trim() && usnValue.trim() !== shortName(user) && !updating && editMode && (
-                  <TouchableOpacity
-                    className="py-2.5"
-                    onPress={handleChangeUsername}
-                  >
-                    <Icon
-                      render={LucideSave}
-                      size={18}
-                      color="#4ade80"
-                    />
-                  </TouchableOpacity>
-                )}
-
-                {updating && (
-                  <View className="py-2.5">
-                    <ActivityIndicator />
-                  </View>
-                )}
+              <View className="mt-2 border-t border-primary py-2">
+                <Text className="text-center text-lg font-semibold capitalize">
+                  {isPremium ? t('Premium Account') : t('Free Account')}
+                </Text>
               </View>
-            </View>
-            <View className="mt-2 border-t border-primary py-2">
-              <Text className="text-center text-lg font-semibold capitalize">
-                {isPremium ? t('Premium Account') : t('Free Account')}
-              </Text>
-            </View>
+            </BlurView>
           </View>
 
           {/* MARK: Flash Sale */}
           {!isPremium && (
             <ImageBackground
               source={images.preBg}
-              className="gap-2 overflow-hidden rounded-md border border-border bg-secondary px-21 py-21/2"
+              className="gap-2 overflow-hidden rounded-xl border border-primary/10 px-21 py-21/2"
             >
               <View className="flex-row justify-between gap-2">
                 <Text className="text-lg font-semibold text-neutral-800">{t('Flash Sale')}</Text>
@@ -282,134 +296,159 @@ function AccountPage() {
           )}
 
           {/* MARK: Categories & Wallets */}
-          <View className="rounded-md border border-border bg-secondary px-21 py-2">
-            <TouchableOpacity
-              onPress={() => router.push('/wallets')}
-              className="h-10 flex-row items-center gap-2"
+          <View className="shadow-md">
+            <BlurView
+              intensity={100}
+              className="overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
             >
-              <Icon
-                render={LucideWalletCards}
-                size={18}
-              />
-              <Text className="text-lg font-semibold">{t('Wallets')}</Text>
-              <View className="flex-1 flex-row items-center justify-end">
+              <TouchableOpacity
+                onPress={() => router.push('/wallets')}
+                className="h-10 flex-row items-center gap-2"
+              >
                 <Icon
-                  render={LucideChevronRight}
+                  render={LucideWalletCards}
                   size={18}
                 />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => router.push('/categories')}
-              className="h-10 flex-row items-center gap-2"
-            >
-              <Icon
-                render={LucideBookCopy}
-                size={18}
-              />
-              <Text className="text-lg font-semibold">{t('Categories')}</Text>
-              <View className="flex-1 flex-row items-center justify-end">
+                <Text className="text-lg font-semibold">{t('Wallets')}</Text>
+                <View className="flex-1 flex-row items-center justify-end">
+                  <Icon
+                    render={LucideChevronRight}
+                    size={18}
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push('/categories')}
+                className="h-10 flex-row items-center gap-2"
+              >
                 <Icon
-                  render={LucideChevronRight}
+                  render={LucideBookCopy}
                   size={18}
                 />
-              </View>
-            </TouchableOpacity>
+                <Text className="text-lg font-semibold">{t('Categories')}</Text>
+                <View className="flex-1 flex-row items-center justify-end">
+                  <Icon
+                    render={LucideChevronRight}
+                    size={18}
+                  />
+                </View>
+              </TouchableOpacity>
+            </BlurView>
           </View>
 
           {/* MARK: Theme */}
-          <View className="flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
-            <Text className="text-lg font-semibold">{t('Theme')}</Text>
+          <View className="shadow-md">
+            <BlurView
+              intensity={100}
+              className="flex-row items-center gap-2 overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
+            >
+              <Text className="text-lg font-semibold">{t('Theme')}</Text>
 
-            <Select onValueChange={option => setColorScheme(option?.value as 'light' | 'dark')}>
-              <SelectTrigger>
-                {colorScheme === 'light' ? (
-                  <Icon
-                    render={Sun}
-                    size={18}
-                  />
-                ) : (
-                  <Icon
-                    render={Moon}
-                    size={18}
-                  />
-                )}
-                <Text className="ml-1 capitalize">{t(colorScheme)}</Text>
-              </SelectTrigger>
+              <Select onValueChange={option => setColorScheme(option?.value as 'light' | 'dark')}>
+                <SelectTrigger>
+                  {colorScheme === 'light' ? (
+                    <Icon
+                      render={Sun}
+                      size={18}
+                    />
+                  ) : (
+                    <Icon
+                      render={Moon}
+                      size={18}
+                    />
+                  )}
+                  <Text className="ml-1 capitalize">{t(colorScheme)}</Text>
+                </SelectTrigger>
 
-              <SelectContent>
-                <SelectItem
-                  value="system"
-                  label={t('System')}
-                />
-                <SelectItem
-                  value="light"
-                  label={t('Light')}
-                />
-                <SelectItem
-                  value="dark"
-                  label={t('Dark')}
-                />
-              </SelectContent>
-            </Select>
+                <SelectContent>
+                  <SelectItem
+                    value="system"
+                    label={t('System')}
+                  />
+                  <SelectItem
+                    value="light"
+                    label={t('Light')}
+                  />
+                  <SelectItem
+                    value="dark"
+                    label={t('Dark')}
+                  />
+                </SelectContent>
+              </Select>
+            </BlurView>
           </View>
 
           {/* MARK: Biometric */}
           {biometric.isSupported && (
-            <View className="flex-row items-center gap-2 rounded-md border border-border bg-secondary px-21 py-2">
-              <Icon
-                render={LucideScanFace}
-                size={20}
-              />
-              <Text className="text-lg font-semibold">Face ID</Text>
-              <View className="flex-1 flex-row items-center justify-end">
-                <Switch
-                  checked={biometric.open}
-                  onCheckedChange={() => switchBiometric()}
-                  className={cn(biometric.open ? 'bg-primary' : 'bg-muted-foreground')}
-                  style={{ transform: [{ scale: 0.9 }] }}
+            <View className="shadow-md">
+              <BlurView
+                intensity={100}
+                className="flex-row items-center gap-2 overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
+              >
+                <Icon
+                  render={LucideScanFace}
+                  size={20}
                 />
-              </View>
+                <Text className="text-lg font-semibold">Face ID</Text>
+                <View className="flex-1 flex-row items-center justify-end">
+                  <Switch
+                    checked={biometric.open}
+                    onCheckedChange={() => switchBiometric()}
+                    className={cn(biometric.open ? 'bg-primary' : 'bg-muted-foreground')}
+                    style={{ transform: [{ scale: 0.9 }] }}
+                  />
+                </View>
+              </BlurView>
             </View>
           )}
 
           {!isPremium && !adLoadFailed && (
-            <View className="flex-row items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
-              <BannerAd
-                unitId={adUnitId}
-                size={BannerAdSize.LARGE_BANNER}
-                onAdFailedToLoad={() => setAdLoadFailed(true)}
-              />
+            <View className="shadow-md">
+              <BlurView
+                intensity={100}
+                className="flex-row items-center justify-center overflow-hidden rounded-xl border border-primary/10"
+              >
+                <BannerAd
+                  unitId={adUnitId}
+                  size={BannerAdSize.LARGE_BANNER}
+                  onAdFailedToLoad={() => setAdLoadFailed(true)}
+                />
+              </BlurView>
             </View>
           )}
 
           {/* MARK: Settings & Exporter */}
           <SettingsBox isRequireInit />
 
-          <FileExporter className="rounded-lg border border-border bg-secondary px-21 py-2" />
+          <FileExporter className="rounded-xl border border-primary/10 px-21 py-2" />
 
           {/* MARK: More */}
-          <View className="rounded-lg border border-border bg-secondary px-21 py-2">
-            <TouchableOpacity
-              onPress={() => router.push('/more/about')}
-              className="h-11 flex-row items-center gap-2"
+          <View className="shadow-md">
+            <BlurView
+              intensity={100}
+              className="overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
             >
-              <Icon
-                render={LucideInfo}
-                size={18}
-              />
-              <Text className="text-lg font-semibold">{t('About')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => router.push('/more/help-and-support')}
-              className="h-11 flex-row items-center gap-2"
-            >
-              <Icon
-                render={LucideShieldQuestion}
-                size={18}
-              />
-              <Text className="text-lg font-semibold">{t('Help & Support')}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push('/more/about')}
+                className="h-11 flex-row items-center gap-2"
+              >
+                <Icon
+                  render={LucideInfo}
+                  size={18}
+                />
+                <Text className="text-lg font-semibold">{t('About')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.push('/more/help-and-support')}
+                className="h-11 flex-row items-center gap-2"
+              >
+                <Icon
+                  render={LucideShieldQuestion}
+                  size={18}
+                />
+                <Text className="text-lg font-semibold">{t('Help & Support')}</Text>
+              </TouchableOpacity>
+            </BlurView>
           </View>
 
           <Text className="text-center font-medium text-muted-foreground">

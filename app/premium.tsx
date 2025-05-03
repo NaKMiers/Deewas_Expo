@@ -33,7 +33,7 @@ const freeFeatures = [
   'Max 4 budgets',
   'Annoying ads',
   '10.000 AI tokens every day',
-  'No priority support',
+  // 'No priority support',
   "Can't export data",
   'Bar chart only',
   'Mobile only',
@@ -44,7 +44,7 @@ const premiumFeatures = [
   'Unlimited budgets',
   'No advertisement',
   'Up to 4.500.000 AI tokens per month',
-  'Priority support',
+  // 'Priority support',
   'Export data to CSV, Excel',
   'Unlock advanced charts (pie, line, bar, etc.)',
   'Mobile and web',
@@ -75,7 +75,8 @@ const IPAD_THRESHOLD = 768
 
 function PremiumPage() {
   // hooks
-  const { i18n } = useTranslation()
+  const { t: translate, i18n } = useTranslation()
+  const t = useCallback((key: string) => translate('premiumPage.' + key), [translate])
   const locale = i18n.language
   const navigation = useNavigation()
   const { packages, purchasing, purchasePackage, restorePurchase } = useRevenueCat()
@@ -192,7 +193,7 @@ function PremiumPage() {
               </View>
 
               <Text className="mt-1 text-center font-body text-lg tracking-wider text-neutral-800">
-                Unlock premium to access all powerful features!
+                {t('Unlock premium to access all powerful features!')}
               </Text>
             </ImageBackground>
 
@@ -214,7 +215,7 @@ function PremiumPage() {
                         size={20}
                         color="#ccc"
                       />
-                      <Text className="flex-1 font-medium">{feature}</Text>
+                      <Text className="flex-1 font-medium">{t(feature)}</Text>
                     </View>
                   ))}
                 </View>
@@ -233,7 +234,7 @@ function PremiumPage() {
                         size={20}
                         color="#ec4899"
                       />
-                      <Text className="flex-1 font-medium text-black">{feature}</Text>
+                      <Text className="flex-1 font-medium text-black">{t(feature)}</Text>
                     </View>
                   ))}
                 </View>
@@ -244,7 +245,9 @@ function PremiumPage() {
 
             {/* MARK: Reviews */}
             <View className="px-21/2">
-              <Text className="text-center text-2xl font-bold">What are users talk about Deewas?</Text>
+              <Text className="text-center text-2xl font-bold">
+                {t('What are users talk about Deewas?')}
+              </Text>
 
               <View className="mt-21 flex-1">
                 <FlatList
@@ -300,7 +303,9 @@ function PremiumPage() {
                 size={24}
                 color="#0ea5e9"
               />
-              <Text className="text-lg font-semibold text-sky-500">Contact Customer Service</Text>
+              <Text className="text-center text-lg font-semibold text-sky-500">
+                {t('Contact Customer Service')}
+              </Text>
             </TouchableOpacity>
 
             <Text className="mt-21 text-center text-sm font-medium tracking-wider text-primary">
@@ -308,14 +313,14 @@ function PremiumPage() {
                 className="font-semibold tracking-tight text-sky-600"
                 onPress={() => router.push('/privacy-policy')}
               >
-                Privacy Policy
+                {t('Privacy Policy')}
               </Text>{' '}
-              and{' '}
+              {t('and')}{' '}
               <Text
                 className="font-semibold tracking-tight text-sky-600"
                 onPress={() => router.push('/terms-and-conditions')}
               >
-                Terms of Conditions
+                {t('Terms of Conditions')}
               </Text>
             </Text>
           </View>
@@ -390,7 +395,7 @@ function PremiumPage() {
             </View>
 
             <Text className="mt-2 text-center text-sm font-medium text-muted-foreground">
-              Subscription will be auto reviewed, cancel at any time.
+              {t('Subscription will be auto reviewed, cancel at any time')}.
             </Text>
 
             <TouchableOpacity
@@ -405,7 +410,7 @@ function PremiumPage() {
                 <ActivityIndicator color="#262626" />
               ) : (
                 <Text className="text-center font-body text-lg font-semibold tracking-wider text-neutral-800">
-                  Start 1 Week Free Trial
+                  {t('Start 1 Week Free Trial')}
                 </Text>
               )}
             </TouchableOpacity>
@@ -416,7 +421,7 @@ function PremiumPage() {
               onPress={restorePurchase}
             >
               <Text className="font-body font-medium tracking-wider text-neutral-600 underline">
-                Restore purchase
+                {t('Restore purchase')}
               </Text>
             </TouchableOpacity>
           </ImageBackground>

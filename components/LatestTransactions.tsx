@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { cn } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
+import { BlurView } from 'expo-blur'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -64,8 +65,8 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
   return (
     <View className={cn(className)}>
       {/* Top */}
-      <View className="flex flex-row items-center justify-between gap-1">
-        <View className="flex flex-row items-center gap-2">
+      <View className="flex-row items-center justify-between gap-1">
+        <View className="flex-row items-center gap-2">
           <Text className="pl-1 text-xl font-bold">{t('Latest')}</Text>
 
           <Select
@@ -73,7 +74,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
             defaultValue={{ value: '10', label: '10' }}
           >
             <SelectTrigger
-              className="flex h-10 max-w-max flex-row items-center justify-center gap-1.5 rounded-md bg-secondary text-sm shadow-md"
+              className="h-10 max-w-max flex-row items-center justify-center gap-1.5 rounded-md bg-secondary text-sm shadow-md"
               style={{
                 height: 36,
               }}
@@ -99,23 +100,24 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       {/* MARK: Transaction List */}
 
       {!loading ? (
-        <View className="mt-21/2 flex flex-col gap-2 rounded-lg bg-secondary p-21/2 shadow-md">
-          {transactions.slice(0, +limit).length > 0 ? (
-            transactions.slice(0, +limit).map(tx => (
-              <View key={tx._id}>
-                <Transaction
-                  transaction={tx}
-                  update={(transaction: IFullTransaction) => {
-                    setTransactions(transactions.map(t => (t._id === transaction._id ? transaction : t)))
-                    dispatch(refresh())
-                  }}
-                  refresh={() => dispatch(refresh())}
-                />
-              </View>
-            ))
-          ) : (
-            <NoItemsFound text={t('No transactions found')} />
-          )}
+        <View className="shadow-md">
+          <BlurView
+            intensity={90}
+            className="mt-21/2 flex-col gap-2 overflow-hidden rounded-xl border border-primary/10 p-21/2 shadow-md"
+          >
+            {transactions.slice(0, +limit).length > 0 ? (
+              transactions.slice(0, +limit).map(tx => (
+                <View key={tx._id}>
+                  <Transaction
+                    transaction={tx}
+                    refresh={() => dispatch(refresh())}
+                  />
+                </View>
+              ))
+            ) : (
+              <NoItemsFound text={t('No transactions found')} />
+            )}
+          </BlurView>
         </View>
       ) : (
         <Skeleton className="mt-21/2 h-[468px]" />

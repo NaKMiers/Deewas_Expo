@@ -194,197 +194,195 @@ function TransferFundPage() {
 
   return (
     <DrawerWrapper>
-      <View className="mx-auto w-full max-w-sm px-21/2">
+      <View>
+        <Text className="text-center text-xl font-semibold text-primary">{t('Transfer Fund')}</Text>
+        <Text className="text-center tracking-wider text-muted-foreground">
+          {t('Transfer money between wallets')}
+        </Text>
+      </View>
+
+      <View className="mt-6 flex-col gap-6">
+        {/* MARK: From Wallet */}
         <View>
-          <Text className="text-center text-xl font-semibold text-primary">{t('Transfer Fund')}</Text>
-          <Text className="text-center tracking-wider text-muted-foreground">
-            {t('Transfer money between wallets')}
+          <Text className={cn('mb-1 font-semibold', errors.fromWalletId?.message && 'text-rose-500')}>
+            {t('From Wallet')}
           </Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => router.push('/wallet-picker?isFromWallet=true')}
+          >
+            {fromWallet ? (
+              <View className="flex-row items-center gap-2">
+                <Text className="text-base text-black">{fromWallet.icon}</Text>
+                <Text className="text-base font-semibold text-black">{fromWallet.name}</Text>
+              </View>
+            ) : (
+              <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
+            )}
+            <Icon
+              render={LucideChevronsUpDown}
+              size={18}
+              color="black"
+            />
+          </TouchableOpacity>
+          {errors.fromWalletId?.message && (
+            <Text className="ml-1 mt-0.5 block italic text-rose-400">
+              {errors.fromWalletId?.message?.toString()}
+            </Text>
+          )}
         </View>
 
-        <View className="mt-6 flex flex-col gap-6">
-          {/* MARK: From Wallet */}
-          <View>
-            <Text className={cn('mb-1 font-semibold', errors.fromWalletId?.message && 'text-rose-500')}>
-              {t('From Wallet')}
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-              onPress={() => router.push('/wallet-picker?isFromWallet=true')}
-            >
-              {fromWallet ? (
-                <View className="flex flex-row items-center gap-2">
-                  <Text className="text-base text-black">{fromWallet.icon}</Text>
-                  <Text className="text-base font-semibold text-black">{fromWallet.name}</Text>
-                </View>
-              ) : (
-                <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
-              )}
-              <Icon
-                render={LucideChevronsUpDown}
-                size={18}
-                color="black"
-              />
-            </TouchableOpacity>
-            {errors.fromWalletId?.message && (
-              <Text className="ml-1 mt-0.5 block italic text-rose-400">
-                {errors.fromWalletId?.message?.toString()}
-              </Text>
+        {/* MARK: To Wallet */}
+        <View>
+          <Text className={cn('mb-1 font-semibold', errors.toWalletId?.message && 'text-rose-500')}>
+            {t('To Wallet')}
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => router.push('/wallet-picker?isToWallet=true')}
+          >
+            {toWallet ? (
+              <View className="flex-row items-center gap-2">
+                <Text className="text-base text-black">{toWallet.icon}</Text>
+                <Text className="text-base font-semibold text-black">{toWallet.name}</Text>
+              </View>
+            ) : (
+              <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
             )}
-          </View>
-
-          {/* MARK: To Wallet */}
-          <View className="">
-            <Text className={cn('mb-1 font-semibold', errors.toWalletId?.message && 'text-rose-500')}>
-              {t('To Wallet')}
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-              onPress={() => router.push('/wallet-picker?isToWallet=true')}
-            >
-              {toWallet ? (
-                <View className="flex flex-row items-center gap-2">
-                  <Text className="text-base text-black">{toWallet.icon}</Text>
-                  <Text className="text-base font-semibold text-black">{toWallet.name}</Text>
-                </View>
-              ) : (
-                <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
-              )}
-              <Icon
-                render={LucideChevronsUpDown}
-                size={18}
-                color="black"
-              />
-            </TouchableOpacity>
-            {errors.toWalletId?.message && (
-              <Text className="ml-1 mt-0.5 block italic text-rose-400">
-                {errors.toWalletId?.message?.toString()}
-              </Text>
-            )}
-          </View>
-
-          {/* MARK: Amount */}
-          {currency && (
-            <CustomInput
-              id="amount"
-              type="number"
-              value={form.amount}
-              label={t('Amount')}
-              placeholder="..."
-              clearErrors={clearErrors}
-              onChange={setValue}
-              icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
-              errors={errors}
-              containerClassName="bg-white"
-              inputClassName="text-black"
+            <Icon
+              render={LucideChevronsUpDown}
+              size={18}
+              color="black"
             />
+          </TouchableOpacity>
+          {errors.toWalletId?.message && (
+            <Text className="ml-1 mt-0.5 block italic text-rose-400">
+              {errors.toWalletId?.message?.toString()}
+            </Text>
           )}
+        </View>
 
-          {/* MARK: Date */}
-          {Platform.OS === 'ios' ? (
-            <View className={cn('flex flex-1 flex-col', openDate ? '-mt-6' : 'mb-6')}>
-              {!openDate && (
-                <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
-                  {t('Date')}
-                </Text>
-              )}
-              <TouchableWithoutFeedback
-                onPress={() => setOpenDate(!openDate)}
-                onFocus={() => clearErrors('date')}
-              >
-                {openDate ? (
-                  <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
-                    <DateTimePicker
-                      display="inline"
-                      currentDate={moment(form.date).toDate()}
-                      onChange={date => {
-                        setValue('date', date)
-                        setOpenDate(false)
-                      }}
-                    />
-                  </View>
-                ) : (
-                  <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
-                    <Text className="text-center font-semibold text-black">
-                      {moment(form.date).format('MMM DD, YYYY')}
-                    </Text>
-                  </View>
-                )}
-              </TouchableWithoutFeedback>
-              {errors.date?.message && (
-                <Text className="ml-1 mt-0.5 italic text-rose-400">
-                  {errors.date?.message?.toString()}
-                </Text>
-              )}
-            </View>
-          ) : (
-            <View className="mb-6 flex flex-1 flex-col">
+        {/* MARK: Amount */}
+        {currency && (
+          <CustomInput
+            id="amount"
+            type="number"
+            value={form.amount}
+            label={t('Amount')}
+            placeholder="..."
+            clearErrors={clearErrors}
+            onChange={setValue}
+            icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
+            errors={errors}
+            containerClassName="bg-white"
+            inputClassName="text-black"
+          />
+        )}
+
+        {/* MARK: Date */}
+        {Platform.OS === 'ios' ? (
+          <View className={cn('flex-1 flex-col', openDate ? '-mt-6' : 'mb-6')}>
+            {!openDate && (
               <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
                 {t('Date')}
               </Text>
-              <TouchableWithoutFeedback
-                onPress={() => setOpenDate(!openDate)}
-                onFocus={() => clearErrors('date')}
-              >
-                <View>
-                  <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
-                    <DateTimePicker
-                      display="inline"
-                      open={openDate}
-                      close={() => setOpenDate(false)}
-                      currentDate={moment(form.date).toDate()}
-                      onChange={date => {
-                        setValue('date', date)
-                        setOpenDate(false)
-                      }}
-                    />
-                  </View>
-                  <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
-                    <Text className="text-center font-semibold text-black">
-                      {moment(form.date).format('MMM DD, YYYY')}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-              {errors.date?.message && (
-                <Text className="ml-1 mt-0.5 italic text-rose-400">
-                  {errors.date?.message?.toString()}
-                </Text>
-              )}
-            </View>
-          )}
-        </View>
-
-        {/* MARK: Footer */}
-        <View className="mb-21 px-0">
-          <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-            <View>
-              <Button
-                variant="secondary"
-                className="h-10 rounded-md px-21/2"
-                onPress={router.back}
-              >
-                <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-              </Button>
-            </View>
-            <Button
-              variant="default"
-              className="h-10 min-w-[60px] rounded-md px-21/2"
-              onPress={handleSubmit(handleTransferFund)}
+            )}
+            <TouchableWithoutFeedback
+              onPress={() => setOpenDate(!openDate)}
+              onFocus={() => clearErrors('date')}
             >
-              {saving ? (
-                <ActivityIndicator />
+              {openDate ? (
+                <View className="mx-auto w-full flex-col items-center px-21/2">
+                  <DateTimePicker
+                    display="inline"
+                    currentDate={moment(form.date).toDate()}
+                    onChange={date => {
+                      setValue('date', date)
+                      setOpenDate(false)
+                    }}
+                  />
+                </View>
               ) : (
-                <Text className="font-semibold text-secondary">{t('Save')}</Text>
+                <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
+                  <Text className="text-center font-semibold text-black">
+                    {moment(form.date).format('MMM DD, YYYY')}
+                  </Text>
+                </View>
               )}
+            </TouchableWithoutFeedback>
+            {errors.date?.message && (
+              <Text className="ml-1 mt-0.5 italic text-rose-400">
+                {errors.date?.message?.toString()}
+              </Text>
+            )}
+          </View>
+        ) : (
+          <View className="mb-6 flex-1 flex-col">
+            <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+              {t('Date')}
+            </Text>
+            <TouchableWithoutFeedback
+              onPress={() => setOpenDate(!openDate)}
+              onFocus={() => clearErrors('date')}
+            >
+              <View>
+                <View className="mx-auto w-full max-w-sm flex-col items-center px-21/2">
+                  <DateTimePicker
+                    display="inline"
+                    open={openDate}
+                    close={() => setOpenDate(false)}
+                    currentDate={moment(form.date).toDate()}
+                    onChange={date => {
+                      setValue('date', date)
+                      setOpenDate(false)
+                    }}
+                  />
+                </View>
+                <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
+                  <Text className="text-center font-semibold text-black">
+                    {moment(form.date).format('MMM DD, YYYY')}
+                  </Text>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+            {errors.date?.message && (
+              <Text className="ml-1 mt-0.5 italic text-rose-400">
+                {errors.date?.message?.toString()}
+              </Text>
+            )}
+          </View>
+        )}
+      </View>
+
+      {/* MARK: Footer */}
+      <View className="mb-21 px-0">
+        <View className="mt-3 flex-row items-center justify-end gap-21/2">
+          <View>
+            <Button
+              variant="secondary"
+              className="h-10 rounded-md px-21/2"
+              onPress={router.back}
+            >
+              <Text className="font-semibold text-primary">{t('Cancel')}</Text>
             </Button>
           </View>
+          <Button
+            variant="default"
+            className="h-10 min-w-[60px] rounded-md px-21/2"
+            onPress={handleSubmit(handleTransferFund)}
+          >
+            {saving ? (
+              <ActivityIndicator />
+            ) : (
+              <Text className="font-semibold text-secondary">{t('Save')}</Text>
+            )}
+          </Button>
         </View>
-
-        <Separator className="my-8 h-0" />
       </View>
+
+      <Separator className="my-8 h-0" />
     </DrawerWrapper>
   )
 }

@@ -1,7 +1,10 @@
+import { images } from '@/assets/images/images'
+import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import useInit from '@/hooks/useInit'
 import useLanguage from '@/hooks/useLanguage'
 import useSettings from '@/hooks/useSettings'
+import { useColorScheme } from '@/lib/useColorScheme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
 import { Redirect, router, Stack } from 'expo-router'
@@ -10,6 +13,7 @@ import { useLayoutEffect, useState } from 'react'
 function HomeLayout() {
   // hooks
   const { user, loading, onboarding } = useAuth()
+  const { isDarkColorScheme } = useColorScheme()
   useSettings()
   useInit()
   useLanguage()
@@ -61,16 +65,24 @@ function HomeLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        presentation: 'modal',
-        contentStyle: { backgroundColor: 'transparent' },
-      }}
-    >
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="(drawers)" />
-    </Stack>
+    <>
+      <Image
+        source={isDarkColorScheme ? images.darkBG : images.lightBG}
+        resizeMode="cover"
+        className="h-full w-full"
+        style={{ position: 'absolute' }}
+      />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          presentation: 'modal',
+          contentStyle: { backgroundColor: 'transparent' },
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(drawers)" />
+      </Stack>
+    </>
   )
 }
 

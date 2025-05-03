@@ -128,7 +128,8 @@
     "Search": "Tìm kiếm",
     "Select wallet": "Chọn ví",
     "No transactions found for this wallet, just add one now!": "Không có giao dịch nào cho ví này, hãy thêm ngay!",
-    "Add Transaction": "Thêm giao dịch"
+    "Add Transaction": "Thêm giao dịch",
+    "All wallets": "Tất cả ví"
   },
   "wizardPage": {
     "Welcome": "Chào mừng",
@@ -807,7 +808,8 @@
     "Next year": "Năm sau",
     "Please upgrade to Premium to unlock more charts": "Vui lòng nâng cấp lên Premium để mở khóa thêm biểu đồ",
     "Cancel": "Hủy",
-    "Upgrade Now": "Nâng cấp ngay"
+    "Upgrade Now": "Nâng cấp ngay",
+    "Include transfers": "Include transfers"
   },
   "multipleSelection": {
     "All": "Tất Cả",
@@ -902,7 +904,7 @@
   },
   "walletCard": {
     "Deleting wallet": "Đang xóa ví",
-    "Hide": "Ẩn",
+    "Exclude": "Loại trừ",
     "Transfer": "Chuyển tiền",
     "Add Transaction": "Thêm giao dịch",
     "Edit": "Sửa",
@@ -944,6 +946,34 @@
     "From Date": "Từ ngày",
     "To Date": "Đến ngày",
     "Custom": "Tùy chỉnh"
+  },
+  "premiumPage": {
+    "Unlock premium to access all powerful features!": "Mở khóa Premium để truy cập tất cả tính năng!",
+    "FREE": "MIỄN PHÍ",
+    "Max 2 wallets": "Tối đa 2 ví",
+    "Max 4 budgets": "Tối đa 4 ngân sách",
+    "Annoying ads": "Quảng cáo gây phiền",
+    "10.000 AI tokens every day": "10.000 token AI mỗi ngày",
+    "No priority support": "Không ưu tiên hỗ trợ",
+    "Can't export data": "Không thể xuất dữ liệu",
+    "Bar chart only": "Chỉ có biểu đồ cột",
+    "Mobile only": "Chỉ dùng trên điện thoại",
+    "Unlimited wallets": "Không giới hạn ví",
+    "Unlimited budgets": "Không giới hạn ngân sách",
+    "No advertisement": "Không có quảng cáo",
+    "Up to 4.500.000 AI tokens per month": "Tối đa 4.500.000 token AI mỗi tháng",
+    "Priority support": "Ưu tiên hỗ trợ",
+    "Export data to CSV, Excel": "Xuất dữ liệu ra CSV, Excel",
+    "Unlock advanced charts (pie, line, bar, etc.)": "Mở khóa các biểu đồ nâng cao (tròn, đường, cột, ...)",
+    "Mobile and web": "Dùng được trên điện thoại và web",
+    "What are users talk about Deewas?": "Người dùng nói gì về Deewas?",
+    "Contact Customer Service": "Liên hệ bộ phận hỗ trợ",
+    "Subscription will be auto reviewed, cancel at any time": "Gói đăng ký sẽ được gia hạn tự động, có thể hủy bất kỳ lúc nào",
+    "Start 1 Week Free Trial": "Bắt đầu dùng thử miễn phí 1 tuần",
+    "Restore purchase": "Khôi phục giao dịch mua",
+    "Privacy Policy": "Chính sách quyền riêng tư",
+    "Terms of Conditions": "Điều khoản sử dụng",
+    "and": "và"
   },
   "settingsBox": {
     "Set your currency": "Thiết lập tiền tệ",
@@ -1002,8 +1032,7 @@
     "Are you sure you want to export all data as Excel?": "Bạn có chắc chắn muốn xuất tất cả dữ liệu dưới dạng Excel không?",
     "Export": "Xuất",
     "Cancel": "Hủy",
-    "Please upgrade to Premium to continue using the assistant": "Vui lòng nâng cấp lên Premium để tiếp tục sử dụng trợ lý",
-    "You've reached your free token limit for today": "Bạn đã đạt giới hạn token miễn phí cho hôm nay",
+    "Please upgrade to Premium to export data": "Vui lòng nâng cấp lên Premium để xuất dữ liệu",
     "Upgrade Now": "Nâng cấp ngay"
   },
   "success": {

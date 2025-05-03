@@ -58,6 +58,7 @@ declare interface ITransaction {
   name: string
   amount: number
   date: string
+  exclude: boolean
 }
 
 declare type TransactionType = 'income' | 'expense' | 'saving' | 'invest' | 'transfer' | 'balance'
@@ -97,7 +98,7 @@ declare interface IWallet {
   user: string
   name: string
   icon: string
-  hide: boolean
+  exclude: boolean
 
   income: number
   expense: number

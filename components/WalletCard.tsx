@@ -50,7 +50,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
   // states
   const [collapsed, setCollapsed] = useState<boolean>(false)
   const [deleting, setDeleting] = useState<boolean>(false)
-  const [hide, setHide] = useState<boolean>(wallet.hide)
+  const [exclude, setExclude] = useState<boolean>(wallet.exclude)
 
   // value
   const spentRate = wallet.income
@@ -86,18 +86,18 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
     }
   }, [dispatch, wallet._id, wallets])
 
-  // toggle hide
-  const handleChangeHide = useCallback(
+  // toggle exclude
+  const handleChangeExclude = useCallback(
     async (value: any) => {
-      setHide(value)
+      setExclude(value)
 
       try {
         const { wallet: w } = await updateWalletApi(wallet._id, {
           ...wallet,
-          hide: value,
+          exclude: value,
         })
 
-        setHide(w.hide)
+        setExclude(w.exclude)
         dispatch(updateWallet(w))
       } catch (err: any) {
         console.log(err)
@@ -149,17 +149,18 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                       tint="prominent"
                       intensity={90}
                     >
+                      {/* MARK: Exclude Wallet */}
                       <Button
                         variant="ghost"
-                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-1 text-violet-500"
+                        className="flex h-8 w-full flex-row items-center justify-start gap-2 px-1"
                       >
                         <Switch
-                          checked={hide}
-                          onCheckedChange={handleChangeHide}
-                          className={cn(hide ? 'bg-primary' : 'bg-muted-foreground')}
+                          checked={exclude}
+                          onCheckedChange={handleChangeExclude}
+                          className={cn(exclude ? 'bg-primary' : 'bg-muted-foreground')}
                           style={{ transform: [{ scale: 0.9 }] }}
                         />
-                        <Text className="font-semibold">{t('Hide')}</Text>
+                        <Text className="font-semibold">{t('Exclude')}</Text>
                       </Button>
 
                       {/* MARK: Create Transaction */}
