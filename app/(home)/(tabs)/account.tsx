@@ -143,7 +143,7 @@ function AccountPage() {
           {/* MARK: Account */}
           <View className="shadow-md">
             <BlurView
-              intensity={100}
+              intensity={90}
               className="overflow-hidden rounded-xl border border-primary/10 px-21 py-21/2"
             >
               <View className="w-full flex-row items-center gap-2 pb-2">
@@ -298,7 +298,7 @@ function AccountPage() {
           {/* MARK: Categories & Wallets */}
           <View className="shadow-md">
             <BlurView
-              intensity={100}
+              intensity={90}
               className="overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
             >
               <TouchableOpacity
@@ -339,7 +339,7 @@ function AccountPage() {
           {/* MARK: Theme */}
           <View className="shadow-md">
             <BlurView
-              intensity={100}
+              intensity={90}
               className="flex-row items-center gap-2 overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
             >
               <Text className="text-lg font-semibold">{t('Theme')}</Text>
@@ -382,7 +382,7 @@ function AccountPage() {
           {biometric.isSupported && (
             <View className="shadow-md">
               <BlurView
-                intensity={100}
+                intensity={90}
                 className="flex-row items-center gap-2 overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
               >
                 <Icon
@@ -405,7 +405,7 @@ function AccountPage() {
           {!isPremium && !adLoadFailed && (
             <View className="shadow-md">
               <BlurView
-                intensity={100}
+                intensity={90}
                 className="flex-row items-center justify-center overflow-hidden rounded-xl border border-primary/10"
               >
                 <BannerAd
@@ -425,7 +425,7 @@ function AccountPage() {
           {/* MARK: More */}
           <View className="shadow-md">
             <BlurView
-              intensity={100}
+              intensity={90}
               className="overflow-hidden rounded-xl border border-primary/10 px-21 py-2"
             >
               <TouchableOpacity
@@ -466,7 +466,7 @@ function AccountPage() {
               !deleting ? (
                 <Button
                   variant="outline"
-                  className="mt-8 w-full border-rose-500 bg-rose-500/5"
+                  className="mt-8 w-full border-rose-500 bg-rose-500/10"
                 >
                   <Text className="font-semibold capitalize text-rose-500">{t('Delete All Data')}</Text>
                 </Button>
@@ -485,7 +485,7 @@ function AccountPage() {
             trigger={
               <Button
                 variant="outline"
-                className="mt-8 w-full border-rose-500 bg-rose-500/5"
+                className="mt-8 w-full border-rose-500 bg-rose-500/10"
               >
                 <Text className="font-semibold capitalize text-rose-500">{t('Log Out')}</Text>
               </Button>

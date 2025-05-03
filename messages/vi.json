@@ -809,7 +809,7 @@
     "Please upgrade to Premium to unlock more charts": "Vui lòng nâng cấp lên Premium để mở khóa thêm biểu đồ",
     "Cancel": "Hủy",
     "Upgrade Now": "Nâng cấp ngay",
-    "Include transfers": "Include transfers"
+    "Include transfers": "Gồm chuyển khoản"
   },
   "multipleSelection": {
     "All": "Tất Cả",
@@ -870,7 +870,7 @@
   "transactionCategoryGroup": {
     "Add Transaction": "Thêm giao dịch"
   },
-  "transactionItem": {
+  "txItem": {
     "Deleting transaction": "Đang xóa giao dịch",
     "Duplicating transaction": "Đang nhân bản giao dịch",
     "Failed to delete transaction": "Không thể xóa giao dịch",
@@ -970,10 +970,12 @@
     "Contact Customer Service": "Liên hệ bộ phận hỗ trợ",
     "Subscription will be auto reviewed, cancel at any time": "Gói đăng ký sẽ được gia hạn tự động, có thể hủy bất kỳ lúc nào",
     "Start 1 Week Free Trial": "Bắt đầu dùng thử miễn phí 1 tuần",
-    "Restore purchase": "Khôi phục giao dịch mua",
+    "Restore purchase": "Khôi phục mua hàng",
     "Privacy Policy": "Chính sách quyền riêng tư",
     "Terms of Conditions": "Điều khoản sử dụng",
-    "and": "và"
+    "and": "và",
+    "per month": "mỗi tháng",
+    "one-time": "một lần"
   },
   "settingsBox": {
     "Set your currency": "Thiết lập tiền tệ",

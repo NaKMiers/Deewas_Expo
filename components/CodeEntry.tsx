@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 
 import {
@@ -55,4 +55,4 @@ const CodeEntry = ({ cellCount, className }: CodeEntryProps) => {
   )
 }
 
-export default CodeEntry
+export default memo(CodeEntry)

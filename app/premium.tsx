@@ -385,7 +385,7 @@ function PremiumPage() {
                           )}
                         </Text>
                         <Text className="text-center font-semibold tracking-wider text-neutral-800">
-                          {packageType !== 'LIFETIME' ? 'per month' : 'one-time'}
+                          {packageType !== 'LIFETIME' ? t('per month') : t('one-time')}
                         </Text>
                       </View>
                     </View>

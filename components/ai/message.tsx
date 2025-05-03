@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
+import { memo } from 'react'
 import { FlatList, View } from 'react-native'
 import BudgetCard from '../BudgetCard'
 import Category from '../Category'
@@ -486,4 +487,4 @@ function BasicMessage({ role, content }: MessageProps) {
   )
 }
 
-export default Message
+export default memo(Message)

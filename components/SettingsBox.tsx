@@ -150,7 +150,7 @@ function Box({ type, desc, list, init, className }: BoxProps) {
   return (
     <View className="shadow-md">
       <BlurView
-        intensity={100}
+        intensity={90}
         className={cn(
           'w-full justify-center overflow-hidden rounded-xl border border-primary/10 p-21',
           className

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import React from 'react'
+import React, { memo } from 'react'
 import { Text as RNText, TextProps } from 'react-native'
 
 function Text({ className, style, children, ...props }: TextProps) {
@@ -14,4 +14,4 @@ function Text({ className, style, children, ...props }: TextProps) {
   )
 }
 
-export default Text
+export default memo(Text)

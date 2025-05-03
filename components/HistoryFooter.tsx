@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
 import Text from './Text'
+import { memo } from 'react'
 
 interface HistoryFooterProps {
   segments: string[]
@@ -90,4 +91,4 @@ function HistoryFooter({
   )
 }
 
-export default HistoryFooter
+export default memo(HistoryFooter)

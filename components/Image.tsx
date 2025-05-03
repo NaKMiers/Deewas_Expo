@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { ImageProps, Image as RNImage } from 'react-native'
 
 interface Props extends ImageProps {
@@ -20,4 +20,4 @@ function Image({ className, source, fallbackSource, style, ...props }: Props) {
   )
 }
 
-export default Image
+export default memo(Image)

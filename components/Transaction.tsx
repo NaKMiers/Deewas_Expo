@@ -12,6 +12,7 @@ import {
   LucideChevronUp,
   LucideEllipsisVertical,
   LucideLayers2,
+  LucideMinusCircle,
   LucidePencil,
   LucideTrash,
 } from 'lucide-react-native'
@@ -130,6 +131,14 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
 
         {/* MARK: Right */}
         <View className="flex flex-row items-center gap-1">
+          {transaction.exclude && (
+            <Icon
+              render={LucideMinusCircle}
+              size={16}
+              color="#f97316"
+              style={{ opacity: 0.8 }}
+            />
+          )}
           {currency && (
             <View className="flex flex-col items-end">
               <Text className="text-sm text-muted-foreground">

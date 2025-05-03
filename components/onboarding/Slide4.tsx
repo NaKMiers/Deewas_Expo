@@ -1,7 +1,7 @@
 import { currencies, CurrencyType, defaultCurrency } from '@/constants/settings'
 import { cn } from '@/lib/utils'
 import { LucideCheck } from 'lucide-react-native'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Icon from '../Icon'
@@ -85,4 +85,4 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
   )
 }
 
-export default Slide4
+export default memo(Slide4)

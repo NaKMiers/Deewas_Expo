@@ -1,7 +1,7 @@
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import DateTimePickerRN, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
-import React, { ReactNode } from 'react'
+import React, { memo, ReactNode } from 'react'
 import { Platform, View } from 'react-native'
 
 interface Props {
@@ -54,4 +54,4 @@ const DateTimePicker = ({ currentDate, onChange, open, close, className, ...rest
   )
 }
 
-export default DateTimePicker
+export default memo(DateTimePicker)

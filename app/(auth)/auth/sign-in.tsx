@@ -102,9 +102,6 @@ function SignInPage() {
         const { token } = await signInCredentialsApi(data)
         const decodedUser: IFullUser = jwtDecode(token)
 
-        // sync user id and revenue cat id
-        if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
-
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
@@ -156,9 +153,6 @@ function SignInPage() {
 
         const { token } = await signInGoogleApi(idToken, user.id)
         const decodedUser: IFullUser = jwtDecode(token)
-
-        // sync user id and revenue cat id
-        if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
@@ -235,9 +229,6 @@ function SignInPage() {
 
       const { token } = await signInAppleApi(identityToken, user, nonce)
       const decodedUser: IFullUser = jwtDecode(token)
-
-      // sync user id and revenue cat id
-      if (Platform.OS === 'ios') await Purchases.logIn(decodedUser._id)
 
       // save token and user
       await AsyncStorage.setItem('token', token)

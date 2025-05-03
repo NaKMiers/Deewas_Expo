@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
+import { memo } from 'react'
 
 function Slide1({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
@@ -42,4 +43,4 @@ function Slide1({ onChange }: { onChange: (value: any) => void }) {
   )
 }
 
-export default Slide1
+export default memo(Slide1)

@@ -4,6 +4,7 @@ import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Image from '../Image'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
+import { memo } from 'react'
 
 function Slide2({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
@@ -53,4 +54,4 @@ function Slide2({ onChange }: { onChange: (value: any) => void }) {
   )
 }
 
-export default Slide2
+export default memo(Slide2)

@@ -73,6 +73,7 @@ export type LanguageType = {
 export const languages: LanguageType[] = [
   { value: 'en', label: 'English', alternative: 'English' },
   { value: 'vi', label: 'Tiếng Việt', alternative: 'Vietnamese' },
+  { value: 'fr', label: 'Français', alternative: 'French' },
 ]
 
 export const defaultLanguage = languages.find(l => l.value === 'en') || languages[0]

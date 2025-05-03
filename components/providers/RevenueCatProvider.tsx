@@ -2,11 +2,13 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { setToken, setUser } from '@/lib/reducers/userReducer'
 import { upgradePlanApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Platform } from 'react-native'
 import Purchases, { LOG_LEVEL, PurchasesPackage } from 'react-native-purchases'
+import { useAuth } from './AuthProvider'
 
 interface RevenueCatProps {
   purchasePackage: (pack: PurchasesPackage) => Promise<void>
@@ -19,6 +21,7 @@ const RevenueCatContext = createContext<RevenueCatProps | null>(null)
 
 function RevenueCatProvider({ children }: { children: ReactNode }) {
   // hooks
+  const { user } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('revenueCatProvider.' + key), [translate])
@@ -26,7 +29,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
   // states
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
   const [purchasing, setPurchasing] = useState<boolean>(false)
-  const [isReady, setIsReady] = useState<boolean>(false)
 
   // load all offerings a user can (currently) purchase
   const loadOfferings = useCallback(async () => {
@@ -44,16 +46,18 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     const init = async () => {
       if (Platform.OS === 'ios') {
         Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
-        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY! })
+        Purchases.configure({
+          apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY!,
+          appUserID: user?._id ?? null,
+        })
       } else if (Platform.OS === 'android') {
         // Initialize RevenueCat for Android
       }
 
       await loadOfferings()
-      setIsReady(true)
     }
     init()
-  }, [loadOfferings])
+  }, [loadOfferings, user])
 
   // purchase a package
   const purchasePackage = useCallback(
@@ -63,10 +67,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
       try {
         await Purchases.purchasePackage(pack)
-
         const customerInfo = await Purchases.getCustomerInfo()
-
-        console.log('Customer Info:', customerInfo.originalAppUserId)
 
         if (customerInfo.entitlements.active['Premium']) {
           const { token } = await upgradePlanApi(customerInfo.originalAppUserId)
@@ -104,9 +105,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     try {
       const customerInfo = await Purchases.getCustomerInfo()
 
-      console.log('Customer Info:', customerInfo.originalAppUserId)
-      console.log('customerInfo.entitlements:', customerInfo.entitlements)
-
       if (customerInfo.entitlements.active['Premium']) {
         const { token } = await upgradePlanApi(customerInfo.originalAppUserId)
 
@@ -117,6 +115,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
         dispatch(setToken(token))
 
         Alert.alert(t('Restore Success'), t('Your Premium access has been restored!'))
+        router.back()
       } else {
         Alert.alert(t('Restore Failed'), t('No active premium found to restore'))
       }
@@ -136,7 +135,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     purchasing,
   }
 
-  if (!isReady) return null
   return <RevenueCatContext.Provider value={value}>{children}</RevenueCatContext.Provider>
 }
 

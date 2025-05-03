@@ -3,6 +3,7 @@ import { shortName } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { router } from 'expo-router'
 import { LucideBell, LucideCalendarDays } from 'lucide-react-native'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
@@ -46,18 +47,20 @@ function Header({ className }: HeaderProps) {
 
         <View className="flex flex-row items-center gap-2">
           {!isPremium && (
-            <ImageBackground
-              source={images.preBg}
-              className="overflow-hidden rounded-md"
-            >
-              <TouchableOpacity
-                className="flex h-10 flex-row items-center px-4"
-                activeOpacity={0.9}
-                onPress={() => router.push('/premium')}
+            <View className="shadow-md">
+              <ImageBackground
+                source={images.preBg}
+                className="overflow-hidden rounded-md"
               >
-                <Text className="font-semibold text-neutral-800"> {t('Upgrade')}</Text>
-              </TouchableOpacity>
-            </ImageBackground>
+                <TouchableOpacity
+                  className="flex h-10 flex-row items-center px-4"
+                  activeOpacity={0.9}
+                  onPress={() => router.push('/premium')}
+                >
+                  <Text className="font-semibold text-neutral-800"> {t('Upgrade')}</Text>
+                </TouchableOpacity>
+              </ImageBackground>
+            </View>
           )}
           <Button
             variant="secondary"
@@ -74,4 +77,4 @@ function Header({ className }: HeaderProps) {
   )
 }
 
-export default Header
+export default memo(Header)

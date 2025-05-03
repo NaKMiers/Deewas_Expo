@@ -8,7 +8,7 @@ import { format, isSameDay } from 'date-fns'
 import { BlurView } from 'expo-blur'
 import { LucideRotateCw } from 'lucide-react-native'
 import moment from 'moment-timezone'
-import { useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import Chart from './Chart'
@@ -338,8 +338,11 @@ function History({ className }: HistoryProps) {
             </View>
 
             <View className="flex-row items-center gap-2">
-              <Text className="text-right font-semibold">
-                {t('Include transfers').split(' ').join('\n')}
+              <Text
+                className="text-right font-semibold"
+                style={{ maxWidth: 120 }}
+              >
+                {t('Include transfers')}
               </Text>
               <Switch
                 checked={isIncludeTransfer}
@@ -383,4 +386,4 @@ function History({ className }: HistoryProps) {
   )
 }
 
-export default History
+export default memo(History)

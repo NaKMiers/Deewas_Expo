@@ -46,7 +46,7 @@ function Wallets({ className }: WalletProps) {
             <Icon
               render={LucidePlusSquare}
               size={18}
-              color="#262626"
+              reverse
             />
           </TouchableOpacity>
         </View>

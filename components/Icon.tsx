@@ -1,5 +1,5 @@
 import { useColorScheme } from '@/lib/useColorScheme'
-import React, { ElementType } from 'react'
+import React, { ElementType, memo } from 'react'
 
 interface IconProps {
   render: ElementType
@@ -19,4 +19,4 @@ function Icon({ render: Icon, reverse, ...props }: IconProps) {
   )
 }
 
-export default Icon
+export default memo(Icon)

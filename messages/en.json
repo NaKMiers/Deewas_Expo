@@ -870,7 +870,7 @@
   "transactionCategoryGroup": {
     "Add Transaction": "Add Transaction"
   },
-  "transactionItem": {
+  "txItem": {
     "Deleting transaction": "Deleting transaction",
     "Duplicating transaction": "Duplicating transaction",
     "Failed to delete transaction": "Failed to delete transaction",
@@ -973,7 +973,9 @@
     "Restore purchase": "Restore purchase",
     "Privacy Policy": "Privacy Policy",
     "Terms of Conditions": "Terms of Conditions",
-    "and": "and"
+    "and": "and",
+    "per month": "per month",
+    "one-time": "one-time"
   },
   "settingsBox": {
     "Set your currency": "Set your currency",

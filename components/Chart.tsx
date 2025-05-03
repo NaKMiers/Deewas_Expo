@@ -2,7 +2,7 @@ import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCompactNumber, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
-import { useCallback } from 'react'
+import { memo, useCallback } from 'react'
 import { View } from 'react-native'
 import { BarChart, LineChart, PieChart } from 'react-native-gifted-charts'
 import Text from './Text'
@@ -134,4 +134,4 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
   return <View className={cn('overflow-hidden', className)}>{renderChart()}</View>
 }
 
-export default Chart
+export default memo(Chart)

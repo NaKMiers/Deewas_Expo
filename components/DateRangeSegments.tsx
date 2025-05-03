@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { format, isSameDay } from 'date-fns'
 import { LucideChevronLeft, LucideChevronRight, LucideRotateCw } from 'lucide-react-native'
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
@@ -105,4 +105,4 @@ function DateRangeSegments({
   )
 }
 
-export default DateRangeSegments
+export default memo(DateRangeSegments)

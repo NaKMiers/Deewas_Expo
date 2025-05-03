@@ -7,6 +7,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Icon from '../Icon'
 import Image from '../Image'
 import Text from '../Text'
+import { memo } from 'react'
 
 function Slide6({ onPress }: { onPress: () => void }) {
   const { t: translate } = useTranslation()
@@ -54,4 +55,4 @@ function Slide6({ onPress }: { onPress: () => void }) {
   )
 }
 
-export default Slide6
+export default memo(Slide6)

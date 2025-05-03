@@ -6,10 +6,12 @@ import { initReactI18next } from 'react-i18next'
 // load messages from JSON files
 import enMessages from '@/messages/en.json'
 import viMessages from '@/messages/vi.json'
+import frMessages from '@/messages/fr.json'
 
 const resources = {
   en: { translation: enMessages },
   vi: { translation: viMessages },
+  fr: { translation: frMessages },
 }
 
 const deviceLocales = Localization.getLocales()

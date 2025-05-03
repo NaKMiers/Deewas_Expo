@@ -1,6 +1,6 @@
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView, MODAL_STACK_BEHAVIOR } from '@gorhom/bottom-sheet'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { memo, useEffect, useMemo, useRef } from 'react'
 import { Platform, SafeAreaView, ScrollView } from 'react-native'
 import { useDrawer } from './providers/DrawerProvider'
 import { images } from '@/assets/images/images'
@@ -60,4 +60,4 @@ function Drawer() {
   )
 }
 
-export default Drawer
+export default memo(Drawer)

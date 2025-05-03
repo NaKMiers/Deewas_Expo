@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import React from 'react'
+import React, { memo } from 'react'
 import { View } from 'react-native'
 import Text from './Text'
 
@@ -27,4 +27,4 @@ function NoItemsFound({ text, className }: NoItemsFoundProps) {
   )
 }
 
-export default NoItemsFound
+export default memo(NoItemsFound)

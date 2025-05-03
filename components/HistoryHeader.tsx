@@ -2,7 +2,7 @@ import { capitalize } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import PremiumLimitModal from './dialogs/PremiumLimitModal'
@@ -90,4 +90,4 @@ function HistoryHeader({
   )
 }
 
-export default HistoryHeader
+export default memo(HistoryHeader)

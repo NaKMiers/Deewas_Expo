@@ -9,7 +9,7 @@ import JSZip from 'jszip'
 import { LucideFileUp } from 'lucide-react-native'
 import moment from 'moment'
 import Papa from 'papaparse'
-import { useCallback, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native'
 import XLSX from 'xlsx'
@@ -191,7 +191,7 @@ function FileExporter({ className }: FileExporterProps) {
   return (
     <View className="shadow-md">
       <BlurView
-        intensity={100}
+        intensity={90}
         className={cn('overflow-hidden', className)}
       >
         <ConfirmDialog
@@ -259,4 +259,4 @@ function FileExporter({ className }: FileExporterProps) {
   )
 }
 
-export default FileExporter
+export default memo(FileExporter)
