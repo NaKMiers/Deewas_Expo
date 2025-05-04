@@ -83,6 +83,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
           console.log(222)
 
           Alert.alert(t('Purchase Success'), t('You are now Premium!'))
+          router.back()
         } else {
           Alert.alert(t('Purchase Failed'), t('No active premium found'))
         }

@@ -1,8 +1,8 @@
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
-import { memo } from 'react'
 
 function Slide1({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()
@@ -27,7 +27,7 @@ function Slide1({ onChange }: { onChange: (value: any) => void }) {
             'Podcast',
           ].map((item, index) => (
             <TouchableOpacity
-              className="flex flex-row items-center justify-start rounded-lg bg-secondary px-21"
+              className="flex flex-row items-center justify-start rounded-lg border border-primary/10 bg-secondary px-21"
               onPress={() => onChange({ question: 'How did you hear about us?', answer: item })}
               style={{ height: 56 }}
               key={index}

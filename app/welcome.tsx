@@ -24,7 +24,7 @@ function WelcomePage() {
   if (user) return <Redirect href="/home" />
 
   return (
-    <>
+    <View className="flex-1 bg-primary-foreground">
       <Image
         source={isDarkColorScheme ? images.block2 : images.block1}
         resizeMode="cover"
@@ -131,7 +131,7 @@ function WelcomePage() {
 
         <Separator className="my-2.5 h-0" />
       </SafeAreaView>
-    </>
+    </View>
   )
 }
 

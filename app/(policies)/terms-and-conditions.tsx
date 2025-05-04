@@ -51,7 +51,7 @@ function TermsAndConditionsPage() {
           </View>
 
           <View className="mt-2 flex-row items-center justify-center gap-4">
-            <TouchableOpacity onPress={() => router.replace('/policies/privacy-policy')}>
+            <TouchableOpacity onPress={() => router.replace('/privacy-policy')}>
               <Text>{t('Privacy Policy')}</Text>
             </TouchableOpacity>
             <TouchableOpacity>

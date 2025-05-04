@@ -127,7 +127,7 @@ function OnboardingPage() {
   if (user) return <Redirect href="/home" />
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-primary-foreground">
       <View className="flex-1 px-21/2 md:px-21">
         {/* MARK: Progress */}
         <View className="mx-auto flex max-w-[500px] flex-row items-center justify-center gap-21 border-b border-secondary px-21/2 pb-21/2">

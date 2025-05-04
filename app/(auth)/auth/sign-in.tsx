@@ -31,7 +31,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import Purchases from 'react-native-purchases'
 import Toast from 'react-native-toast-message'
 
 function SignInPage() {
@@ -261,7 +260,7 @@ function SignInPage() {
   }, [dispatch, tError, tSuccess])
 
   return (
-    <>
+    <View className="flex-1 bg-primary-foreground">
       <Image
         source={isDarkColorScheme ? images.block2 : images.block1}
         resizeMode="cover"
@@ -397,7 +396,7 @@ function SignInPage() {
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
-    </>
+    </View>
   )
 }
 
