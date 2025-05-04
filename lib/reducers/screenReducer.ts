@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import moment from 'moment'
 
 const initialState = {
@@ -27,6 +27,9 @@ const initialState = {
     from: moment().startOf('month').toISOString(),
     to: moment().endOf('month').toISOString(),
   },
+
+  // clear chat confirmation
+  clearChat: false as boolean,
 }
 
 export const screen = createSlice({
@@ -34,53 +37,53 @@ export const screen = createSlice({
   initialState,
   reducers: {
     // wallet
-    setWalletToEdit: (state, action) => {
+    setWalletToEdit: (state, action: PayloadAction<IWallet | null>) => {
       state.walletToEdit = action.payload
     },
-    setFromWallet: (state, action) => {
+    setFromWallet: (state, action: PayloadAction<IWallet | null>) => {
       state.fromWallet = action.payload
     },
-    setToWallet: (state, action) => {
+    setToWallet: (state, action: PayloadAction<IWallet | null>) => {
       state.toWallet = action.payload
     },
-    setSelectedWallet: (state, action) => {
+    setSelectedWallet: (state, action: PayloadAction<IWallet | null>) => {
       state.selectedWallet = action.payload
     },
-    setOfWallet: (state, action) => {
+    setOfWallet: (state, action: PayloadAction<IWallet | null>) => {
       state.ofWallet = action.payload
     },
 
     // category
-    setCategoryToEdit: (state, action) => {
+    setCategoryToEdit: (state, action: PayloadAction<ICategory | null>) => {
       state.categoryToEdit = action.payload
     },
-    setSelectedCategory: (state, action) => {
+    setSelectedCategory: (state, action: PayloadAction<ICategory | null>) => {
       state.selectedCategory = action.payload
     },
 
     // transaction
-    setTransactionToEdit: (state, action) => {
+    setTransactionToEdit: (state, action: PayloadAction<IFullTransaction | null>) => {
       state.transactionToEdit = action.payload
     },
 
     // budget
-    setBudgetToEdit: (state, action) => {
+    setBudgetToEdit: (state, action: PayloadAction<IFullBudget | null>) => {
       state.budgetToEdit = action.payload
     },
 
     // emoji
-    setSelectedEmoji: (state, action) => {
+    setSelectedEmoji: (state, action: PayloadAction<string>) => {
       state.selectedEmoji = action.payload
     },
 
     // date range
-    setDateRange: (state, action) => {
+    setDateRange: (state, action: PayloadAction<{ from: string; to: string }>) => {
       state.dateRange = action.payload
     },
-    setFromDate: (state, action) => {
+    setFromDate: (state, action: PayloadAction<string>) => {
       state.dateRange.from = action.payload
     },
-    setToDate: (state, action) => {
+    setToDate: (state, action: PayloadAction<string>) => {
       state.dateRange.to = action.payload
     },
     resetDateRange: state => {
@@ -88,6 +91,11 @@ export const screen = createSlice({
         from: moment().startOf('month').toISOString(),
         to: moment().endOf('month').toISOString(),
       }
+    },
+
+    // clear chat confirmation
+    setClearChat(state, action: PayloadAction<boolean>) {
+      state.clearChat = action.payload
     },
 
     // reset
@@ -121,6 +129,9 @@ export const {
   setFromDate,
   setToDate,
   resetDateRange,
+
+  // clear chat confirmation
+  setClearChat,
 
   // reset
   resetScreen,

@@ -1,4 +1,5 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { IPAD_THRESHOLD } from '@/constants'
+import { useAppSelector } from '@/hooks/reduxHook'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { router } from 'expo-router'
@@ -16,8 +17,6 @@ interface WalletProps {
   className?: string
 }
 
-const IPAD_THRESHOLD = 768
-
 function Wallets({ className }: WalletProps) {
   // hooks
   const { t: translate } = useTranslation()
@@ -27,7 +26,7 @@ function Wallets({ className }: WalletProps) {
   const { wallets, loading } = useAppSelector(state => state.wallet)
 
   // values
-  const isIpad = SCREEN_WIDTH > IPAD_THRESHOLD
+  const isLarge = SCREEN_WIDTH > IPAD_THRESHOLD
 
   return (
     <View className={cn(className)}>
@@ -61,14 +60,14 @@ function Wallets({ className }: WalletProps) {
               data={wallets}
               keyExtractor={item => item._id}
               showsHorizontalScrollIndicator={false}
-              snapToInterval={SCREEN_WIDTH}
+              snapToInterval={isLarge ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH}
               decelerationRate="fast"
               className="-mx-21/2"
               renderItem={({ item: wallet }: { item: IWallet }) => (
                 <View
                   className="px-21/2"
                   style={{
-                    width: isIpad ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH,
+                    width: isLarge ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH,
                   }}
                 >
                   <WalletCard wallet={wallet} />

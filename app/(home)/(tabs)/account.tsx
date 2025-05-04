@@ -273,24 +273,22 @@ function AccountPage() {
               <View className="flex-row justify-between gap-2">
                 <Text className="text-lg font-semibold text-neutral-800">{t('Flash Sale')}</Text>
                 <Countdown
-                  timeType="once"
-                  start={moment().startOf('day').toISOString()}
-                  expire={moment().endOf('day').toISOString()}
-                  textClassName="text-neutral-800"
+                  timeType="loop"
+                  duration={7 * 24 * 60} // 7 days
+                  start={moment().startOf('week').toISOString()}
+                  textClassName="text-neutral-800 "
                 />
               </View>
 
               <View
-                className="w-full shadow-lg"
-                style={{ height: 165 }}
+                className="aspect-video flex-row justify-center shadow-md md:justify-start"
+                style={{ maxHeight: 200 }}
               >
-                <View>
-                  <Image
-                    source={images.flashSale}
-                    resizeMode="contain"
-                    className="h-full w-full rounded-3xl shadow-lg"
-                  />
-                </View>
+                <Image
+                  source={images.flashSale}
+                  resizeMode="cover"
+                  className="h-full w-full rounded-3xl shadow-lg"
+                />
               </View>
             </ImageBackground>
           )}

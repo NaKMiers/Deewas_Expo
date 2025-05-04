@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Platform, View } from 'react-native'
 import 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
+import * as Device from 'expo-device'
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -85,6 +86,8 @@ function RootLayout() {
     return null
   }
 
+  const isTablet = Device.deviceType === Device.DeviceType.TABLET
+
   return (
     <View
       className="flex-1"
@@ -108,7 +111,11 @@ function RootLayout() {
                 <Stack.Screen name="onboarding" />
                 <Stack.Screen
                   name="premium"
-                  options={{ presentation: 'modal', contentStyle: { backgroundColor: 'transparent' } }}
+                  options={{
+                    presentation: !isTablet ? 'modal' : undefined,
+                    animation: !isTablet ? 'slide_from_bottom' : undefined,
+                    contentStyle: { backgroundColor: 'transparent' },
+                  }}
                 />
                 <Stack.Screen name="biometric-auth-failed" />
               </Stack>

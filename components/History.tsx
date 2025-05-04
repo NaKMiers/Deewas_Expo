@@ -7,7 +7,7 @@ import { getHistoryApi } from '@/requests'
 import { format, isSameDay } from 'date-fns'
 import { BlurView } from 'expo-blur'
 import { LucideRotateCw } from 'lucide-react-native'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
@@ -224,20 +224,8 @@ function History({ className }: HistoryProps) {
       return
     }
 
-    switch (chartPeriod) {
-      case 'week':
-        newDateRange.from = moment(dateRange.from).add(1, 'week').toDate()
-        newDateRange.to = moment(dateRange.to).add(1, 'week').toDate()
-        break
-      case 'month':
-        newDateRange.from = moment(dateRange.from).add(1, 'month').toDate()
-        newDateRange.to = moment(dateRange.to).add(1, 'month').toDate()
-        break
-      case 'year':
-        newDateRange.from = moment(dateRange.from).add(1, 'year').toDate()
-        newDateRange.to = moment(dateRange.to).add(1, 'year').toDate()
-        break
-    }
+    newDateRange.from = moment(dateRange.from).add(1, chartPeriod).toDate()
+    newDateRange.to = moment(dateRange.to).add(1, chartPeriod).toDate()
 
     setDateRange(newDateRange)
   }, [chartPeriod, dateRange, setDateRange])

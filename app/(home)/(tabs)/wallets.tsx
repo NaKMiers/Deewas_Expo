@@ -1,5 +1,6 @@
 import Icon from '@/components/Icon'
 import NoItemsFound from '@/components/NoItemsFound'
+import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -17,12 +18,13 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADM
 
 function WalletsPage() {
   // hooks
+  const { isPremium } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('walletsPage.' + key)
 
   // store
-  const { wallets, loading } = useAppSelector(state => state.wallet)
+  const { wallets } = useAppSelector(state => state.wallet)
   const { refreshing } = useAppSelector(state => state.load)
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
 
@@ -105,15 +107,18 @@ function WalletsPage() {
         <Text className="font-semibold text-secondary">{t('Create Wallet')}</Text>
       </TouchableOpacity>
 
-      <View className="absolute bottom-2.5 z-20 flex flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
-        <BannerAd
-          unitId={adUnitId}
-          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          onAdLoaded={() => setAdLoaded(true)}
-          onAdFailedToLoad={() => setAdLoaded(false)}
-          onAdClosed={() => setAdLoaded(false)}
-        />
-      </View>
+      {/* MARK: Banner Ads */}
+      {!isPremium && (
+        <View className="absolute bottom-2.5 z-20 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+          <BannerAd
+            unitId={adUnitId}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            onAdLoaded={() => setAdLoaded(true)}
+            onAdFailedToLoad={() => setAdLoaded(false)}
+            onAdClosed={() => setAdLoaded(false)}
+          />
+        </View>
+      )}
     </SafeAreaView>
   )
 }

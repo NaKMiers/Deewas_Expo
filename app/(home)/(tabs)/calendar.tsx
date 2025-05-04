@@ -249,6 +249,7 @@ function CalendarPage() {
                 </BlurView>
               </View>
 
+              {/* MARK: Banner Ads */}
               {!isPremium && !adLoadFailed && (
                 <View className="shadow-mg">
                   <BlurView

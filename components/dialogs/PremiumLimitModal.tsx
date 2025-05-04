@@ -1,6 +1,5 @@
 import { images } from '@/assets/images/images'
 import { cn } from '@/lib/utils'
-import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import moment from 'moment'
 import { memo, ReactNode } from 'react'
 import { View } from 'react-native'
@@ -60,7 +59,7 @@ function PremiumLimitModal({
         </AlertDialogTrigger>
       )}
 
-      <AlertDialogContent className="border-200/30 border">
+      <AlertDialogContent className="border-200/30 rounded-3xl border">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center">{label}</AlertDialogTitle>
           {desc && <AlertDialogDescription className="text-center">{desc}</AlertDialogDescription>}
@@ -68,20 +67,17 @@ function PremiumLimitModal({
 
         <View className="items-center gap-2">
           <Countdown
-            timeType="once"
-            start={moment().startOf('day').toISOString()}
-            expire={moment().endOf('day').toISOString()}
+            timeType="loop"
+            duration={7 * 24 * 60} // 7 days
+            start={moment().startOf('week').toDate()}
             textClassName="text-white"
           />
 
-          <View
-            className="rounded-3xl shadow-lg"
-            style={{ width: SCREEN_WIDTH - 100, height: 152 }}
-          >
+          <View className="aspect-video w-full rounded-3xl bg-white shadow-lg">
             <Image
               source={images.flashSale}
               resizeMode="cover"
-              className="h-full w-full rounded-3xl shadow-lg"
+              className="h-full w-full rounded-3xl bg-white shadow-lg"
             />
           </View>
         </View>

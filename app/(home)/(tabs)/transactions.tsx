@@ -21,7 +21,7 @@ import {
   LucideSearch,
   LucideX,
 } from 'lucide-react-native'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -344,8 +344,9 @@ function TransactionsPage() {
         <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
       </TouchableOpacity>
 
+      {/* MARK: Banner Ads */}
       {!isPremium && (
-        <View className="absolute bottom-2.5 z-20 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <View className="absolute bottom-2.5 z-20 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
           <BannerAd
             unitId={adUnitId}
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

@@ -6,6 +6,7 @@ import Slide4 from '@/components/onboarding/Slide4'
 import Slide5 from '@/components/onboarding/Slide5'
 import Slide6 from '@/components/onboarding/Slide6'
 import { useAuth } from '@/components/providers/AuthProvider'
+import { IPAD_THRESHOLD } from '@/constants'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { setOnboarding } from '@/lib/reducers/userReducer'
 import { sendReportApi } from '@/requests'
@@ -16,8 +17,6 @@ import { LucideChevronLeft, LucideRotateCcw } from 'lucide-react-native'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, FlatList, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-const IPAD_THRESHOLD = 768
 
 function OnboardingPage() {
   // hooks
@@ -33,7 +32,7 @@ function OnboardingPage() {
   const [form, setForm] = useState<any[]>([])
 
   // values
-  const isIpad = SCREEN_WIDTH > IPAD_THRESHOLD
+  const isLarge = SCREEN_WIDTH > IPAD_THRESHOLD
 
   // send report
   const handleSendReport = useCallback(async () => {
@@ -174,13 +173,12 @@ function OnboardingPage() {
             <View
               className="w px-21/2"
               style={{
-                width: isIpad ? SCREEN_WIDTH - 42 : SCREEN_WIDTH - 21,
+                width: isLarge ? SCREEN_WIDTH - 42 : SCREEN_WIDTH - 21,
               }}
             >
               {slides[item - 1]}
             </View>
           )}
-          snapToInterval={isIpad ? SCREEN_WIDTH - 42 : SCREEN_WIDTH - 21}
           decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           scrollEnabled={false}

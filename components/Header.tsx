@@ -1,12 +1,14 @@
+import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import { shortName } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { router } from 'expo-router'
-import { LucideBell, LucideCalendarDays } from 'lucide-react-native'
+import { LucideCalendarDays } from 'lucide-react-native'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
+import Image from './Image'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
 import { Button } from './ui/button'
@@ -62,13 +64,23 @@ function Header({ className }: HeaderProps) {
               </ImageBackground>
             </View>
           )}
-          <Button
+          {/* <Button
             variant="secondary"
             size="icon"
           >
             <Icon
               render={LucideBell}
               size={18}
+            />
+          </Button> */}
+          <Button
+            variant="secondary"
+            size="icon"
+            onPress={() => router.push('/streaks')}
+          >
+            <Image
+              source={icons.flame}
+              className="h-full w-full"
             />
           </Button>
         </View>

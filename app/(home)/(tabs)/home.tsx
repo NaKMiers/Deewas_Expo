@@ -98,7 +98,6 @@ function HomePage() {
       </ScrollView>
 
       <Creations
-        reach={1}
         trigger={
           <View className="absolute bottom-2.5 right-21/2 z-20 flex h-11 w-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4">
             <Icon

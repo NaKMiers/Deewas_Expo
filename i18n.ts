@@ -5,8 +5,8 @@ import { initReactI18next } from 'react-i18next'
 
 // load messages from JSON files
 import enMessages from '@/messages/en.json'
-import viMessages from '@/messages/vi.json'
 import frMessages from '@/messages/fr.json'
+import viMessages from '@/messages/vi.json'
 
 const resources = {
   en: { translation: enMessages },

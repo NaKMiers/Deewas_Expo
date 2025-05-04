@@ -19,7 +19,7 @@ import {
   subYears,
 } from 'date-fns'
 import moment from 'moment'
-import momentTZ from 'moment-timezone'
+import momentTZ from 'moment'
 
 export const formatTime = (time: string): string => {
   return moment(time).format('DD/MM/YYYY HH:mm:ss')

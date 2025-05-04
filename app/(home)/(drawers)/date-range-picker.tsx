@@ -3,6 +3,7 @@ import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
+import { DRAWER_MAX_WIDTH } from '@/constants'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setDateRange } from '@/lib/reducers/screenReducer'
 import { capitalize, getLocale } from '@/lib/string'
@@ -13,7 +14,7 @@ import { Separator } from '@rn-primitives/select'
 import { format } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
 import { LucideChevronDown, LucideMinus } from 'lucide-react-native'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, TouchableOpacity, View } from 'react-native'
@@ -142,6 +143,8 @@ function DateRangePickerPage() {
       ? ranges.filter(range => moment(range.value.to).isAfter(moment().endOf('day')))
       : ranges
 
+  const isLarge = SCREEN_WIDTH >= DRAWER_MAX_WIDTH
+
   const handleConfirm = useCallback(() => {
     console.log('Confirm', { from, to })
 
@@ -247,7 +250,7 @@ function DateRangePickerPage() {
         renderItem={({ item }) => (
           <View
             className={cn('flex-1 items-center gap-1', Platform.OS === 'ios' && 'mt-4')}
-            style={{ width: SCREEN_WIDTH - 42 }}
+            style={{ width: isLarge ? DRAWER_MAX_WIDTH - 42 : SCREEN_WIDTH - 42 }}
           >
             {Platform.OS === 'ios' && (
               <Text className="px-2 text-lg font-semibold">{t(item.label)}</Text>
@@ -282,7 +285,6 @@ function DateRangePickerPage() {
           </View>
         )}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={SCREEN_WIDTH - 200}
         decelerationRate="fast"
         scrollEnabled={false}
       />

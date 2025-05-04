@@ -977,6 +977,22 @@
     "per month": "per month",
     "one-time": "one-time"
   },
+  "streaksPage": {
+    "Transactions": "Transactions",
+    "Wallets": "Wallets",
+    "Categories": "Categories",
+    "Budgets": "Budgets",
+    "Week Streak": "Week Streak",
+    "You're unstoppable this week!": "You're unstoppable this week!",
+    "You're crushing it! Keep pushing": "You're crushing it! Keep pushing",
+    "You're building a great habit!": "You're building a great habit!",
+    "Nice! One step at a time": "Nice! One step at a time",
+    "New week, new chance. Let’s get it": "New week, new chance. Let’s get it",
+    "Current streak": "Current streak",
+    "Longest streak": "Longest streak",
+    "Your Stats": "Your Stats",
+    "Continue": "Continue"
+  },
   "settingsBox": {
     "Set your currency": "Set your currency",
     "Set your language": "Set your language",
@@ -1057,7 +1073,7 @@
     "Budget deleted": "Budget deleted",
     "Budget created": "Budget created",
     "Budget updated": "Budget updated",
-    "Personalities changed": "Personalities changed",
+    "Personality changed": "Personality changed",
     "Update currency successfully": "Update currency successfully",
     "Erase all data successfully": "Erase all data successfully",
     "Authentication successful": "Authentication successful",

@@ -1,5 +1,5 @@
 import { images } from '@/assets/images/images'
-import Message from '@/components/ai/message'
+import Message from '@/components/ai/Message'
 import { useScrollToBottom } from '@/components/ai/useScrollToBottom'
 import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import Icon from '@/components/Icon'
@@ -11,11 +11,12 @@ import { languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import useSettings from '@/hooks/useSettings'
 import { refresh } from '@/lib/reducers/loadReducer'
+import { setClearChat } from '@/lib/reducers/screenReducer'
 import { BASE_URL, cn, getToken } from '@/lib/utils'
 import { useChat, useCompletion } from '@ai-sdk/react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BlurView } from 'expo-blur'
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 import { fetch as expoFetch } from 'expo/fetch'
 import {
   LucideArrowUp,
@@ -24,7 +25,7 @@ import {
   LucideSquare,
   LucideTrash,
 } from 'lucide-react-native'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -62,6 +63,7 @@ function AIPage() {
   // stores
   const { refreshing, refreshPoint } = useAppSelector(state => state.load)
   const { settings } = useAppSelector(state => state.settings)
+  const clearChat = useAppSelector(state => state.screen.clearChat)
 
   // hooks
   const { messages, setMessages, handleInputChange, input, handleSubmit, append, status, error } =
@@ -125,12 +127,27 @@ function AIPage() {
     setMessagesToStorage()
   }, [messages])
 
+  // refetch settings after receive new message to check user token limit
   useEffect(() => {
+    if (isPremium) return
+
     if (status === 'ready') {
       console.log('refetch settings')
       refetchSettings()
     }
-  }, [refetchSettings, status])
+  }, [refetchSettings, status, isPremium])
+
+  // auto clear chat after change personality
+  useFocusEffect(
+    useCallback(() => {
+      if (clearChat) {
+        console.log('clear chat')
+        setMessages([])
+        stop()
+        dispatch(setClearChat(false))
+      }
+    }, [dispatch, setMessages, stop, clearChat])
+  )
 
   // MARK: Check token limit
   const checkTokenLimit = useCallback(() => {
@@ -234,8 +251,11 @@ function AIPage() {
       'delete_transaction',
     ]
 
+    console.log('toolName', toolName, 'refreshed', refreshed)
+
     if (toolNames.includes(toolName)) {
       if (!refreshed) {
+        console.log('REFRESHING---------')
         setRefreshed(true)
 
         // refresh without loading
@@ -251,7 +271,7 @@ function AIPage() {
         className="flex h-screen flex-1 items-center justify-center"
         keyboardVerticalOffset={100}
       >
-        <View className="mx-auto flex w-full max-w-[500px] flex-1 flex-col">
+        <View className="mx-auto flex w-full max-w-4xl flex-1 flex-col">
           {/* MARK: Messages */}
           <ScrollView
             className="flex-1"

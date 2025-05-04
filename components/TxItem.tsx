@@ -18,7 +18,7 @@ import {
   LucidePencil,
   LucideTrash,
 } from 'lucide-react-native'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'

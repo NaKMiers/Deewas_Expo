@@ -6,6 +6,7 @@ import useLanguage from '@/hooks/useLanguage'
 import useSettings from '@/hooks/useSettings'
 import { useColorScheme } from '@/lib/useColorScheme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Device from 'expo-device'
 import * as LocalAuthentication from 'expo-local-authentication'
 import { Redirect, router, Stack } from 'expo-router'
 import { useLayoutEffect, useState } from 'react'
@@ -64,6 +65,8 @@ function HomeLayout() {
     return onboarding ? <Redirect href="/auth/sign-in" /> : <Redirect href="/welcome" />
   }
 
+  const isTablet = Device.deviceType === Device.DeviceType.TABLET
+
   return (
     <>
       <Image
@@ -75,7 +78,8 @@ function HomeLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          presentation: 'modal',
+          presentation: !isTablet ? 'modal' : undefined,
+          animation: !isTablet ? 'slide_from_bottom' : undefined,
           contentStyle: { backgroundColor: 'transparent' },
         }}
       >

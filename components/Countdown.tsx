@@ -76,7 +76,11 @@ function CountDown({ timeType, start, duration, expire, textClassName, className
       {/* Hours */}
       <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
-          value={Math.floor(timeLeft[0] / 10)}
+          value={
+            +Math.floor(timeLeft[0] / 10)
+              .toString()
+              .slice(-1)
+          }
           max={9}
           textClassName={textClassName}
         />

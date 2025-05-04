@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { personalities } from '@/constants'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { setClearChat } from '@/lib/reducers/screenReducer'
 import { setSettings } from '@/lib/reducers/settingsReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
@@ -48,6 +49,7 @@ function ChangePersonalityPage() {
       return false
     }
     if (settings?.personalities[0] === selected.id) {
+      router.back()
       return false
     }
 
@@ -78,11 +80,12 @@ function ChangePersonalityPage() {
 
       Toast.show({
         type: 'success',
-        text1: tSuccess('Personalities changed'),
+        text1: tSuccess('Personality changed'),
       })
 
       // update settings in store
       dispatch(setSettings(settings))
+      dispatch(setClearChat(true))
       router.back()
     } catch (err: any) {
       Toast.show({
@@ -149,7 +152,7 @@ function ChangePersonalityPage() {
               <Button
                 variant="secondary"
                 className="h-10 rounded-md px-21/2"
-                onPress={() => router.back()}
+                onPress={router.back}
               >
                 <Text className="font-semibold text-primary">{t('Cancel')}</Text>
               </Button>

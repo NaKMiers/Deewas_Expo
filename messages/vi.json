@@ -809,7 +809,7 @@
     "Please upgrade to Premium to unlock more charts": "Vui lòng nâng cấp lên Premium để mở khóa thêm biểu đồ",
     "Cancel": "Hủy",
     "Upgrade Now": "Nâng cấp ngay",
-    "Include transfers": "Gồm chuyển khoản"
+    "Include transfers": "Gồm chuyển tiền"
   },
   "multipleSelection": {
     "All": "Tất Cả",
@@ -977,6 +977,22 @@
     "per month": "mỗi tháng",
     "one-time": "một lần"
   },
+  "streaksPage": {
+    "Transactions": "Giao dịch",
+    "Wallets": "Ví",
+    "Categories": "Danh mục",
+    "Budgets": "Ngân sách",
+    "Week Streak": "Chuỗi tuần",
+    "You're unstoppable this week!": "Tuần này bạn là bất bại!",
+    "You're crushing it! Keep pushing": "Bạn đang làm rất tốt! Tiếp tục cố gắng nhé",
+    "You're building a great habit!": "Bạn đang hình thành một thói quen tuyệt vời!",
+    "Nice! One step at a time": "Tốt lắm! Từng bước một thôi",
+    "New week, new chance. Let’s get it": "Tuần mới, cơ hội mới. Bắt đầu thôi nào",
+    "Current streak": "Chuỗi hiện tại",
+    "Longest streak": "Chuỗi dài nhất",
+    "Your Stats": "Thống kê của bạn",
+    "Continue": "Tiếp tục"
+  },
   "settingsBox": {
     "Set your currency": "Thiết lập tiền tệ",
     "Set your language": "Thiết lập ngôn ngữ",
@@ -1057,7 +1073,7 @@
     "Budget deleted": "Ngân sách đã được xóa",
     "Budget created": "Ngân sách đã được tạo",
     "Budget updated": "Ngân sách đã được cập nhật",
-    "Personalities changed": "Tính cách đã được thay đổi",
+    "Personality changed": "Tính cách đã được thay đổi",
     "Update currency successfully": "Cập nhật tiền tệ thành công",
     "Erase all data successfully": "Xóa tất cả dữ liệu thành công",
     "Authentication successful": "Xác thực thành công",

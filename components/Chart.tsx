@@ -2,7 +2,7 @@ import { useAppSelector } from '@/hooks/reduxHook'
 import { checkTranType, formatCompactNumber, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { BarChart, LineChart, PieChart } from 'react-native-gifted-charts'
 import Text from './Text'
@@ -24,11 +24,31 @@ const colors: any = {
 
 function Chart({ data, chartType, transactionType, className }: ChartProps) {
   const currency = useAppSelector(state => state.settings.settings?.currency)
+  const [selected, setSelected] = useState<number | null>(null)
+
+  // normalize values to avoid large amplitude in the chart
+  function normalizeValues(data: ChartItem[]) {
+    const max = Math.max(...data.map(d => Math.abs(d.value)))
+    const threshold = max * 0.05 // 5% of the max value
+
+    return data.map(d => {
+      const raw = Math.abs(d.value)
+      const normalizedValue = raw < threshold && raw > 0 ? threshold + (raw / max) * 100 : raw
+
+      return {
+        ...d,
+        value: normalizedValue,
+        originalValue: d.value,
+      }
+    })
+  }
 
   const renderChart = useCallback(() => {
     if (!currency) return
 
-    const chartWidth = SCREEN_WIDTH - 42
+    const chartWidth = SCREEN_WIDTH - 56
+    const chartHeight = 250
+    const threshold = Math.max(...data.map(d => Math.abs(d.value))) * 0.95
 
     switch (chartType) {
       case 'line':
@@ -36,7 +56,7 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
           <LineChart
             data={data}
             //
-            height={200}
+            height={chartHeight}
             width={chartWidth}
             //
             spacing={40}
@@ -103,22 +123,18 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
       default:
         return (
           <BarChart
-            data={data}
+            data={normalizeValues(data)}
             //
             barWidth={18}
-            height={200}
+            height={chartHeight}
             width={chartWidth}
             minHeight={3}
             //
             spacing={21}
             barBorderRadius={3}
             initialSpacing={8}
-            //
-            // showGradient
             frontColor={colors[transactionType][0]}
-            // gradientColor={colors[transactionType][1]}
-            //
-            noOfSections={4}
+            noOfSections={5}
             yAxisThickness={0}
             xAxisThickness={0}
             xAxisLabelTextStyle={{ color: 'gray' }}
@@ -126,10 +142,28 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
             //
             isAnimated
             animationDuration={200}
+            // tooltip
+            onPress={(_: any, index: number) => setSelected(index === selected ? null : index)}
+            renderTooltip={(item: any, index: number) => {
+              const isTooHigh = item.value >= threshold
+
+              return (
+                index === selected && (
+                  <View
+                    className="absolute rounded-md bg-primary px-2 py-1"
+                    style={{ bottom: isTooHigh ? -30 : undefined, top: isTooHigh ? undefined : -30 }}
+                  >
+                    <Text className="font-body text-sm font-medium tracking-wider text-secondary">
+                      {formatCurrency(currency, item.originalValue ?? item.value)}
+                    </Text>
+                  </View>
+                )
+              )
+            }}
           />
         )
     }
-  }, [data, chartType, transactionType, currency])
+  }, [data, chartType, transactionType, currency, selected])
 
   return <View className={cn('overflow-hidden', className)}>{renderChart()}</View>
 }

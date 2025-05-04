@@ -3,6 +3,10 @@ import { images } from '@/assets/images/images'
 // MARK: Regular Expressions
 export const EXTRACT_EMAIL_REGEX = /([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g
 
+export const IPAD_THRESHOLD = 768
+export const CHAT_MAX_WIDTH = 768
+export const DRAWER_MAX_WIDTH = 500
+
 // AI assistant personalities
 export const personalities = [
   {

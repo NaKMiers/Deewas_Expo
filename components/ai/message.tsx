@@ -1,3 +1,4 @@
+import { CHAT_MAX_WIDTH } from '@/constants'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { memo } from 'react'
@@ -6,7 +7,7 @@ import BudgetCard from '../BudgetCard'
 import Category from '../Category'
 import Transaction from '../Transaction'
 import WalletCard from '../WalletCard'
-import { Markdown } from './markdown'
+import { Markdown } from './Markdown'
 
 interface MessageProps {
   role: 'assistant' | 'user'
@@ -17,8 +18,7 @@ interface MessageProps {
 function Message({ role, content, parts }: MessageProps) {
   const toolInvocations = parts?.[1]?.toolInvocation
 
-  const MAX_WIDTH = 500
-  const isLarge = SCREEN_WIDTH >= MAX_WIDTH
+  const isLarge = SCREEN_WIDTH >= CHAT_MAX_WIDTH
 
   // if tool is invoked, show the result of the tool
   if (toolInvocations && toolInvocations?.result) {
@@ -64,14 +64,14 @@ function Message({ role, content, parts }: MessageProps) {
               data={wallets}
               keyExtractor={item => item._id}
               showsHorizontalScrollIndicator={false}
-              snapToInterval={isLarge ? 500 - 21 : SCREEN_WIDTH - 21}
+              snapToInterval={isLarge ? CHAT_MAX_WIDTH / 2 : SCREEN_WIDTH - 21}
               decelerationRate="fast"
               className={cn('-mx-21/2 mb-21/2', !message && 'mt-21/2')}
               renderItem={({ item: wallet }: { item: IWallet }) => (
                 <View
                   className="px-21/2"
                   style={{
-                    width: isLarge ? 500 - 21 : SCREEN_WIDTH - 21,
+                    width: isLarge ? CHAT_MAX_WIDTH / 2 : SCREEN_WIDTH - 21,
                   }}
                 >
                   <WalletCard
@@ -175,14 +175,14 @@ function Message({ role, content, parts }: MessageProps) {
               data={[sourceWallet, destinationWallet]}
               keyExtractor={item => item._id}
               showsHorizontalScrollIndicator={false}
-              snapToInterval={isLarge ? 500 - 21 : SCREEN_WIDTH - 21}
+              snapToInterval={isLarge ? CHAT_MAX_WIDTH - 21 : SCREEN_WIDTH - 21}
               decelerationRate="fast"
               className={cn('-mx-21/2 mb-21/2', !message && 'mt-21/2')}
               renderItem={({ item: wallet }: { item: IWallet }) => (
                 <View
                   className="px-21/2"
                   style={{
-                    width: isLarge ? 500 - 21 : SCREEN_WIDTH - 21,
+                    width: isLarge ? CHAT_MAX_WIDTH - 21 : SCREEN_WIDTH - 21,
                   }}
                 >
                   <WalletCard

@@ -22,6 +22,24 @@ export const refreshTokenApi = async () => {
   return await res.json()
 }
 
+// [GET]: /user/stats
+export const getUserStatsApi = async () => {
+  const token = await getToken()
+  if (!token) throw new Error('No token found')
+
+  const res = await fetch(API + '/stats', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  // check status
+  if (!res.ok) throw await res.json()
+
+  return await res.json()
+}
+
 // [PUT]: /user/update
 export const updateUserApi = async (data: any) => {
   const token = await getToken()

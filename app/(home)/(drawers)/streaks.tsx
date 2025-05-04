@@ -1,0 +1,218 @@
+import icons from '@/assets/icons/icons'
+import DrawerWrapper from '@/components/DrawerWrapper'
+import Image from '@/components/Image'
+import { useAuth } from '@/components/providers/AuthProvider'
+import Text from '@/components/Text'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getLocale, shortName } from '@/lib/string'
+import { getUserStatsApi } from '@/requests'
+import { Separator } from '@rn-primitives/select'
+import { format } from 'date-fns'
+import { BlurView } from 'expo-blur'
+import { router } from 'expo-router'
+import moment from 'moment'
+import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { TouchableOpacity, View } from 'react-native'
+
+interface Stats {
+  transactionCount: number
+  recentTransactions: ITransaction[]
+  walletCount: number
+  categoryCount: number
+  budgetCount: number
+  currentStreak: number
+  longestStreak: number
+}
+
+function StreaksPage() {
+  // hooks
+  const { user } = useAuth()
+  const { t: translate, i18n } = useTranslation()
+  const t = (key: string) => translate('streaksPage.' + key)
+  const locale = i18n.language
+
+  // states
+  const [stats, setStats] = useState<Stats | null>(null)
+  const [statList, setStatList] = useState<{ title: string; value: number }[] | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [transactionDays, setTransactionDays] = useState<string[]>([])
+  const [weekDays, setWeekDays] = useState<moment.Moment[]>([])
+  const [weekStreak, setWeekStreak] = useState<number>(0)
+
+  const getStreakMessage = useCallback(
+    (streak: number, name: string) => {
+      if (streak >= 7) return `${t("You're unstoppable this week!")} ${name} 🔥🔥🔥`
+      if (streak >= 5) return `${t("You're crushing it! Keep pushing")} ${name} 💪`
+      if (streak >= 3) return `${t("You're building a great habit!")} ${name} 🙌`
+      if (streak >= 1) return `${t('Nice! One step at a time')} ${name} 🚶‍♂️`
+      return `${t('New week, new chance. Let’s get it')} ${name}! 🚀`
+    },
+    [t]
+  )
+
+  // get user stats
+  useEffect(() => {
+    const fetch = async () => {
+      // start loading
+      setLoading(true)
+
+      try {
+        // get stats
+        const stats: Stats = await getUserStatsApi()
+        setStats(stats)
+
+        // set stats list
+        setStatList([
+          { title: 'Transactions', value: stats.transactionCount },
+          { title: 'Wallets', value: stats.walletCount },
+          { title: 'Categories', value: stats.categoryCount },
+          { title: 'Budgets', value: stats.budgetCount },
+        ])
+
+        // set transaction days
+        const transactionDays = Array.from(
+          new Set(stats.recentTransactions.map(tx => moment(tx.createdAt).format('YYYY-MM-DD')))
+        )
+        setTransactionDays(transactionDays)
+
+        // set week days
+        const weekStart = moment().startOf('week')
+        const weekDays = Array.from({ length: 7 }, (_, i) => moment(weekStart).add(i, 'days'))
+        setWeekDays(weekDays)
+
+        // set week streak
+        let weekStreak = 0
+        const today = moment().format('YYYY-MM-DD')
+        for (let day of weekDays) {
+          const dayKey = day.format('YYYY-MM-DD')
+          if (dayKey > today) break
+          if (transactionDays.includes(dayKey)) weekStreak++
+          else return 0
+        }
+        setWeekStreak(weekStreak)
+      } catch (err: any) {
+        console.log(err)
+      } finally {
+        // stop loading
+        setLoading(false)
+      }
+    }
+
+    fetch()
+  }, [])
+
+  return (
+    <DrawerWrapper>
+      <View className="items-center">
+        {/* Flame */}
+        <View
+          className="aspect-square rounded-full border border-orange-500 p-14"
+          style={{ height: 250 }}
+        >
+          {!loading && (
+            <Image
+              source={weekStreak > 0 ? icons.inStreak : icons.lostStreak}
+              resizeMode="contain"
+              className="h-full w-full"
+            />
+          )}
+        </View>
+
+        {/* Streak Count */}
+        <BlurView
+          className="flex aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500 p-3"
+          style={{ marginTop: -50 }}
+        >
+          <Text
+            className="font-body font-bold"
+            style={{ fontSize: 120, lineHeight: 120, marginBottom: -8, marginTop: 18 }}
+          >
+            {!loading && weekStreak}
+          </Text>
+        </BlurView>
+
+        {/* Title & Compliment */}
+        <Text className="mt-6 font-body text-3xl font-semibold tracking-widest">{t('Week Streak')}</Text>
+        <Text className="text-center text-lg font-medium">
+          {getStreakMessage(weekStreak, shortName(user))}
+        </Text>
+
+        {/* Week */}
+        <View className="mt-6 w-full flex-row flex-wrap justify-center gap-2">
+          {weekDays.map((day, i) => {
+            const dayKey = day.format('YYYY-MM-DD')
+            const hasTransaction = transactionDays.includes(dayKey)
+
+            return (
+              <View
+                key={i}
+                className="w-[calc(100%/8)] items-center"
+              >
+                <Image
+                  source={hasTransaction ? icons.fire : icons.paleFire}
+                  className="h-10 w-10 items-center justify-center rounded-full shadow-md"
+                />
+                <Text className="mt-1 text-center font-bold">
+                  {format(day.toDate(), 'EEEEE', { locale: getLocale(locale) })}
+                </Text>
+              </View>
+            )
+          })}
+        </View>
+
+        <View className="mt-8 flex-row items-center justify-center gap-21">
+          <View>
+            <Text className="text-lg font-semibold">{t('Current streak')}</Text>
+            <Text className="text-center text-2xl font-bold">{stats?.currentStreak}</Text>
+          </View>
+          <View>
+            <Text className="text-lg font-semibold">{t('Longest streak')}</Text>
+            <Text className="text-center text-2xl font-bold">{stats?.longestStreak}</Text>
+          </View>
+        </View>
+
+        {/* Stat */}
+        {!loading && statList ? (
+          <BlurView
+            intensity={100}
+            tint="prominent"
+            className="mt-8 w-full overflow-hidden rounded-3xl border border-primary/10 shadow-md"
+          >
+            <Text className="py-2.5 text-center text-lg font-bold">{t('Your Stats')}</Text>
+            <View className="rounded-3x rounded-3xl bg-primary px-8 py-21 shadow-md">
+              <View className="flex-1 flex-row flex-wrap gap-y-2">
+                {statList.map((stat, i) => (
+                  <View
+                    className="w-1/2"
+                    key={i}
+                  >
+                    <Text className="text-center text-lg font-semibold text-secondary">
+                      {t(stat.title)}
+                    </Text>
+                    <Text className="text-center text-4xl font-bold text-secondary">{stat.value}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </BlurView>
+        ) : (
+          <Skeleton className="mt-8 h-[200px] w-full p-4" />
+        )}
+
+        {/* Action Button */}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={router.back}
+          className="mt-8 w-full flex-row items-center justify-center gap-21/2 rounded-full bg-orange-500 p-4 shadow-md"
+        >
+          <Text className="text-xl font-semibold text-white">{t('Continue')}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Separator className="my-20 h-0" />
+    </DrawerWrapper>
+  )
+}
+
+export default StreaksPage

@@ -147,9 +147,9 @@ function BudgetsPage() {
         <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
       </TouchableOpacity>
 
-      {/* MARK: Ads */}
+      {/* MARK: Banner Ads */}
       {!isPremium && (
-        <View className="absolute bottom-2.5 z-20 flex flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <View className="absolute bottom-2.5 z-20 flex max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
           <BannerAd
             unitId={adUnitId}
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

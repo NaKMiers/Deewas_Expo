@@ -5,6 +5,7 @@ import Image from '@/components/Image'
 import { useRevenueCat } from '@/components/providers/RevenueCatProvider'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
+import { IPAD_THRESHOLD } from '@/constants'
 import { setLoading } from '@/lib/reducers/budgetReducer'
 import { formatPrice } from '@/lib/string'
 import { cn } from '@/lib/utils'
@@ -71,8 +72,6 @@ const reviews = [
   },
 ]
 
-const IPAD_THRESHOLD = 768
-
 function PremiumPage() {
   // hooks
   const { t: translate, i18n } = useTranslation()
@@ -86,7 +85,7 @@ function PremiumPage() {
   const [selectedPackage, setSelectedPackage] = useState<PurchasesPackage | null>(null)
 
   // values
-  const isIpad = SCREEN_WIDTH > IPAD_THRESHOLD
+  const isLarge = SCREEN_WIDTH > IPAD_THRESHOLD
 
   // initially select package
   useEffect(() => {
@@ -200,7 +199,7 @@ function PremiumPage() {
             <Separator className="my-6 h-0" />
 
             {/* MARK: Comparisons */}
-            <View className="flex-row items-start justify-center gap-1.5 px-21/2">
+            <View className="mx-auto w-full max-w-md flex-row items-start justify-center gap-1.5 px-21/2">
               <View className="mt-7 w-1/2 rounded-lg border border-border bg-secondary py-5 shadow-lg">
                 <Text className="text-center text-2xl font-bold">FREE</Text>
 
@@ -255,14 +254,14 @@ function PremiumPage() {
                   data={reviews}
                   keyExtractor={(_, index) => index.toString()}
                   showsHorizontalScrollIndicator={false}
-                  snapToInterval={SCREEN_WIDTH}
+                  snapToInterval={isLarge ? (SCREEN_WIDTH - 21 / 2) / 2 : SCREEN_WIDTH}
                   decelerationRate="fast"
                   className="-mx-21/2"
                   renderItem={({ item: review }) => (
                     <View
                       className="px-21/2"
                       style={{
-                        width: isIpad ? (SCREEN_WIDTH - 21) / 2 : SCREEN_WIDTH,
+                        width: isLarge ? (SCREEN_WIDTH - 21 / 2) / 2 : SCREEN_WIDTH,
                       }}
                     >
                       <View className="gap-1 rounded-2xl border border-primary p-21 shadow-md">
@@ -293,7 +292,7 @@ function PremiumPage() {
           <Separator className="my-6 h-0" />
 
           {/* MARK: Contact */}
-          <View className="px-21/2">
+          <View className="mx-auto w-full max-w-[500px] px-21/2">
             <TouchableOpacity
               onPress={() => Linking.openURL('mailto:deewas.now@gmail.com')}
               className="flex-row items-center justify-center gap-2 rounded-md border border-sky-500 bg-white px-21 py-3 shadow-md"
@@ -329,12 +328,12 @@ function PremiumPage() {
         </ScrollView>
 
         {/* MARK: Packages */}
-        <View className="absolute bottom-21 left-0 z-20 w-full">
-          <ImageBackground
-            source={images.preBgVFlip}
-            resizeMode="cover"
-            className="overflow-hidden rounded-t-3xl px-21 pb-10 pt-6 shadow-lg"
-          >
+        <ImageBackground
+          source={images.preBgVFlip}
+          resizeMode="cover"
+          className="absolute bottom-0 left-0 z-20 w-full overflow-hidden rounded-t-3xl px-21 pb-10 pt-6 shadow-lg"
+        >
+          <View className="mx-auto w-full max-w-4xl">
             <View className="w-full flex-1 flex-row items-center justify-evenly gap-21/2">
               {packages.map(pack => {
                 const { product, packageType } = pack
@@ -424,8 +423,10 @@ function PremiumPage() {
                 {t('Restore purchase')}
               </Text>
             </TouchableOpacity>
-          </ImageBackground>
-        </View>
+          </View>
+
+          <Separator className="my-2 h-0" />
+        </ImageBackground>
       </BlurView>
     </SafeAreaView>
   )
