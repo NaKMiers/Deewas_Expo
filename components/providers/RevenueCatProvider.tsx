@@ -74,13 +74,10 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
           const decodedUser: IFullUser = jwtDecode(token)
 
-          console.log(21312)
-
           // save token and user
           await AsyncStorage.setItem('token', token)
           dispatch(setUser(decodedUser))
           dispatch(setToken(token))
-          console.log(222)
 
           Alert.alert(t('Purchase Success'), t('You are now Premium!'))
           router.back()

@@ -119,3 +119,13 @@ declare type ChartItem = {
   label: string
   type: TransactionType
 }
+
+interface Stats {
+  transactionCount: number
+  recentTransactions: ITransaction[]
+  walletCount: number
+  categoryCount: number
+  budgetCount: number
+  currentStreak: number
+  longestStreak: number
+}

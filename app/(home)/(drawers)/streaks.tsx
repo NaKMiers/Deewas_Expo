@@ -4,6 +4,8 @@ import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { setStats } from '@/lib/reducers/userReducer'
 import { getLocale, shortName } from '@/lib/string'
 import { getUserStatsApi } from '@/requests'
 import { Separator } from '@rn-primitives/select'
@@ -15,31 +17,82 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 
-interface Stats {
-  transactionCount: number
-  recentTransactions: ITransaction[]
-  walletCount: number
-  categoryCount: number
-  budgetCount: number
-  currentStreak: number
-  longestStreak: number
-}
-
 function StreaksPage() {
   // hooks
   const { user } = useAuth()
   const { t: translate, i18n } = useTranslation()
-  const t = (key: string) => translate('streaksPage.' + key)
+  const t = useCallback((key: string) => translate('streaksPage.' + key), [translate])
   const locale = i18n.language
+  const dispatch = useAppDispatch()
+
+  // store
+  const stats = useAppSelector(state => state.user.stats)
 
   // states
-  const [stats, setStats] = useState<Stats | null>(null)
   const [statList, setStatList] = useState<{ title: string; value: number }[] | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [transactionDays, setTransactionDays] = useState<string[]>([])
-  const [weekDays, setWeekDays] = useState<moment.Moment[]>([])
   const [weekStreak, setWeekStreak] = useState<number>(0)
 
+  // values
+  const weekStart = moment().startOf('week')
+  const weekDays: moment.Moment[] = Array.from({ length: 7 }, (_, i) => moment(weekStart).add(i, 'days'))
+
+  // get user stats
+  useEffect(() => {
+    const fetch = async () => {
+      if (stats) return
+
+      // start loading
+      setLoading(true)
+
+      try {
+        // get stats
+        const stats: Stats = await getUserStatsApi()
+        dispatch(setStats(stats))
+      } catch (err: any) {
+        console.log(err)
+      } finally {
+        // stop loading
+        setLoading(false)
+      }
+    }
+
+    fetch()
+  }, [dispatch, stats])
+
+  useEffect(() => {
+    if (!stats) return
+
+    // set stats list
+    setStatList([
+      { title: 'Transactions', value: stats.transactionCount },
+      { title: 'Wallets', value: stats.walletCount },
+      { title: 'Categories', value: stats.categoryCount },
+      { title: 'Budgets', value: stats.budgetCount },
+    ])
+
+    // set transaction days
+    const transactionDays = Array.from(
+      new Set(stats.recentTransactions.map(tx => moment(tx.createdAt).format('YYYY-MM-DD')))
+    )
+    setTransactionDays(transactionDays)
+
+    // set week streak
+    let weekStreak = 0
+    const today = moment().format('YYYY-MM-DD')
+    for (let day of weekDays) {
+      const dayKey = day.format('YYYY-MM-DD')
+      if (dayKey > today) break
+      if (transactionDays.includes(dayKey)) weekStreak++
+      else break
+    }
+    setWeekStreak(weekStreak)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stats])
+
+  // get streak message
   const getStreakMessage = useCallback(
     (streak: number, name: string) => {
       if (streak >= 7) return `${t("You're unstoppable this week!")} ${name} 🔥🔥🔥`
@@ -51,57 +104,6 @@ function StreaksPage() {
     [t]
   )
 
-  // get user stats
-  useEffect(() => {
-    const fetch = async () => {
-      // start loading
-      setLoading(true)
-
-      try {
-        // get stats
-        const stats: Stats = await getUserStatsApi()
-        setStats(stats)
-
-        // set stats list
-        setStatList([
-          { title: 'Transactions', value: stats.transactionCount },
-          { title: 'Wallets', value: stats.walletCount },
-          { title: 'Categories', value: stats.categoryCount },
-          { title: 'Budgets', value: stats.budgetCount },
-        ])
-
-        // set transaction days
-        const transactionDays = Array.from(
-          new Set(stats.recentTransactions.map(tx => moment(tx.createdAt).format('YYYY-MM-DD')))
-        )
-        setTransactionDays(transactionDays)
-
-        // set week days
-        const weekStart = moment().startOf('week')
-        const weekDays = Array.from({ length: 7 }, (_, i) => moment(weekStart).add(i, 'days'))
-        setWeekDays(weekDays)
-
-        // set week streak
-        let weekStreak = 0
-        const today = moment().format('YYYY-MM-DD')
-        for (let day of weekDays) {
-          const dayKey = day.format('YYYY-MM-DD')
-          if (dayKey > today) break
-          if (transactionDays.includes(dayKey)) weekStreak++
-          else return 0
-        }
-        setWeekStreak(weekStreak)
-      } catch (err: any) {
-        console.log(err)
-      } finally {
-        // stop loading
-        setLoading(false)
-      }
-    }
-
-    fetch()
-  }, [])
-
   return (
     <DrawerWrapper>
       <View className="items-center">
@@ -110,26 +112,32 @@ function StreaksPage() {
           className="aspect-square rounded-full border border-orange-500 p-14"
           style={{ height: 250 }}
         >
-          {!loading && (
+          {!loading ? (
             <Image
               source={weekStreak > 0 ? icons.inStreak : icons.lostStreak}
               resizeMode="contain"
               className="h-full w-full"
             />
+          ) : (
+            <Skeleton className="h-full w-full rounded-full" />
           )}
         </View>
 
         {/* Streak Count */}
         <BlurView
-          className="flex aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500 p-3"
+          className="flex aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500"
           style={{ marginTop: -50 }}
         >
-          <Text
-            className="font-body font-bold"
-            style={{ fontSize: 120, lineHeight: 120, marginBottom: -8, marginTop: 18 }}
-          >
-            {!loading && weekStreak}
-          </Text>
+          {!loading ? (
+            <Text
+              className="p-3 font-body font-bold"
+              style={{ fontSize: 120, lineHeight: 120, marginBottom: -8, marginTop: 18 }}
+            >
+              {!loading && weekStreak}
+            </Text>
+          ) : (
+            <Skeleton className="h-[150px] w-[150px] rounded-full" />
+          )}
         </BlurView>
 
         {/* Title & Compliment */}

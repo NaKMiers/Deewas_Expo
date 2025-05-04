@@ -70,10 +70,7 @@ function Creations({ disabled, trigger, className }: ICreationsProps) {
         visible={visible}
         animationType="slide"
         transparent
-        onRequestClose={() => {
-          console.log('Modal has been closed.')
-          setVisible(false)
-        }}
+        onRequestClose={() => setVisible(false)}
       >
         <View className="flex-1">
           <TouchableOpacity

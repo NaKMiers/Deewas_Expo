@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setLoading as setBudgetLoading, setBudgets } from '@/lib/reducers/budgetReducer'
 import { setCategories, setLoading as setCategoryLoading } from '@/lib/reducers/categoryReducer'
 import { setRefreshing } from '@/lib/reducers/loadReducer'
+import { setStats } from '@/lib/reducers/userReducer'
 import { setLoading as setWalletLoading, setWallets } from '@/lib/reducers/walletReducer'
 import { initApi } from '@/requests'
 import { useCallback, useEffect } from 'react'
@@ -40,6 +41,11 @@ function useInit() {
       dispatch(setRefreshing(false))
     }
   }, [dispatch, user])
+
+  // watch refresh point change event
+  useEffect(() => {
+    dispatch(setStats(null))
+  }, [dispatch, refreshPoint])
 
   // initially get wallets
   useEffect(() => {

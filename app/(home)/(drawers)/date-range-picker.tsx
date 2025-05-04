@@ -146,8 +146,6 @@ function DateRangePickerPage() {
   const isLarge = SCREEN_WIDTH >= DRAWER_MAX_WIDTH
 
   const handleConfirm = useCallback(() => {
-    console.log('Confirm', { from, to })
-
     dispatch(setDateRange({ from: moment(from).toISOString(), to: moment(to).toISOString() }))
     router.back()
   }, [dispatch, from, to])

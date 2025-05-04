@@ -25,7 +25,7 @@ import {
   LucideSquare,
   LucideTrash,
 } from 'lucide-react-native'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -132,7 +132,6 @@ function AIPage() {
     if (isPremium) return
 
     if (status === 'ready') {
-      console.log('refetch settings')
       refetchSettings()
     }
   }, [refetchSettings, status, isPremium])
@@ -141,7 +140,6 @@ function AIPage() {
   useFocusEffect(
     useCallback(() => {
       if (clearChat) {
-        console.log('clear chat')
         setMessages([])
         stop()
         dispatch(setClearChat(false))
@@ -251,11 +249,8 @@ function AIPage() {
       'delete_transaction',
     ]
 
-    console.log('toolName', toolName, 'refreshed', refreshed)
-
     if (toolNames.includes(toolName)) {
       if (!refreshed) {
-        console.log('REFRESHING---------')
         setRefreshed(true)
 
         // refresh without loading

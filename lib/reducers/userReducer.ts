@@ -7,6 +7,7 @@ export const user = createSlice({
     user: null as IFullUser | null,
     loading: false as boolean,
     onboarding: null as any,
+    stats: null as Stats | null,
   },
   reducers: {
     setToken: (state, action: PayloadAction<string>) => {
@@ -25,8 +26,11 @@ export const user = createSlice({
       state.token = null
       state.user = null
     },
+    setStats: (state, action: PayloadAction<Stats | null>) => {
+      state.stats = action.payload
+    },
   },
 })
 
-export const { setToken, setUser, setOnboarding, setLoading, clearUser } = user.actions
+export const { setToken, setUser, setOnboarding, setLoading, clearUser, setStats } = user.actions
 export default user.reducer

@@ -39,8 +39,6 @@ function TransferFundPage() {
   const currency = useAppSelector(state => state.settings.settings?.currency)
   const { fromWallet, toWallet } = useAppSelector(state => state.screen)
 
-  console.log('fromWallet', fromWallet)
-
   // form
   const {
     handleSubmit,

@@ -15,9 +15,9 @@ function HomeLayout() {
   // hooks
   const { user, loading, onboarding } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
+  useLanguage()
   useSettings()
   useInit()
-  useLanguage()
 
   const [bioAuthenticating, setBioAuthenticating] = useState(false)
 
