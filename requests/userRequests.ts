@@ -23,11 +23,11 @@ export const refreshTokenApi = async () => {
 }
 
 // [GET]: /user/stats
-export const getUserStatsApi = async () => {
+export const getUserStatsApi = async (query: string = '') => {
   const token = await getToken()
   if (!token) throw new Error('No token found')
 
-  const res = await fetch(API + '/stats', {
+  const res = await fetch(API + `/stats${query}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

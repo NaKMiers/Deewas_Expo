@@ -140,8 +140,8 @@
   "aiPage": {
     "Hello?": "Hello?",
     "What can you do?": "What can you do?",
-    "I bought a dumpling": "I bought a dumpling",
-    "Set a food budget": "Set a food budget",
+    "My most expensive expense this month": "My most expensive expense this month",
+    "How to limit my spending": "How to limit my spending",
     "An Error Happens": "An Error Happens",
     "Try again": "Try again",
     "Deewas is a personal finance assistant that helps you manage your money wisely": "Deewas is a personal finance assistant that helps you manage your money wisely",
@@ -1130,5 +1130,21 @@
     "Export Failed": "Export Failed",
     "An error occurred while exporting CSV files": "An error occurred while exporting CSV files",
     "An error occurred while exporting Excel file": "An error occurred while exporting Excel file"
+  },
+  "ERROR_CODE": {
+    "BUDGET_NOT_FOUND": "Budget not found",
+    "BUDGET_LIMIT_REACHED": "Budget limit reached, please upgrade to Premium to create unlimited budgets",
+    "INVALID_CATEGORY": "Invalid category",
+    "CREATE_BUDGET_FAILED": "Failed to create budget",
+    "CATEGORY_NOT_FOUND": "Category not found",
+    "CATEGORY_NOT_DELETABLE": "Cannot delete default category",
+    "CATEGORY_DELETE_FAILED": "Failed to delete category",
+    "USER_NOT_FOUND": "User not found",
+    "SETTINGS_NOT_FOUND": "Settings not found",
+    "USERNAME_EXISTS": "Username already exists",
+    "WALLET_LIMIT_REACHED": "Wallet limit reached, please upgrade to Premium to create unlimited wallets",
+    "WALLET_NOT_FOUND": "Wallet not found",
+    "INVALID_BUDGET": "Invalid budget",
+    "TRANSACTION_NOT_FOUND": "Transaction not found"
   }
 }

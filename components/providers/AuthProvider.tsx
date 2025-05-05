@@ -21,6 +21,7 @@ interface AuthContextValue {
   onboarding: any
   switchBiometric: (value?: -1 | 0 | 1) => Promise<void>
   biometric: { open: boolean; isSupported: boolean }
+  loggingOut: boolean
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -38,10 +39,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
     open: false,
     isSupported: false,
   })
+  const [loggingOut, setLoggingOut] = useState<boolean>(false)
 
   // check if user is premium
   useEffect(() => {
-    if (!user) return
+    if (!user || !user.plan) return
 
     switch (user.plan) {
       case 'premium-lifetime':
@@ -175,11 +177,15 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   // handle logout
   const logout = useCallback(async () => {
+    setLoggingOut(true)
+
     await Purchases.logOut()
     await switchBiometric(-1)
     dispatch(clearUser())
     await AsyncStorage.removeItem('token')
     await AsyncStorage.removeItem('messages')
+
+    setLoggingOut(false)
   }, [dispatch, switchBiometric])
 
   const value: AuthContextValue = {
@@ -192,6 +198,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     logout,
     switchBiometric,
     biometric,
+    loggingOut,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

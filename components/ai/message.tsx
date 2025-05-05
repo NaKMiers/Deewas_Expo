@@ -1,10 +1,14 @@
+import { images } from '@/assets/images/images'
 import { CHAT_MAX_WIDTH } from '@/constants'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
+import { router } from 'expo-router'
 import { memo } from 'react'
-import { FlatList, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { FlatList, ImageBackground, TouchableOpacity, View } from 'react-native'
 import BudgetCard from '../BudgetCard'
 import Category from '../Category'
+import Text from '../Text'
 import Transaction from '../Transaction'
 import WalletCard from '../WalletCard'
 import { Markdown } from './Markdown'
@@ -16,6 +20,9 @@ interface MessageProps {
 }
 
 function Message({ role, content, parts }: MessageProps) {
+  const { t: translate } = useTranslation()
+  const t = (key: string) => translate('ERROR_CODE.' + key)
+
   const toolInvocations = parts?.[1]?.toolInvocation
 
   const isLarge = SCREEN_WIDTH >= CHAT_MAX_WIDTH
@@ -24,15 +31,32 @@ function Message({ role, content, parts }: MessageProps) {
   if (toolInvocations && toolInvocations?.result) {
     const { _args, result, _state, _step, _toolCallId, toolName } = toolInvocations
     const message = result?.message || ''
-    const error = result?.error
+    const errorCode = result?.errorCode
 
     // check if any error occurred
-    if (error) {
+    if (errorCode) {
       return (
-        <BasicMessage
-          role={role}
-          content={error}
-        />
+        <>
+          <BasicMessage
+            role={role}
+            content={t(errorCode)}
+          />
+          {errorCode.includes('LIMIT') && (
+            <View className="shadow-md">
+              <ImageBackground
+                source={images.preBgVFlip}
+                className="overflow-hidden rounded-xl"
+              >
+                <TouchableOpacity
+                  className="px-21 py-2"
+                  onPress={() => router.push('/premium')}
+                >
+                  <Text className="text-center text-lg font-semibold text-neutral-800">Upgrade Now</Text>
+                </TouchableOpacity>
+              </ImageBackground>
+            </View>
+          )}
+        </>
       )
     }
 
@@ -217,21 +241,17 @@ function Message({ role, content, parts }: MessageProps) {
                 role={role}
               />
             )}
-            <FlatList
-              data={categories}
-              keyExtractor={item => item._id}
-              showsHorizontalScrollIndicator={false}
-              decelerationRate="fast"
-              className={cn('mb-21/2', !message && 'mt-21/2')}
-              renderItem={({ item: category }: { item: ICategory }) => (
-                <View className="mb-1">
-                  <Category
-                    category={category}
-                    hideMenu
-                  />
-                </View>
-              )}
-            />
+            {categories.map((c: ICategory) => (
+              <View
+                className="mb-1"
+                key={c._id}
+              >
+                <Category
+                  category={c}
+                  hideMenu
+                />
+              </View>
+            ))}
           </View>
         )
       }
@@ -288,7 +308,7 @@ function Message({ role, content, parts }: MessageProps) {
           />
         )
       }
-      case 'get_budgets': {
+      case 'get_all_budgets': {
         const budgets = result?.budgets || []
 
         // check if any budgets were found
@@ -310,27 +330,24 @@ function Message({ role, content, parts }: MessageProps) {
                 role={role}
               />
             )}
-            <FlatList
-              data={budgets}
-              keyExtractor={item => item._id}
-              showsHorizontalScrollIndicator={false}
-              decelerationRate="fast"
-              className={cn('mb-21/2', !message && 'mt-21/2')}
-              renderItem={({ item: budget }: { item: IFullBudget }) => (
-                <View className="mb-1">
-                  <BudgetCard
-                    budget={budget}
-                    begin={budget.begin}
-                    end={budget.end}
-                    hideMenu
-                  />
-                </View>
-              )}
-            />
+            {budgets.map((b: IFullBudget) => (
+              <View
+                className="mb-1"
+                key={b._id}
+              >
+                <BudgetCard
+                  budget={b}
+                  begin={b.begin}
+                  end={b.end}
+                  hideMenu
+                />
+              </View>
+            ))}
           </View>
         )
       }
-      case 'create_budget': {
+      case 'create_budget':
+      case 'update_budget': {
         const budget = result?.budget
 
         // check if budget was found
@@ -363,6 +380,26 @@ function Message({ role, content, parts }: MessageProps) {
           </View>
         )
       }
+      case 'delete_budget': {
+        const budget = result?.budget
+        // check if budget was found
+        if (!budget) {
+          return (
+            <BasicMessage
+              role={role}
+              content={'No budget found'}
+            />
+          )
+        }
+
+        // show the message
+        return (
+          <BasicMessage
+            role={role}
+            content={`Budget for category ${budget.category.name} with total ${budget.total} deleted successfully!`}
+          />
+        )
+      }
       case 'get_all_transactions': {
         const transactions = result?.transactions || []
 
@@ -385,25 +422,22 @@ function Message({ role, content, parts }: MessageProps) {
                 role={role}
               />
             )}
-            <FlatList
-              data={transactions}
-              keyExtractor={item => item._id}
-              showsHorizontalScrollIndicator={false}
-              decelerationRate="fast"
-              className={cn('mb-21/2', !message && 'mt-21/2')}
-              renderItem={({ item: transaction }: { item: IFullTransaction }) => (
-                <View className="mb-1">
-                  <Transaction
-                    transaction={transaction}
-                    hideMenu
-                  />
-                </View>
-              )}
-            />
+            {transactions.map((t: IFullTransaction) => (
+              <View
+                className="mb-1"
+                key={t._id}
+              >
+                <Transaction
+                  transaction={t}
+                  hideMenu
+                />
+              </View>
+            ))}
           </View>
         )
       }
       case 'get_transaction':
+      case 'get_most_transaction':
       case 'create_transaction':
       case 'update_transaction': {
         const transaction = result?.transaction
@@ -478,7 +512,9 @@ function BasicMessage({ role, content }: MessageProps) {
       <View
         className={cn(
           'flex flex-col gap-1 py-1.5',
-          role === 'assistant' ? 'flex-1' : 'items-end rounded-[26px] rounded-br-xl bg-secondary px-4'
+          role === 'assistant'
+            ? 'flex-1'
+            : 'items-end rounded-[26px] rounded-br-xl border border-primary/5 bg-secondary px-4'
         )}
       >
         {typeof content === 'string' ? <Markdown>{content}</Markdown> : content}

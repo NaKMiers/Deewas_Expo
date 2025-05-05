@@ -53,7 +53,7 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADM
 
 function AccountPage() {
   // hooks
-  const { user, isPremium, logout, switchBiometric, biometric, refreshToken } = useAuth()
+  const { user, isPremium, logout, switchBiometric, biometric, refreshToken, loggingOut } = useAuth()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('accountPage.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
@@ -464,7 +464,11 @@ function AccountPage() {
               !deleting ? (
                 <Button
                   variant="outline"
-                  className="mt-8 w-full border-rose-500 bg-rose-500/10"
+                  className={cn(
+                    'mt-8 w-full border-rose-500 bg-rose-500/10',
+                    loggingOut && 'opacity-50'
+                  )}
+                  disabled={loggingOut}
                 >
                   <Text className="font-semibold capitalize text-rose-500">{t('Delete All Data')}</Text>
                 </Button>
@@ -483,9 +487,14 @@ function AccountPage() {
             trigger={
               <Button
                 variant="outline"
-                className="mt-8 w-full border-rose-500 bg-rose-500/10"
+                className={cn('mt-8 w-full border-rose-500 bg-rose-500/10', loggingOut && 'opacity-50')}
+                disabled={loggingOut}
               >
-                <Text className="font-semibold capitalize text-rose-500">{t('Log Out')}</Text>
+                {loggingOut ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text className="font-semibold capitalize text-rose-500">{t('Log Out')}</Text>
+                )}
               </Button>
             }
           />

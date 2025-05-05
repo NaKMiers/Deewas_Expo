@@ -31,6 +31,7 @@ import { useTranslation } from 'react-i18next'
 import {
   Alert,
   Animated,
+  FlatList,
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
@@ -89,7 +90,12 @@ function AIPage() {
   const [openPremiumModal, setOpenPremiumModal] = useState<boolean>(false)
 
   // values
-  const samples = [t('Hello?'), t('What can you do?'), t('I bought a dumpling'), t('Set a food budget')]
+  const samples = [
+    t('Hello?'),
+    t('What can you do?'),
+    t('My most expensive expense this month'),
+    t('How to limit my spending'),
+  ]
 
   // get token
   useEffect(() => {
@@ -243,6 +249,8 @@ function AIPage() {
       'update_category',
       'delete_category',
       'create_budget',
+      'update_budget',
+      'delete_budget',
       'get_all_transactions',
       'create_transaction',
       'update_transaction',
@@ -339,21 +347,26 @@ function AIPage() {
             </TouchableOpacity>
           )}
 
-          {/* MARK: Input */}
           <View className="p-21/2 md:p-21">
+            {/* MARK: Sample */}
             {messages.length === 0 && (
-              <View className="-mx-1 mb-2 flex-row flex-wrap gap-y-2">
-                {samples.map(sample => (
+              <FlatList
+                data={samples}
+                keyExtractor={(_, i) => i.toString()}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className="mb-21/2"
+                renderItem={({ item, index }) => (
                   <View
-                    className="w-1/2 flex-row px-1"
-                    key={sample}
+                    className="flex-row px-1"
+                    key={index}
                   >
                     <TouchableOpacity
                       className="flex-1 flex-row rounded-lg border border-primary/10"
                       onPress={() => {
                         Keyboard.dismiss()
                         if (!checkTokenLimit()) return
-                        append({ content: sample, role: 'user' })
+                        append({ content: item, role: 'user' })
                       }}
                     >
                       <BlurView
@@ -361,14 +374,15 @@ function AIPage() {
                         intensity={90}
                         className="flex-1 flex-row items-center justify-center overflow-hidden rounded-lg px-21/2 py-2"
                       >
-                        <Text className="text-center font-body text-lg tracking-wider">{sample}</Text>
+                        <Text className="text-center font-body text-lg tracking-wider">{item}</Text>
                       </BlurView>
                     </TouchableOpacity>
                   </View>
-                ))}
-              </View>
+                )}
+              />
             )}
 
+            {/* MARK: Input */}
             <ImageBackground
               source={images.preBg}
               className="overflow-hidden rounded-3xl p-21/2 shadow-lg"

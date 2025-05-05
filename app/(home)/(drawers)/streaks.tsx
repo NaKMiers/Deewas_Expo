@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setStats } from '@/lib/reducers/userReducer'
 import { getLocale, shortName } from '@/lib/string'
+import { toUTC } from '@/lib/time'
 import { getUserStatsApi } from '@/requests'
 import { Separator } from '@rn-primitives/select'
 import { format } from 'date-fns'
@@ -48,7 +49,9 @@ function StreaksPage() {
 
       try {
         // get stats
-        const stats: Stats = await getUserStatsApi()
+        const stats: Stats = await getUserStatsApi(
+          `?from=${toUTC(moment().startOf('week').toDate())}&to=${toUTC(moment().endOf('week').toDate())}`
+        )
         dispatch(setStats(stats))
       } catch (err: any) {
         console.log(err)

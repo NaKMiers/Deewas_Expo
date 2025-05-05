@@ -140,8 +140,8 @@
   "aiPage": {
     "Hello?": "Xin chào?",
     "What can you do?": "Bạn có thể làm gì?",
-    "I bought a dumpling": "Tôi đã mua 1 cái bánh bao",
-    "Set a food budget": "Tạo ngân sách cho đồ ăn",
+    "My most expensive expense this month": "Chi tiêu đắt nhất của tôi trong tháng này",
+    "How to limit my spending": "Cách hạn chế chi tiêu của tôi",
     "An Error Happens": "Đã có lỗi xảy ra",
     "Try again": "Hãy thử lại",
     "Deewas is a personal finance assistant that helps you manage your money wisely": "Deewas là trợ lý tài chính cá nhân giúp bạn quản lý tiền bạc một cách thông minh",
@@ -1130,5 +1130,21 @@
     "Export Failed": "Xuất dữ liệu thất bại",
     "An error occurred while exporting CSV files": "Đã xảy ra lỗi trong khi xuất tệp CSV",
     "An error occurred while exporting Excel file": "Đã xảy ra lỗi trong khi xuất tệp Excel"
+  },
+  "ERROR_CODE": {
+    "BUDGET_NOT_FOUND": "Không tìm thấy ngân sách",
+    "BUDGET_LIMIT_REACHED": "Đã đạt giới hạn ngân sách, vui lòng nâng cấp lên Premium để tạo ngân sách không giới hạn",
+    "INVALID_CATEGORY": "Danh mục không hợp lệ",
+    "CREATE_BUDGET_FAILED": "Tạo ngân sách thất bại",
+    "CATEGORY_NOT_FOUND": "Không tìm thấy danh mục",
+    "CATEGORY_NOT_DELETABLE": "Không thể xóa danh mục mặc định",
+    "CATEGORY_DELETE_FAILED": "Xóa danh mục thất bại",
+    "USER_NOT_FOUND": "Không tìm thấy người dùng",
+    "SETTINGS_NOT_FOUND": "Không tìm thấy cài đặt",
+    "USERNAME_EXISTS": "Tên người dùng đã tồn tại",
+    "WALLET_LIMIT_REACHED": "Đã đạt giới hạn ví, vui lòng nâng cấp lên Premium để tạo ví không giới hạn",
+    "WALLET_NOT_FOUND": "Không tìm thấy ví",
+    "INVALID_BUDGET": "Ngân sách không hợp lệ",
+    "TRANSACTION_NOT_FOUND": "Không tìm thấy giao dịch"
   }
 }
