@@ -294,7 +294,7 @@ function DateRangePickerPage() {
         <View className="mt-3 flex-row items-center justify-center gap-21">
           <Button
             variant="secondary"
-            className="h-10 flex-1 rounded-md px-21/2"
+            className="h-10 flex-1 rounded-md border border-primary/10 px-21/2"
             onPress={() => {
               router.back()
             }}

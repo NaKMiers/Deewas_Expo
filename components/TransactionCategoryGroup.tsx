@@ -29,12 +29,12 @@ function TransactionCategoryGroup({
   const currency = useAppSelector(state => state.settings.settings?.currency)
 
   return (
-    <View className={cn('flex flex-col', className)}>
-      <View className="flex flex-row items-center justify-between gap-2 py-0.5">
-        <View className="flex flex-row items-start gap-2">
+    <View className={cn('flex-col', className)}>
+      <View className="flex-row items-center justify-between gap-2 py-0.5">
+        <View className="flex-row items-start gap-2">
           <Text>{category.icon}</Text>
           {currency && (
-            <View className="flex flex-col">
+            <View className="flex-col">
               <Text className="font-semibold">{category.name}</Text>
               <Text className={cn('ml-0.5 mt-0.5 tracking-tight', checkTranType(category.type).color)}>
                 {formatCurrency(
@@ -53,7 +53,7 @@ function TransactionCategoryGroup({
             router.push('/create-transaction')
           }}
           activeOpacity={0.7}
-          className="flex h-8 flex-row items-center gap-2 rounded-md border border-secondary px-2"
+          className="h-8 flex-row items-center gap-2 rounded-md border border-secondary px-2"
         >
           <Text className="font-semibold">{t('Add Transaction')}</Text>
         </TouchableOpacity>
@@ -61,7 +61,7 @@ function TransactionCategoryGroup({
 
       {/*  MARK: Transactions of category */}
       <View className="my-1.5 pl-2">
-        <View className={cn('flex flex-col gap-1 border-l', checkTranType(category.type).border)}>
+        <View className={cn('flex-col gap-1 border-l', checkTranType(category.type).border)}>
           {transactions.map(tx => (
             <View key={tx._id}>
               <TxItem transaction={tx} />

@@ -31,15 +31,15 @@ function Wallets({ className }: WalletProps) {
   return (
     <View className={cn(className)}>
       {/* Top */}
-      <View className="mb-21/2 flex flex-row flex-wrap items-center justify-between gap-2">
+      <View className="mb-21/2 flex-row flex-wrap items-center justify-between gap-2">
         <Text className="pl-1 text-xl font-bold">{t('Wallets')}</Text>
 
-        <View className="flex flex-row items-center justify-end gap-2">
+        <View className="flex-row items-center justify-end gap-2">
           {/* MARK: Create Wallet */}
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => router.push('/create-wallet')}
-            className="flex h-10 flex-row items-center gap-2 rounded-md border border-primary bg-primary px-3"
+            className="h-10 flex-row items-center gap-2 rounded-md border border-primary bg-primary px-3"
           >
             <Text className="font-semibold text-secondary">{t('New Wallet')}</Text>
             <Icon

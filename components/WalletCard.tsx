@@ -124,8 +124,8 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
         >
           {/* MARK: Top */}
           <View className="px-21 py-2">
-            <View className="flex flex-row flex-nowrap items-center justify-between gap-2">
-              <View className="flex flex-row items-center gap-2 text-lg">
+            <View className="flex-row flex-nowrap items-center justify-between gap-2">
+              <View className="flex-row items-center gap-2 text-lg">
                 {wallet.icon && <Text className="flex-shrink-0 text-xl">{wallet.icon}</Text>}
                 <Text className="text-xl font-semibold text-neutral-800">{wallet.name}</Text>
               </View>
@@ -153,7 +153,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                         {/* MARK: Exclude Wallet */}
                         <Button
                           variant="ghost"
-                          className="flex h-8 w-full flex-row items-center justify-start gap-2 px-1"
+                          className="h-8 w-full flex-row items-center justify-start gap-2 px-1"
                         >
                           <Switch
                             checked={exclude}
@@ -171,7 +171,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                             dispatch(setSelectedWallet(wallet))
                             router.push('/create-transaction')
                           }}
-                          className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                          className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                         >
                           <Icon
                             render={LucidePlus}
@@ -187,7 +187,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                               dispatch(setFromWallet(wallet))
                               router.push('/transfer-fund')
                             }}
-                            className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                            className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                           >
                             <Icon
                               render={LucideArrowRightLeft}
@@ -228,7 +228,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                           trigger={
                             <Button
                               variant="ghost"
-                              className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                              className="h-8 w-full flex-row items-center justify-start gap-2 px-2"
                             >
                               <Icon
                                 render={LucideTrash}
@@ -249,7 +249,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
           </View>
 
           {/* MARK: Content */}
-          <View className="flex flex-col gap-2 px-4 pb-2">
+          <View className="flex-col gap-2 px-4 pb-2">
             <Item
               title={t('Balance')}
               value={wallet.income + wallet.saving + wallet.invest - wallet.expense}
@@ -260,7 +260,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
               easing="linear"
               duration={50}
             >
-              <View className="flex flex-col gap-2">
+              <View className="flex-col gap-2">
                 <Item
                   title={t('Income')}
                   value={wallet.income}
@@ -336,13 +336,13 @@ function Item({ title, type, value }: ItemProps) {
   return (
     <View
       className={cn(
-        'flex w-full flex-row items-center gap-21/2 rounded-lg border bg-secondary px-21/2 py-1',
+        'w-full flex-row items-center gap-21/2 rounded-lg border bg-secondary px-21/2 py-1',
         border
       )}
     >
       <View
         className={cn(
-          'flex h-10 w-10 flex-row items-center justify-center rounded-md border-2 text-white',
+          'h-10 w-10 flex-row items-center justify-center rounded-md border-2 text-white',
           background,
           border
         )}
@@ -353,7 +353,7 @@ function Item({ title, type, value }: ItemProps) {
           size={22}
         />
       </View>
-      <View className="flex flex-col">
+      <View className="flex-col">
         <Text className="font-body tracking-wider">{title}</Text>
         <Text className="text-xl font-semibold">{currency && formatCurrency(currency, value)}</Text>
       </View>

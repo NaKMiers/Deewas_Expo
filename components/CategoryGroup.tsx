@@ -37,10 +37,10 @@ function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
       className={cn(className)}
     >
       <View className="rounded-lg border border-primary text-primary">
-        <View className="flex flex-row items-center gap-21/2 border-b border-slate-200/30 p-2.5">
+        <View className="flex-row items-center gap-21/2 border-b border-slate-200/30 p-2.5">
           <View
             className={cn(
-              'flex h-10 w-10 flex-row items-center justify-center rounded-md border-2',
+              'h-10 w-10 flex-row items-center justify-center rounded-md border-2',
               border,
               background
             )}
@@ -51,7 +51,7 @@ function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
               color="white"
             />
           </View>
-          <View className="flex flex-1 flex-col">
+          <View className="flex-1 flex-col">
             <Text className="font-semibold capitalize md:text-2xl">{t(type)}</Text>
             <Text className="text-sm font-semibold text-muted-foreground">{t('Sorted by name')}</Text>
           </View>
@@ -60,7 +60,7 @@ function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => router.push(`/create-category?type=${type}`)}
-            className="flex h-10 flex-shrink-0 flex-row items-center gap-1.5 rounded-md border border-secondary bg-primary px-2 md:px-4"
+            className="h-10 flex-shrink-0 flex-row items-center gap-1.5 rounded-md border border-secondary bg-primary px-2 md:px-4"
           >
             <Icon
               render={LucidePlusSquare}
@@ -71,7 +71,7 @@ function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
           </TouchableOpacity>
         </View>
 
-        <View className="flex flex-col gap-1 p-21/2">
+        <View className="flex-col gap-1 p-21/2">
           {categories.length > 0 ? (
             categories.map(category => (
               <Category

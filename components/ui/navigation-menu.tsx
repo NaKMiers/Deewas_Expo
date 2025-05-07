@@ -20,7 +20,7 @@ const NavigationMenu = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Root
     ref={ref}
-    className={cn('relative z-10 flex max-w-max flex-row items-center justify-center', className)}
+    className={cn('relative z-10 max-w-max flex-row items-center justify-center', className)}
     {...props}
   >
     {children}
@@ -36,7 +36,7 @@ const NavigationMenuList = React.forwardRef<
   <NavigationMenuPrimitive.List
     ref={ref}
     className={cn(
-      'web:group flex flex-1 flex-row items-center justify-center gap-1 web:list-none',
+      'web:group flex-1 flex-row items-center justify-center gap-1 web:list-none',
       className
     )}
     {...props}
@@ -47,7 +47,7 @@ NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName
 const NavigationMenuItem = NavigationMenuPrimitive.Item
 
 const navigationMenuTriggerStyle = cva(
-  'web:group web:inline-flex flex-row h-10 native:h-12 native:px-3 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium web:transition-colors web:hover:bg-accent active:bg-accent web:hover:text-accent-foreground web:focus:bg-accent web:focus:text-accent-foreground web:focus:outline-none web:disabled:pointer-events-none disabled:opacity-50 web:data-[active]:bg-accent/50 web:data-[state=open]:bg-accent/50'
+  'web:group web:inline-flex-row h-10 native:h-12 native:px-3 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium web:transition-colors web:hover:bg-accent active:bg-accent web:hover:text-accent-foreground web:focus:bg-accent web:focus:text-accent-foreground web:focus:outline-none web:disabled:pointer-events-none disabled:opacity-50 web:data-[active]:bg-accent/50 web:data-[state=open]:bg-accent/50'
 )
 
 const NavigationMenuTrigger = React.forwardRef<
@@ -129,7 +129,7 @@ const NavigationMenuViewport = React.forwardRef<
   NavigationMenuPrimitive.ViewportProps
 >(({ className, ...props }, ref) => {
   return (
-    <View className={cn('absolute left-0 top-full flex justify-center')}>
+    <View className={cn('absolute left-0 top-full justify-center')}>
       <View
         className={cn(
           'web:origin-top-center relative mt-1.5 w-full overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-lg web:h-[var(--radix-navigation-menu-viewport-height)] web:animate-in web:zoom-in-90',
@@ -156,7 +156,7 @@ const NavigationMenuIndicator = React.forwardRef<
     <NavigationMenuPrimitive.Indicator
       ref={ref}
       className={cn(
-        'top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden',
+        'top-full z-[1] h-1.5 items-end justify-center overflow-hidden',
         value === itemValue ? 'web:animate-in web:fade-in' : 'web:animate-out web:fade-out',
         className
       )}

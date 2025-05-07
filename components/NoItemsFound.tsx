@@ -12,7 +12,7 @@ function NoItemsFound({ text, className }: NoItemsFoundProps) {
   return (
     <View
       className={cn(
-        'flex flex-row items-center justify-center rounded-md border border-primary px-2 py-6',
+        'flex-row items-center justify-center rounded-md border border-primary px-2 py-6',
         className
       )}
       style={{

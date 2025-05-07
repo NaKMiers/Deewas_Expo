@@ -37,7 +37,7 @@ function HistoryHeader({
 
   return (
     <>
-      <View className={cn('flex flex-row items-center justify-between gap-21/2 md:gap-21', className)}>
+      <View className={cn('flex-row items-center justify-between gap-21/2 md:gap-21', className)}>
         <SegmentedControl
           values={segments.map(s => capitalize(t(s)))}
           style={{ width: '100%', height: 34, flex: 1 }}
@@ -58,7 +58,7 @@ function HistoryHeader({
           }}
         >
           <SelectTrigger
-            className="flex h-10 flex-row items-center justify-center rounded-xl shadow-md"
+            className="h-10 flex-row items-center justify-center rounded-xl shadow-md"
             style={{ height: 36 }}
           >
             <SelectValue

@@ -1,3 +1,4 @@
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
@@ -96,7 +97,7 @@ function WalletPickerPage() {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => router.push('/create-wallet')}
-          className="mb-0.5 flex h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4"
+          className="mb-0.5 h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4"
         >
           <Icon
             render={LucidePlusSquare}
@@ -107,7 +108,7 @@ function WalletPickerPage() {
 
         {showAllOption === 'true' && (
           <TouchableOpacity
-            className="flex h-10 w-full flex-row items-center gap-2 px-4 py-2"
+            className="h-10 w-full flex-row items-center gap-2 px-4 py-2"
             onPress={() => {
               dispatch(setOfWallet(null))
               router.back()
@@ -134,7 +135,7 @@ function WalletPickerPage() {
             .map(wallet => (
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="flex h-10 flex-1 flex-row items-center justify-between gap-2 px-2 py-2"
+                className="h-10 flex-1 flex-row items-center justify-between gap-2 px-2 py-2"
                 onPress={() => {
                   if (isFromWallet === 'true') dispatch(setFromWallet(wallet))
                   else if (isToWallet === 'true') dispatch(setToWallet(wallet))
@@ -150,7 +151,7 @@ function WalletPickerPage() {
                   <Text className="text-base font-semibold">{wallet.name}</Text>
                 </View>
 
-                <View className="flex flex-row items-center justify-end gap-1">
+                <View className="flex-row items-center justify-end gap-1">
                   {/* MARK: Update Wallet */}
                   <TouchableOpacity
                     activeOpacity={0.7}
@@ -199,7 +200,13 @@ function WalletPickerPage() {
         </ScrollView>
       </View>
 
-      <Separator className="my-8" />
+      <CommonFooter
+        className="mb-21 mt-6 px-0"
+        cancelLabel={t('Cancel')}
+        onCancel={router.back}
+      />
+
+      <Separator className="my-8 h-0" />
     </DrawerWrapper>
   )
 }

@@ -192,11 +192,11 @@ function TransactionsPage() {
 
             <TouchableOpacity
               activeOpacity={0.7}
-              className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+              className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
               onPress={() => router.push('/wallet-picker?showAllOption=true')}
             >
               {ofWallet ? (
-                <View className="flex flex-row items-center gap-2">
+                <View className="flex-row items-center gap-2">
                   <Text className="text-base text-black">{ofWallet.icon}</Text>
                   <Text className="text-base font-semibold text-black">{ofWallet.name}</Text>
                 </View>

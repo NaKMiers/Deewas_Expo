@@ -1,9 +1,9 @@
 import CustomInput from '@/components/CustomInput'
 import DateTimePicker from '@/components/DateTimePicker'
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
@@ -22,13 +22,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  ActivityIndicator,
-  Platform,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { Platform, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function UpdateTransactionPage() {
@@ -223,15 +217,15 @@ function UpdateTransactionPage() {
         </Text>
       </View>
 
-      <View className="mt-6 flex flex-col gap-6">
+      <View className="mt-6 flex-col gap-6">
         {/* MARK: Name */}
         <CustomInput
           id="name"
           label={t('Name')}
           value={form.name}
           placeholder="..."
-          clearErrors={clearErrors}
           onChange={setValue}
+          onFocus={() => clearErrors('name')}
           errors={errors}
           containerClassName="bg-white"
           inputClassName="text-black"
@@ -245,8 +239,8 @@ function UpdateTransactionPage() {
             value={form.amount}
             label={t('Amount')}
             placeholder="..."
-            clearErrors={clearErrors}
             onChange={setValue}
+            onFocus={() => clearErrors('amount')}
             icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
             errors={errors}
             containerClassName="bg-white"
@@ -255,17 +249,20 @@ function UpdateTransactionPage() {
         )}
 
         {/* MARK: Category */}
-        <View className="flex flex-1 flex-col">
+        <View className="flex-1 flex-col">
           <Text className={cn('mb-1 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
             {t('Category')}
           </Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-            onPress={() => router.push('/category-picker?type=expense')}
+            className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => {
+              router.push('/category-picker?type=expense')
+              clearErrors('categoryId')
+            }}
           >
             {selectedCategory ? (
-              <View className="flex flex-row items-center gap-2">
+              <View className="flex-row items-center gap-2">
                 <Text className="text-base text-black">{selectedCategory.icon}</Text>
                 <Text className="text-base font-semibold text-black">{selectedCategory.name}</Text>
               </View>
@@ -290,11 +287,14 @@ function UpdateTransactionPage() {
           <Text className="mb-1 font-semibold">{t('Wallet')}</Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-            onPress={() => router.push('/wallet-picker')}
+            className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => {
+              router.push('/wallet-picker')
+              clearErrors('walletId')
+            }}
           >
             {selectedWallet ? (
-              <View className="flex flex-row items-center gap-2">
+              <View className="flex-row items-center gap-2">
                 <Text className="text-base text-black">{selectedWallet.icon}</Text>
                 <Text className="text-base font-semibold text-black">{selectedWallet.name}</Text>
               </View>
@@ -316,18 +316,20 @@ function UpdateTransactionPage() {
 
         {/* MARK: Date */}
         {Platform.OS === 'ios' ? (
-          <View className={cn('flex flex-1 flex-col', openDate ? '-mt-6' : 'mb-6')}>
+          <View className={cn('flex-1 flex-col', openDate ? '-mt-6' : 'mb-6')}>
             {!openDate && (
-              <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+              <Text className={cn('mb-1 font-semibold', errors.date?.message && 'text-rose-500')}>
                 {t('Date')}
               </Text>
             )}
             <TouchableWithoutFeedback
-              onPress={() => setOpenDate(!openDate)}
-              onFocus={() => clearErrors('date')}
+              onPress={() => {
+                setOpenDate(!openDate)
+                clearErrors('date')
+              }}
             >
               {openDate ? (
-                <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+                <View className="mx-auto w-full max-w-sm flex-col items-center px-21/2">
                   <DateTimePicker
                     display="inline"
                     currentDate={moment(form.date).toDate()}
@@ -352,16 +354,18 @@ function UpdateTransactionPage() {
             )}
           </View>
         ) : (
-          <View className="mb-6 flex flex-1 flex-col">
-            <Text className={cn('mb-1 font-semibold', errors.walletId?.message && 'text-rose-500')}>
+          <View className="mb-6 flex-1 flex-col">
+            <Text className={cn('mb-1 font-semibold', errors.date?.message && 'text-rose-500')}>
               {t('Date')}
             </Text>
             <TouchableWithoutFeedback
-              onPress={() => setOpenDate(!openDate)}
-              onFocus={() => clearErrors('date')}
+              onPress={() => {
+                setOpenDate(!openDate)
+                clearErrors('date')
+              }}
             >
               <View>
-                <View className="mx-auto flex w-full max-w-sm flex-col items-center px-21/2">
+                <View className="mx-auto w-full max-w-sm flex-col items-center px-21/2">
                   <DateTimePicker
                     display="inline"
                     open={openDate}
@@ -389,31 +393,14 @@ function UpdateTransactionPage() {
         )}
       </View>
 
-      {/* MARK: Footer */}
-      <View className="mb-21 px-0">
-        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-          <View>
-            <Button
-              variant="secondary"
-              className="h-10 rounded-md px-21/2"
-              onPress={router.back}
-            >
-              <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-            </Button>
-          </View>
-          <Button
-            variant="default"
-            className="h-10 min-w-[60px] rounded-md px-21/2"
-            onPress={handleSubmit(handleUpdateTransaction)}
-          >
-            {saving ? (
-              <ActivityIndicator />
-            ) : (
-              <Text className="font-semibold text-secondary">{t('Save')}</Text>
-            )}
-          </Button>
-        </View>
-      </View>
+      <CommonFooter
+        className="mb-21 mt-6 px-0"
+        cancelLabel={t('Cancel')}
+        acceptLabel={t('Save')}
+        onCancel={router.back}
+        onAccept={handleSubmit(handleUpdateTransaction)}
+        loading={saving}
+      />
 
       <Separator className="my-8 h-0" />
     </DrawerWrapper>

@@ -90,11 +90,11 @@ function Chart({ data, chartType, transactionType, className }: ChartProps) {
         const totalValue = data.reduce((sum, item) => sum + item.value, 0)
 
         return (
-          <View className="mt-2 flex flex-row items-center justify-center">
+          <View className="mt-2 flex-row items-center justify-center">
             <PieChart
               data={pieData}
               //
-              radius={Math.min(chartWidth / 2.5, 200)}
+              radius={Math.min(chartWidth / 2.3, 250)}
               donut
               //
               showText

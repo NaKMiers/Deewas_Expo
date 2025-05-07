@@ -110,19 +110,19 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
   }, [refresh, transaction, tError, tSuccess])
 
   return (
-    <View className={cn('flex w-full flex-row items-start justify-between gap-2', className)}>
+    <View className={cn('w-full flex-row items-start justify-between gap-2', className)}>
       {/* Icon */}
       <Text className="text-2xl">{transaction.category.icon}</Text>
 
       {/* Content */}
-      <View className="flex flex-1 flex-row items-center justify-between gap-2">
+      <View className="flex-1 flex-row items-center justify-between gap-2">
         {/* MARK: Left */}
-        <View className="flex flex-1 flex-col">
+        <View className="flex-1 flex-col">
           <Text className="text-sm font-semibold tracking-wide text-muted-foreground">
             {transaction.category.name}
           </Text>
 
-          <View className="flex flex-row flex-wrap items-center gap-x-2">
+          <View className="flex-row flex-wrap items-center gap-x-2">
             <Text className="line-clamp-1 max-w-[200px] text-ellipsis text-base font-semibold">
               {transaction.name}
             </Text>
@@ -130,7 +130,7 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
         </View>
 
         {/* MARK: Right */}
-        <View className="flex flex-row items-center gap-1">
+        <View className="flex-row items-center gap-1">
           {transaction.exclude && (
             <Icon
               render={LucideMinusCircle}
@@ -140,14 +140,14 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
             />
           )}
           {currency && (
-            <View className="flex flex-col items-end">
+            <View className="flex-col items-end">
               <Text className="text-sm text-muted-foreground">
                 {formatDate(
                   moment(transaction.date).toDate(),
                   currencies.find(c => c.value === currency)?.locale
                 )}
               </Text>
-              <View className={cn('flex flex-row items-center gap-1')}>
+              <View className={cn('flex-row items-center gap-1')}>
                 {transaction.type === 'expense' ? (
                   <Icon
                     render={LucideChevronDown}
@@ -200,7 +200,7 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
                       trigger={
                         <Button
                           variant="ghost"
-                          className="flex w-full flex-row items-center justify-start gap-2 px-2"
+                          className="w-full flex-row items-center justify-start gap-2 px-2"
                         >
                           <Icon
                             render={LucideLayers2}
@@ -219,7 +219,7 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
                         dispatch(setTransactionToEdit(transaction))
                         router.push('/update-transaction')
                       }}
-                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4"
+                      className="h-10 w-full flex-row items-center justify-start gap-2 px-4"
                     >
                       <Icon
                         render={LucidePencil}
@@ -238,7 +238,7 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
                       trigger={
                         <Button
                           variant="ghost"
-                          className="flex w-full flex-row items-center justify-start gap-2 px-2"
+                          className="w-full flex-row items-center justify-start gap-2 px-2"
                         >
                           <Icon
                             render={LucideTrash}
@@ -253,7 +253,7 @@ function Transaction({ transaction, remove, refresh, hideMenu, className }: Tran
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <View className="flex h-9 w-9 flex-row items-center justify-center">
+              <View className="h-9 w-9 flex-row items-center justify-center">
                 <ActivityIndicator />
               </View>
             ))}

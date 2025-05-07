@@ -75,7 +75,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
   return (
     <View
       className={cn(
-        'border-200/30 relative flex h-11 flex-row justify-end overflow-hidden rounded-md bg-primary text-secondary',
+        'border-200/30 relative h-11 flex-row justify-end overflow-hidden rounded-md bg-primary text-secondary',
         className
       )}
     >
@@ -91,14 +91,14 @@ function Category({ category, hideMenu, className }: CategoryProps) {
         <View className={cn('h-full w-full', background)} />
       </View>
 
-      <View className="absolute left-0 top-0 flex h-full w-full flex-row items-center justify-between gap-2 pl-21/2">
+      <View className="absolute left-0 top-0 h-full w-full flex-row items-center justify-between gap-2 pl-21/2">
         {/* MARK: Name */}
-        <View className="relative z-10 flex flex-row items-center gap-2">
+        <View className="relative z-10 flex-row items-center gap-2">
           <Text>{category.icon}</Text>
           <Text className="font-semibold text-secondary">{category.name}</Text>
         </View>
 
-        <View className="flex flex-row items-center gap-2">
+        <View className="flex-row items-center gap-2">
           {/* MARK: Amount */}
           {currency && (
             <Text className={cn('font-body text-lg font-bold text-white', hideMenu && 'pr-21/2')}>
@@ -135,7 +135,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                         dispatch(setSelectedCategory(category))
                         router.push('/create-transaction')
                       }}
-                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                      className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                     >
                       <Icon
                         render={LucidePlus}
@@ -151,7 +151,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                           dispatch(setSelectedCategory(category))
                           router.push('/create-budget')
                         }}
-                        className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                        className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                       >
                         <Icon
                           render={LucideBarChart2}
@@ -169,7 +169,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                         dispatch(setCategoryToEdit(category))
                         router.push('/update-category')
                       }}
-                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                      className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                     >
                       <Icon
                         render={LucidePencil}
@@ -188,7 +188,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                         trigger={
                           <Button
                             variant="ghost"
-                            className="flex h-8 w-full flex-row items-center justify-start gap-2 px-4"
+                            className="h-8 w-full flex-row items-center justify-start gap-2 px-4"
                           >
                             <Icon
                               render={LucideTrash}

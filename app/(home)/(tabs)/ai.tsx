@@ -91,7 +91,7 @@ function AIPage() {
 
   // values
   const samples = [
-    t('Hello?'),
+    t('Hello'),
     t('What can you do?'),
     t('My most expensive expense this month'),
     t('How to limit my spending'),
@@ -271,10 +271,10 @@ function AIPage() {
     <SafeAreaView className="flex-1">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex h-screen flex-1 items-center justify-center"
+        className="h-screen flex-1 items-center justify-center"
         keyboardVerticalOffset={100}
       >
-        <View className="mx-auto flex w-full max-w-4xl flex-1 flex-col">
+        <View className="mx-auto w-full max-w-4xl flex-1 flex-col">
           {/* MARK: Messages */}
           <ScrollView
             className="flex-1"
@@ -287,7 +287,7 @@ function AIPage() {
             onScroll={handleScroll as any}
             ref={containerRef}
           >
-            <View className="flex flex-col px-21 py-21/2 md:py-21">
+            <View className="flex-col px-21 py-21/2 md:py-21">
               {messages.length > 0 ? (
                 <>
                   {messages.map((m, i) => (
@@ -299,7 +299,7 @@ function AIPage() {
                     />
                   ))}
                   {error && (
-                    <View className="flex flex-1 items-center gap-21 p-21">
+                    <View className="flex-1 items-center gap-21 p-21">
                       <Text className="text-center text-2xl font-semibold text-muted-foreground">
                         ⚠️ {t('An Error Happens')}. {t('Try again')}!
                       </Text>
@@ -311,7 +311,7 @@ function AIPage() {
                   <BlurView
                     intensity={90}
                     tint="systemChromeMaterial"
-                    className="-mx-21/2 flex flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/5 p-21"
+                    className="-mx-21/2 flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/5 p-21"
                   >
                     <Text className="text-center text-2xl font-semibold">Deewas</Text>
                     <Text className="text-center text-muted-foreground">
@@ -334,7 +334,7 @@ function AIPage() {
           {/* MARK: Scroll down button */}
           {!isAtBottom && (
             <TouchableOpacity
-              className="absolute bottom-[136px] right-21/2 z-10 flex h-11 w-11 flex-row items-center justify-center rounded-full border-primary/5 bg-secondary shadow-lg"
+              className="absolute bottom-[136px] right-21/2 z-10 h-11 w-11 flex-row items-center justify-center rounded-full border-primary/5 bg-secondary shadow-lg"
               onPress={() => {
                 containerRef.current?.scrollToEnd({ animated: true })
               }}
@@ -411,11 +411,11 @@ function AIPage() {
                     handleSendMessage(e)
                   }}
                 />
-                <View className="mt-1.5 flex flex-row items-center justify-between gap-1.5">
+                <View className="mt-1.5 flex-row items-center justify-between gap-1.5">
                   {/* MARK: Clear Chat */}
                   <TouchableOpacity
                     className={cn(
-                      'flex h-full flex-row items-center justify-center gap-2 rounded-full bg-black/10 px-21/2 shadow-lg',
+                      'h-full flex-row items-center justify-center gap-2 rounded-full bg-black/10 px-21/2 shadow-lg',
                       status === 'streaming' || (status === 'submitted' && 'opacity-50')
                     )}
                     disabled={status === 'streaming' || status === 'submitted'}
@@ -432,11 +432,11 @@ function AIPage() {
                     <Text className="font-semibold text-neutral-800">{t('Clear')}</Text>
                   </TouchableOpacity>
 
-                  <View className="flex h-full flex-1 flex-row items-center justify-end gap-1.5">
+                  <View className="h-full flex-1 flex-row items-center justify-end gap-1.5">
                     {/* MARK: Personality */}
                     <TouchableOpacity
                       className={cn(
-                        'flex h-full flex-1 flex-row items-center justify-center gap-2 rounded-full bg-black/10 px-21/2 shadow-lg',
+                        'h-full flex-1 flex-row items-center justify-center gap-2 rounded-full bg-black/10 px-21/2 shadow-lg',
                         (status === 'streaming' || status === 'submitted') && 'opacity-50'
                       )}
                       disabled={status === 'streaming' || status === 'submitted'}
@@ -453,7 +453,7 @@ function AIPage() {
                     {!isRecording && Platform.OS === 'ios' && (
                       <TouchableOpacity
                         className={cn(
-                          'flex h-9 w-9 flex-row items-center justify-center rounded-full shadow-lg',
+                          'h-9 w-9 flex-row items-center justify-center rounded-full shadow-lg',
                           (input.trim() !== '' || status !== 'ready') && 'opacity-50'
                         )}
                         disabled={input.trim() !== '' || status !== 'ready'}
@@ -470,7 +470,7 @@ function AIPage() {
                     {/* MARK: Send */}
                     <TouchableOpacity
                       className={cn(
-                        'flex h-9 w-9 flex-row items-center justify-center rounded-full bg-primary shadow-lg',
+                        'h-9 w-9 flex-row items-center justify-center rounded-full bg-primary shadow-lg',
                         input.trim() === '' && status === 'ready' && !isRecording && 'opacity-50'
                       )}
                       disabled={input.trim() === '' && status === 'ready' && !isRecording}

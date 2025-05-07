@@ -44,19 +44,19 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
   )
 
   return (
-    <View className={cn('flex flex-col gap-21/2', className)}>
+    <View className={cn('flex-col gap-21/2', className)}>
       <View>
         {/* MARK: Type Header */}
         <TouchableWithoutFeedback onPress={() => setCollapse(!collapsed)}>
           <View
             className={cn(
-              'flex flex-row items-center gap-21/2 border border-l-[3px] bg-secondary/30 py-1 pl-21/2 pr-2',
+              'flex-row items-center gap-21/2 border border-l-[3px] bg-secondary/30 py-1 pl-21/2 pr-2',
               border
             )}
           >
             <View
               className={cn(
-                'flex h-8 w-8 flex-row items-center justify-center rounded-md border-2 text-white',
+                'h-8 w-8 flex-row items-center justify-center rounded-md border-2 text-white',
                 background,
                 border
               )}
@@ -68,7 +68,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
               />
             </View>
 
-            <View className="flex flex-1 flex-col">
+            <View className="flex-1 flex-col">
               <Text className="font-semibold capitalize md:text-2xl">{t(type + 's')}</Text>
               <Text className="text-sm font-semibold text-muted-foreground">Sorted by date</Text>
             </View>
@@ -102,7 +102,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => router.push(`/create-transaction?type=${type}`)}
-                    className="flex h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal"
+                    className="h-10 w-full flex-row items-center justify-start gap-2 px-4 font-normal"
                   >
                     <Icon
                       render={LucidePlusCircle}
@@ -122,7 +122,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
           align="top"
           duration={200}
         >
-          <View className="mt-1.5 flex flex-col gap-2">
+          <View className="mt-1.5 flex-col gap-2">
             {categoryGroups.map((catGroup, index) => (
               <TransactionCategoryGroup
                 category={catGroup.category}

@@ -41,7 +41,7 @@ function BiometricAuthFailedPage() {
       </View>
 
       <Text
-        className="flex items-end text-center font-bold tracking-wider text-neutral-800"
+        className="items-end text-center font-bold tracking-wider text-neutral-800"
         style={{ fontSize: 56 }}
       >
         DEEWAS

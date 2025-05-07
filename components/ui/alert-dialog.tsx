@@ -21,7 +21,7 @@ const AlertDialogOverlayWeb = React.forwardRef<
   return (
     <AlertDialogPrimitive.Overlay
       className={cn(
-        'absolute bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black/80 p-2',
+        'absolute bottom-0 left-0 right-0 top-0 z-50 items-center justify-center bg-black/80 p-2',
         open ? 'web:animate-in web:fade-in-0' : 'web:animate-out web:fade-out-0',
         className
       )}
@@ -40,7 +40,7 @@ const AlertDialogOverlayNative = React.forwardRef<
   return (
     <AlertDialogPrimitive.Overlay
       style={StyleSheet.absoluteFill}
-      className={cn('z-50 flex items-center justify-center bg-black/80 p-2', className)}
+      className={cn('z-50 items-center justify-center bg-black/80 p-2', className)}
       {...props}
       ref={ref}
       asChild
@@ -96,7 +96,7 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
 const AlertDialogHeader = ({ className, ...props }: ViewProps) => (
   <View
-    className={cn('flex flex-col gap-2', className)}
+    className={cn('flex-col gap-2', className)}
     {...props}
   />
 )
@@ -104,7 +104,7 @@ AlertDialogHeader.displayName = 'AlertDialogHeader'
 
 const AlertDialogFooter = ({ className, ...props }: ViewProps) => (
   <View
-    className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
+    className={cn('flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
     {...props}
   />
 )

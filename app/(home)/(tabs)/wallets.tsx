@@ -64,7 +64,7 @@ function WalletsPage() {
           </View>
 
           {isFirstRender ? (
-            <View className="mt-21/2 flex flex-col gap-2">
+            <View className="mt-21/2 flex-col gap-2">
               {Array.from({ length: 5 }).map((_, index) => (
                 <Skeleton
                   className="h-40 w-full"
@@ -94,7 +94,7 @@ function WalletsPage() {
 
       {/* MARK: Create Wallet */}
       <TouchableOpacity
-        className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+        className="absolute right-21/2 z-20 h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
         activeOpacity={0.7}
         onPress={() => router.push('/create-wallet')}
         style={{ bottom: adLoaded ? 78 : 10 }}

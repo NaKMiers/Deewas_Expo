@@ -72,9 +72,9 @@ function CountDown({ timeType, start, duration, expire, textClassName, className
   }, [duration, expire, start, timeType, timeLeft])
 
   return (
-    <View className={cn('flex shrink-0 flex-row items-center gap-1', className)}>
+    <View className={cn('shrink-0 flex-row items-center gap-1', className)}>
       {/* Hours */}
-      <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
+      <View className="flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={
             +Math.floor(timeLeft[0] / 10)
@@ -94,7 +94,7 @@ function CountDown({ timeType, start, duration, expire, textClassName, className
       <Text className={cn('font-semibold', textClassName)}>:</Text>
 
       {/* Minutes */}
-      <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
+      <View className="flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[1] / 10)}
           max={5}
@@ -110,7 +110,7 @@ function CountDown({ timeType, start, duration, expire, textClassName, className
       <Text className={cn('font-semibold', textClassName)}>:</Text>
 
       {/* Seconds */}
-      <View className="flex flex-row items-center rounded-sm pl-[2px] pr-[1px]">
+      <View className="flex-row items-center rounded-sm pl-[2px] pr-[1px]">
         <CounterItem
           value={Math.floor(timeLeft[2] / 10)}
           max={5}
@@ -169,7 +169,7 @@ function CounterItem({ max, value, size = 25, textClassName, className }: Counte
       style={{ height: size }}
     >
       <Animated.View
-        className="flex flex-col"
+        className="flex-col"
         style={{
           transform: [
             {

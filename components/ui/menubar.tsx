@@ -23,7 +23,7 @@ const Menubar = React.forwardRef<MenubarPrimitive.RootRef, MenubarPrimitive.Root
     <MenubarPrimitive.Root
       ref={ref}
       className={cn(
-        'native:h-12 flex h-10 flex-row items-center space-x-1 rounded-md border border-border bg-background p-1',
+        'native:h-12 h-10 flex-row items-center space-x-1 rounded-md border border-border bg-background p-1',
         className
       )}
       {...props}
@@ -41,7 +41,7 @@ const MenubarTrigger = React.forwardRef<MenubarPrimitive.TriggerRef, MenubarPrim
       <MenubarPrimitive.Trigger
         ref={ref}
         className={cn(
-          'native:h-10 native:px-5 native:py-0 flex flex-row items-center rounded-sm px-3 py-1.5 text-sm font-medium active:bg-accent web:cursor-default web:select-none web:outline-none web:focus:bg-accent web:focus:text-accent-foreground',
+          'native:h-10 native:px-5 native:py-0 flex-row items-center rounded-sm px-3 py-1.5 text-sm font-medium active:bg-accent web:cursor-default web:select-none web:outline-none web:focus:bg-accent web:focus:text-accent-foreground',
           value === itemValue && 'bg-accent text-accent-foreground',
           className
         )}
@@ -70,7 +70,7 @@ const MenubarSubTrigger = React.forwardRef<
       <MenubarPrimitive.SubTrigger
         ref={ref}
         className={cn(
-          'native:py-2 flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent web:focus:bg-accent',
+          'native:py-2 flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent web:focus:bg-accent',
           open && 'bg-accent',
           inset && 'pl-8',
           className
@@ -143,7 +143,7 @@ const MenubarItem = React.forwardRef<
     <MenubarPrimitive.Item
       ref={ref}
       className={cn(
-        'native:py-2 group relative flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:outline-none web:hover:bg-accent web:focus:bg-accent',
+        'native:py-2 group relative flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:outline-none web:hover:bg-accent web:focus:bg-accent',
         inset && 'pl-8',
         props.disabled && 'opacity-50 web:pointer-events-none',
         className
@@ -161,14 +161,14 @@ const MenubarCheckboxItem = React.forwardRef<
   <MenubarPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      'web:group native:py-2 relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
+      'web:group native:py-2 relative flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
       props.disabled && 'opacity-50 web:pointer-events-none',
       className
     )}
     checked={checked}
     {...props}
   >
-    <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <View className="absolute left-2 h-3.5 w-3.5 items-center justify-center">
       <MenubarPrimitive.ItemIndicator>
         <Check
           size={14}
@@ -189,13 +189,13 @@ const MenubarRadioItem = React.forwardRef<
   <MenubarPrimitive.RadioItem
     ref={ref}
     className={cn(
-      'web:group native:py-2 relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
+      'web:group native:py-2 relative flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
       props.disabled && 'opacity-50 web:pointer-events-none',
       className
     )}
     {...props}
   >
-    <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <View className="absolute left-2 h-3.5 w-3.5 items-center justify-center">
       <MenubarPrimitive.ItemIndicator>
         <View className="h-2 w-2 rounded-full bg-foreground" />
       </MenubarPrimitive.ItemIndicator>

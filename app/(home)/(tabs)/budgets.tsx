@@ -109,14 +109,14 @@ function BudgetsPage() {
                 ))}
               </Tabs>
             ) : (
-              <View className="flex flex-row items-center justify-center rounded-md border border-muted-foreground/50 px-21/2 py-7">
+              <View className="flex-row items-center justify-center rounded-md border border-muted-foreground/50 px-21/2 py-7">
                 <Text className="text-center text-lg font-semibold text-muted-foreground/50">
                   {t("You don't have any budgets yet, create one now!")}
                 </Text>
               </View>
             )
           ) : (
-            <View className="flex flex-col gap-2">
+            <View className="flex-col gap-2">
               <Skeleton className="h-12 w-full" />
               <Skeleton className="h-96 w-full" />
               {Array.from({ length: 5 }).map((_, index) => (
@@ -136,7 +136,7 @@ function BudgetsPage() {
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => router.push('/create-budget')}
-        className="absolute right-21/2 z-20 flex h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+        className="absolute right-21/2 z-20 h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
         style={{ bottom: adLoaded && !isPremium ? 78 : 10 }}
       >
         <Icon
@@ -149,7 +149,7 @@ function BudgetsPage() {
 
       {/* MARK: Banner Ads */}
       {!isPremium && (
-        <View className="absolute bottom-2.5 z-20 flex max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <View className="absolute bottom-2.5 z-20 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
           <BannerAd
             unitId={adUnitId}
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

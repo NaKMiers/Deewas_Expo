@@ -11,7 +11,7 @@ function Slide2({ onChange }: { onChange: (value: any) => void }) {
   const t = (key: string) => translate('onboardingPage.' + key)
 
   return (
-    <View className="mx-auto flex w-full max-w-[500px] flex-1 items-center justify-center">
+    <View className="mx-auto w-full max-w-[500px] flex-1 items-center justify-center">
       <View
         className="w-full overflow-hidden rounded-lg shadow-lg"
         style={{ height: 150 }}
@@ -27,7 +27,7 @@ function Slide2({ onChange }: { onChange: (value: any) => void }) {
       </Text>
 
       <ScrollView className="w-full">
-        <View className="mt-8 flex w-full flex-col gap-2 px-21/2">
+        <View className="mt-8 w-full flex-col gap-2 px-21/2">
           {[
             `${t("It's pretty complicated")} 😶‍🌫️`,
             `${t("I'm a bit stressed")} 😓`,
@@ -39,7 +39,7 @@ function Slide2({ onChange }: { onChange: (value: any) => void }) {
               onPress={() =>
                 onChange({ question: 'How do you feel about your finances?', answer: item })
               }
-              className="flex flex-row items-center justify-start rounded-lg bg-secondary px-21"
+              className="flex-row items-center justify-start rounded-lg bg-secondary px-21"
               style={{ height: 56 }}
               key={index}
             >

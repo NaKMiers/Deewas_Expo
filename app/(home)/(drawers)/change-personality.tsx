@@ -1,8 +1,8 @@
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Image from '@/components/Image'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { personalities } from '@/constants'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
@@ -14,7 +14,7 @@ import { router } from 'expo-router'
 import { LucideCheck } from 'lucide-react-native'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native'
+import { Alert, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function ChangePersonalityPage() {
@@ -107,7 +107,7 @@ function ChangePersonalityPage() {
           {t('Pick a personality for Deewas assistant?')}
         </Text>
 
-        <View className="mb-21 mt-21 flex w-full flex-row flex-wrap gap-y-2 px-21/2">
+        <View className="mb-21 mt-21 w-full flex-row flex-wrap gap-y-2 px-21/2">
           {personalities.map((item, index) => (
             <View
               className="w-1/2 flex-row px-1"
@@ -116,7 +116,7 @@ function ChangePersonalityPage() {
               <TouchableOpacity
                 activeOpacity={0.7}
                 className={cn(
-                  'relative flex w-full rounded-lg border-2 border-transparent bg-secondary p-2',
+                  'relative w-full rounded-lg border-2 border-transparent bg-secondary p-2',
                   selected?.id === item.id && 'border-primary'
                 )}
                 onPress={() => setSelected(selected?.id !== item.id ? item : selected)}
@@ -146,30 +146,14 @@ function ChangePersonalityPage() {
         </View>
 
         {/* MARK: Footer */}
-        <View className="mb-21 px-0">
-          <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-            <View>
-              <Button
-                variant="secondary"
-                className="h-10 rounded-md px-21/2"
-                onPress={router.back}
-              >
-                <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-              </Button>
-            </View>
-            <Button
-              variant="default"
-              className="h-10 min-w-[60px] rounded-md px-21/2"
-              onPress={handleChangePersonalities}
-            >
-              {saving ? (
-                <ActivityIndicator />
-              ) : (
-                <Text className="font-semibold text-secondary">{t('Save')}</Text>
-              )}
-            </Button>
-          </View>
-        </View>
+        <CommonFooter
+          className="mb-21 mt-3 px-0"
+          cancelLabel={t('Cancel')}
+          acceptLabel={t('Save')}
+          onCancel={router.back}
+          onAccept={handleChangePersonalities}
+          loading={saving}
+        />
 
         <Separator className="my-8 h-0" />
       </>

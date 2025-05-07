@@ -38,12 +38,12 @@ function HistoryFooter({
   const t = (key: string) => translate('history.' + key)
 
   return (
-    <View className={cn('flex flex-col gap-2', className)}>
-      <View className="flex flex-row items-center justify-between">
+    <View className={cn('flex-col gap-2', className)}>
+      <View className="flex-row items-center justify-between">
         {/* Previous */}
         <TouchableOpacity
           onPress={prev}
-          className={cn('flex flex-row items-center justify-center gap-2', disabledPrev && 'opacity-50')}
+          className={cn('flex-row items-center justify-center gap-2', disabledPrev && 'opacity-50')}
           disabled={disabledPrev}
         >
           <View className="aspect-square rounded-full bg-neutral-700 p-2">
@@ -60,7 +60,7 @@ function HistoryFooter({
         {/* Next */}
         <TouchableOpacity
           onPress={next}
-          className={cn('flex flex-row items-center justify-center gap-2', disabledNext && 'opacity-50')}
+          className={cn('flex-row items-center justify-center gap-2', disabledNext && 'opacity-50')}
           disabled={disabledNext}
         >
           <Text className="font-body tracking-wider text-muted-foreground">

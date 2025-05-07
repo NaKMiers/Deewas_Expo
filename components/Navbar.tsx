@@ -37,7 +37,7 @@ function Navbar({ className }: NavbarProps) {
         label: 'AI',
         href: '/ai',
         activeColor: '#f43f5e',
-        source: isDarkColorScheme ? images.roundedLogoDark : images.roundedLogoLight,
+        source: isDarkColorScheme ? images.roundedLogoLight : images.roundedLogoDark,
         width: 32,
         height: 32,
         className: 'rounded-none',
@@ -62,19 +62,17 @@ function Navbar({ className }: NavbarProps) {
 
   return (
     <View
-      className={cn('flex items-center', className)}
+      className={cn(className)}
       style={{
         maxHeight: 48,
-        paddingRight: 10.5,
-        paddingLeft: 10.5,
       }}
     >
-      <View className="flex h-full max-w-[400px] flex-row items-center rounded-full bg-primary">
+      <View className="mx-auto h-full max-w-[400px] flex-row items-center justify-center">
         {routes.map(route => (
           <TouchableOpacity
             onPress={() => router.push(route.href as any)}
             className={cn(
-              'trans-200 flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1'
+              'trans-200 flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1'
             )}
             key={route.href}
           >
@@ -82,7 +80,7 @@ function Navbar({ className }: NavbarProps) {
               <route.icon
                 size={route.size || 24}
                 color={
-                  pathname === route.href ? route.activeColor : isDarkColorScheme ? 'black' : 'white'
+                  pathname === route.href ? route.activeColor : isDarkColorScheme ? 'white' : 'black'
                 }
               />
             ) : (

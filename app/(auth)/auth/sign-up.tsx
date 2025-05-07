@@ -350,11 +350,11 @@ function SignUpPage() {
       <ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="flex h-screen flex-1 items-center justify-center"
+          className="h-screen flex-1 items-center justify-center"
           keyboardVerticalOffset={21}
         >
-          <View className="flex h-screen w-screen flex-1 items-center justify-center px-21">
-            <Text className="mb-21 flex items-end text-center text-4xl font-bold tracking-wider">
+          <View className="h-screen w-screen flex-1 items-center justify-center px-21">
+            <Text className="mb-21 items-end text-center text-4xl font-bold tracking-wider">
               DEEWAS
               <Text className="text-[40px] font-bold text-green-500">.</Text>
             </Text>
@@ -378,7 +378,7 @@ function SignUpPage() {
                 {/* MARK: Social Sign In */}
                 <View className="items-center justify-center gap-2">
                   <Button
-                    className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
+                    className="h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
                     onPress={handleGoogleSignUp}
                     disabled={loading}
                   >
@@ -392,7 +392,7 @@ function SignUpPage() {
                   </Button>
                   {Platform.OS === 'ios' && (
                     <Button
-                      className="flex h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
+                      className="h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
                       onPress={handleAppleSignIn}
                       disabled={loading}
                     >
@@ -407,13 +407,13 @@ function SignUpPage() {
                   )}
                 </View>
 
-                <View className="my-6 flex flex-row items-center gap-3">
+                <View className="my-6 flex-row items-center gap-3">
                   <View className="h-px flex-1 border border-muted-foreground/10" />
                   <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
                   <View className="h-px flex-1 border border-muted-foreground/10" />
                 </View>
 
-                <View className="flex flex-col gap-6">
+                <View className="flex-col gap-6">
                   {/* MARK: Username */}
                   <CustomInput
                     id="username"
@@ -460,7 +460,7 @@ function SignUpPage() {
                 {/* MARK: Submit Button */}
                 <TouchableOpacity
                   className={cn(
-                    'mt-6 flex h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
+                    'mt-6 h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
                     loading && 'opacity-50'
                   )}
                   onPress={handleSubmit(handleCredentialSignUp)}
@@ -477,7 +477,7 @@ function SignUpPage() {
 
               {/* MARK: Footer */}
               <View className="border-y border-muted-foreground/50 bg-neutral-100">
-                <View className="flex flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
+                <View className="flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
                   <Text className="text-black">{t('Already have an account?')}</Text>
                   <TouchableOpacity onPress={() => router.replace('/auth/sign-in')}>
                     <Text className="font-semibold text-black underline">{t('Sign In')}</Text>

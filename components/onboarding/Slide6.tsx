@@ -14,7 +14,7 @@ function Slide6({ onPress }: { onPress: () => void }) {
   const t = (key: string) => translate('onboardingPage.' + key)
 
   return (
-    <View className="mx-auto flex w-full max-w-[500px] flex-1 items-center justify-center">
+    <View className="mx-auto w-full max-w-[500px] flex-1 items-center justify-center">
       <View
         className="w-full overflow-hidden rounded-lg shadow-lg"
         style={{ height: 200 }}
@@ -35,7 +35,7 @@ function Slide6({ onPress }: { onPress: () => void }) {
       <View className="w-full flex-1">
         <TouchableOpacity
           className={cn(
-            'mb-21 mt-21 flex h-14 flex-shrink-0 flex-row items-center justify-center gap-2 rounded-full bg-primary px-8'
+            'mb-21 mt-21 h-14 flex-shrink-0 flex-row items-center justify-center gap-2 rounded-full bg-primary px-8'
           )}
           onPress={() => {
             onPress()

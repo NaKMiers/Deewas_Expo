@@ -9,7 +9,6 @@ import moment from 'moment'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert } from 'react-native'
-import Purchases from 'react-native-purchases'
 
 interface AuthContextValue {
   token: string | null
@@ -179,7 +178,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     setLoggingOut(true)
 
-    await Purchases.logOut()
     await switchBiometric(-1)
     dispatch(clearUser())
     await AsyncStorage.removeItem('token')

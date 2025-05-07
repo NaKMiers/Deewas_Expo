@@ -15,7 +15,7 @@ function Slide5({ onChange }: { onChange: (value: any) => void }) {
   const [selected, setSelected] = useState<any>(personalities[0])
 
   return (
-    <View className="flex flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center">
       <Text className="text-center text-3xl font-bold text-primary">
         {t('Pick a personality for Deewas assistant?')}
       </Text>
@@ -24,7 +24,7 @@ function Slide5({ onChange }: { onChange: (value: any) => void }) {
       </Text> */}
 
       <ScrollView className="mt-21 w-full flex-1">
-        <View className="mx-auto mt-8 flex w-full max-w-[500px] flex-row flex-wrap gap-y-2 px-21/2">
+        <View className="mx-auto mt-8 w-full max-w-[500px] flex-row flex-wrap gap-y-2 px-21/2">
           {personalities.map((item, index) => (
             <View
               className="w-1/2 flex-row px-1"
@@ -32,7 +32,7 @@ function Slide5({ onChange }: { onChange: (value: any) => void }) {
             >
               <TouchableOpacity
                 className={cn(
-                  'relative flex w-full rounded-lg border-2 border-transparent bg-secondary p-2',
+                  'relative w-full rounded-lg border-2 border-transparent bg-secondary p-2',
                   selected?.id === item.id && 'border-primary'
                 )}
                 onPress={() => setSelected(selected?.id !== item.id ? item : selected)}
@@ -67,7 +67,7 @@ function Slide5({ onChange }: { onChange: (value: any) => void }) {
       <View className="w-full px-21/2 md:px-21">
         <TouchableOpacity
           className={cn(
-            'mb-21 mt-21 flex h-14 flex-shrink-0 flex-row items-center justify-center rounded-full bg-primary px-8',
+            'mb-21 mt-21 h-14 flex-shrink-0 flex-row items-center justify-center rounded-full bg-primary px-8',
             !selected && 'opacity-50'
           )}
           onPress={() => selected && onChange([selected.id])}

@@ -186,7 +186,7 @@ function GuidePage() {
               {/* Guide Content with Tabs */}
               <View id="getting-started">
                 <Text className="mb-6 text-center text-2xl font-bold">{t('Step-by-Step Guide')}</Text>
-                <View className="mb-6 flex flex-row flex-wrap justify-center gap-2">
+                <View className="mb-6 flex-row flex-wrap justify-center gap-2">
                   {tabs.map(tab => (
                     <TouchableOpacity
                       key={tab.key}

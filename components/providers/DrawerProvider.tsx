@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import Drawer from '../Drawer'
 
 interface DrawerContextType {
   openDrawer: (_content: ReactNode, _reach?: number) => void
@@ -42,8 +41,6 @@ function DrawerProvider({ children }: { children: ReactNode }) {
         }}
       >
         {children}
-
-        <Drawer />
       </DrawerContext.Provider>
     </GestureHandlerRootView>
   )

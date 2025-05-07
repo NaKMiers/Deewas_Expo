@@ -25,8 +25,8 @@ function Header({ className }: HeaderProps) {
 
   return (
     <SafeAreaView className={cn(className)}>
-      <View className="flex w-full flex-row items-center justify-between gap-2 bg-primary px-21/2 py-2 md:px-21">
-        <View className="flex flex-1 flex-row items-center gap-2 md:gap-4">
+      <View className="w-full flex-row items-center justify-between gap-2 bg-primary px-21/2 py-2 md:px-21">
+        <View className="flex-1 flex-row items-center gap-2 md:gap-4">
           <Button
             variant="secondary"
             size="icon"
@@ -47,7 +47,7 @@ function Header({ className }: HeaderProps) {
           </TouchableOpacity>
         </View>
 
-        <View className="flex flex-row items-center gap-2">
+        <View className="flex-row items-center gap-2">
           {!isPremium && (
             <View className="shadow-md">
               <ImageBackground
@@ -55,7 +55,7 @@ function Header({ className }: HeaderProps) {
                 className="overflow-hidden rounded-md"
               >
                 <TouchableOpacity
-                  className="flex h-10 flex-row items-center px-4"
+                  className="h-10 flex-row items-center px-4"
                   activeOpacity={0.9}
                   onPress={() => router.push('/premium')}
                 >

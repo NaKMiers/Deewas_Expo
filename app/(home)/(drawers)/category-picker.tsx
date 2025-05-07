@@ -1,3 +1,4 @@
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
@@ -96,7 +97,7 @@ function CategoryPicker() {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => router.push(`/create-category?type=${type}`)}
-            className="mb-0.5 flex h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4"
+            className="mb-0.5 h-12 w-full flex-row items-center justify-start gap-2 rounded-none border-b border-secondary px-4"
           >
             <Icon
               render={LucidePlusSquare}
@@ -116,7 +117,7 @@ function CategoryPicker() {
               .map(category => (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  className="flex h-10 flex-1 flex-row items-center justify-between gap-2 py-2"
+                  className="h-10 flex-1 flex-row items-center justify-between gap-2 py-2"
                   onPress={() => {
                     dispatch(setSelectedCategory(category))
                     router.back()
@@ -129,7 +130,7 @@ function CategoryPicker() {
                     <Text className="text-base font-semibold">{category.name}</Text>
                   </View>
 
-                  <View className="flex flex-row items-center justify-end gap-1">
+                  <View className="flex-row items-center justify-end gap-1">
                     {/* MARK: Update Category */}
                     <TouchableOpacity
                       activeOpacity={0.7}
@@ -180,7 +181,13 @@ function CategoryPicker() {
           </ScrollView>
         </View>
 
-        <SelectSeparator className="my-8" />
+        <CommonFooter
+          className="mb-21 mt-6 px-0"
+          cancelLabel={t('Cancel')}
+          onCancel={router.back}
+        />
+
+        <SelectSeparator className="my-8 h-0" />
       </>
     </DrawerWrapper>
   )

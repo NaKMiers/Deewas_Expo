@@ -11,10 +11,11 @@ interface InputProps {
   type?: string
   value: string
   label: string
-  icon?: ReactNode
   placeholder?: string
+  icon?: ReactNode
 
   onChange: (id: string, value: string) => void
+  onFocus?: () => void
   disabled?: boolean
   required?: boolean
   errors: FieldErrors
@@ -36,6 +37,7 @@ function CustomInput({
   placeholder,
 
   onChange,
+  onFocus,
   disabled,
   errors,
 
@@ -92,6 +94,7 @@ function CustomInput({
           secureTextEntry={type === 'password' && !showPW}
           placeholder={placeholder}
           onChangeText={text => onChange(id, text)}
+          onFocus={onFocus}
         />
 
         {type === 'password' && (

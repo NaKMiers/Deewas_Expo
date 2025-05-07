@@ -10,6 +10,7 @@ import {
   LucideTrendingUp,
   LucideWalletCards,
 } from 'lucide-react-native'
+import numeral from 'numeral'
 
 export const shortName = (user: any, defaultValue: string = '') => {
   if (user?.name) return user.name
@@ -28,6 +29,7 @@ export const formatCurrency = (currency: string, amount: number): string => {
     style: 'currency',
     currency,
     maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
     currencyDisplay: 'symbol',
   }).format(amount)
 
@@ -46,8 +48,8 @@ export const formatPrice = (
   return Intl.NumberFormat(locale, { style: 'currency', currency: currencyCode }).format(price)
 }
 
-export function formatCompactNumber(num: number, locale: string = 'en'): string {
-  return new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' }).format(num)
+export function formatCompactNumber(num: number): string {
+  return numeral(num).format('0.[0]a')
 }
 
 export const getLocale = (locale: string): locales.Locale => {

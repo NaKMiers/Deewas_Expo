@@ -1,8 +1,8 @@
 import CustomInput from '@/components/CustomInput'
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
@@ -24,7 +24,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function UpdateBudgetPage() {
@@ -216,7 +216,7 @@ function UpdateBudgetPage() {
       </View>
 
       {/* MARK: Total */}
-      <View className="mt-6 flex flex-col gap-6">
+      <View className="mt-6 flex-col gap-6">
         {currency && (
           <CustomInput
             id="total"
@@ -224,8 +224,8 @@ function UpdateBudgetPage() {
             value={form.total}
             label={t('Total')}
             placeholder="..."
-            clearErrors={clearErrors}
             onChange={setValue}
+            onFocus={() => clearErrors('total')}
             icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
             errors={errors}
             containerClassName="bg-white"
@@ -234,17 +234,20 @@ function UpdateBudgetPage() {
         )}
 
         {/* MARK: Category */}
-        <View className="flex flex-1 flex-col">
+        <View className="flex-1 flex-col">
           <Text className={cn('mb-1.5 font-semibold', errors.categoryId?.message && 'text-rose-500')}>
             {t('Category')}
           </Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-            onPress={() => router.push('/category-picker?type=expense')}
+            className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => {
+              router.push('/category-picker?type=expense')
+              clearErrors('categoryId')
+            }}
           >
             {selectedCategory ? (
-              <View className="flex flex-row items-center gap-2">
+              <View className="flex-row items-center gap-2">
                 <Text className="text-base text-black">{selectedCategory.icon}</Text>
                 <Text className="text-base font-semibold text-black">{selectedCategory.name}</Text>
               </View>
@@ -265,7 +268,7 @@ function UpdateBudgetPage() {
         </View>
 
         {/* MARK: Date Range */}
-        <View className="flex flex-1 flex-col">
+        <View className="flex-1 flex-col">
           <Text
             className={cn(
               'mb-1.5 font-semibold',
@@ -277,9 +280,13 @@ function UpdateBudgetPage() {
           <TouchableOpacity
             activeOpacity={0.7}
             className={cn(
-              'flex h-12 flex-row items-center justify-center gap-2 rounded-md border border-primary px-3'
+              'h-12 flex-row items-center justify-center gap-2 rounded-md border border-primary px-3'
             )}
-            onPress={() => router.push('/date-range-picker?isFuture=true')}
+            onPress={() => {
+              router.push('/date-range-picker?isFuture=true')
+              clearErrors('begin')
+              clearErrors('end')
+            }}
           >
             <Text className="font-semibold">
               {capitalize(
@@ -301,31 +308,14 @@ function UpdateBudgetPage() {
         </View>
       </View>
 
-      {/* MARK:  Footer */}
-      <View className="mb-21 mt-6 px-0">
-        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-          <View>
-            <Button
-              variant="secondary"
-              className="h-10 rounded-md px-21/2"
-              onPress={router.back}
-            >
-              <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-            </Button>
-          </View>
-          <Button
-            variant="default"
-            className="h-10 min-w-[60px] rounded-md px-21/2"
-            onPress={handleSubmit(handleUpdateBudget)}
-          >
-            {saving ? (
-              <ActivityIndicator />
-            ) : (
-              <Text className="font-semibold text-secondary">{t('Save')}</Text>
-            )}
-          </Button>
-        </View>
-      </View>
+      <CommonFooter
+        className="mb-21 mt-6 px-0"
+        cancelLabel={t('Cancel')}
+        acceptLabel={t('Save')}
+        onCancel={router.back}
+        onAccept={handleSubmit(handleUpdateBudget)}
+        loading={saving}
+      />
 
       <Separator className="my-8 h-0" />
     </DrawerWrapper>

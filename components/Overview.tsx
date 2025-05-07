@@ -42,7 +42,7 @@ function Overview({ className }: OverviewProps) {
         className={cn('overflow-hidden rounded-xl border border-primary/10', className)}
       >
         <TouchableWithoutFeedback onPress={() => setCollapsed(!collapsed)}>
-          <View className="flex flex-row justify-between p-21/2">
+          <View className="flex-row justify-between p-21/2">
             <View className="flex-1">
               <OverviewItem
                 title={t('Total Balance')}
@@ -58,7 +58,7 @@ function Overview({ className }: OverviewProps) {
                 easing="linear"
                 duration={50}
               >
-                <View className="flex flex-col">
+                <View className="flex-col">
                   <OverviewItem
                     title={t('Income')}
                     value={totalIncome}
@@ -87,7 +87,7 @@ function Overview({ className }: OverviewProps) {
               </Collapsible>
             </View>
 
-            <View className="flex h-12 flex-row items-center justify-center px-21/2">
+            <View className="h-12 flex-row items-center justify-center px-21/2">
               <Icon
                 render={LucideChevronDown}
                 size={22}
@@ -122,8 +122,8 @@ function OverviewItem({ title, type, value, isEye, isShow, toggle, className }: 
 
   return (
     currency && (
-      <View className={cn('flex w-full flex-col px-21/2 py-1', className)}>
-        <View className="flex flex-row items-center gap-2">
+      <View className={cn('w-full flex-col px-21/2 py-1', className)}>
+        <View className="flex-row items-center gap-2">
           <Icon
             render={renderIcon}
             size={24}
@@ -133,7 +133,7 @@ function OverviewItem({ title, type, value, isEye, isShow, toggle, className }: 
           {isShow ? (
             <Text className="text-xl font-semibold">{formatCurrency(currency, value)}</Text>
           ) : (
-            <View className="flex flex-row items-center">
+            <View className="flex-row items-center">
               {Array.from({ length: 6 }).map((_, i) => (
                 <Icon
                   render={LucideAsterisk}

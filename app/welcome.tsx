@@ -33,7 +33,7 @@ function WelcomePage() {
       />
       <SafeAreaView className="flex-1">
         {/* Language */}
-        <View className="flex flex-row items-center justify-end px-21/2 py-21/2 md:px-21">
+        <View className="flex-row items-center justify-end px-21/2 py-21/2 md:px-21">
           <Select
             value={language}
             onValueChange={option => {
@@ -62,7 +62,7 @@ function WelcomePage() {
 
         {/* Main */}
         <View className="mx-auto max-w-[500px] flex-1">
-          <Text className="flex items-end text-center text-4xl font-bold tracking-wider">
+          <Text className="items-end text-center text-4xl font-bold tracking-wider">
             DEEWAS
             <Text className="text-[40px] font-bold text-green-500">.</Text>
           </Text>
@@ -89,13 +89,13 @@ function WelcomePage() {
 
             <View className="my-21 gap-21/2">
               <TouchableOpacity
-                className="flex items-center justify-center rounded-full bg-secondary px-21 py-4"
+                className="items-center justify-center rounded-full bg-secondary px-21 py-4"
                 onPress={() => router.push('/onboarding')}
               >
                 <Text className="text-lg font-semibold">{t('Try Deewas for Free')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                className="flex items-center justify-center rounded-full bg-secondary/20 px-21 py-4"
+                className="items-center justify-center rounded-full bg-secondary/20 px-21 py-4"
                 onPress={() => router.push('/auth/sign-in')}
               >
                 <Text className="text-lg font-semibold text-secondary/80">

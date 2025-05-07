@@ -40,7 +40,7 @@ const ContextMenuSubTrigger = React.forwardRef<
       <ContextMenuPrimitive.SubTrigger
         ref={ref}
         className={cn(
-          'native:py-2 flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent web:focus:bg-accent',
+          'native:py-2 flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent web:focus:bg-accent',
           open && 'bg-accent',
           inset && 'pl-8',
           className
@@ -130,7 +130,7 @@ const ContextMenuItem = React.forwardRef<
     <ContextMenuPrimitive.Item
       ref={ref}
       className={cn(
-        'native:py-2 group relative flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:outline-none web:hover:bg-accent web:focus:bg-accent',
+        'native:py-2 group relative flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:outline-none web:hover:bg-accent web:focus:bg-accent',
         inset && 'pl-8',
         props.disabled && 'opacity-50 web:pointer-events-none',
         className
@@ -148,13 +148,13 @@ const ContextMenuCheckboxItem = React.forwardRef<
   <ContextMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      'web:group native:py-2 relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
+      'web:group native:py-2 relative flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
       props.disabled && 'opacity-50 web:pointer-events-none',
       className
     )}
     {...props}
   >
-    <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <View className="absolute left-2 h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
         <Check
           size={14}
@@ -175,13 +175,13 @@ const ContextMenuRadioItem = React.forwardRef<
   <ContextMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      'web:group native:py-2 relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
+      'web:group native:py-2 relative flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent',
       props.disabled && 'opacity-50 web:pointer-events-none',
       className
     )}
     {...props}
   >
-    <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <View className="absolute left-2 h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
         <View className="h-2 w-2 rounded-full bg-foreground" />
       </ContextMenuPrimitive.ItemIndicator>

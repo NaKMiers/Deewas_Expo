@@ -59,7 +59,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="flex flex-row items-center gap-2 bg-primary-foreground py-0"
+          className="flex-row items-center gap-2 bg-primary-foreground py-0"
         >
           <Icon
             render={LucideCalendarFold}
@@ -83,7 +83,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
           intensity={80}
         >
           {/* MARK: Month */}
-          <View className="flex flex-col gap-2">
+          <View className="flex-col gap-2">
             <Text className="text-sm font-medium">{t('Month')}</Text>
             <Select
               value={{
@@ -118,7 +118,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
           </View>
 
           {/* MARK: Year */}
-          <View className="flex flex-col gap-2">
+          <View className="flex-col gap-2">
             <Text className="font-medium">{t('Year')}</Text>
             <Input
               keyboardType="numeric"

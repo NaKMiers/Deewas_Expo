@@ -65,7 +65,7 @@ function HelpAndSupportPage() {
               {/* Quick Links */}
               <View className="mb-12">
                 <Text className="mb-6 text-center text-2xl font-bold">{t('Quick Links')}</Text>
-                <View className="flex flex-wrap gap-6">
+                <View className="flex-wrap gap-6">
                   <Card className="w-full">
                     <CardHeader>
                       <View className="flex-row items-center gap-2">

@@ -19,7 +19,7 @@ function TermsAndConditionsPage() {
         {/* Header */}
         <View className="rounded-xl bg-white px-21/2 py-21/2 md:px-21">
           <View className="flex-row items-center justify-between">
-            <Text className="flex items-end pl-1 text-center text-3xl font-bold tracking-wider">
+            <Text className="items-end pl-1 text-center text-3xl font-bold tracking-wider">
               DEEWAS
               <Text className="text-[40px] font-bold text-green-500">.</Text>
             </Text>

@@ -99,7 +99,7 @@ function AboutPage() {
               {/* Features */}
               <View className="mb-12">
                 <Text className="mb-6 text-center text-2xl font-bold">{t('Key Features')}</Text>
-                <View className="flex flex-wrap gap-6">
+                <View className="flex-wrap gap-6">
                   {features.map((feature, index) => (
                     <Card
                       className="w-full overflow-hidden bg-secondary"

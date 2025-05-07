@@ -110,10 +110,10 @@ function TxItem({ transaction, className }: ITxProps) {
   const { color, hex } = checkTranType(transaction.type)
 
   return (
-    <View className={cn('flex w-full flex-row items-center justify-between gap-2 pl-21/2', className)}>
+    <View className={cn('w-full flex-row items-center justify-between gap-2 pl-21/2', className)}>
       <Text className="line-clamp-1 max-w-[200px] text-ellipsis font-semibold">{transaction.name}</Text>
 
-      <View className="flex flex-row items-center gap-1">
+      <View className="flex-row items-center gap-1">
         {transaction.exclude && (
           <Icon
             render={LucideMinusCircle}
@@ -124,16 +124,14 @@ function TxItem({ transaction, className }: ITxProps) {
         )}
 
         {currency && (
-          <View className="flex flex-col items-end">
+          <View className="flex-col items-end">
             <Text className="text-muted-foreground">
               {formatDate(
                 moment(transaction.date).toDate(),
                 currencies.find(c => c.value === currency)?.locale
               )}
             </Text>
-            <View
-              className={cn('flex flex-row items-center gap-1', checkTranType(transaction.type).color)}
-            >
+            <View className={cn('flex-row items-center gap-1', checkTranType(transaction.type).color)}>
               {transaction.type === 'expense' ? (
                 <Icon
                   render={LucideChevronDown}
@@ -182,7 +180,7 @@ function TxItem({ transaction, className }: ITxProps) {
                   trigger={
                     <Button
                       variant="ghost"
-                      className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                      className="h-8 w-full flex-row items-center justify-start gap-2 px-2"
                     >
                       <Icon
                         render={LucideLayers2}
@@ -201,7 +199,7 @@ function TxItem({ transaction, className }: ITxProps) {
                     dispatch(setTransactionToEdit(transaction))
                     router.push('/update-transaction')
                   }}
-                  className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                  className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                 >
                   <Icon
                     render={LucidePencil}
@@ -220,7 +218,7 @@ function TxItem({ transaction, className }: ITxProps) {
                   trigger={
                     <Button
                       variant="ghost"
-                      className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                      className="h-8 w-full flex-row items-center justify-start gap-2 px-2"
                     >
                       <Icon
                         render={LucideTrash}

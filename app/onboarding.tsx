@@ -129,9 +129,9 @@ function OnboardingPage() {
     <SafeAreaView className="flex-1 bg-primary-foreground">
       <View className="flex-1 px-21/2 md:px-21">
         {/* MARK: Progress */}
-        <View className="mx-auto flex max-w-[500px] flex-row items-center justify-center gap-21 border-b border-secondary px-21/2 pb-21/2">
+        <View className="mx-auto max-w-[500px] flex-row items-center justify-center gap-21 border-b border-secondary px-21/2 pb-21/2">
           <TouchableOpacity
-            className="flex items-center justify-center rounded-full p-1"
+            className="items-center justify-center rounded-full p-1"
             style={{ marginLeft: -21 / 2 }}
             onPress={prevSlide}
           >
@@ -152,7 +152,7 @@ function OnboardingPage() {
             />
           </View>
           <TouchableOpacity
-            className="flex items-center justify-center rounded-full p-1"
+            className="items-center justify-center rounded-full p-1"
             onPress={() => router.replace('/onboarding')}
           >
             <Icon

@@ -1,10 +1,10 @@
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
@@ -15,7 +15,7 @@ import { LucideCircleOff } from 'lucide-react-native'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ImageBackground, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function CreateWalletPage() {
@@ -127,15 +127,15 @@ function CreateWalletPage() {
           </Text>
         </View>
 
-        <View className="mt-6 flex flex-col gap-6">
+        <View className="mt-6 flex-col gap-6">
           {/* MARK: Name */}
           <CustomInput
             id="name"
             label={t('Name')}
             value={form.name}
             placeholder="..."
-            clearErrors={clearErrors}
             onChange={setValue}
+            onFocus={() => clearErrors('name')}
             errors={errors}
             containerClassName="bg-white"
             inputClassName="text-black"
@@ -153,7 +153,7 @@ function CreateWalletPage() {
             >
               <ImageBackground
                 source={images.preBgVFlip}
-                className="mt-1.5 flex h-[150px] items-center justify-center overflow-hidden rounded-lg border border-primary p-21"
+                className="mt-1.5 h-[150px] items-center justify-center overflow-hidden rounded-lg border border-primary p-21"
               >
                 {form.icon ? (
                   <Text style={{ fontSize: 60 }}>{form.icon}</Text>
@@ -175,30 +175,14 @@ function CreateWalletPage() {
         </View>
 
         {/* MARK: Footer */}
-        <View className="mb-21 mt-6 px-0">
-          <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-            <View>
-              <Button
-                variant="secondary"
-                className="h-10 rounded-md px-21/2"
-                onPress={router.back}
-              >
-                <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-              </Button>
-            </View>
-            <Button
-              variant="default"
-              className="h-10 min-w-[60px] rounded-md px-21/2"
-              onPress={handleSubmit(handleCreateWallet)}
-            >
-              {saving ? (
-                <ActivityIndicator />
-              ) : (
-                <Text className="font-semibold text-secondary">{t('Save')}</Text>
-              )}
-            </Button>
-          </View>
-        </View>
+        <CommonFooter
+          className="mb-21 mt-6 px-0"
+          cancelLabel={t('Cancel')}
+          acceptLabel={t('Save')}
+          onCancel={router.back}
+          onAccept={handleSubmit(handleCreateWallet)}
+          loading={saving}
+        />
 
         <Separator className="my-8 h-0" />
       </View>

@@ -1,9 +1,9 @@
 import CustomInput from '@/components/CustomInput'
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
@@ -24,7 +24,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function CreateBudgetPage() {
@@ -78,8 +78,8 @@ function CreateBudgetPage() {
       if (dateRange.to) setValue('end', dateRange.to)
     } else {
       didSetInitialDate.current = true
-      if (initBegin) dispatch(setFromDate(initBegin))
-      if (initBegin) dispatch(setToDate(initEnd))
+      if (initBegin) dispatch(setFromDate(initBegin as string))
+      if (initBegin) dispatch(setToDate(initEnd as string))
     }
   }, [dispatch, setValue, selectedCategory, dateRange, initBegin, initEnd])
 
@@ -211,8 +211,8 @@ function CreateBudgetPage() {
             value={form.total}
             label={t('Total')}
             placeholder="..."
-            clearErrors={clearErrors}
             onChange={setValue}
+            onFocus={() => clearErrors('total')}
             icon={<Text className="text-lg font-semibold text-black">{formatSymbol(currency)}</Text>}
             errors={errors}
             containerClassName="bg-white"
@@ -227,11 +227,14 @@ function CreateBudgetPage() {
           </Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
-            onPress={() => router.push('/category-picker?type=expense')}
+            className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
+            onPress={() => {
+              router.push('/category-picker?type=expense')
+              clearErrors('categoryId')
+            }}
           >
             {selectedCategory ? (
-              <View className="flex flex-row items-center gap-2">
+              <View className="flex-row items-center gap-2">
                 <Text className="text-base text-black">{selectedCategory.icon}</Text>
                 <Text className="text-base font-semibold text-black">{selectedCategory.name}</Text>
               </View>
@@ -264,7 +267,7 @@ function CreateBudgetPage() {
           <TouchableOpacity
             activeOpacity={0.7}
             className={cn(
-              'flex h-12 flex-row items-center justify-center gap-2 rounded-md border border-primary px-3'
+              'h-12 flex-row items-center justify-center gap-2 rounded-md border border-primary px-3'
             )}
             onPress={() => router.push('/date-range-picker?isFuture=true')}
           >
@@ -289,30 +292,14 @@ function CreateBudgetPage() {
       </View>
 
       {/* MARK: Drawer Footer */}
-      <View className="mb-21 mt-6 px-0">
-        <View className="mt-3 flex-row items-center justify-end gap-21/2">
-          <View>
-            <Button
-              variant="secondary"
-              className="h-10 rounded-md px-21/2"
-              onPress={router.back}
-            >
-              <Text className="font-semibold text-primary">{t('Cancel')}</Text>
-            </Button>
-          </View>
-          <Button
-            variant="default"
-            className="h-10 min-w-[60px] rounded-md px-21/2"
-            onPress={handleSubmit(handleCreateBudget)}
-          >
-            {saving ? (
-              <ActivityIndicator />
-            ) : (
-              <Text className="font-semibold text-secondary">{t('Save')}</Text>
-            )}
-          </Button>
-        </View>
-      </View>
+      <CommonFooter
+        className="mb-21 mt-6 px-0"
+        cancelLabel={t('Cancel')}
+        acceptLabel={t('Save')}
+        onCancel={router.back}
+        onAccept={handleSubmit(handleCreateBudget)}
+        loading={saving}
+      />
 
       <Separator className="my-8 h-0" />
     </DrawerWrapper>

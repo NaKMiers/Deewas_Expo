@@ -69,7 +69,7 @@ function PremiumLimitModal({
           <Countdown
             timeType="loop"
             duration={7 * 24 * 60} // 7 days
-            start={moment().startOf('week').toDate()}
+            start={moment().startOf('week').toISOString()}
             textClassName="text-white"
           />
 
@@ -84,7 +84,7 @@ function PremiumLimitModal({
 
         <Separator className="h-px bg-slate-300/50" />
 
-        <AlertDialogFooter className="flex flex-row items-center justify-end gap-2">
+        <AlertDialogFooter className="flex-row items-center justify-end gap-2">
           <AlertDialogCancel className="mt-0 border-0 px-2 text-sm">
             <Text>{cancelLabel}</Text>
           </AlertDialogCancel>

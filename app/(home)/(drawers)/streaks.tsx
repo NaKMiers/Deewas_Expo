@@ -128,7 +128,7 @@ function StreaksPage() {
 
         {/* Streak Count */}
         <BlurView
-          className="flex aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500"
+          className="aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500"
           style={{ marginTop: -50 }}
         >
           {!loading ? (

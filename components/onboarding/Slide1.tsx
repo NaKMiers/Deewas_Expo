@@ -9,13 +9,13 @@ function Slide1({ onChange }: { onChange: (value: any) => void }) {
   const t = (key: string) => translate('onboardingPage.' + key)
 
   return (
-    <View className="flex flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center">
       <Text className="text-center text-3xl font-bold text-primary">
         {t('How did would you here about us?')}
       </Text>
 
       <ScrollView className="w-full">
-        <View className="mx-auto mt-8 flex w-full max-w-[500px] flex-col gap-2 px-21/2">
+        <View className="mx-auto mt-8 w-full max-w-[500px] flex-col gap-2 px-21/2">
           {[
             'Youtube',
             'TikTok',
@@ -27,7 +27,7 @@ function Slide1({ onChange }: { onChange: (value: any) => void }) {
             'Podcast',
           ].map((item, index) => (
             <TouchableOpacity
-              className="flex flex-row items-center justify-start rounded-lg border border-primary/10 bg-secondary px-21"
+              className="flex-row items-center justify-start rounded-lg border border-primary/10 bg-secondary px-21"
               onPress={() => onChange({ question: 'How did you hear about us?', answer: item })}
               style={{ height: 56 }}
               key={index}

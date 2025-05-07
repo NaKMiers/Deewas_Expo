@@ -76,7 +76,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of wallets
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -125,7 +125,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -187,7 +187,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the source and destination wallets
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -234,7 +234,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of wallets
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -272,7 +272,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -323,7 +323,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of wallets
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -362,7 +362,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -415,7 +415,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of transactions
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -454,7 +454,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex flex-col">
+          <View className="flex-col">
             {message && (
               <BasicMessage
                 content={message}
@@ -505,13 +505,13 @@ function BasicMessage({ role, content }: MessageProps) {
   return (
     <View
       className={cn(
-        'flex flex-1 flex-row items-center gap-21/2',
+        'flex-1 flex-row items-center gap-21/2',
         role === 'assistant' ? 'flex-row' : 'flex-row-reverse'
       )}
     >
       <View
         className={cn(
-          'flex flex-col gap-1 py-1.5',
+          'flex-col gap-1 py-1.5',
           role === 'assistant'
             ? 'flex-1'
             : 'items-end rounded-[26px] rounded-br-xl border border-primary/5 bg-secondary px-4'

@@ -16,7 +16,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
   const [search, setSearch] = useState<string>('')
 
   return (
-    <View className="mx-auto flex w-full max-w-[500px] flex-1 items-center justify-center">
+    <View className="mx-auto w-full max-w-[500px] flex-1 items-center justify-center">
       <Text className="mt-21 text-center text-3xl font-bold text-primary">
         💸 {t('Which currency do you usually use?')}
       </Text>
@@ -24,7 +24,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
       <View className="mt-6 w-full flex-1">
         <View>
           <TouchableOpacity
-            className="flex h-12 w-full flex-row items-center gap-2 rounded-lg bg-primary px-3 font-semibold"
+            className="h-12 w-full flex-row items-center gap-2 rounded-lg bg-primary px-3 font-semibold"
             onPress={() => setOpen(!open)}
           >
             <Text className="font-semibold capitalize text-secondary">{selected.label}</Text>
@@ -32,7 +32,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
         </View>
 
         <ScrollView>
-          <View className="mt-21/2 flex flex-col gap-0.5 overflow-hidden rounded-lg">
+          <View className="mt-21/2 flex-col gap-0.5 overflow-hidden rounded-lg">
             <View className="overflow-hidden rounded-lg border border-border">
               <Input
                 value={search}
@@ -49,7 +49,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
               .map(currency => (
                 <TouchableOpacity
                   className={cn(
-                    'flex flex-row items-center justify-between rounded-lg bg-secondary px-21/2 py-2.5'
+                    'flex-row items-center justify-between rounded-lg bg-secondary px-21/2 py-2.5'
                   )}
                   key={currency.value}
                   onPress={() => setSelected(currency)}
@@ -72,7 +72,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
       <View className="w-full px-21/2 md:px-21">
         <TouchableOpacity
           className={cn(
-            'mb-21 mt-21 flex h-14 flex-shrink-0 flex-row items-center justify-center rounded-full bg-primary px-8',
+            'mb-21 mt-21 h-14 flex-shrink-0 flex-row items-center justify-center rounded-full bg-primary px-8',
             !selected.value && 'opacity-50'
           )}
           onPress={() => onChange(selected.value)}

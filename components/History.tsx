@@ -241,7 +241,7 @@ function History({ className }: HistoryProps) {
   return (
     <View className={cn(className)}>
       {/* MARK: Top */}
-      <View className="flex flex-row items-center justify-between">
+      <View className="flex-row items-center justify-between">
         <Text className="pl-1 text-xl font-bold">{t('History')}</Text>
       </View>
 
@@ -272,8 +272,8 @@ function History({ className }: HistoryProps) {
           />
 
           {/* MARK: Time Range */}
-          <View className="my-2 flex flex-row gap-21/2">
-            <View className="flex flex-row items-center gap-21/2">
+          <View className="my-2 flex-row gap-21/2">
+            <View className="flex-row items-center gap-21/2">
               <Text className="text-lg font-semibold capitalize">
                 {format(
                   new Date(dateRange.from),
@@ -350,7 +350,7 @@ function History({ className }: HistoryProps) {
               className="mt-21/2"
             />
           ) : (
-            <Skeleton className="h-[242px] w-full" />
+            <Skeleton className="mt-21/2 h-[282px] w-full" />
           )}
 
           {/* MARK: Transaction Type */}

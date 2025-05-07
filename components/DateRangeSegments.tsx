@@ -40,7 +40,7 @@ function DateRangeSegments({
 
   return (
     <View className={cn('flex-1')}>
-      <View className="flex flex-row items-center justify-between gap-21/2">
+      <View className="flex-row items-center justify-between gap-21/2">
         <SegmentedControl
           values={segments.map(s => capitalize(t(s)))}
           style={{ width: '100%', height: 34, flex: 1 }}
@@ -62,7 +62,7 @@ function DateRangeSegments({
         </TouchableOpacity>
       </View>
 
-      <View className="mt-21/2 flex flex-row items-center justify-between gap-2">
+      <View className="mt-21/2 flex-row items-center justify-between gap-2">
         {/* Previous */}
         <TouchableOpacity
           onPress={prev}
@@ -75,7 +75,7 @@ function DateRangeSegments({
           />
         </TouchableOpacity>
 
-        <View className="flex flex-row items-center gap-21/2">
+        <View className="flex-row items-center gap-21/2">
           <Text className="text-lg font-semibold capitalize">
             {format(
               new Date(dateRange.from),

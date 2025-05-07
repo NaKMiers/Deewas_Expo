@@ -123,11 +123,11 @@ function ForgotPasswordPage() {
       <ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="flex h-screen flex-1 items-center justify-center"
+          className="h-screen flex-1 items-center justify-center"
           keyboardVerticalOffset={21}
         >
-          <View className="flex h-screen w-screen flex-1 items-center justify-center px-21">
-            <Text className="mb-21 flex items-end text-center text-4xl font-bold tracking-wider">
+          <View className="h-screen w-screen flex-1 items-center justify-center px-21">
+            <Text className="mb-21 items-end text-center text-4xl font-bold tracking-wider">
               DEEWAS
               <Text className="text-[40px] font-bold text-green-500">.</Text>
             </Text>
@@ -148,7 +148,7 @@ function ForgotPasswordPage() {
 
                 <Separator className="my-4 h-0" />
 
-                <View className="flex flex-col gap-6">
+                <View className="flex-col gap-6">
                   {/* MARK: Username */}
                   <CustomInput
                     id="email"
@@ -166,7 +166,7 @@ function ForgotPasswordPage() {
                 {/* MARK: Submit Button */}
                 <TouchableOpacity
                   className={cn(
-                    'mt-6 flex h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
+                    'mt-6 h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
                     loading && 'opacity-50'
                   )}
                   onPress={handleSubmit(onSubmit)}
@@ -181,7 +181,7 @@ function ForgotPasswordPage() {
                 </TouchableOpacity>
               </View>
 
-              <View className="mb-8 flex flex-row justify-center text-center">
+              <View className="mb-8 flex-row justify-center text-center">
                 <TouchableOpacity onPress={() => router.replace('/auth/sign-in')}>
                   <Text className="text-muted-foreground underline">{t('Back to Sign In')}</Text>
                 </TouchableOpacity>

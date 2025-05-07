@@ -44,9 +44,9 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
       {/* Budget Overview */}
       <ImageBackground
         source={images.preBgVFlip}
-        className="flex flex-col items-center justify-center gap-21 overflow-hidden rounded-b-3xl rounded-t-md p-21 px-21/2 py-21 text-center shadow-lg md:px-21"
+        className="flex-col items-center justify-center gap-21 overflow-hidden rounded-b-3xl rounded-t-md p-21 px-21/2 py-21 text-center shadow-lg md:px-21"
       >
-        <View className="flex flex-col items-center gap-21/2">
+        <View className="flex-col items-center gap-21/2">
           <Text className="text-center font-semibold text-neutral-800">{t('Amount you can spend')}</Text>
           {currency && (
             <Text className="text-4xl font-semibold text-green-500">
@@ -67,25 +67,25 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
 
         {currency && (
           <>
-            <View className="flex w-full flex-row items-start justify-center gap-21">
-              <View className="flex flex-1 flex-col items-center gap-1">
+            <View className="w-full flex-row items-start justify-center gap-21">
+              <View className="flex-1 flex-col items-center gap-1">
                 <Text className="font-semibold text-violet-500">{formatCurrency(currency, total)}</Text>
                 <Text className="font-semibold tracking-tight text-black">{t('Total budgets')}</Text>
               </View>
-              <View className="flex flex-1 flex-col items-center gap-1">
+              <View className="flex-1 flex-col items-center gap-1">
                 <Text className="font-semibold text-violet-500">{formatCurrency(currency, amount)}</Text>
                 <Text className="font-semibold tracking-tight text-black">{t('Total spent')}</Text>
               </View>
             </View>
-            <View className="flex w-full flex-row items-start justify-center gap-21">
-              <View className="flex flex-1 flex-col items-center gap-1">
+            <View className="w-full flex-row items-start justify-center gap-21">
+              <View className="flex-1 flex-col items-center gap-1">
                 <Text className="font-semibold text-violet-500">
                   {daysLeft} {t('day')}
                   {daysLeft !== 1 && locale === 'en' && 's'}
                 </Text>
                 <Text className="font-semibold tracking-tight text-black">{t('End of month')}</Text>
               </View>
-              <View className="flex flex-1 flex-col items-center gap-1">
+              <View className="flex-1 flex-col items-center gap-1">
                 <Text className="font-semibold text-violet-500">
                   {total - amount > 0
                     ? formatCurrency(currency, dailyLimit) + '/' + t('day')
@@ -101,14 +101,14 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => router.push('/create-budget')}
-          className="flex h-12 flex-row items-center justify-center rounded-full bg-primary px-21"
+          className="h-12 flex-row items-center justify-center rounded-full bg-primary px-21"
         >
           <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
         </TouchableOpacity>
       </ImageBackground>
 
       {/* Budget List */}
-      <View className="mt-21/2 flex flex-col gap-2">
+      <View className="mt-21/2 flex-col gap-2">
         {budgets.map((budget: IFullBudget) => (
           <BudgetCard
             begin={begin}

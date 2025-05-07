@@ -30,7 +30,7 @@ const SelectTrigger = React.forwardRef<SelectPrimitive.TriggerRef, SelectPrimiti
         <SelectPrimitive.Trigger
           ref={ref}
           className={cn(
-            'native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
+            'native:h-12 h-10 flex-row items-center justify-between rounded-md border border-input px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1',
             props.disabled && 'opacity-50 web:cursor-not-allowed',
             className
           )}
@@ -59,7 +59,7 @@ const SelectScrollUpButton = ({ className, ...props }: SelectPrimitive.ScrollUpB
   }
   return (
     <SelectPrimitive.ScrollUpButton
-      className={cn('flex items-center justify-center py-1 web:cursor-default', className)}
+      className={cn('items-center justify-center py-1 web:cursor-default', className)}
       {...props}
     >
       <ChevronUp
@@ -79,7 +79,7 @@ const SelectScrollDownButton = ({ className, ...props }: SelectPrimitive.ScrollD
   }
   return (
     <SelectPrimitive.ScrollDownButton
-      className={cn('flex items-center justify-center py-1 web:cursor-default', className)}
+      className={cn('items-center justify-center py-1 web:cursor-default', className)}
       {...props}
     >
       <ChevronDown
@@ -162,13 +162,13 @@ const SelectItem = React.forwardRef<SelectPrimitive.ItemRef, SelectPrimitive.Ite
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        'web:group native:py-2 native:pl-2 relative flex w-full flex-row items-center rounded-sm py-1.5 pl-2 pr-2 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent/50 web:focus:bg-accent',
+        'web:group native:py-2 native:pl-2 relative w-full flex-row items-center rounded-sm py-1.5 pl-2 pr-2 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent/50 web:focus:bg-accent',
         props.disabled && 'opacity-50 web:pointer-events-none',
         className
       )}
       {...props}
     >
-      {/* <View className="native:left-3.5 native:pt-px absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      {/* <View className="native:left-3.5 native:pt-px absolute left-2 h-3.5 w-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
           <Check
             size={16}

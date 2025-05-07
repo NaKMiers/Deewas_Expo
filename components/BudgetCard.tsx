@@ -80,9 +80,9 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
           className
         )}
       >
-        <View className="flex flex-row items-center justify-between gap-1">
+        <View className="flex-row items-center justify-between gap-1">
           {/* MARK: Category & Amount */}
-          <View className="flex flex-row items-center gap-2 text-sm font-semibold">
+          <View className="flex-row items-center gap-2 text-sm font-semibold">
             <Text>{budget.category.icon}</Text>
             <Text>{budget.category.name}</Text>
             <View className="h-5 w-0.5 bg-muted-foreground/50" />
@@ -119,7 +119,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                           `/create-budget?initTotal=${budget.total}&initBegin=${moment(budget.begin).add(1, 'month').toISOString()}&initEnd=${moment(budget.end).add(1, 'month').toISOString()}`
                         )
                       }}
-                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                      className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                     >
                       <Icon
                         render={LucideLayers2}
@@ -136,7 +136,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                         dispatch(setBudgetToEdit(budget))
                         router.push('/update-budget')
                       }}
-                      className="flex h-10 w-full flex-row items-center justify-start gap-2 px-5"
+                      className="h-10 w-full flex-row items-center justify-start gap-2 px-5"
                     >
                       <Icon
                         render={LucidePencil}
@@ -155,7 +155,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                       trigger={
                         <Button
                           variant="ghost"
-                          className="flex h-8 w-full flex-row items-center justify-start gap-2 px-2"
+                          className="h-8 w-full flex-row items-center justify-start gap-2 px-2"
                         >
                           <Icon
                             render={LucideTrash}

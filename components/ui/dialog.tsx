@@ -19,7 +19,7 @@ const DialogOverlayWeb = React.forwardRef<DialogPrimitive.OverlayRef, DialogPrim
     return (
       <DialogPrimitive.Overlay
         className={cn(
-          'absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/80 p-2',
+          'absolute bottom-0 left-0 right-0 top-0 items-center justify-center bg-black/80 p-2',
           open ? 'web:animate-in web:fade-in-0' : 'web:animate-out web:fade-out-0',
           className
         )}
@@ -37,7 +37,7 @@ const DialogOverlayNative = React.forwardRef<DialogPrimitive.OverlayRef, DialogP
     return (
       <DialogPrimitive.Overlay
         style={StyleSheet.absoluteFill}
-        className={cn('flex items-center justify-center bg-black/80 p-2', className)}
+        className={cn('items-center justify-center bg-black/80 p-2', className)}
         {...props}
         ref={ref}
       >
@@ -98,7 +98,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({ className, ...props }: ViewProps) => (
   <View
-    className={cn('flex flex-col gap-1.5 text-center sm:text-left', className)}
+    className={cn('flex-col gap-1.5 text-center sm:text-left', className)}
     {...props}
   />
 )
@@ -106,7 +106,7 @@ DialogHeader.displayName = 'DialogHeader'
 
 const DialogFooter = ({ className, ...props }: ViewProps) => (
   <View
-    className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
+    className={cn('flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
     {...props}
   />
 )

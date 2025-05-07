@@ -138,7 +138,7 @@
     "I'm done! Take me to the dashboard": "Đã xong! Đưa tôi đến trang chủ ngay"
   },
   "aiPage": {
-    "Hello?": "Xin chào?",
+    "Hello": "Xin chào",
     "What can you do?": "Bạn có thể làm gì?",
     "My most expensive expense this month": "Chi tiêu đắt nhất của tôi trong tháng này",
     "How to limit my spending": "Cách hạn chế chi tiêu của tôi",
@@ -635,8 +635,8 @@
     "Select Category": "Chọn danh mục",
     "Select wallet": "Chọn ví",
     "When did this transaction happen?": "Bạn đã thực hiện giao dịch này vào lúc nào?",
-    "Cancel": "Cancel",
-    "Save": "Save"
+    "Cancel": "Hủy",
+    "Save": "Lưu"
   },
   "updateWalletPage": {
     "Name is required": "Tên ví không được trống",

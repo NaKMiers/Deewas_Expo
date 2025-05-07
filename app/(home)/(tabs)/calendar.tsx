@@ -110,12 +110,12 @@ function CalendarPage() {
       >
         <View className="p-21/2 md:px-21">
           {/* MARK: Top */}
-          <View className="flex flex-row flex-wrap items-center gap-x-2 gap-y-1">
+          <View className="flex-row flex-wrap items-center gap-x-2 gap-y-1">
             <Text className="pl-1 text-xl font-bold">{t('Calendar')}</Text>
           </View>
 
           {!loading ? (
-            <View className="mt-21/2 flex flex-col gap-21/2">
+            <View className="mt-21/2 flex-col gap-21/2">
               {/* Calendar */}
               <View className="shadow-md">
                 <BlurView
@@ -123,13 +123,13 @@ function CalendarPage() {
                   className="overflow-hidden rounded-xl border border-primary/10 p-3"
                 >
                   {/* MARK: Nav */}
-                  <View className="mb-4 flex flex-row flex-wrap items-center justify-between gap-1">
+                  <View className="mb-4 flex-row flex-wrap items-center justify-between gap-1">
                     <MonthYearPicker
                       currentMonth={currentMonth}
                       setCurrentMonth={setCurrentMonth}
                     />
 
-                    <View className="flex flex-row items-center gap-1">
+                    <View className="flex-row items-center gap-1">
                       <Button
                         variant="outline"
                         className="bg-primary-foreground"
@@ -150,10 +150,10 @@ function CalendarPage() {
                   </View>
 
                   {/* MARK: Days of week */}
-                  <View className="mb-2 flex flex-row">
+                  <View className="mb-2 flex-row">
                     {Array.from({ length: 7 }).map((_, i) => (
                       <View
-                        className="flex flex-row items-center justify-center py-2 text-center text-sm font-medium text-muted-foreground"
+                        className="flex-row items-center justify-center py-2 text-center text-sm font-medium text-muted-foreground"
                         key={i}
                         style={{ width: (SCREEN_WIDTH - 45) / 7 }}
                       >
@@ -165,7 +165,7 @@ function CalendarPage() {
                   </View>
 
                   {/* MARK: Days of month */}
-                  <View className="flex flex-row flex-wrap">
+                  <View className="flex-row flex-wrap">
                     {Array.from({ length: monthStart.getDay() }).map((_, index) => (
                       <View
                         key={`empty-end-${index}`}
@@ -181,7 +181,7 @@ function CalendarPage() {
                         <TouchableOpacity
                           activeOpacity={0.7}
                           className={cn(
-                            'relative mt-3 flex h-[55px] flex-col items-center justify-start gap-2 rounded-md p-1 shadow-none',
+                            'relative mt-3 h-[55px] flex-col items-center justify-start gap-2 rounded-md p-1 shadow-none',
                             isSelected && 'bg-primary',
                             !isSameMonth(day, currentMonth) && 'text-muted-foreground opacity-50'
                           )}
@@ -205,7 +205,7 @@ function CalendarPage() {
 
                           {getTransactionsForDate(day).length > 0 && (
                             <View className="relative mt-auto w-full">
-                              <View className={cn('flex w-full flex-row justify-center gap-0.5 px-0.5')}>
+                              <View className={cn('w-full flex-row justify-center gap-0.5 px-0.5')}>
                                 {total !== 0 && (
                                   <Text
                                     className={cn(
@@ -222,7 +222,7 @@ function CalendarPage() {
                                     total < 0 ? 'text-rose-500' : 'text-emerald-500'
                                   )}
                                 >
-                                  {formatCompactNumber(Math.abs(total), locale)}
+                                  {formatCompactNumber(Math.abs(total))}
                                 </Text>
                               </View>
                               <View className="mt-1 h-0.5 w-full overflow-hidden rounded-full bg-muted-foreground/20">
@@ -269,7 +269,7 @@ function CalendarPage() {
               <View className="shadow-md">
                 <BlurView
                   intensity={100}
-                  className="flex w-full overflow-hidden rounded-xl border border-primary/10 p-3 shadow-md"
+                  className="w-full overflow-hidden rounded-xl border border-primary/10 p-3 shadow-md"
                 >
                   <Text className="mb-4 flex-1 text-lg font-semibold">
                     {t('Transactions for') + ' '}
@@ -304,7 +304,7 @@ function CalendarPage() {
                   )}
 
                   {currency && getTotalForDate(selectedDate) !== 0 && (
-                    <View className="flex flex-row items-center justify-between pr-8">
+                    <View className="flex-row items-center justify-between pr-8">
                       <Text className="text-xl font-bold">{t('Total')}</Text>
 
                       <Text

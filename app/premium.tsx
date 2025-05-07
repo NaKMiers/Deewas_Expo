@@ -183,7 +183,7 @@ function PremiumPage() {
               </View>
 
               <View className="flex-row items-center justify-center gap-21/2">
-                <Text className="flex items-end text-center text-3xl font-extrabold tracking-wider text-neutral-800">
+                <Text className="items-end text-center text-3xl font-extrabold tracking-wider text-neutral-800">
                   DEEWAS
                 </Text>
                 <View className="flex-row items-center justify-center rounded-md bg-sky-500 px-3 py-1 shadow-md">

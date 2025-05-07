@@ -1,8 +1,8 @@
+import CommonFooter from '@/components/dialogs/CommonFooter'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import NoItemsFound from '@/components/NoItemsFound'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { emojiData, emojiGroups } from '@/constants/emojiData'
@@ -150,7 +150,7 @@ function EmojiPickerPage() {
         </Text>
       </View>
 
-      <View className="mt-6 flex flex-1 flex-col gap-6">
+      <View className="mt-6 flex-1 flex-col gap-6">
         {/* Tab */}
         <SegmentedControl
           values={categories.map(item => item.icon)}
@@ -203,19 +203,11 @@ function EmojiPickerPage() {
         </ScrollView>
       </View>
 
-      <View className="mb-21 mt-6 px-0">
-        <View className="mt-3 flex flex-row items-center justify-end gap-21/2">
-          <View>
-            <Button
-              variant="default"
-              className="h-10 rounded-md px-21/2"
-              onPress={() => router.back()}
-            >
-              <Text className="font-semibold text-secondary">{t('Cancel')}</Text>
-            </Button>
-          </View>
-        </View>
-      </View>
+      <CommonFooter
+        className="mb-21 mt-6 px-0"
+        cancelLabel={t('Cancel')}
+        onCancel={router.back}
+      />
 
       <Separator className="my-8 h-0" />
     </DrawerWrapper>
