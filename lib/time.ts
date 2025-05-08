@@ -18,8 +18,7 @@ import {
   subWeeks,
   subYears,
 } from 'date-fns'
-import moment from 'moment'
-import momentTZ from 'moment'
+import { default as moment, default as momentTZ } from 'moment'
 
 export const formatTime = (time: string): string => {
   return moment(time).format('DD/MM/YYYY HH:mm:ss')
@@ -40,7 +39,7 @@ export const formatDate = (date: Date, locale?: string): string => {
   return moment(date).format('DD/MM/YYYY')
 }
 
-export function formatTimeRange(begin: string, end: string): string {
+export function formatTimeRange(begin: string, end: string, translate: any): string {
   const beginDate = parseISO(begin)
   const endDate = parseISO(end)
 
@@ -73,18 +72,27 @@ export function formatTimeRange(begin: string, end: string): string {
   const nextYearStart = startOfYear(addYears(now, 1))
   const nextYearEnd = endOfYear(addYears(now, 1))
 
-  if (isToday(beginDate) && isToday(endDate)) return 'Today'
-  if (isTomorrow(beginDate) && isTomorrow(endDate)) return 'Tomorrow'
-  if (isYesterday(beginDate) && isYesterday(endDate)) return 'Yesterday'
-  if (isSameDay(beginDate, thisWeekStart) && isSameDay(endDate, thisWeekEnd)) return 'This week'
-  if (isSameDay(beginDate, lastWeekStart) && isSameDay(endDate, lastWeekEnd)) return 'Last week'
-  if (isSameDay(beginDate, nextWeekStart) && isSameDay(endDate, nextWeekEnd)) return 'Next week'
-  if (isSameDay(beginDate, thisMonthStart) && isSameDay(endDate, thisMonthEnd)) return 'This month'
-  if (isSameDay(beginDate, lastMonthStart) && isSameDay(endDate, lastMonthEnd)) return 'Last month'
-  if (isSameDay(beginDate, nextMonthStart) && isSameDay(endDate, nextMonthEnd)) return 'Next month'
-  if (isSameDay(beginDate, thisYearStart) && isSameDay(endDate, thisYearEnd)) return 'This year'
-  if (isSameDay(beginDate, lastYearStart) && isSameDay(endDate, lastYearEnd)) return 'Last year'
-  if (isSameDay(beginDate, nextYearStart) && isSameDay(endDate, nextYearEnd)) return 'Next year'
+  if (isToday(beginDate) && isToday(endDate)) return translate('Today')
+  if (isTomorrow(beginDate) && isTomorrow(endDate)) return translate('Tomorrow')
+  if (isYesterday(beginDate) && isYesterday(endDate)) return translate('Yesterday')
+  if (isSameDay(beginDate, thisWeekStart) && isSameDay(endDate, thisWeekEnd))
+    return translate('This week')
+  if (isSameDay(beginDate, lastWeekStart) && isSameDay(endDate, lastWeekEnd))
+    return translate('Last week')
+  if (isSameDay(beginDate, nextWeekStart) && isSameDay(endDate, nextWeekEnd))
+    return translate('Next week')
+  if (isSameDay(beginDate, thisMonthStart) && isSameDay(endDate, thisMonthEnd))
+    return translate('This month')
+  if (isSameDay(beginDate, lastMonthStart) && isSameDay(endDate, lastMonthEnd))
+    return translate('Last month')
+  if (isSameDay(beginDate, nextMonthStart) && isSameDay(endDate, nextMonthEnd))
+    return translate('Next month')
+  if (isSameDay(beginDate, thisYearStart) && isSameDay(endDate, thisYearEnd))
+    return translate('This year')
+  if (isSameDay(beginDate, lastYearStart) && isSameDay(endDate, lastYearEnd))
+    return translate('Last year')
+  if (isSameDay(beginDate, nextYearStart) && isSameDay(endDate, nextYearEnd))
+    return translate('Next year')
 
   return isSameYear(beginDate, endDate)
     ? `${format(beginDate, 'dd/MM')} - ${format(endDate, 'dd/MM/yyyy')}`

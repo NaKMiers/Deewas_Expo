@@ -105,7 +105,19 @@
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "You don't have any budgets yet, create one now!",
-    "Create Budget": "Create Budget"
+    "Create Budget": "Create Budget",
+    "Today": "Today",
+    "Tomorrow": "Tomorrow",
+    "Yesterday": "Yesterday",
+    "This week": "This week",
+    "Last week": "Last week",
+    "Next week": "Next week",
+    "This month": "This month",
+    "Last month": "Last month",
+    "Next month": "Next month",
+    "This year": "This year",
+    "Last year": "Last year",
+    "Next year": "Next year"
   },
   "categoriesPage": {
     "Categories": "Categories",

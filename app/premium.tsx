@@ -81,7 +81,7 @@ function PremiumPage() {
   const { packages, purchasing, purchasePackage, restorePurchase } = useRevenueCat()
 
   // states
-  const [countdown, setCountdown] = useState(1) // seconds
+  const [countdown, setCountdown] = useState(10) // seconds
   const [selectedPackage, setSelectedPackage] = useState<PurchasesPackage | null>(null)
 
   // values

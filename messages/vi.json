@@ -105,7 +105,19 @@
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "Bạn chưa có ngân sách nào, hãy tạo ngay!",
-    "Create Budget": "Tạo ngân sách"
+    "Create Budget": "Tạo ngân sách",
+    "Today": "Hôm nay",
+    "Tomorrow": "Ngày mai",
+    "Yesterday": "Hôm qua",
+    "This week": "Tuần này",
+    "Last week": "Tuần trước",
+    "Next week": "Tuần tới",
+    "This month": "Tháng này",
+    "Last month": "Tháng trước",
+    "Next month": "Tháng tới",
+    "This year": "Năm nay",
+    "Last year": "Năm ngoái",
+    "Next year": "Năm tới"
   },
   "categoriesPage": {
     "Categories": "Danh mục",

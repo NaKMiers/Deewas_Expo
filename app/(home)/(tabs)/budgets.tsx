@@ -11,7 +11,7 @@ import { formatTimeRange } from '@/lib/time'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
 import { LucidePlus } from 'lucide-react-native'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
@@ -23,7 +23,7 @@ function BudgetsPage() {
   const { isPremium } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
-  const t = (key: string) => translate('budgetPage.' + key)
+  const t = useCallback((key: string) => translate('budgetPage.' + key), [translate])
 
   // store
   const { budgets, loading } = useAppSelector(state => state.budget)
@@ -65,9 +65,9 @@ function BudgetsPage() {
     setGroups(results)
     setTab(results?.[0]?.[0])
 
-    const tabLabels = results.map(([_key, { begin, end }]) => formatTimeRange(begin, end))
+    const tabLabels = results.map(([_key, { begin, end }]) => formatTimeRange(begin, end, t))
     setTabLabels(tabLabels)
-  }, [budgets])
+  }, [budgets, t])
 
   return (
     <SafeAreaView className="flex-1">
