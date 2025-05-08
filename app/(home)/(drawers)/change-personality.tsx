@@ -1,4 +1,5 @@
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Image from '@/components/Image'
@@ -103,9 +104,7 @@ function ChangePersonalityPage() {
   return (
     <DrawerWrapper>
       <>
-        <Text className="text-center text-xl font-semibold text-primary">
-          {t('Pick a personality for Deewas assistant?')}
-        </Text>
+        <CommonHeader title={t('Pick a personality for Deewas assistant?')} />
 
         <View className="mb-21 mt-21 w-full flex-row flex-wrap gap-y-2 px-21/2">
           {personalities.map((item, index) => (

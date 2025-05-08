@@ -295,9 +295,7 @@ function DateRangePickerPage() {
           <Button
             variant="secondary"
             className="h-10 flex-1 rounded-md border border-primary/10 px-21/2"
-            onPress={() => {
-              router.back()
-            }}
+            onPress={router.back}
           >
             <Text className="font-semibold">{t('Cancel')}</Text>
           </Button>

@@ -144,7 +144,7 @@ function AccountPage() {
           <View className="shadow-md">
             <BlurView
               intensity={90}
-              className="overflow-hidden rounded-xl border border-primary/10 px-21 py-21/2"
+              className="overflow-hidden rounded-xl border border-primary/10 px-21 py-6 pb-21/2"
             >
               <View className="w-full flex-row items-center gap-2 pb-2">
                 {user.authType === 'google' && (
@@ -161,11 +161,11 @@ function AccountPage() {
                       <Image
                         className="absolute"
                         style={{
-                          top: -14,
+                          top: -16,
                           right: -5,
                           width: 28,
                           height: 28,
-                          transform: 'rotate(30deg)',
+                          transform: 'rotate(24deg)',
                         }}
                         source={icons.crown}
                         resizeMode="contain"

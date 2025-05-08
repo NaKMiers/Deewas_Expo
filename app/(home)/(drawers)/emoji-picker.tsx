@@ -1,4 +1,5 @@
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import NoItemsFound from '@/components/NoItemsFound'
@@ -71,7 +72,7 @@ function EmojiPickerPage() {
         icon: '#️⃣',
       },
     ],
-    [t]
+    []
   )
 
   // states
@@ -143,12 +144,10 @@ function EmojiPickerPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold text-primary">{t('Pick an emoji')}</Text>
-        <Text className="text-center text-muted-foreground">
-          {t('Emojis are a fun way to express yourself')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={t('Pick an emoji')}
+        desc={t('Emojis are a fun way to express yourself')}
+      />
 
       <View className="mt-6 flex-1 flex-col gap-6">
         {/* Tab */}

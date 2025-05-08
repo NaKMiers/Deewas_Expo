@@ -43,6 +43,7 @@ function History({ className }: HistoryProps) {
 
   // states
   const [transactions, setTransactions] = useState<IFullTransaction[]>([])
+  const [oldestDate, setOldestDate] = useState<Date | null>(null)
   const [data, setData] = useState<any[]>([])
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: moment().startOf('month').toDate(),
@@ -64,8 +65,12 @@ function History({ className }: HistoryProps) {
     try {
       const from = toUTC(dateRange.from)
       const to = toUTC(dateRange.to)
-      const { transactions } = await getHistoryApi(`?from=${from}&to=${to}`)
+      const { transactions, oldestTransaction } = await getHistoryApi(`?from=${from}&to=${to}`)
       setTransactions(transactions)
+
+      if (oldestTransaction) {
+        setOldestDate(moment(oldestTransaction.date).toDate())
+      }
     } catch (err: any) {
       console.log(err)
     } finally {
@@ -299,8 +304,8 @@ function History({ className }: HistoryProps) {
           </View>
 
           {/* MARK: Total & Include Transfer */}
-          <View className="flex-row items-start justify-between">
-            <View>
+          <View className="flex-1 flex-row items-start justify-between">
+            <View className="flex-1">
               <Text className="font-semibold text-muted-foreground">
                 {t('Total') + ' '}
                 {selectedChartType !== 'pie' && (
@@ -366,7 +371,7 @@ function History({ className }: HistoryProps) {
             disabledNext={moment(dateRange.from).add(1, chartPeriod).isAfter(moment())}
             disabledPrev={moment(dateRange.from)
               .subtract(1, chartPeriod)
-              .isBefore(moment(user?.createdAt).subtract(1, chartPeriod))}
+              .isSameOrBefore(moment(oldestDate || user?.createdAt).subtract(1, chartPeriod))}
           />
         </BlurView>
       </View>

@@ -1,6 +1,7 @@
 import CustomInput from '@/components/CustomInput'
 import DateTimePicker from '@/components/DateTimePicker'
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
@@ -12,10 +13,11 @@ import {
   setSelectedWallet,
   setTransactionToEdit,
 } from '@/lib/reducers/screenReducer'
-import { checkTranType, formatSymbol } from '@/lib/string'
+import { capitalize, checkTranType, formatSymbol, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { updateTransactionApi } from '@/requests'
+import { format } from 'date-fns'
 import { router } from 'expo-router'
 import { LucideChevronsUpDown } from 'lucide-react-native'
 import moment from 'moment'
@@ -27,11 +29,12 @@ import Toast from 'react-native-toast-message'
 
 function UpdateTransactionPage() {
   // hooks
-  const { t: translate } = useTranslation()
+  const { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('updateTransactionPage.' + key), [translate])
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const dispatch = useAppDispatch()
+  const locale = i18n.language
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -204,18 +207,18 @@ function UpdateTransactionPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold text-primary">
-          {t('Update') + ' '}
-          {transaction?.type && (
-            <Text className={cn(checkTranType(transaction.type).color)}>{t(transaction.type)}</Text>
-          )}
-          {' ' + t('transaction')}
-        </Text>
-        <Text className="text-center text-muted-foreground">
-          {t('Transactions keep track of your finances effectively')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={
+          <>
+            {t('Update') + ' '}
+            {transaction?.type && (
+              <Text className={cn(checkTranType(transaction.type).color)}>{t(transaction.type)}</Text>
+            )}
+            {' ' + t('transaction')}
+          </>
+        }
+        desc={t('Transactions keep track of your finances effectively')}
+      />
 
       <View className="mt-6 flex-col gap-6">
         {/* MARK: Name */}
@@ -342,7 +345,7 @@ function UpdateTransactionPage() {
               ) : (
                 <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
                   <Text className="text-center font-semibold text-black">
-                    {moment(form.date).format('MMM DD, YYYY')}
+                    {capitalize(format(form.date, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
                   </Text>
                 </View>
               )}
@@ -379,7 +382,7 @@ function UpdateTransactionPage() {
                 </View>
                 <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
                   <Text className="text-center font-semibold text-black">
-                    {moment(form.date).format('MMM DD, YYYY')}
+                    {capitalize(format(form.date, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
                   </Text>
                 </View>
               </View>

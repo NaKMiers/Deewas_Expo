@@ -1,4 +1,5 @@
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
@@ -77,12 +78,10 @@ function WalletPickerPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold">{t('Select wallet')}</Text>
-        <Text className="text-center text-muted-foreground">
-          {t('Wallets are used to group your transactions by source of funds')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={t('Select wallet')}
+        desc={t('Wallets are used to group your transactions by source of funds')}
+      />
 
       <View className="mt-6 rounded-lg border border-primary">
         <Input

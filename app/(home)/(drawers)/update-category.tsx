@@ -1,6 +1,7 @@
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
@@ -136,22 +137,26 @@ function UpdateCategoryPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold text-primary">
-          {t('Update') + ' '}
-          {category?.type && (
-            <Text className={cn(checkTranType(category.type).color)}>{t(category.type)}</Text>
-          )}
-          {' ' + t('category')}
-        </Text>
-        <Text className="text-center tracking-wider text-muted-foreground">
-          {t('Categories are used to group your') + ' '}
-          {category?.type && (
-            <Text className={cn(checkTranType(category.type).color)}>{t(category.type)}</Text>
-          )}
-          {' ' + t('transactions')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={
+          <>
+            {t('Update') + ' '}
+            {category?.type && (
+              <Text className={cn(checkTranType(category.type).color)}>{t(category.type)}</Text>
+            )}
+            {' ' + t('category')}
+          </>
+        }
+        desc={
+          <>
+            {t('Categories are used to group your') + ' '}
+            {category?.type && (
+              <Text className={cn(checkTranType(category.type).color)}>{t(category.type)}</Text>
+            )}
+            {' ' + t('transactions')}
+          </>
+        }
+      />
 
       <View className="mt-6 flex-col gap-6">
         {/* MARK: Name */}

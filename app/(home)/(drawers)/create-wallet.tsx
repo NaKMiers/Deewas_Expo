@@ -1,6 +1,7 @@
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
@@ -120,12 +121,10 @@ function CreateWalletPage() {
   return (
     <DrawerWrapper>
       <View>
-        <View>
-          <Text className="text-center text-xl font-semibold text-primary">{t('Create wallet')}</Text>
-          <Text className="text-center tracking-wider text-muted-foreground">
-            {t('Wallets are used to group your transactions by source of funds')}
-          </Text>
-        </View>
+        <CommonHeader
+          title={t('Create wallet')}
+          desc={t('Wallets are used to group your transactions by source of funds')}
+        />
 
         <View className="mt-6 flex-col gap-6">
           {/* MARK: Name */}

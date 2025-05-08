@@ -1,6 +1,7 @@
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
@@ -120,18 +121,23 @@ function CreateCategoryPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold text-primary">
-          {t('Create') + ' '}
-          {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
-          {' ' + t('category')}
-        </Text>
-        <Text className="text-center tracking-wider text-muted-foreground">
-          {t('Categories are used to group your') + ' '}
-          {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
-          {' ' + t('transactions')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={
+          <>
+            {' '}
+            {t('Create') + ' '}
+            {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
+            {' ' + t('category')}
+          </>
+        }
+        desc={
+          <>
+            {t('Categories are used to group your') + ' '}
+            {form.type && <Text className={cn(checkTranType(form.type).color)}>{t(form.type)}</Text>}
+            {' ' + t('transactions')}
+          </>
+        }
+      />
 
       <View className="mt-6 flex-col gap-6">
         <CustomInput

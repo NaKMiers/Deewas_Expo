@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import React from 'react'
+import React, { memo } from 'react'
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
 
 interface CommonFooterProps {
@@ -43,4 +43,4 @@ function CommonFooter({
   )
 }
 
-export default CommonFooter
+export default memo(CommonFooter)

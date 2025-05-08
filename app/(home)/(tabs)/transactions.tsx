@@ -49,6 +49,7 @@ function TransactionsPage() {
     to: moment().endOf('month').toDate(),
   })
   const [groups, setGroups] = useState<any[]>([])
+  const [oldestDate, setOldestDate] = useState<Date | null>(null)
   const [search, setSearch] = useState<string>('')
   const [timeSegment, setTimeSegment] = useState<TimeUnit>('month')
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
@@ -58,12 +59,16 @@ function TransactionsPage() {
 
   // get my transactions of selected wallet
   const getMyTransactions = useCallback(async () => {
-    let query = `?from=${toUTC(dateRange.from)}&to=${toUTC(dateRange.to)}`
+    let query = `?from=${toUTC(dateRange.from)}&to=${toUTC(dateRange.to)}&needOldestDate=true`
     if (ofWallet) query += `&wallet=${ofWallet._id}`
 
     try {
-      const { transactions } = await getMyTransactionsApi(query)
+      const { transactions, oldestTransaction } = await getMyTransactionsApi(query)
       dispatch(setTransactions(transactions))
+
+      if (oldestTransaction) {
+        setOldestDate(moment(oldestTransaction.date).toDate())
+      }
     } catch (err: any) {
       console.log(err)
       Toast.show({
@@ -235,7 +240,7 @@ function TransactionsPage() {
               disabledNext={moment(dateRange.from).add(1, timeSegment).isAfter(moment())}
               disabledPrev={moment(dateRange.from)
                 .subtract(1, timeSegment)
-                .isBefore(moment(user?.createdAt).subtract(1, timeSegment))}
+                .isSameOrBefore(moment(oldestDate || user?.createdAt).subtract(1, timeSegment))}
             />
           </View>
 

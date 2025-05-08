@@ -1,6 +1,7 @@
 import CustomInput from '@/components/CustomInput'
 import DateTimePicker from '@/components/DateTimePicker'
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import { Separator } from '@/components/ui/separator'
@@ -8,10 +9,11 @@ import { Text } from '@/components/ui/text'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { setFromWallet, setToWallet } from '@/lib/reducers/screenReducer'
-import { formatSymbol } from '@/lib/string'
+import { capitalize, formatSymbol, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { transferFundApi } from '@/requests/walletRequests'
+import { format } from 'date-fns'
 import { router } from 'expo-router'
 import { LucideChevronsUpDown } from 'lucide-react-native'
 import moment from 'moment'
@@ -23,11 +25,12 @@ import Toast from 'react-native-toast-message'
 
 function TransferFundPage() {
   // hooks
-  const { t: translate } = useTranslation()
+  const { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('transferFundPage.' + key), [translate])
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const dispatch = useAppDispatch()
+  const locale = i18n.language
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
@@ -186,12 +189,10 @@ function TransferFundPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold text-primary">{t('Transfer Fund')}</Text>
-        <Text className="text-center tracking-wider text-muted-foreground">
-          {t('Transfer money between wallets')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={t('Transfer Fund')}
+        desc={t('Transfer money between wallets')}
+      />
 
       <View className="mt-6 flex-col gap-6">
         {/* MARK: From Wallet */}
@@ -301,7 +302,7 @@ function TransferFundPage() {
               ) : (
                 <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
                   <Text className="text-center font-semibold text-black">
-                    {moment(form.date).format('MMM DD, YYYY')}
+                    {capitalize(format(form.date, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
                   </Text>
                 </View>
               )}
@@ -338,7 +339,7 @@ function TransferFundPage() {
                 </View>
                 <View className="h-12 flex-row items-center justify-center rounded-lg border border-primary bg-white px-21/2">
                   <Text className="text-center font-semibold text-black">
-                    {moment(form.date).format('MMM DD, YYYY')}
+                    {capitalize(format(form.date, 'MMM dd, yyyy', { locale: getLocale(locale) }))}
                   </Text>
                 </View>
               </View>

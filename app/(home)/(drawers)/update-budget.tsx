@@ -1,5 +1,6 @@
 import CustomInput from '@/components/CustomInput'
 import CommonFooter from '@/components/dialogs/CommonFooter'
+import CommonHeader from '@/components/dialogs/CommonHeader'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
@@ -208,12 +209,10 @@ function UpdateBudgetPage() {
 
   return (
     <DrawerWrapper>
-      <View>
-        <Text className="text-center text-xl font-semibold text-primary">{t('Update Budget')}</Text>
-        <Text className="text-center tracking-wider text-muted-foreground">
-          {t('Budget helps you manage money wisely')}
-        </Text>
-      </View>
+      <CommonHeader
+        title={t('Update Budget')}
+        desc={t('Budget helps you manage money wisely')}
+      />
 
       {/* MARK: Total */}
       <View className="mt-6 flex-col gap-6">
