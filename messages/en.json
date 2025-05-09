@@ -101,7 +101,9 @@
     "Log Out": "Log Out",
     "Are you sure you want to log out?": "Are you sure you want to log out?",
     "Version": "Version",
-    "Username": "Username"
+    "Username": "Username",
+    "Please upgrade to Premium to unlock this feature": "Please upgrade to Premium to unlock this feature",
+    "Upgrade Now": "Upgrade Now"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "You don't have any budgets yet, create one now!",
@@ -123,7 +125,15 @@
     "Categories": "Categories",
     "Failed to get wallet": "Failed to get wallet",
     "You don't have any categories yet, create one now!": "You don't have any categories yet, create one now!",
-    "Create Category": "Create Category"
+    "Create Category": "Create Category",
+    "income": "income",
+    "Income": "Income",
+    "expense": "expense",
+    "Expense": "Expense",
+    "saving": "saving",
+    "Saving": "Saving",
+    "invest": "invest",
+    "Invest": "Invest"
   },
   "walletsPage": {
     "Wallets": "Wallets",
@@ -921,8 +931,10 @@
     "Add Transaction": "Add Transaction",
     "Edit": "Edit",
     "Delete Wallet": "Delete Wallet",
+    "All transactions of this wallet will be deleted": "All transactions of this wallet will be deleted",
     "Are you sure you want to delete this wallet?": "Are you sure you want to delete this wallet?",
-    "deleteOnlyWalletMessage": "Since this is the only wallet, instead of deleting this wallet we will clear all your data and associated transactions, your categories will be safe. Are you sure you want to do this?",
+    "Since this is the only wallet, instead of deleting this wallet we will clear all your data and associated transactions, your categories will be safe": "Since this is the only wallet, instead of deleting this wallet we will clear all your data and associated transactions, your categories will be safe",
+    "Are you sure you want to do this?": "Are you sure you want to do this?",
     "Delete": "Delete",
     "balance": "balance",
     "Balance": "Balance",

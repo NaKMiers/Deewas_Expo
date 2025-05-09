@@ -1,5 +1,6 @@
 import { images } from '@/assets/images/images'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { refresh } from '@/lib/reducers/loadReducer'
 import {
   setFromWallet,
   setOfWallet,
@@ -74,6 +75,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
         type: 'success',
         text1: message,
       })
+      dispatch(refresh())
     } catch (err: any) {
       Toast.show({
         type: 'error',
@@ -220,8 +222,8 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                           label={t('Delete Wallet')}
                           desc={
                             wallets.length > 1
-                              ? t('Are you sure you want to delete this wallet?')
-                              : t('deleteOnlyWalletMessage')
+                              ? `${t('All transactions of this wallet will be deleted')}. ${t('Are you sure you want to delete this wallet?')}`
+                              : `${t('Since this is the only wallet, instead of deleting this wallet we will clear all your data and associated transactions, your categories will be safe')}. ${t('Are you sure you want to do this?')}`
                           }
                           confirmLabel={wallets.length > 1 ? 'Delete' : 'Clear'}
                           onConfirm={handleDeleteWallet}

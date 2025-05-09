@@ -50,10 +50,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
           apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY!,
           appUserID: user?._id ?? null,
         })
-
-        console.log(user?._id)
-        const customerInfo = await Purchases.getCustomerInfo()
-        console.log('Customer Info:', customerInfo.originalAppUserId)
       } else if (Platform.OS === 'android') {
         // Initialize RevenueCat for Android
       }

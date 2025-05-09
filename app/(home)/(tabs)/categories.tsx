@@ -111,7 +111,7 @@ function CategoriesPage() {
               {/* MARK: Segments */}
               <View className="mb-2.5 mt-21/2">
                 <SegmentedControl
-                  values={tabLabels.map(label => capitalize(label))}
+                  values={tabLabels.map(label => capitalize(t(label)))}
                   style={{ width: '100%', height: 40 }}
                   selectedIndex={tabLabels.indexOf(tab)}
                   onChange={(event: any) => {

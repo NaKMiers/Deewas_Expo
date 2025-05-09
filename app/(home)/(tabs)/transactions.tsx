@@ -95,7 +95,7 @@ function TransactionsPage() {
       const { category, name, type, amount } = transaction
       const key = (category.name + category.icon + name + type + amount).toLowerCase()
 
-      return key.includes(search.toLowerCase())
+      return key.includes(search.toLowerCase().trim())
     })
 
     filteredTransactions.forEach((transaction: IFullTransaction) => {

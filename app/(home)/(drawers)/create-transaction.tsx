@@ -88,8 +88,6 @@ function CreateTransactionPage() {
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
     data => {
-      console.log('validate', data)
-
       let isValid = true
 
       // wallet is required

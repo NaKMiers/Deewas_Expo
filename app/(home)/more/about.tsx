@@ -162,6 +162,8 @@ function AboutPage() {
               </Text>
             </View>
           </View>
+
+          <Separator className="my-4 h-0" />
         </ScrollView>
       </BlurView>
     </SafeAreaView>

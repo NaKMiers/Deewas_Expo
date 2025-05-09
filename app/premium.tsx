@@ -94,12 +94,21 @@ function PremiumPage() {
 
   // prevent change screen when back button pressed or when swipe back
   useEffect(() => {
-    navigation.setOptions({ gestureEnabled: false })
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      return true
-    })
-    return () => backHandler.remove()
-  }, [navigation])
+    let backHandler: any
+
+    if (countdown > 0) {
+      navigation.setOptions({ gestureEnabled: false })
+      backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        return true
+      })
+    } else {
+      navigation.setOptions({ gestureEnabled: true })
+    }
+
+    return () => {
+      backHandler?.remove?.()
+    }
+  }, [navigation, countdown])
 
   // countdown timer
   useEffect(() => {

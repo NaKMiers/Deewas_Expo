@@ -2,6 +2,7 @@ import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import Countdown from '@/components/Countdown'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
+import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import FileExporter from '@/components/FileExporter'
 import Icon from '@/components/Icon'
 import Image from '@/components/Image'
@@ -69,6 +70,7 @@ function AccountPage() {
   const [usnValue, setUsnValue] = useState<string>(shortName(user, ''))
   const [updating, setUpdating] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
+  const [openPremiumModal, setOpenPremiumModal] = useState<boolean>(false)
 
   // ad states
   const [adLoadFailed, setAdLoadFailed] = useState<boolean>(false)
@@ -391,7 +393,7 @@ function AccountPage() {
                 <View className="flex-1 flex-row items-center justify-end">
                   <Switch
                     checked={biometric.open}
-                    onCheckedChange={() => switchBiometric()}
+                    onCheckedChange={() => (!isPremium ? switchBiometric() : setOpenPremiumModal(true))}
                     className={cn(biometric.open ? 'bg-primary' : 'bg-muted-foreground')}
                     style={{ transform: [{ scale: 0.9 }] }}
                   />
@@ -502,6 +504,15 @@ function AccountPage() {
 
         <Separator className="my-16 h-0" />
       </ScrollView>
+
+      <PremiumLimitModal
+        open={openPremiumModal}
+        close={() => setOpenPremiumModal(false)}
+        label={t('Please upgrade to Premium to unlock this feature')}
+        confirmLabel={t('Upgrade Now')}
+        cancelLabel={t('Cancel')}
+        onConfirm={() => router.push('/premium')}
+      />
     </SafeAreaView>
   )
 }
