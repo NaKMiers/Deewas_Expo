@@ -393,7 +393,7 @@ function AccountPage() {
                 <View className="flex-1 flex-row items-center justify-end">
                   <Switch
                     checked={biometric.open}
-                    onCheckedChange={() => (!isPremium ? switchBiometric() : setOpenPremiumModal(true))}
+                    onCheckedChange={() => (isPremium ? switchBiometric() : setOpenPremiumModal(true))}
                     className={cn(biometric.open ? 'bg-primary' : 'bg-muted-foreground')}
                     style={{ transform: [{ scale: 0.9 }] }}
                   />

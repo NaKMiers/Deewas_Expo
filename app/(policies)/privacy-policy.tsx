@@ -88,11 +88,12 @@ function PrivacyPolicyPage() {
                 </Text>
                 <View className="mt-2 pl-6">
                   {[
-                    t('Your device’s Internet Protocol address (e.g., IP address)'),
                     t(
-                      'The pages of the Application that you visit, the time and date of your visit, the time spent on those pages'
+                      'Information you provide during login, such as your email address, username, first and last name'
                     ),
-                    t('The time spent on the Application'),
+                    t(
+                      'Public profile information retrieved from third-party services (e.g., Google, Apple) if you choose to log in using these services'
+                    ),
                     t('The operating system you use on your mobile device'),
                   ].map((item, index) => (
                     <Text

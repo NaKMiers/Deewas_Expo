@@ -9,7 +9,7 @@ import useLanguage from '@/hooks/useLanguage'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { Redirect, router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
-import { TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 function WelcomePage() {
@@ -49,13 +49,15 @@ function WelcomePage() {
             </SelectTrigger>
 
             <SelectContent className="border-transparent bg-secondary shadow-none">
-              {languages.map((item, index) => (
-                <SelectItem
-                  value={item.value}
-                  label={item.label}
-                  key={index}
-                />
-              ))}
+              <ScrollView>
+                {languages.map((item, index) => (
+                  <SelectItem
+                    value={item.value}
+                    label={item.label}
+                    key={index}
+                  />
+                ))}
+              </ScrollView>
             </SelectContent>
           </Select>
         </View>
@@ -79,7 +81,10 @@ function WelcomePage() {
 
           <View className="px-21/2 md:px-21">
             <View>
-              <Text className="text-center text-3xl font-bold tracking-tighter text-secondary">
+              <Text
+                className="rounded-md bg-primary text-center text-3xl font-bold tracking-tighter text-secondary"
+                style={{ paddingTop: 4 }}
+              >
                 {t("Ever wonder where your money goes - and why it's never enough?")}
               </Text>
               <Text className="mt-2 text-center text-lg font-medium tracking-tighter text-secondary">
