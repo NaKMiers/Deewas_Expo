@@ -5,7 +5,6 @@ import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
-import { Input } from '@/components/ui/input'
 import { personalities } from '@/constants'
 import { languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
@@ -39,6 +38,7 @@ import {
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -46,7 +46,7 @@ import {
 let Voice: any = null
 
 if (Platform.OS === 'ios') {
-  // Voice = require('@react-native-voice/voice').default
+  Voice = require('@react-native-voice/voice').default
 }
 
 function AIPage() {
@@ -183,6 +183,7 @@ function AIPage() {
 
     Voice.onSpeechResults = (e: any) => {
       const value = e.value[0]
+      console.log('value', value)
       handleInputChange({ target: { value } } as any)
     }
     Voice.onSpeechError = ({ error }: any) => {
@@ -196,7 +197,9 @@ function AIPage() {
       Voice.destroy()
       Voice.removeAllListeners()
     }
-  }, [handleInputChange, tError, isRecording])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tError, isRecording])
 
   // speak
   const toggleRecording = useCallback(async () => {
@@ -388,9 +391,9 @@ function AIPage() {
               className="overflow-hidden rounded-3xl p-21/2 shadow-lg"
             >
               <View className="shadow-md">
-                <Input
-                  className="border-transparent bg-transparent text-neutral-800"
-                  style={{ height: 50 }}
+                <TextInput
+                  className="border-transparent px-2 placeholder:text-neutral-400"
+                  style={{ height: 40 }}
                   placeholder={
                     isRecording
                       ? `${t('Listening')} (${languages.find(l => l.value === locale)?.label})`

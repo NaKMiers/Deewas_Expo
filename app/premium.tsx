@@ -26,7 +26,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { PurchasesPackage } from 'react-native-purchases'
+import { PACKAGE_TYPE, PurchasesPackage } from 'react-native-purchases'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const freeFeatures = [
@@ -208,7 +208,7 @@ function PremiumPage() {
             <Separator className="my-6 h-0" />
 
             {/* MARK: Comparisons */}
-            <View className="mx-auto w-full max-w-md flex-row items-start justify-center gap-1.5 px-21/2">
+            <View className="mx-auto w-full max-w-2xl flex-row items-start justify-center gap-1.5 px-21/2 md:gap-21">
               <View className="mt-7 w-1/2 rounded-lg border border-border bg-secondary py-5 shadow-lg">
                 <Text className="text-center text-2xl font-bold">FREE</Text>
 
@@ -263,14 +263,14 @@ function PremiumPage() {
                   data={reviews}
                   keyExtractor={(_, index) => index.toString()}
                   showsHorizontalScrollIndicator={false}
-                  snapToInterval={isLarge ? (SCREEN_WIDTH - 21 / 2) / 2 : SCREEN_WIDTH}
+                  snapToInterval={isLarge ? SCREEN_WIDTH / 2 : SCREEN_WIDTH}
                   decelerationRate="fast"
                   className="-mx-21/2"
                   renderItem={({ item: review }) => (
                     <View
                       className="px-21/2"
                       style={{
-                        width: isLarge ? (SCREEN_WIDTH - 21 / 2) / 2 : SCREEN_WIDTH,
+                        width: isLarge ? SCREEN_WIDTH / 2 : SCREEN_WIDTH,
                       }}
                     >
                       <View className="gap-1 rounded-2xl border border-primary p-21 shadow-md">
@@ -373,26 +373,29 @@ function PremiumPage() {
 
                       <Text
                         className={cn(
-                          'rounded-b-sm rounded-t-lg border-b py-2 text-center text-lg font-bold text-black',
+                          'flex-1 rounded-b-sm rounded-t-lg border-b px-2 py-2 text-center font-semibold text-black',
                           isSelected && 'border-0 bg-sky-500 text-white'
                         )}
                       >
-                        {product.title}
+                        {product.title} Premium
                       </Text>
 
                       <View className="px-0.5 py-2">
-                        <Text className="text-center text-sm tracking-wider text-neutral-800">
+                        <Text className="text-center text-lg font-semibold tracking-wider text-neutral-800">
                           {formatPrice(product.price, locale, product.currencyCode)}
                         </Text>
 
-                        <Text className="mt-2 text-center font-semibold tracking-wider text-neutral-800">
+                        <Text className="text-center text-sm tracking-wider text-neutral-800">
                           {formatPrice(
                             product.pricePerMonth || product.price,
                             locale,
                             product.currencyCode
                           )}
                         </Text>
-                        <Text className="text-center font-semibold tracking-wider text-neutral-800">
+                        <Text
+                          className="text-center text-sm tracking-wider text-neutral-800"
+                          style={{ marginTop: -4 }}
+                        >
                           {packageType !== 'LIFETIME' ? t('per month') : t('one-time')}
                         </Text>
                       </View>
@@ -418,7 +421,9 @@ function PremiumPage() {
                 <ActivityIndicator color="#262626" />
               ) : (
                 <Text className="text-center font-body text-lg font-semibold tracking-wider text-neutral-800">
-                  {t('Start 1 Week Free Trial')}
+                  {selectedPackage?.packageType === PACKAGE_TYPE.LIFETIME
+                    ? t('Go Premium Now')
+                    : t('Start 1 Week Free Trial')}
                 </Text>
               )}
             </TouchableOpacity>

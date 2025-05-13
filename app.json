@@ -20,7 +20,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "2eaf875b-63f5-494d-a75c-40480880500b"
+        "projectId": "dccda830-c021-4285-859c-64a37fb44284"
       }
     },
     "ios": {
@@ -71,6 +71,13 @@
         {
           "iosAppId": "ca-app-pub-8539911634059441~9440395805",
           "androidAppId": "ca-app-pub-8539911634059441~4779337310"
+        }
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Allow Deewas to access the microphone",
+          "speechRecognitionPermission": "Allow Deewas to securely recognize user speech"
         }
       ]
     ],

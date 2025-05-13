@@ -51,7 +51,7 @@ function Message({ role, content, parts }: MessageProps) {
                   className="px-21 py-2"
                   onPress={() => router.push('/premium')}
                 >
-                  <Text className="text-center text-lg font-semibold text-neutral-800">Upgrade Now</Text>
+                  <Text className="py-1 text-center font-medium text-neutral-800">Upgrade Now</Text>
                 </TouchableOpacity>
               </ImageBackground>
             </View>

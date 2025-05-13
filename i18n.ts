@@ -19,6 +19,7 @@ import kn from '@/messages/kn.json'
 import ko from '@/messages/ko.json'
 import ml from '@/messages/ml.json'
 import ms from '@/messages/ms.json'
+import nl from '@/messages/nl.json'
 import pt from '@/messages/pt.json'
 import ru from '@/messages/ru.json'
 import ta from '@/messages/ta.json'
@@ -54,7 +55,7 @@ const resources = {
   kn: { translation: kn },
   ml: { translation: ml },
   tr: { translation: tr },
-  nl: { nlanslation: tr },
+  nl: { translation: nl },
 }
 
 const deviceLocales = Localization.getLocales()
