@@ -183,7 +183,6 @@ function AIPage() {
 
     Voice.onSpeechResults = (e: any) => {
       const value = e.value[0]
-      console.log('value', value)
       handleInputChange({ target: { value } } as any)
     }
     Voice.onSpeechError = ({ error }: any) => {

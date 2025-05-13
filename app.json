@@ -20,7 +20,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "dccda830-c021-4285-859c-64a37fb44284"
+        "projectId": "2eaf875b-63f5-494d-a75c-40480880500b"
       }
     },
     "ios": {
@@ -29,8 +29,9 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSMicrophoneUsageDescription": "Allows use of microphone for voice text input",
-        "NSSpeechRecognitionUsageDescription": "Allows the app to recognize speech for text input.",
-        "NSFaceIDUsageDescription": "We need access to Face ID to unlock your wallet"
+        "NSSpeechRecognitionUsageDescription": "Allows the app to recognize speech for text input",
+        "NSFaceIDUsageDescription": "We need access to Face ID to unlock your wallet",
+        "NSPhotoLibraryUsageDescription": "This app may access your photo library for uploading receipts or personal finance images"
       }
     },
     "android": {
