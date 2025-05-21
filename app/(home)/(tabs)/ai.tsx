@@ -46,7 +46,7 @@ import {
 let Voice: any = null
 
 if (Platform.OS === 'ios') {
-  Voice = require('@react-native-voice/voice').default
+  // Voice = require('@react-native-voice/voice').default
 }
 
 function AIPage() {
