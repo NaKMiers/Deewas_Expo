@@ -54,7 +54,24 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-localization", "expo-build-properties"],
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-build-properties",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.173590721564-ihd7ql2dffkd1apdle5g646rkq03b33i"
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "iosAppId": "ca-app-pub-8539911634059441~9440395805",
+          "androidAppId": "ca-app-pub-8539911634059441~4779337310"
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     }
