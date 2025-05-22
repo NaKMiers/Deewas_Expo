@@ -19,7 +19,6 @@ function HomeLayout() {
   useLanguage()
   useSettings()
   useInit()
-  // useAppReviewPrompt()
 
   const [bioAuthenticating, setBioAuthenticating] = useState(false)
 
