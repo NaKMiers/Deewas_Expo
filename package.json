@@ -9,7 +9,7 @@
     "android": "expo start -c --android",
     "ios": "expo start -c --ios",
     "web": "expo start -c --web",
-    "clean": "rm -rf .expo node_modules",
+    "clean": "rmdir /s /q .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.scss -o ./node_modules/.cache/nativewind/global.css",
     "watch:css": "npx tailwindcss -i ./global.scss -o ./node_modules/.cache/nativewind/global.css --watch"
   },
