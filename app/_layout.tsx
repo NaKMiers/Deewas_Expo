@@ -115,6 +115,7 @@ function RootLayout() {
         </Stack>
 
         <PortalHost />
+
         <Toast />
       </ThemeProvider>
     </View>
