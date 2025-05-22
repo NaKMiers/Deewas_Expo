@@ -13,9 +13,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "router": {},
       "eas": {
@@ -38,6 +36,11 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "splash": {
+        "image": "./assets/images/splash-icon.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#ffffff"
+      },
       "package": "com.lxopersy.jiji",
       "permissions": [
         "android.permission.RECORD_AUDIO",
@@ -51,11 +54,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-localization",
-      "expo-build-properties"
-    ],
+    "plugins": ["expo-router", "expo-localization", "expo-build-properties"],
     "experiments": {
       "typedRoutes": true
     }
