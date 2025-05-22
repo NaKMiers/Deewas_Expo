@@ -103,7 +103,8 @@
     "Version": "バージョン",
     "Username": "ユーザー名",
     "Please upgrade to Premium to unlock this feature": "この機能を解除するにはプレミアムにアップグレードしてください",
-    "Upgrade Now": "今すぐアップグレード"
+    "Upgrade Now": "今すぐアップグレード",
+    "Biometric Lock": "生体認証ロック"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "まだ予算がありません、今すぐ作成してください！",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "こんにちは",
     "What can you do?": "何ができますか？",
-    "My most expensive expense this month": "今月最も高額な支出",
+    "My most expensive expense this month?": "今月の最も高額な支出は？",
     "How to limit my spending": "支出を制限する方法",
     "An Error Happens": "エラーが発生しました",
     "Try again": "もう一度試してください",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "サポートページを確認するか、さらに支援が必要な場合はご連絡ください",
     "Go to Support": "サポートへ",
     "Deewas": "Deewas",
-    "All rights reserved": "すべての権利を留保"
+    "All rights reserved": "すべての権利を留保",
+    "Restart tutorial": "チュートリアルを再開",
+    "Are you sure you want to restart the tutorial?": "チュートリアルを再開してもよろしいですか？",
+    "No": "いいえ",
+    "Yes": "はい"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "トランザクションを追加",
     "Set Budget": "予算を設定",
     "Edit": "編集",
-    "Delete": "削除"
+    "Delete": "削除",
+    "Delete category": "カテゴリを削除",
+    "All budgets of this category will be deleted": "このカテゴリのすべての予算が削除されます",
+    "Are you sure you want to delete this category?": "このカテゴリを削除してもよろしいですか？"
   },
   "categoryGroup": {
     "Categories": "カテゴリ",
@@ -1077,6 +1085,51 @@
     "Cancel": "キャンセル",
     "Please upgrade to Premium to export data": "データをエクスポートするにはプレミアムにアップグレードしてください",
     "Upgrade Now": "今すぐアップグレード"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "チュートリアルを終了",
+    "Skip Tutorial": "チュートリアルをスキップ",
+    "Cancel": "キャンセル",
+    "Skip": "スキップ",
+    "Are you sure you want to skip the tutorial?": "チュートリアルをスキップしてもよろしいですか？",
+    "Stay on Track": "順調に進んでいます！",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "順調に進んでいます！続けたい場合は手順に従うか、スキップすることもできます。",
+    "Step 1": "ステップ1",
+    "Step 2": "ステップ2",
+    "Step 3": "ステップ3",
+    "Step 4": "ステップ4",
+    "Step 5": "ステップ5",
+    "Step 6": "ステップ6",
+    "Step 7": "ステップ7",
+    "Step 8": "ステップ8",
+    "Step 9": "ステップ9",
+    "Step 10": "ステップ10",
+    "Step 11": "ステップ11",
+    "Create a Wallet": "ウォレットを作成",
+    "Name Your Wallet": "ウォレットに名前を付ける",
+    "Add a Transaction": "取引を追加",
+    "Record a Transaction": "取引を記録",
+    "Complete Your Transaction": "取引を完了",
+    "Create a Budget": "予算を作成",
+    "Set Up a Budget": "予算を設定",
+    "Finalize Your Budget": "予算を確定",
+    "Your Finance Assistant": "あなたの財務アシスタント",
+    "Ask Deewas a Question": "Deewasに質問する",
+    "Welcome to Deewas!": "Deewasへようこそ！",
+    "Tap the 'New Wallet' button to set up your first wallet": "「新しいウォレット」ボタンをタップして最初のウォレットを設定してください",
+    "Enter a name for your wallet and tap 'Save' to continue": "ウォレットの名前を入力し、「保存」をタップして続行してください",
+    "Go to the 'Transactions' screen to view and manage your transactions": "「取引」画面に移動して、取引を表示および管理してください",
+    "Tap 'Add Transaction' to log your first transaction": "「取引を追加」をタップして最初の取引を記録してください",
+    "Enter the name and amount for your transaction, then tap 'Save'": "取引の名前と金額を入力し、「保存」をタップしてください",
+    "Visit the 'Budgets' tab to start managing your finances": "「予算」タブにアクセスして、財務管理を開始してください",
+    "Tap 'Create Budget' to define your spending plan": "「予算を作成」をタップして、支出計画を定義してください",
+    "Enter the name and amount for your budget, then tap 'Save'": "予算の名前と金額を入力し、「保存」をタップしてください",
+    "Ask Deewas": "Deewasに聞く",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "「Deewas」画面に移動して、AIアシスタントとチャットしてください",
+    "What’s my most expensive expense this month?": "今月で最も高額な支出は何ですか？",
+    "You’re all set!": "準備が整いました！",
+    "Thank you for choosing Deewas": "Deewasをお選びいただきありがとうございます",
+    "Let’s manage your finances together!": "一緒に財務を管理しましょう！"
   },
   "success": {
     "Sign In Success": "ログイン成功",

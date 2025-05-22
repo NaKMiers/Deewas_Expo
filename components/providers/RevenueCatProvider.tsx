@@ -32,6 +32,8 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   // load all offerings a user can (currently) purchase
   const loadOfferings = useCallback(async () => {
+    console.log('Loading offerings...')
+
     try {
       const offerings = await Purchases.getOfferings()
       if (offerings.current) {
@@ -44,18 +46,27 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const init = async () => {
-      if (Platform.OS === 'ios') {
-        Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
-        Purchases.configure({
-          apiKey: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY!,
-          appUserID: user?._id ?? null,
-        })
-      } else if (Platform.OS === 'android') {
-        // Initialize RevenueCat for Android
+      if (!user) return
+
+      Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
+      const apiKey = Platform.select({
+        ios: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY,
+        android: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY,
+      })
+
+      if (!apiKey) {
+        console.error('RevenueCat API key is not set')
+        return
       }
+
+      Purchases.configure({
+        apiKey,
+        appUserID: user._id,
+      })
 
       await loadOfferings()
     }
+
     init()
   }, [loadOfferings, user])
 
@@ -86,7 +97,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
         }
       } catch (err: any) {
         console.log(err)
-        Alert.alert('Error', err?.message || 'Unknown error')
+        Alert.alert('Something went wrong', err?.message || 'Unknown error')
       } finally {
         // stop loading
         setPurchasing(false)

@@ -1,5 +1,5 @@
 import { images } from '@/assets/images/images'
-import Image from '@/components/Image'
+import TutorialOverlay from '@/components/dialogs/TutorialOverlay'
 import { useAuth } from '@/components/providers/AuthProvider'
 import useInit from '@/hooks/useInit'
 import useLanguage from '@/hooks/useLanguage'
@@ -10,6 +10,7 @@ import * as Device from 'expo-device'
 import * as LocalAuthentication from 'expo-local-authentication'
 import { Redirect, router, Stack } from 'expo-router'
 import { useLayoutEffect, useState } from 'react'
+import { Image } from 'react-native'
 
 function HomeLayout() {
   // hooks
@@ -18,6 +19,7 @@ function HomeLayout() {
   useLanguage()
   useSettings()
   useInit()
+  // useAppReviewPrompt()
 
   const [bioAuthenticating, setBioAuthenticating] = useState(false)
 
@@ -86,6 +88,8 @@ function HomeLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="(drawers)" />
       </Stack>
+
+      <TutorialOverlay />
     </>
   )
 }

@@ -103,7 +103,8 @@
     "Version": "Версия",
     "Username": "Имя пользователя",
     "Please upgrade to Premium to unlock this feature": "Пожалуйста, обновите до Премиум, чтобы разблокировать эту функцию",
-    "Upgrade Now": "Обновить сейчас"
+    "Upgrade Now": "Обновить сейчас",
+    "Biometric Lock": "Биометрическая блокировка"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "У вас еще нет бюджетов, создайте один сейчас!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "Привет",
     "What can you do?": "Что ты можешь делать?",
-    "My most expensive expense this month": "Мой самый дорогой расход в этом месяце",
+    "My most expensive expense this month?": "Мой самый дорогой расход в этом месяце?",
     "How to limit my spending": "Как ограничить мои расходы",
     "An Error Happens": "Произошла ошибка",
     "Try again": "Попробовать снова",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "Ознакомьтесь с нашей страницей поддержки или свяжитесь с нами для дальнейшей помощи",
     "Go to Support": "Перейти к поддержке",
     "Deewas": "Deewas",
-    "All rights reserved": "Все права защищены"
+    "All rights reserved": "Все права защищены",
+    "Restart tutorial": "Перезапустить обучение",
+    "Are you sure you want to restart the tutorial?": "Вы уверены, что хотите перезапустить обучение?",
+    "No": "Нет",
+    "Yes": "Да"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "Добавить транзакцию",
     "Set Budget": "Установить бюджет",
     "Edit": "Редактировать",
-    "Delete": "Удалить"
+    "Delete": "Удалить",
+    "Delete category": "Удалить категорию",
+    "All budgets of this category will be deleted": "Все бюджеты этой категории будут удалены",
+    "Are you sure you want to delete this category?": "Вы уверены, что хотите удалить эту категорию?"
   },
   "categoryGroup": {
     "Categories": "Категории",
@@ -1077,6 +1085,51 @@
     "Cancel": "Отмена",
     "Please upgrade to Premium to export data": "Пожалуйста, обновите до Премиум, чтобы экспортировать данные",
     "Upgrade Now": "Обновить сейчас"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "Завершить обучение",
+    "Skip Tutorial": "Пропустить обучение",
+    "Cancel": "Отмена",
+    "Skip": "Пропустить",
+    "Are you sure you want to skip the tutorial?": "Вы уверены, что хотите пропустить обучение?",
+    "Stay on Track": "Оставайтесь в курсе",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "Вы на верном пути! Следуйте инструкциям, чтобы продолжить, или пропустите, если хотите",
+    "Step 1": "Шаг 1",
+    "Step 2": "Шаг 2",
+    "Step 3": "Шаг 3",
+    "Step 4": "Шаг 4",
+    "Step 5": "Шаг 5",
+    "Step 6": "Шаг 6",
+    "Step 7": "Шаг 7",
+    "Step 8": "Шаг 8",
+    "Step 9": "Шаг 9",
+    "Step 10": "Шаг 10",
+    "Step 11": "Шаг 11",
+    "Create a Wallet": "Создать кошелек",
+    "Name Your Wallet": "Назовите свой кошелек",
+    "Add a Transaction": "Добавить транзакцию",
+    "Record a Transaction": "Записать транзакцию",
+    "Complete Your Transaction": "Завершить транзакцию",
+    "Create a Budget": "Создать бюджет",
+    "Set Up a Budget": "Настроить бюджет",
+    "Finalize Your Budget": "Завершить бюджет",
+    "Your Finance Assistant": "Ваш финансовый помощник",
+    "Ask Deewas a Question": "Задайте вопрос Deewas",
+    "Welcome to Deewas!": "Добро пожаловать в Deewas!",
+    "Tap the 'New Wallet' button to set up your first wallet": "Нажмите кнопку «Новый кошелек», чтобы настроить свой первый кошелек",
+    "Enter a name for your wallet and tap 'Save' to continue": "Введите название для вашего кошелька и нажмите «Сохранить», чтобы продолжить",
+    "Go to the 'Transactions' screen to view and manage your transactions": "Перейдите на экран «Транзакции», чтобы просмотреть и управлять своими транзакциями",
+    "Tap 'Add Transaction' to log your first transaction": "Нажмите «Добавить транзакцию», чтобы записать свою первую транзакцию",
+    "Enter the name and amount for your transaction, then tap 'Save'": "Введите название и сумму для вашей транзакции, затем нажмите «Сохранить»",
+    "Visit the 'Budgets' tab to start managing your finances": "Перейдите на вкладку «Бюджеты», чтобы начать управлять своими финансами",
+    "Tap 'Create Budget' to define your spending plan": "Нажмите «Создать бюджет», чтобы определить свой план расходов",
+    "Enter the name and amount for your budget, then tap 'Save'": "Введите название и сумму для вашего бюджета, затем нажмите «Сохранить»",
+    "Ask Deewas": "Спросите Deewas",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "Перейдите на экран «Deewas», чтобы пообщаться со своим AI-помощником",
+    "What’s my most expensive expense this month?": "Какой у меня самый дорогой расход в этом месяце?",
+    "You’re all set!": "Все готово!",
+    "Thank you for choosing Deewas": "Благодарим вас за выбор Deewas",
+    "Let’s manage your finances together!": "Давайте управлять вашими финансами вместе!"
   },
   "success": {
     "Sign In Success": "Успешный вход",

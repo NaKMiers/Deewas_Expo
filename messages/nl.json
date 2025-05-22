@@ -103,7 +103,8 @@
     "Version": "Versie",
     "Username": "Gebruikersnaam",
     "Please upgrade to Premium to unlock this feature": "Upgrade naar Premium om deze functie te ontgrendelen",
-    "Upgrade Now": "Nu upgraden"
+    "Upgrade Now": "Nu upgraden",
+    "Biometric Lock": "Biometrische vergrendeling"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "Je hebt nog geen budgetten, maak er nu een aan!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "Hallo",
     "What can you do?": "Wat kun je doen?",
-    "My most expensive expense this month": "Mijn duurste uitgave deze maand",
+    "My most expensive expense this month?": "Mijn duurste uitgave deze maand?",
     "How to limit my spending": "Hoe kan ik mijn uitgaven beperken",
     "An Error Happens": "Er is een fout opgetreden",
     "Try again": "Probeer opnieuw",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "Bekijk onze ondersteuningspagina of neem contact met ons op voor verdere hulp",
     "Go to Support": "Ga naar ondersteuning",
     "Deewas": "Deewas",
-    "All rights reserved": "Alle rechten voorbehouden"
+    "All rights reserved": "Alle rechten voorbehouden",
+    "Restart tutorial": "Tutorial opnieuw starten",
+    "Are you sure you want to restart the tutorial?": "Weet je zeker dat je de tutorial opnieuw wilt starten?",
+    "No": "Nee",
+    "Yes": "Ja"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "Transactie toevoegen",
     "Set Budget": "Budget instellen",
     "Edit": "Bewerken",
-    "Delete": "Verwijderen"
+    "Delete": "Verwijderen",
+    "Delete category": "Categorie verwijderen",
+    "All budgets of this category will be deleted": "Alle budgetten van deze categorie zullen worden verwijderd",
+    "Are you sure you want to delete this category?": "Weet je zeker dat je deze categorie wilt verwijderen?"
   },
   "categoryGroup": {
     "Categories": "Categorieën",
@@ -1077,6 +1085,51 @@
     "Cancel": "Annuleren",
     "Please upgrade to Premium to export data": "Upgrade naar Premium om gegevens te exporteren",
     "Upgrade Now": "Nu upgraden"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "Tutorial beëindigen",
+    "Skip Tutorial": "Tutorial overslaan",
+    "Cancel": "Annuleren",
+    "Skip": "Overslaan",
+    "Are you sure you want to skip the tutorial?": "Weet je zeker dat je de tutorial wilt overslaan?",
+    "Stay on Track": "Blijf op koers",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "Je bent goed op weg! Volg de stappen om verder te gaan of sla over als je wilt",
+    "Step 1": "Stap 1",
+    "Step 2": "Stap 2",
+    "Step 3": "Stap 3",
+    "Step 4": "Stap 4",
+    "Step 5": "Stap 5",
+    "Step 6": "Stap 6",
+    "Step 7": "Stap 7",
+    "Step 8": "Stap 8",
+    "Step 9": "Stap 9",
+    "Step 10": "Stap 10",
+    "Step 11": "Stap 11",
+    "Create a Wallet": "Maak een portemonnee",
+    "Name Your Wallet": "Geef je portemonnee een naam",
+    "Add a Transaction": "Voeg een transactie toe",
+    "Record a Transaction": "Leg een transactie vast",
+    "Complete Your Transaction": "Voltooi je transactie",
+    "Create a Budget": "Maak een budget",
+    "Set Up a Budget": "Stel een budget in",
+    "Finalize Your Budget": "Finaliseer je budget",
+    "Your Finance Assistant": "Je financiële assistent",
+    "Ask Deewas a Question": "Stel Deewas een vraag",
+    "Welcome to Deewas!": "Welkom bij Deewas!",
+    "Tap the 'New Wallet' button to set up your first wallet": "Tik op de knop 'Nieuwe portemonnee' om je eerste portemonnee in te stellen",
+    "Enter a name for your wallet and tap 'Save' to continue": "Voer een naam in voor je portemonnee en tik op 'Opslaan' om verder te gaan",
+    "Go to the 'Transactions' screen to view and manage your transactions": "Ga naar het 'Transacties'-scherm om je transacties te bekijken en te beheren",
+    "Tap 'Add Transaction' to log your first transaction": "Tik op 'Transactie toevoegen' om je eerste transactie te loggen",
+    "Enter the name and amount for your transaction, then tap 'Save'": "Voer de naam en het bedrag voor je transactie in en tik vervolgens op 'Opslaan'",
+    "Visit the 'Budgets' tab to start managing your finances": "Bezoek het tabblad 'Budgetten' om je financiën te beheren",
+    "Tap 'Create Budget' to define your spending plan": "Tik op 'Budget maken' om je bestedingsplan te definiëren",
+    "Enter the name and amount for your budget, then tap 'Save'": "Voer de naam en het bedrag voor je budget in en tik vervolgens op 'Opslaan'",
+    "Ask Deewas": "Vraag Deewas",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "Ga naar het 'Deewas'-scherm om te chatten met je AI-assistent",
+    "What’s my most expensive expense this month?": "Wat is mijn duurste uitgave deze maand?",
+    "You’re all set!": "Je bent helemaal klaar!",
+    "Thank you for choosing Deewas": "Bedankt dat je voor Deewas hebt gekozen",
+    "Let’s manage your finances together!": "Laten we samen je financiën beheren!"
   },
   "success": {
     "Sign In Success": "Inloggen geslaagd",

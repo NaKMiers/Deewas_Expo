@@ -11,8 +11,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { setSelectedWallet } from '@/lib/reducers/screenReducer'
 import { setTransactions } from '@/lib/reducers/transactionReducer'
+import { setStep } from '@/lib/reducers/tutorialReducer'
 import { toUTC } from '@/lib/time'
+import { cn } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
+import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { router } from 'expo-router'
 import {
   LucideCalendarDays,
@@ -42,6 +45,7 @@ function TransactionsPage() {
   const { transactions } = useAppSelector(state => state.transaction)
   const { refreshing, refreshPoint } = useAppSelector(state => state.load)
   const { ofWallet, selectedWallet } = useAppSelector(state => state.screen)
+  const { step, inProgress } = useAppSelector(state => state.tutorial)
 
   // states
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
@@ -332,26 +336,38 @@ function TransactionsPage() {
       </ScrollView>
 
       {/* MARK: Create Transaction */}
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => {
-          dispatch(setSelectedWallet(selectedWallet))
-          router.push('/create-transaction')
-        }}
-        className="absolute right-21/2 z-20 h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+      {inProgress && (step === 4 || step === 6) && <View className="absolute z-10 h-screen w-screen" />}
+      <View
+        className={cn(
+          'absolute right-21/2 z-20',
+          inProgress && step === 4 && 'right-0 rounded-lg border-2 border-sky-500 bg-sky-500/10 p-21/2'
+        )}
         style={{ bottom: adLoaded && !isPremium ? 78 : 10 }}
       >
-        <Icon
-          render={LucidePlus}
-          size={20}
-          reverse
-        />
-        <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            dispatch(setSelectedWallet(selectedWallet))
+            router.push('/create-transaction')
+            if (inProgress && step === 4) dispatch(setStep(5))
+          }}
+          className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+        >
+          <Icon
+            render={LucidePlus}
+            size={20}
+            reverse
+          />
+          <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* MARK: Banner Ads */}
       {!isPremium && (
-        <View className="absolute bottom-2.5 z-20 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <View
+          className="absolute bottom-2.5 left-1/2 z-20 max-h-[60px] -translate-x-1/2 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
+          style={{ width: SCREEN_WIDTH - 21 }}
+        >
           <BannerAd
             unitId={adUnitId}
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

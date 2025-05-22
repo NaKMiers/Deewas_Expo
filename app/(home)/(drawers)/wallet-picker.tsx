@@ -1,33 +1,24 @@
 import CommonFooter from '@/components/dialogs/CommonFooter'
 import CommonHeader from '@/components/dialogs/CommonHeader'
-import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import {
+  setDefaultWallet,
   setFromWallet,
   setOfWallet,
   setSelectedWallet,
   setToWallet,
   setWalletToEdit,
 } from '@/lib/reducers/screenReducer'
-import { deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
-import { deleteWalletApi } from '@/requests/walletRequests'
 import { router, useLocalSearchParams } from 'expo-router'
-import {
-  LucideGalleryVerticalEnd,
-  LucidePencil,
-  LucidePlusSquare,
-  LucideTrash,
-} from 'lucide-react-native'
+import { LucideGalleryVerticalEnd, LucidePencil, LucidePlusSquare } from 'lucide-react-native'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
-import Toast from 'react-native-toast-message'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 
 function WalletPickerPage() {
   // hooks
@@ -40,41 +31,7 @@ function WalletPickerPage() {
   const { wallets } = useAppSelector(state => state.wallet)
 
   // states
-  const [deleting, setDeleting] = useState<string>('')
   const [filterText, setFilterText] = useState<string>('')
-
-  // delete wallet
-  const handleDeleteWallet = useCallback(
-    async (id: string) => {
-      // start deleting
-      setDeleting(id)
-
-      try {
-        const { wallet: w } = await deleteWalletApi(id)
-
-        if (wallets.length > 1) {
-          dispatch(deleteWallet(w))
-        } else {
-          dispatch(updateWallet(w))
-        }
-
-        Toast.show({
-          type: 'success',
-          text1: t('Wallet deleted'),
-        })
-      } catch (err: any) {
-        Toast.show({
-          type: 'error',
-          text1: t('Failed to delete wallet'),
-        })
-        console.log(err)
-      } finally {
-        // stop deleting
-        setDeleting('')
-      }
-    },
-    [dispatch, wallets, t]
-  )
 
   return (
     <DrawerWrapper>
@@ -138,8 +95,14 @@ function WalletPickerPage() {
                 onPress={() => {
                   if (isFromWallet === 'true') dispatch(setFromWallet(wallet))
                   else if (isToWallet === 'true') dispatch(setToWallet(wallet))
-                  else if (showAllOption === 'true') dispatch(setOfWallet(wallet))
-                  else dispatch(setSelectedWallet(wallet))
+                  else if (showAllOption === 'true') {
+                    console.log('showAllOption')
+                    dispatch(setDefaultWallet(wallet))
+                    dispatch(setOfWallet(wallet))
+                  } else {
+                    dispatch(setDefaultWallet(wallet))
+                    dispatch(setSelectedWallet(wallet))
+                  }
                   router.back()
                 }}
                 disabled={false}
@@ -154,6 +117,7 @@ function WalletPickerPage() {
                   {/* MARK: Update Wallet */}
                   <TouchableOpacity
                     activeOpacity={0.7}
+                    className="p-2"
                     onPress={() => {
                       dispatch(setWalletToEdit(wallet))
                       router.push('/update-wallet')
@@ -165,34 +129,6 @@ function WalletPickerPage() {
                       color="#0ea5e9"
                     />
                   </TouchableOpacity>
-
-                  {/* MARK: Delete Wallet */}
-                  <ConfirmDialog
-                    label={t('Delete wallet')}
-                    desc={`${t('Are you sure you want to delete')} ${wallet.name}?`}
-                    confirmLabel={t('Delete')}
-                    cancelLabel={t('Cancel')}
-                    onConfirm={() => handleDeleteWallet(wallet._id)}
-                    disabled={deleting === wallet._id}
-                    className="!h-auto !w-auto"
-                    trigger={
-                      <Button
-                        disabled={deleting === wallet._id}
-                        variant="ghost"
-                        className="trans-200 h-full w-8 flex-shrink-0 rounded-md px-21/2 py-1.5 text-start text-sm font-semibold hover:bg-slate-200/30"
-                      >
-                        {deleting === wallet._id ? (
-                          <ActivityIndicator />
-                        ) : (
-                          <Icon
-                            render={LucideTrash}
-                            size={18}
-                            color="#f43f5e"
-                          />
-                        )}
-                      </Button>
-                    }
-                  />
                 </View>
               </TouchableOpacity>
             ))}

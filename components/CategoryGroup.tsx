@@ -1,9 +1,8 @@
-import { useAppDispatch } from '@/hooks/reduxHook'
 import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { router } from 'expo-router'
 import { LucidePlusSquare } from 'lucide-react-native'
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import Category from './Category'
@@ -20,12 +19,8 @@ interface CategoryGroupProps {
 
 function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
   // hooks
-  const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryGroup.' + key)
-
-  // states
-  const [creating, setCreating] = useState<boolean>(false)
 
   // values
   const { Icon: renderIcon, border, background } = checkTranType(type)

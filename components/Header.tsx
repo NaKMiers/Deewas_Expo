@@ -1,5 +1,6 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
+import { useAppSelector } from '@/hooks/reduxHook'
 import { shortName } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { router } from 'expo-router'
@@ -23,8 +24,12 @@ function Header({ className }: HeaderProps) {
   const t = (key: string) => translate('header.' + key)
   const { user, isPremium } = useAuth()
 
+  // store
+  const { inProgress } = useAppSelector(state => state.tutorial)
+
   return (
-    <SafeAreaView className={cn(className)}>
+    <SafeAreaView className={cn('relative', className)}>
+      {inProgress && <View className="absolute left-0 top-0 z-10 h-full w-full" />}
       <View className="w-full flex-row items-center justify-between gap-2 bg-primary px-21/2 py-2 md:px-21">
         <View className="flex-1 flex-row items-center gap-2 md:gap-4">
           <Button
@@ -41,7 +46,7 @@ function Header({ className }: HeaderProps) {
             className="flex-1"
             onPress={() => router.push('/home')}
           >
-            <Text className="line-clamp-1 text-ellipsis text-nowrap text-lg font-semibold tracking-wide text-secondary">
+            <Text className="text-nowrap line-clamp-1 text-ellipsis text-lg font-semibold tracking-wide text-secondary">
               {t('Hi')} {user ? shortName(user, 'User') : 'there'}! 👋
             </Text>
           </TouchableOpacity>
@@ -64,15 +69,6 @@ function Header({ className }: HeaderProps) {
               </ImageBackground>
             </View>
           )}
-          {/* <Button
-            variant="secondary"
-            size="icon"
-          >
-            <Icon
-              render={LucideBell}
-              size={18}
-            />
-          </Button> */}
           <Button
             variant="secondary"
             size="icon"

@@ -5,7 +5,6 @@ import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteBudgetApi } from '@/requests/budgetRequests'
 import { differenceInDays } from 'date-fns'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import { LucideEllipsis, LucideLayers2, LucidePencil, LucideTrash } from 'lucide-react-native'
 import moment from 'moment'
@@ -13,11 +12,12 @@ import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
-import ConfirmDialog from './dialogs/ConfirmDialog'
-import Icon from './Icon'
+import BlurView from './BlurView'
 import Text from './Text'
-import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { Button } from './ui/button'
+import Icon from './Icon'
+import ConfirmDialog from './dialogs/ConfirmDialog'
 
 interface IBudgetCardProps {
   begin: Date | string
@@ -182,7 +182,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
               style={{ width: `${progress > 100 ? 100 : progress}%` }}
             />
             {currency && (
-              <Text className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-nowrap font-body text-sm font-semibold tracking-wider">
+              <Text className="text-nowrap absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 font-body text-sm font-semibold tracking-wider">
                 {t('Left')} {formatCurrency(currency, budget.total - budget.amount)}
               </Text>
             )}

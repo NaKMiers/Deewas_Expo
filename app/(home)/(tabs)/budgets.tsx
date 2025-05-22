@@ -7,7 +7,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
+import { setStep } from '@/lib/reducers/tutorialReducer'
 import { formatTimeRange } from '@/lib/time'
+import { cn } from '@/lib/utils'
+import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
 import { LucidePlus } from 'lucide-react-native'
@@ -28,6 +31,7 @@ function BudgetsPage() {
   // store
   const { budgets, loading } = useAppSelector(state => state.budget)
   const { refreshing } = useAppSelector(state => state.load)
+  const { step, inProgress } = useAppSelector(state => state.tutorial)
 
   // states
   const [groups, setGroups] = useState<any[]>([])
@@ -90,7 +94,10 @@ function BudgetsPage() {
                 <View className="mb-2.5 mt-21/2">
                   <SegmentedControl
                     values={tabLabels}
-                    style={{ width: '100%', height: 40 }}
+                    style={{
+                      width: '100%',
+                      height: 40,
+                    }}
                     selectedIndex={Math.max(0, groups.map(([key]) => key).indexOf(tab))}
                     onChange={(event: any) => {
                       const index = event.nativeEvent.selectedSegmentIndex
@@ -133,23 +140,37 @@ function BudgetsPage() {
       </ScrollView>
 
       {/* MARK: Create Transaction */}
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => router.push('/create-budget')}
-        className="absolute right-21/2 z-20 h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+      {inProgress && (step === 7 || step === 9) && <View className="absolute z-10 h-screen w-screen" />}
+      <View
+        className={cn(
+          'absolute right-21/2 z-20',
+          inProgress && step === 7 && 'right-0 rounded-lg border-2 border-sky-500 bg-sky-500/10 p-21/2'
+        )}
         style={{ bottom: adLoaded && !isPremium ? 78 : 10 }}
       >
-        <Icon
-          render={LucidePlus}
-          size={20}
-          reverse
-        />
-        <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            router.push('/create-budget')
+            if (inProgress && step === 7) dispatch(setStep(8))
+          }}
+          className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+        >
+          <Icon
+            render={LucidePlus}
+            size={20}
+            reverse
+          />
+          <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* MARK: Banner Ads */}
       {!isPremium && (
-        <View className="absolute bottom-2.5 z-20 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <View
+          className="absolute bottom-2.5 left-1/2 z-20 max-h-[60px] -translate-x-1/2 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
+          style={{ width: SCREEN_WIDTH - 21 }}
+        >
           <BannerAd
             unitId={adUnitId}
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

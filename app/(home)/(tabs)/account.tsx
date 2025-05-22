@@ -1,11 +1,11 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
+import BlurView from '@/components/BlurView'
 import Countdown from '@/components/Countdown'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import FileExporter from '@/components/FileExporter'
 import Icon from '@/components/Icon'
-import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import SettingsBox from '@/components/SettingsBox'
 import Text from '@/components/Text'
@@ -19,7 +19,6 @@ import { capitalize, shortName } from '@/lib/string'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { deleteAllDataApi, updateUserApi } from '@/requests'
-import { BlurView } from 'expo-blur'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
 import {
@@ -40,6 +39,7 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
+  Image,
   ImageBackground,
   SafeAreaView,
   ScrollView,
@@ -154,7 +154,6 @@ function AccountPage() {
                     <Image
                       className="h-full w-full rounded-full object-cover"
                       source={{ uri: user.avatar }}
-                      fallbackSource={images.defaultAvatar}
                       width={50}
                       height={50}
                       alt="avatar"
@@ -389,7 +388,7 @@ function AccountPage() {
                   render={LucideScanFace}
                   size={20}
                 />
-                <Text className="text-lg font-semibold">Face ID</Text>
+                <Text className="text-lg font-semibold">{t('Biometric Lock')}</Text>
                 <View className="flex-1 flex-row items-center justify-end">
                   <Switch
                     checked={biometric.open}
@@ -398,21 +397,6 @@ function AccountPage() {
                     style={{ transform: [{ scale: 0.9 }] }}
                   />
                 </View>
-              </BlurView>
-            </View>
-          )}
-
-          {!isPremium && !adLoadFailed && (
-            <View className="shadow-md">
-              <BlurView
-                intensity={90}
-                className="flex-row items-center justify-center overflow-hidden rounded-xl border border-primary/10"
-              >
-                <BannerAd
-                  unitId={adUnitId}
-                  size={BannerAdSize.LARGE_BANNER}
-                  onAdFailedToLoad={() => setAdLoadFailed(true)}
-                />
               </BlurView>
             </View>
           )}
@@ -454,6 +438,23 @@ function AccountPage() {
           <Text className="text-center font-medium text-muted-foreground">
             {t('Version')} {Constants.expoConfig?.version || '1.0.0'}
           </Text>
+
+          {/* MARK: Ads */}
+          {!isPremium && !adLoadFailed && (
+            <View className="shadow-md">
+              <BlurView
+                intensity={90}
+                tint="prominent"
+                className="items-center justify-center overflow-hidden rounded-xl border border-primary/10"
+              >
+                <BannerAd
+                  unitId={adUnitId}
+                  size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
+                  onAdFailedToLoad={() => setAdLoadFailed(true)}
+                />
+              </BlurView>
+            </View>
+          )}
 
           {/* MARK: Danger */}
           <ConfirmDialog

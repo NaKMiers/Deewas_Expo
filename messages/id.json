@@ -103,7 +103,8 @@
     "Version": "Versi",
     "Username": "Nama Pengguna",
     "Please upgrade to Premium to unlock this feature": "Silakan tingkatkan ke Premium untuk membuka fitur ini",
-    "Upgrade Now": "Tingkatkan Sekarang"
+    "Upgrade Now": "Tingkatkan Sekarang",
+    "Biometric Lock": "Kunci Biometrik"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "Anda belum memiliki anggaran, buat sekarang!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "Halo",
     "What can you do?": "Apa yang bisa kamu lakukan?",
-    "My most expensive expense this month": "Pengeluaran paling mahal saya bulan ini",
+    "My most expensive expense this month?": "Pengeluaran termahal saya bulan ini?",
     "How to limit my spending": "Bagaimana cara membatasi pengeluaran saya",
     "An Error Happens": "Terjadi Kesalahan",
     "Try again": "Coba lagi",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "Lihat halaman dukungan kami atau hubungi kami untuk bantuan lebih lanjut",
     "Go to Support": "Pergi ke Dukungan",
     "Deewas": "Deewas",
-    "All rights reserved": "Hak cipta dilindungi"
+    "All rights reserved": "Hak cipta dilindungi",
+    "Restart tutorial": "Mulai ulang tutorial",
+    "Are you sure you want to restart the tutorial?": "Apakah Anda yakin ingin memulai ulang tutorial?",
+    "No": "Tidak",
+    "Yes": "Ya"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "Tambah Transaksi",
     "Set Budget": "Tetapkan Anggaran",
     "Edit": "Edit",
-    "Delete": "Hapus"
+    "Delete": "Hapus",
+    "Delete category": "Hapus kategori",
+    "All budgets of this category will be deleted": "Semua anggaran kategori ini akan dihapus",
+    "Are you sure you want to delete this category?": "Apakah Anda yakin ingin menghapus kategori ini?"
   },
   "categoryGroup": {
     "Categories": "Kategori",
@@ -1077,6 +1085,51 @@
     "Cancel": "Batal",
     "Please upgrade to Premium to export data": "Silakan tingkatkan ke Premium untuk mengekspor data",
     "Upgrade Now": "Tingkatkan Sekarang"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "Selesaikan Tutorial",
+    "Skip Tutorial": "Lewati Tutorial",
+    "Cancel": "Batal",
+    "Skip": "Lewati",
+    "Are you sure you want to skip the tutorial?": "Anda yakin ingin melewati tutorial?",
+    "Stay on Track": "Tetap di Jalur",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "Anda sedang dalam perjalanan! Ikuti langkah-langkah untuk melanjutkan atau lewati jika Anda mau",
+    "Step 1": "Langkah 1",
+    "Step 2": "Langkah 2",
+    "Step 3": "Langkah 3",
+    "Step 4": "Langkah 4",
+    "Step 5": "Langkah 5",
+    "Step 6": "Langkah 6",
+    "Step 7": "Langkah 7",
+    "Step 8": "Langkah 8",
+    "Step 9": "Langkah 9",
+    "Step 10": "Langkah 10",
+    "Step 11": "Langkah 11",
+    "Create a Wallet": "Buat Dompet",
+    "Name Your Wallet": "Beri Nama Dompet Anda",
+    "Add a Transaction": "Tambahkan Transaksi",
+    "Record a Transaction": "Catat Transaksi",
+    "Complete Your Transaction": "Selesaikan Transaksi Anda",
+    "Create a Budget": "Buat Anggaran",
+    "Set Up a Budget": "Siapkan Anggaran",
+    "Finalize Your Budget": "Selesaikan Anggaran Anda",
+    "Your Finance Assistant": "Asisten Keuangan Anda",
+    "Ask Deewas a Question": "Ajukan Pertanyaan kepada Deewas",
+    "Welcome to Deewas!": "Selamat datang di Deewas!",
+    "Tap the 'New Wallet' button to set up your first wallet": "Ketuk tombol 'Dompet Baru' untuk menyiapkan dompet pertama Anda",
+    "Enter a name for your wallet and tap 'Save' to continue": "Masukkan nama untuk dompet Anda dan ketuk 'Simpan' untuk melanjutkan",
+    "Go to the 'Transactions' screen to view and manage your transactions": "Buka layar 'Transaksi' untuk melihat dan mengelola transaksi Anda",
+    "Tap 'Add Transaction' to log your first transaction": "Ketuk 'Tambahkan Transaksi' untuk mencatat transaksi pertama Anda",
+    "Enter the name and amount for your transaction, then tap 'Save'": "Masukkan nama dan jumlah untuk transaksi Anda, lalu ketuk 'Simpan'",
+    "Visit the 'Budgets' tab to start managing your finances": "Kunjungi tab 'Anggaran' untuk mulai mengelola keuangan Anda",
+    "Tap 'Create Budget' to define your spending plan": "Ketuk 'Buat Anggaran' untuk menentukan rencana pengeluaran Anda",
+    "Enter the name and amount for your budget, then tap 'Save'": "Masukkan nama dan jumlah untuk anggaran Anda, lalu ketuk 'Simpan'",
+    "Ask Deewas": "Ajukan Pertanyaan kepada Deewas",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "Buka layar 'Deewas' untuk mengobrol dengan asisten AI Anda",
+    "What’s my most expensive expense this month?": "Apa pengeluaran termahal saya bulan ini?",
+    "You’re all set!": "Anda sudah siap!",
+    "Thank you for choosing Deewas": "Terima kasih telah memilih Deewas",
+    "Let’s manage your finances together!": "Mari kelola keuangan Anda bersama!"
   },
   "success": {
     "Sign In Success": "Masuk Berhasil",

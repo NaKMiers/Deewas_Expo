@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideArrowLeftRight,
@@ -17,6 +16,7 @@ import { Button } from './ui/button'
 import { useColorScheme } from '@/lib/useColorScheme'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useMemo, useRef } from 'react'
+import BlurView from './BlurView'
 
 interface ICreationsProps {
   disabled?: boolean
@@ -105,6 +105,7 @@ function Creations({ disabled, trigger, className }: ICreationsProps) {
           className="flex-1"
           intensity={90}
           tint="prominent"
+          noBlur
         >
           <BottomSheetView className="flex-1">
             <View className={cn('mx-auto mt-21 w-full max-w-sm', className)}>

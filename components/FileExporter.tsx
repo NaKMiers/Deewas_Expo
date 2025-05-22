@@ -1,7 +1,6 @@
 import { capitalize } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { getAllDataToExportApi } from '@/requests'
-import { BlurView } from 'expo-blur'
 import * as FileSystem from 'expo-file-system'
 import { router } from 'expo-router'
 import * as Sharing from 'expo-sharing'
@@ -13,6 +12,7 @@ import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native'
 import XLSX from 'xlsx'
+import BlurView from './BlurView'
 import Icon from './Icon'
 import Text from './Text'
 import ConfirmDialog from './dialogs/ConfirmDialog'
@@ -189,10 +189,10 @@ function FileExporter({ className }: FileExporterProps) {
   }, [getAllData, flatData, cleanUpOldFiles, t, tError, data, isPremium])
 
   return (
-    <View className="shadow-md">
+    <View className="flex-shrink-0 shadow-md">
       <BlurView
         intensity={90}
-        className={cn('overflow-hidden', className)}
+        className={cn('flex-shrink-0 overflow-hidden', className)}
       >
         <ConfirmDialog
           label={t('Export CSV')}

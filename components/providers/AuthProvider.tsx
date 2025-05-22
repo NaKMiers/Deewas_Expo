@@ -179,9 +179,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setLoggingOut(true)
 
     await switchBiometric(-1)
-    dispatch(clearUser())
     await AsyncStorage.removeItem('token')
     await AsyncStorage.removeItem('messages')
+    dispatch(clearUser())
 
     setLoggingOut(false)
   }, [dispatch, switchBiometric])

@@ -1,6 +1,6 @@
 import icons from '@/assets/icons/icons'
+import BlurView from '@/components/BlurView'
 import DrawerWrapper from '@/components/DrawerWrapper'
-import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -8,15 +8,15 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setStats } from '@/lib/reducers/userReducer'
 import { getLocale, shortName } from '@/lib/string'
 import { toUTC } from '@/lib/time'
+import { cn } from '@/lib/utils'
 import { getUserStatsApi } from '@/requests'
 import { Separator } from '@rn-primitives/select'
 import { format } from 'date-fns'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TouchableOpacity, View } from 'react-native'
+import { Image, Platform, TouchableOpacity, View } from 'react-native'
 
 function StreaksPage() {
   // hooks
@@ -112,7 +112,7 @@ function StreaksPage() {
       <View className="items-center">
         {/* Flame */}
         <View
-          className="aspect-square rounded-full border border-orange-500 p-14"
+          className="aspect-square rounded-full border border-orange-500 p-14 dark:bg-primary/5"
           style={{ height: 250 }}
         >
           {!loading ? (
@@ -128,8 +128,12 @@ function StreaksPage() {
 
         {/* Streak Count */}
         <BlurView
-          className="aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500"
+          className={cn(
+            'aspect-square items-center justify-center overflow-hidden rounded-full border border-orange-500',
+            Platform.OS === 'android' && 'bg-secondary'
+          )}
           style={{ marginTop: -50 }}
+          noBlur
         >
           {!loading ? (
             <Text
@@ -187,7 +191,6 @@ function StreaksPage() {
         {!loading && statList ? (
           <BlurView
             intensity={100}
-            tint="prominent"
             className="mt-8 w-full overflow-hidden rounded-3xl border border-primary/10 shadow-md"
           >
             <Text className="py-2.5 text-center text-lg font-bold">{t('Your Stats')}</Text>

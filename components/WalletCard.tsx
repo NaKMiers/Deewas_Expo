@@ -11,7 +11,6 @@ import { deleteWallet, updateWallet } from '@/lib/reducers/walletReducer'
 import { checkLevel, checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteWalletApi, updateWalletApi } from '@/requests/walletRequests'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideArrowRightLeft,
@@ -26,6 +25,7 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ImageBackground, Pressable, TouchableOpacity, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import Toast from 'react-native-toast-message'
+import BlurView from './BlurView'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import Text from './Text'
@@ -151,6 +151,7 @@ function WalletCard({ wallet, hideMenu, className }: WalletCardProps) {
                         className="px-1 py-2"
                         tint="prominent"
                         intensity={90}
+                        noBlur
                       >
                         {/* MARK: Exclude Wallet */}
                         <Button

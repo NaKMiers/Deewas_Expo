@@ -1,31 +1,24 @@
 import CommonFooter from '@/components/dialogs/CommonFooter'
 import CommonHeader from '@/components/dialogs/CommonHeader'
-import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import DrawerWrapper from '@/components/DrawerWrapper'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SelectSeparator } from '@/components/ui/select'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { refresh } from '@/lib/reducers/loadReducer'
 import { setCategoryToEdit, setSelectedCategory } from '@/lib/reducers/screenReducer'
 import { checkTranType } from '@/lib/string'
 import { cn } from '@/lib/utils'
-import { deleteCategoryApi } from '@/requests/categoryRequests'
 import { router, useLocalSearchParams } from 'expo-router'
-import { LucidePencil, LucidePlusSquare, LucideTrash } from 'lucide-react-native'
-import { useCallback, useState } from 'react'
+import { LucidePencil, LucidePlusSquare } from 'lucide-react-native'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
-import Toast from 'react-native-toast-message'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 
 function CategoryPicker() {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('categoryPickerPage.' + key)
-  const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
-  const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const dispatch = useAppDispatch()
   const { type } = useLocalSearchParams()
 
@@ -33,38 +26,8 @@ function CategoryPicker() {
   const { categories } = useAppSelector(state => state.category)
 
   // states
-  const [deleting, setDeleting] = useState<string>('')
+  // const [deleting, setDeleting] = useState<string>('')
   const [filterText, setFilterText] = useState<string>('')
-
-  // delete category
-  const handleDeleteCategory = useCallback(
-    async (id: string) => {
-      if (!id) return
-      // start loading
-      setDeleting(id)
-
-      try {
-        await deleteCategoryApi(id)
-
-        Toast.show({
-          type: 'success',
-          text1: tSuccess('Category deleted'),
-        })
-
-        dispatch(refresh())
-      } catch (err: any) {
-        Toast.show({
-          type: 'error',
-          text1: tError('Failed to delete category'),
-        })
-        console.log(err)
-      } finally {
-        // stop loading
-        setDeleting('')
-      }
-    },
-    [dispatch, tSuccess, tError]
-  )
 
   return (
     <DrawerWrapper>
@@ -83,7 +46,7 @@ function CategoryPicker() {
         desc={t('Categories are used to group your transactions')}
       />
 
-      {/* Search Bar */}
+      {/* MARK: Search Bar */}
       <View className="mt-6 rounded-lg border border-primary p-1">
         <Input
           autoFocus={false}
@@ -134,6 +97,7 @@ function CategoryPicker() {
                   {/* MARK: Update Category */}
                   <TouchableOpacity
                     activeOpacity={0.7}
+                    className="p-2"
                     onPress={() => {
                       dispatch(setCategoryToEdit(category))
                       router.push('/update-category')
@@ -145,36 +109,6 @@ function CategoryPicker() {
                       color="#0ea5e9"
                     />
                   </TouchableOpacity>
-
-                  {/* MARK: Delete Category */}
-                  {category.deletable && (
-                    <ConfirmDialog
-                      label={t('Delete category')}
-                      desc={`${t('Are you sure you want to delete')} ${category.name}?`}
-                      confirmLabel={t('Delete')}
-                      cancelLabel={t('Cancel')}
-                      onConfirm={() => handleDeleteCategory(category._id)}
-                      disabled={deleting === category._id}
-                      className="!h-auto !w-auto"
-                      trigger={
-                        <Button
-                          disabled={deleting === category._id}
-                          variant="ghost"
-                          className="trans-200 h-full w-8 flex-shrink-0 rounded-md px-21/2 py-1.5 text-start text-sm font-semibold hover:bg-slate-200/30"
-                        >
-                          {deleting === category._id ? (
-                            <ActivityIndicator />
-                          ) : (
-                            <Icon
-                              render={LucideTrash}
-                              size={18}
-                              color="#f43f5e"
-                            />
-                          )}
-                        </Button>
-                      }
-                    />
-                  )}
                 </View>
               </TouchableOpacity>
             ))}

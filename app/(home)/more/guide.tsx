@@ -1,18 +1,25 @@
+import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { useAppDispatch } from '@/hooks/reduxHook'
+import useSettings from '@/hooks/useSettings'
+import { setInProgress, setOpenTutorial } from '@/lib/reducers/tutorialReducer'
 import { cn } from '@/lib/utils'
-import { BlurView } from 'expo-blur'
-import { BarChart, Heart, Mail, PlusCircle, Wallet } from 'lucide-react-native'
-import { useState } from 'react'
+import { updateMySettingsApi } from '@/requests'
+import { router } from 'expo-router'
+import { BarChart, Heart, LucideRotateCcw, Mail, PlusCircle, Wallet } from 'lucide-react-native'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { Alert, Linking, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 
 function GuidePage() {
   // hooks
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('guidePage.' + key)
+  const dispatch = useAppDispatch()
+  const { refetch: refetchSettings } = useSettings()
 
   const [activeTab, setActiveTab] = useState('transactions')
   const supportEmail = process.env.EXPO_PUBLIC_SUPPORT_EMAIL || 'deewas.now@gmail.com'
@@ -148,12 +155,25 @@ function GuidePage() {
     },
   }
 
+  const handleRestartTutorial = useCallback(async () => {
+    try {
+      await updateMySettingsApi({ firstLaunch: false })
+
+      dispatch(setOpenTutorial(true))
+      dispatch(setInProgress(true))
+      refetchSettings()
+      router.replace('/home')
+      router.back()
+    } catch (err: any) {
+      console.log(err)
+    }
+  }, [dispatch, refetchSettings])
+
   return (
     <SafeAreaView className="flex-1">
       <BlurView
         className="flex-1"
         intensity={90}
-        tint="prominent"
       >
         <ScrollView>
           <View className="p-21/2 md:p-21">
@@ -180,7 +200,33 @@ function GuidePage() {
                 </Text>
               </View>
 
-              {/* Separator */}
+              <Separator className="my-12" />
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() =>
+                  Alert.alert(
+                    t('Restart tutorial'),
+                    t('Are you sure you want to restart the tutorial?'),
+                    [
+                      { text: t('No') },
+                      {
+                        text: t('Yes'),
+                        onPress: handleRestartTutorial,
+                      },
+                    ]
+                  )
+                }
+                className="flex-row items-center justify-center gap-21/2 rounded-lg bg-primary p-4 shadow-md"
+              >
+                <Icon
+                  render={LucideRotateCcw}
+                  size={20}
+                  reverse
+                />
+                <Text className="text-lg font-semibold text-secondary">{t('Restart tutorial')}</Text>
+              </TouchableOpacity>
+
               <Separator className="my-12" />
 
               {/* Guide Content with Tabs */}

@@ -1,7 +1,6 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
-import Image from '@/components/Image'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -25,6 +24,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -344,7 +344,7 @@ function SignInPage() {
                     onFocus={() => clearErrors('usernameOrEmail')}
                     errors={errors}
                     labelClassName="text-black"
-                    inputClassName="lowercase"
+                    inputClassName="text-black"
                     containerClassName="bg-white"
                   />
 
@@ -359,6 +359,7 @@ function SignInPage() {
                     onFocus={() => clearErrors('password')}
                     errors={errors}
                     labelClassName="text-black"
+                    inputClassName="text-black"
                     containerClassName="bg-white"
                   />
                 </View>

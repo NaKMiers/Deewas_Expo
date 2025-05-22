@@ -1,16 +1,14 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
+import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
-import Image from '@/components/Image'
 import { useRevenueCat } from '@/components/providers/RevenueCatProvider'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
 import { IPAD_THRESHOLD } from '@/constants'
 import { setLoading } from '@/lib/reducers/budgetReducer'
-import { formatPrice } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
-import { BlurView } from 'expo-blur'
 import { router, useNavigation } from 'expo-router'
 import { LucideCheck, LucideMessageCircleMore, LucideX } from 'lucide-react-native'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -20,21 +18,21 @@ import {
   Alert,
   BackHandler,
   FlatList,
+  Image,
   ImageBackground,
   Linking,
+  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native'
 import { PACKAGE_TYPE, PurchasesPackage } from 'react-native-purchases'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 const freeFeatures = [
   'Max 2 wallets',
   'Max 4 budgets',
   'Annoying ads',
   '10.000 AI tokens every day',
-  // 'No priority support',
   "Can't export data",
   'Bar chart only',
   'Mobile only',
@@ -45,7 +43,6 @@ const premiumFeatures = [
   'Unlimited budgets',
   'No advertisement',
   'Up to 4.500.000 AI tokens per month',
-  // 'Priority support',
   'Export data to CSV, Excel',
   'Unlock advanced charts (pie, line, bar, etc.)',
   'Mobile and web',
@@ -74,9 +71,8 @@ const reviews = [
 
 function PremiumPage() {
   // hooks
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('premiumPage.' + key), [translate])
-  const locale = i18n.language
   const navigation = useNavigation()
   const { packages, purchasing, purchasePackage, restorePurchase } = useRevenueCat()
 
@@ -152,7 +148,6 @@ function PremiumPage() {
       <BlurView
         className="relative flex-1"
         intensity={100}
-        tint="prominent"
       >
         <ScrollView>
           <View>
@@ -377,20 +372,16 @@ function PremiumPage() {
                           isSelected && 'border-0 bg-sky-500 text-white'
                         )}
                       >
-                        {product.title} Premium
+                        {product.title}
                       </Text>
 
                       <View className="px-0.5 py-2">
                         <Text className="text-center text-lg font-semibold tracking-wider text-neutral-800">
-                          {formatPrice(product.price, locale, product.currencyCode)}
+                          {product.priceString}
                         </Text>
 
                         <Text className="text-center text-sm tracking-wider text-neutral-800">
-                          {formatPrice(
-                            product.pricePerMonth || product.price,
-                            locale,
-                            product.currencyCode
-                          )}
+                          {product.pricePerMonthString || product.priceString}
                         </Text>
                         <Text
                           className="text-center text-sm tracking-wider text-neutral-800"

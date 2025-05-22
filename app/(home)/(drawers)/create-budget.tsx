@@ -14,6 +14,7 @@ import {
   setSelectedCategory,
   setToDate,
 } from '@/lib/reducers/screenReducer'
+import { setStep } from '@/lib/reducers/tutorialReducer'
 import { capitalize, formatSymbol, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
@@ -25,7 +26,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { TouchableOpacity, View } from 'react-native'
+import { Alert, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function CreateBudgetPage() {
@@ -41,8 +42,10 @@ function CreateBudgetPage() {
 
   // store
   const currency = useAppSelector(state => state.settings.settings?.currency)
+  const categories = useAppSelector(state => state.category.categories)
   const budgets = useAppSelector(state => state.budget.budgets)
   const { selectedCategory, dateRange } = useAppSelector(state => state.screen)
+  const { inProgress, step } = useAppSelector(state => state.tutorial)
 
   // form
   const {
@@ -92,6 +95,19 @@ function CreateBudgetPage() {
     },
     [dispatch]
   )
+
+  useEffect(() => {
+    if (inProgress && step === 8) {
+      const expenseCates = categories.filter(c => c.type === 'expense')
+      if (expenseCates.length === 0) {
+        Alert.alert('Error', 'No category found')
+        dispatch(setStep(9))
+        return
+      }
+      const randomCate = expenseCates[Math.floor(Math.random() * expenseCates.length)]
+      dispatch(setSelectedCategory(randomCate))
+    }
+  }, [dispatch, inProgress, step, categories])
 
   // validate form
   const validate: SubmitHandler<FieldValues> = useCallback(
@@ -176,6 +192,8 @@ function CreateBudgetPage() {
           text1: tSuccess('Budget created'),
         })
 
+        if (inProgress && step === 8) dispatch(setStep(9))
+
         dispatch(refresh())
         router.back()
       } catch (err: any) {
@@ -190,7 +208,7 @@ function CreateBudgetPage() {
         setSaving(false)
       }
     },
-    [dispatch, validate, tError, tSuccess]
+    [dispatch, validate, tError, tSuccess, inProgress, step]
   )
 
   return (
@@ -202,7 +220,16 @@ function CreateBudgetPage() {
       />
 
       {/* MARK: Total */}
-      <View className="mt-6 flex-col gap-6">
+      <View className="relative mt-6 flex-col gap-6">
+        {inProgress && step === 8 && (
+          <>
+            <View
+              className="absolute z-10 w-full rounded-lg border-2 border-sky-500 bg-sky-500/10"
+              style={{ height: 80, top: -8 }}
+              pointerEvents="none"
+            />
+          </>
+        )}
         {currency && (
           <CustomInput
             id="total"
@@ -228,6 +255,7 @@ function CreateBudgetPage() {
             activeOpacity={0.7}
             className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
             onPress={() => {
+              if (inProgress && step === 8) return
               router.push('/category-picker?type=expense')
               clearErrors('categoryId')
             }}
@@ -268,7 +296,10 @@ function CreateBudgetPage() {
             className={cn(
               'h-12 flex-row items-center justify-center gap-2 rounded-md border border-primary px-3'
             )}
-            onPress={() => router.push('/date-range-picker?isFuture=true')}
+            onPress={() => {
+              if (inProgress && step === 8) return
+              router.push('/date-range-picker?isFuture=true')
+            }}
           >
             <Text className="font-semibold">
               {capitalize(
@@ -298,9 +329,11 @@ function CreateBudgetPage() {
         onCancel={router.back}
         onAccept={handleSubmit(handleCreateBudget)}
         loading={saving}
+        inTutorial={inProgress && step === 8}
       />
 
       <Separator className="my-8 h-0" />
+      {inProgress && step === 8 && <Separator className="my-32 h-0" />}
     </DrawerWrapper>
   )
 }

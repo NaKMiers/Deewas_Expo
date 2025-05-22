@@ -19,7 +19,7 @@ function CountDown({ timeType, start, duration, expire, textClassName, className
   // MARK: Effects
   // count down
   useEffect(() => {
-    let interval: NodeJS.Timeout
+    let interval: any
 
     // get hours, minutes, seconds left
     const getTimesLeft = () => {

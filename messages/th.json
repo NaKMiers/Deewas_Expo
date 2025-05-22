@@ -103,7 +103,8 @@
     "Version": "เวอร์ชัน",
     "Username": "ชื่อผู้ใช้",
     "Please upgrade to Premium to unlock this feature": "กรุณาอัปเกรดเป็นพรีเมียมเพื่อปลดล็อกฟีเจอร์นี้",
-    "Upgrade Now": "อัปเกรดตอนนี้"
+    "Upgrade Now": "อัปเกรดตอนนี้",
+    "Biometric Lock": "ล็อคด้วยลายนิ้วมือ"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "คุณยังไม่มีงบประมาณ มาสร้างเลย!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "สวัสดี",
     "What can you do?": "คุณทำอะไรได้บ้าง?",
-    "My most expensive expense this month": "ค่าใช้จ่ายที่แพงที่สุดของฉันในเดือนนี้",
+    "My most expensive expense this month?": "ค่าใช้จ่ายที่แพงที่สุดของฉันในเดือนนี้?",
     "How to limit my spending": "วิธีจำกัดการใช้จ่ายของฉัน",
     "An Error Happens": "เกิดข้อผิดพลาด",
     "Try again": "ลองใหม่",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "ตรวจสอบหน้าสนับสนุนของเราหรือติดต่อเราเพื่อขอความช่วยเหลือเพิ่มเติม",
     "Go to Support": "ไปที่ฝ่ายสนับสนุน",
     "Deewas": "ดีวาส",
-    "All rights reserved": "สงวนลิขสิทธิ์"
+    "All rights reserved": "สงวนลิขสิทธิ์",
+    "Restart tutorial": "เริ่มบทช่วยสอนใหม่",
+    "Are you sure you want to restart the tutorial?": "คุณแน่ใจหรือไม่ว่าต้องการเริ่มบทช่วยสอนใหม่?",
+    "No": "ไม่",
+    "Yes": "ใช่"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "เพิ่มธุรกรรม",
     "Set Budget": "ตั้งงบประมาณ",
     "Edit": "แก้ไข",
-    "Delete": "ลบ"
+    "Delete": "ลบ",
+    "Delete category": "ลบหมวดหมู่",
+    "All budgets of this category will be deleted": "งบประมาณทั้งหมดของหมวดหมู่นี้จะถูกลบ",
+    "Are you sure you want to delete this category?": "คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?"
   },
   "categoryGroup": {
     "Categories": "หมวดหมู่",
@@ -1077,6 +1085,51 @@
     "Cancel": "ยกเลิก",
     "Please upgrade to Premium to export data": "กรุณาอัปเกรดเป็นพรีเมียมเพื่อส่งออกข้อมูล",
     "Upgrade Now": "อัปเกรดตอนนี้"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "สิ้นสุดการสอน",
+    "Skip Tutorial": "ข้ามการสอน",
+    "Cancel": "ยกเลิก",
+    "Skip": "ข้าม",
+    "Are you sure you want to skip the tutorial?": "คุณแน่ใจหรือไม่ว่าต้องการข้ามการสอน?",
+    "Stay on Track": "อยู่ในเส้นทาง",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "คุณกำลังไปได้สวย! ทำตามขั้นตอนเพื่อดำเนินการต่อหรือข้ามหากต้องการ",
+    "Step 1": "ขั้นตอนที่ 1",
+    "Step 2": "ขั้นตอนที่ 2",
+    "Step 3": "ขั้นตอนที่ 3",
+    "Step 4": "ขั้นตอนที่ 4",
+    "Step 5": "ขั้นตอนที่ 5",
+    "Step 6": "ขั้นตอนที่ 6",
+    "Step 7": "ขั้นตอนที่ 7",
+    "Step 8": "ขั้นตอนที่ 8",
+    "Step 9": "ขั้นตอนที่ 9",
+    "Step 10": "ขั้นตอนที่ 10",
+    "Step 11": "ขั้นตอนที่ 11",
+    "Create a Wallet": "สร้างกระเป๋าเงิน",
+    "Name Your Wallet": "ตั้งชื่อกระเป๋าเงินของคุณ",
+    "Add a Transaction": "เพิ่มรายการ",
+    "Record a Transaction": "บันทึกรายการ",
+    "Complete Your Transaction": "ทำรายการของคุณให้สมบูรณ์",
+    "Create a Budget": "สร้างงบประมาณ",
+    "Set Up a Budget": "ตั้งค่างบประมาณ",
+    "Finalize Your Budget": "สรุปงบประมาณของคุณ",
+    "Your Finance Assistant": "ผู้ช่วยทางการเงินของคุณ",
+    "Ask Deewas a Question": "ถามคำถามกับ Deewas",
+    "Welcome to Deewas!": "ยินดีต้อนรับสู่ Deewas!",
+    "Tap the 'New Wallet' button to set up your first wallet": "แตะปุ่ม 'กระเป๋าเงินใหม่' เพื่อตั้งค่ากระเป๋าเงินแรกของคุณ",
+    "Enter a name for your wallet and tap 'Save' to continue": "ป้อนชื่อสำหรับกระเป๋าเงินของคุณแล้วแตะ 'บันทึก' เพื่อดำเนินการต่อ",
+    "Go to the 'Transactions' screen to view and manage your transactions": "ไปที่หน้าจอ 'รายการ' เพื่อดูและจัดการรายการของคุณ",
+    "Tap 'Add Transaction' to log your first transaction": "แตะ 'เพิ่มรายการ' เพื่อบันทึกรายการแรกของคุณ",
+    "Enter the name and amount for your transaction, then tap 'Save'": "ป้อนชื่อและจำนวนเงินสำหรับรายการของคุณ จากนั้นแตะ 'บันทึก'",
+    "Visit the 'Budgets' tab to start managing your finances": "ไปที่แท็บ 'งบประมาณ' เพื่อเริ่มต้นจัดการการเงินของคุณ",
+    "Tap 'Create Budget' to define your spending plan": "แตะ 'สร้างงบประมาณ' เพื่อกำหนดแผนการใช้จ่ายของคุณ",
+    "Enter the name and amount for your budget, then tap 'Save'": "ป้อนชื่อและจำนวนเงินสำหรับงบประมาณของคุณ จากนั้นแตะ 'บันทึก'",
+    "Ask Deewas": "ถาม Deewas",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "ไปที่หน้าจอ 'Deewas' เพื่อสนทนากับผู้ช่วย AI ของคุณ",
+    "What’s my most expensive expense this month?": "ค่าใช้จ่ายที่แพงที่สุดของฉันในเดือนนี้คืออะไร?",
+    "You’re all set!": "คุณพร้อมแล้ว!",
+    "Thank you for choosing Deewas": "ขอบคุณที่เลือก Deewas",
+    "Let’s manage your finances together!": "มาจัดการการเงินของคุณด้วยกันเถอะ!"
   },
   "success": {
     "Sign In Success": "ลงชื่อเข้าใช้สำเร็จ",

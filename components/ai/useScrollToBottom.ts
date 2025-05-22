@@ -1,13 +1,9 @@
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { Keyboard, ScrollView } from 'react-native'
 
-export function useScrollToBottom(
-  messages: any[],
-  isStreaming: boolean = false
-): [RefObject<ScrollView>, Function, boolean] {
+export function useScrollToBottom(messages: any[]): [RefObject<ScrollView | null>, Function, boolean] {
   // refs
-  const containerRef = useRef<ScrollView>(null)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const containerRef = useRef<ScrollView | null>(null)
 
   // states
   const [isAtBottom, setIsAtBottom] = useState<boolean>(true)
@@ -31,7 +27,7 @@ export function useScrollToBottom(
         container.scrollToEnd({ animated: true })
       }, 0)
     }
-  }, [messages, isKeyboardOpen, containerRef, containerRef])
+  }, [messages, isKeyboardOpen, containerRef])
 
   // Listen to keyboard events
   useEffect(() => {

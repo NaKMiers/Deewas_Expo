@@ -28,6 +28,7 @@ import th from '@/messages/th.json'
 import tr from '@/messages/tr.json'
 import ur from '@/messages/ur.json'
 import vi from '@/messages/vi.json'
+import zhHant from '@/messages/zh-Hant.json'
 import zh from '@/messages/zh.json'
 
 const resources = {
@@ -56,6 +57,7 @@ const resources = {
   ml: { translation: ml },
   tr: { translation: tr },
   nl: { translation: nl },
+  'zh-Hant': { translation: zhHant },
 }
 
 const deviceLocales = Localization.getLocales()

@@ -103,7 +103,8 @@
     "Version": "版本",
     "Username": "用户名",
     "Please upgrade to Premium to unlock this feature": "请升级到高级版以解锁此功能",
-    "Upgrade Now": "立即升级"
+    "Upgrade Now": "立即升级",
+    "Biometric Lock": "生物识别锁"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "您还没有任何预算，现在创建一个！",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "你好",
     "What can you do?": "你能做什么？",
-    "My most expensive expense this month": "我本月最昂贵的支出",
+    "My most expensive expense this month?": "我这个月最贵的支出？",
     "How to limit my spending": "如何限制我的支出",
     "An Error Happens": "发生了一个错误",
     "Try again": "再试一次",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "查看我们的支持页面或联系我们以获取进一步帮助",
     "Go to Support": "前往支持",
     "Deewas": "Deewas",
-    "All rights reserved": "保留所有权利"
+    "All rights reserved": "保留所有权利",
+    "Restart tutorial": "重新开始教程",
+    "Are you sure you want to restart the tutorial?": "您确定要重新开始教程吗？",
+    "No": "否",
+    "Yes": "是"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "添加交易",
     "Set Budget": "设置预算",
     "Edit": "编辑",
-    "Delete": "删除"
+    "Delete": "删除",
+    "Delete category": "删除分类",
+    "All budgets of this category will be deleted": "此分类的所有预算将被删除",
+    "Are you sure you want to delete this category?": "您确定要删除此分类吗？"
   },
   "categoryGroup": {
     "Categories": "分类",
@@ -1077,6 +1085,51 @@
     "Cancel": "取消",
     "Please upgrade to Premium to export data": "请升级到高级版以导出数据",
     "Upgrade Now": "立即升级"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "完成教程",
+    "Skip Tutorial": "跳过教程",
+    "Cancel": "取消",
+    "Skip": "跳过",
+    "Are you sure you want to skip the tutorial?": "您确定要跳过教程吗？",
+    "Stay on Track": "保持进度",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "您已经开始！请按照步骤继续，或根据需要跳过",
+    "Step 1": "步骤 1",
+    "Step 2": "步骤 2",
+    "Step 3": "步骤 3",
+    "Step 4": "步骤 4",
+    "Step 5": "步骤 5",
+    "Step 6": "步骤 6",
+    "Step 7": "步骤 7",
+    "Step 8": "步骤 8",
+    "Step 9": "步骤 9",
+    "Step 10": "步骤 10",
+    "Step 11": "步骤 11",
+    "Create a Wallet": "创建钱包",
+    "Name Your Wallet": "为您的钱包命名",
+    "Add a Transaction": "添加交易",
+    "Record a Transaction": "记录交易",
+    "Complete Your Transaction": "完成您的交易",
+    "Create a Budget": "创建预算",
+    "Set Up a Budget": "设置预算",
+    "Finalize Your Budget": "完成您的预算",
+    "Your Finance Assistant": "您的财务助手",
+    "Ask Deewas a Question": "向 Deewas 提问",
+    "Welcome to Deewas!": "欢迎体验 Deewas！",
+    "Tap the 'New Wallet' button to set up your first wallet": "点击“新建钱包”按钮来设置您的第一个钱包",
+    "Enter a name for your wallet and tap 'Save' to continue": "为您的钱包输入名称，然后点击“保存”继续",
+    "Go to the 'Transactions' screen to view and manage your transactions": "前往“交易”页面查看和管理您的交易",
+    "Tap 'Add Transaction' to log your first transaction": "点击“添加交易”来记录您的第一笔交易",
+    "Enter the name and amount for your transaction, then tap 'Save'": "输入交易的名称和金额，然后点击“保存”",
+    "Visit the 'Budgets' tab to start managing your finances": "访问“预算”标签开始管理您的财务",
+    "Tap 'Create Budget' to define your spending plan": "点击“创建预算”来制定您的支出计划",
+    "Enter the name and amount for your budget, then tap 'Save'": "输入预算的名称和金额，然后点击“保存”",
+    "Ask Deewas": "询问 Deewas",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "前往“Deewas”页面与您的 AI 助手聊天",
+    "What’s my most expensive expense this month?": "本月我最昂贵的支出是什么？",
+    "You’re all set!": "一切就绪！",
+    "Thank you for choosing Deewas": "感谢您选择 Deewas",
+    "Let’s manage your finances together!": "让我们一起管理您的财务！"
   },
   "success": {
     "Sign In Success": "登录成功",

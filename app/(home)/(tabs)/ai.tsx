@@ -1,6 +1,7 @@
 import { images } from '@/assets/images/images'
 import Message from '@/components/ai/Message'
 import { useScrollToBottom } from '@/components/ai/useScrollToBottom'
+import BlurView from '@/components/BlurView'
 import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
@@ -11,10 +12,10 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import useSettings from '@/hooks/useSettings'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { setClearChat } from '@/lib/reducers/screenReducer'
+import { setStep } from '@/lib/reducers/tutorialReducer'
 import { BASE_URL, cn, getToken } from '@/lib/utils'
 import { useChat, useCompletion } from '@ai-sdk/react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { BlurView } from 'expo-blur'
 import { router, useFocusEffect } from 'expo-router'
 import { fetch as expoFetch } from 'expo/fetch'
 import {
@@ -65,6 +66,7 @@ function AIPage() {
   const { refreshing, refreshPoint } = useAppSelector(state => state.load)
   const { settings } = useAppSelector(state => state.settings)
   const clearChat = useAppSelector(state => state.screen.clearChat)
+  const { inProgress, step } = useAppSelector(state => state.tutorial)
 
   // hooks
   const { messages, setMessages, handleInputChange, input, handleSubmit, append, status, error } =
@@ -91,9 +93,9 @@ function AIPage() {
 
   // values
   const samples = [
+    t('My most expensive expense this month?'),
     t('Hello'),
     t('What can you do?'),
-    t('My most expensive expense this month'),
     t('How to limit my spending'),
   ]
 
@@ -123,6 +125,17 @@ function AIPage() {
 
     getMessages()
   }, [setMessages, refreshPoint])
+
+  useEffect(() => {
+    if (step === 10) {
+      console.log('12301912730127398')
+      setTimeout(() => {
+        setMessages([])
+        stop()
+        dispatch(setClearChat(false))
+      }, 0)
+    }
+  }, [dispatch, stop, inProgress, setMessages, step])
 
   // sync messages to async storage
   useEffect(() => {
@@ -312,7 +325,6 @@ function AIPage() {
                 <View className="shadow-md">
                   <BlurView
                     intensity={90}
-                    tint="systemChromeMaterial"
                     className="-mx-21/2 flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/5 p-21"
                   >
                     <Text className="text-center text-2xl font-semibold">Deewas</Text>
@@ -360,7 +372,10 @@ function AIPage() {
                 className="mb-21/2"
                 renderItem={({ item, index }) => (
                   <View
-                    className="flex-row px-1"
+                    className={cn(
+                      'flex-row px-1 py-1',
+                      inProgress && step === 10 && index === 0 && 'border-2 border-sky-500'
+                    )}
                     key={index}
                   >
                     <TouchableOpacity
@@ -369,10 +384,10 @@ function AIPage() {
                         Keyboard.dismiss()
                         if (!checkTokenLimit()) return
                         append({ content: item, role: 'user' })
+                        if (inProgress && step === 10 && index === 0) dispatch(setStep(11))
                       }}
                     >
                       <BlurView
-                        tint="systemChromeMaterial"
                         intensity={90}
                         className="flex-1 flex-row items-center justify-center overflow-hidden rounded-lg px-21/2 py-2"
                       >

@@ -1,10 +1,9 @@
 import { useColorScheme } from '@/lib/useColorScheme'
-import BottomSheet, { BottomSheetView, MODAL_STACK_BEHAVIOR } from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { memo, useEffect, useMemo, useRef } from 'react'
 import { Platform, SafeAreaView, ScrollView } from 'react-native'
+import BlurView from './BlurView'
 import { useDrawer } from './providers/DrawerProvider'
-import { images } from '@/assets/images/images'
-import { BlurView } from 'expo-blur'
 
 function Drawer() {
   // hooks

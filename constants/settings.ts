@@ -73,6 +73,7 @@ export type LanguageType = {
 export const languages: LanguageType[] = [
   { value: 'en', label: 'English', alternative: 'English' },
   { value: 'zh', label: '简体中文', alternative: 'Chinese (Simplified)' },
+  { value: 'zh-Hant', label: '繁體中文', alternative: 'Chinese (Traditional)' },
   { value: 'hi', label: 'हिन्दी', alternative: 'Hindi' },
   { value: 'es', label: 'Español', alternative: 'Spanish' },
   { value: 'ar', label: 'العربية', alternative: 'Arabic' },

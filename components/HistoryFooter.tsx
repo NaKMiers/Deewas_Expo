@@ -2,11 +2,11 @@ import { capitalize } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react-native'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import Icon from './Icon'
 import Text from './Text'
-import { memo } from 'react'
 
 interface HistoryFooterProps {
   segments: string[]

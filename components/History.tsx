@@ -4,13 +4,14 @@ import { checkTranType, formatCurrency, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { getHistoryApi } from '@/requests'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { format, isSameDay } from 'date-fns'
-import { BlurView } from 'expo-blur'
 import { LucideRotateCw } from 'lucide-react-native'
 import moment from 'moment'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
+import BlurView from './BlurView'
 import Chart from './Chart'
 import HistoryFooter from './HistoryFooter'
 import HistoryHeader from './HistoryHeader'
@@ -70,6 +71,17 @@ function History({ className }: HistoryProps) {
 
       if (oldestTransaction) {
         setOldestDate(moment(oldestTransaction.date).toDate())
+      }
+
+      // check review status to show review popup
+      const reviewStatus = await AsyncStorage.getItem('reviewStatus')
+      if (
+        reviewStatus !== 'done' &&
+        oldestTransaction &&
+        moment(oldestTransaction.createdAt).isBefore(moment().subtract(3, 'days')) &&
+        transactions.length >= 10
+      ) {
+        await AsyncStorage.setItem('reviewStatus', 'ready')
       }
     } catch (err: any) {
       console.log(err)

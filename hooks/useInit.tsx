@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { setLoading as setBudgetLoading, setBudgets } from '@/lib/reducers/budgetReducer'
 import { setCategories, setLoading as setCategoryLoading } from '@/lib/reducers/categoryReducer'
 import { setRefreshing } from '@/lib/reducers/loadReducer'
+import { setDefaultWallet } from '@/lib/reducers/screenReducer'
 import { setStats } from '@/lib/reducers/userReducer'
 import { setLoading as setWalletLoading, setWallets } from '@/lib/reducers/walletReducer'
 import { initApi } from '@/requests'
@@ -29,6 +30,7 @@ function useInit() {
     try {
       const { wallets, categories, budgets } = await initApi()
       dispatch(setWallets(wallets))
+      dispatch(setDefaultWallet(wallets.length > 0 ? wallets[0] : null))
       dispatch(setCategories(categories))
       dispatch(setBudgets(budgets))
     } catch (err: any) {

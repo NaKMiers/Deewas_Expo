@@ -1,8 +1,8 @@
+import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
 import Text from '@/components/Text'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import { BookOpen, LifeBuoy, Mail, MessageSquare } from 'lucide-react-native'
 import { useState } from 'react'
@@ -46,7 +46,6 @@ function HelpAndSupportPage() {
       <BlurView
         className="flex-1"
         intensity={90}
-        tint="prominent"
       >
         <ScrollView>
           <View className="p-21/2 md:p-21">

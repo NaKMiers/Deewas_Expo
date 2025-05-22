@@ -42,6 +42,7 @@ declare interface ISettings {
   language: string
 
   freeTokensUsed: number
+  firstLaunch: boolean
 }
 
 declare type IFullSettings = ISettings & { user: IUser }

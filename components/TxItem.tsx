@@ -7,7 +7,6 @@ import { checkTranType, formatCurrency } from '@/lib/string'
 import { formatDate, toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi, deleteTransactionApi } from '@/requests'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideChevronDown,
@@ -23,6 +22,7 @@ import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import BlurView from './BlurView'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import Text from './Text'
@@ -170,6 +170,7 @@ function TxItem({ transaction, className }: ITxProps) {
                 className="px-1 py-2"
                 tint="prominent"
                 intensity={90}
+                noBlur
               >
                 <ConfirmDialog
                   label={t('Duplicate Transaction')}

@@ -2,11 +2,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { cn } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
-import { BlurView } from 'expo-blur'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import BlurView from './BlurView'
 import NoItemsFound from './NoItemsFound'
 import { useAuth } from './providers/AuthProvider'
 import Text from './Text'
@@ -98,7 +98,6 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       </View>
 
       {/* MARK: Transaction List */}
-
       {!loading ? (
         <View className="shadow-md">
           <BlurView

@@ -8,9 +8,9 @@ import { LucideCalendarFold, LucideChevronDown } from 'lucide-react-native'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
+import BlurView from './BlurView'
 import Icon from './Icon'
 import Text from './Text'
-import { BlurView } from 'expo-blur'
 
 interface MonthYearPickerProps {
   currentMonth: Date
@@ -81,6 +81,7 @@ function MonthYearPicker({ currentMonth, setCurrentMonth }: MonthYearPickerProps
         <BlurView
           className="gap-4 overflow-hidden rounded-xl p-4"
           intensity={80}
+          noBlur
         >
           {/* MARK: Month */}
           <View className="flex-col gap-2">

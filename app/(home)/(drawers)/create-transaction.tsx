@@ -9,12 +9,15 @@ import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { setSelectedCategory, setSelectedWallet } from '@/lib/reducers/screenReducer'
+import { setStep } from '@/lib/reducers/tutorialReducer'
 import { capitalize, checkTranType, formatSymbol, getLocale } from '@/lib/string'
 import { toUTC } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { createTransactionApi } from '@/requests'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { format } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
+import * as StoreReview from 'expo-store-review'
 import { LucideChevronsUpDown, LucideCircle } from 'lucide-react-native'
 import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
@@ -38,7 +41,8 @@ function CreateTransactionPage() {
   const currency = useAppSelector(state => state.settings.settings?.currency)
   const wallets = useAppSelector(state => state.wallet.wallets)
   const categories = useAppSelector(state => state.category.categories)
-  const { selectedWallet, selectedCategory } = useAppSelector(state => state.screen)
+  const { selectedWallet, selectedCategory, defaultWallet } = useAppSelector(state => state.screen)
+  const { inProgress, step } = useAppSelector(state => state.tutorial)
 
   // form
   const {
@@ -50,7 +54,7 @@ function CreateTransactionPage() {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      walletId: selectedWallet?._id || '',
+      walletId: selectedWallet?._id || defaultWallet?._id || '',
       name: '',
       categoryId: selectedCategory?._id || '',
       amount: '',
@@ -74,8 +78,9 @@ function CreateTransactionPage() {
 
   useEffect(() => {
     if (selectedWallet) setValue('walletId', selectedWallet._id)
+    else if (defaultWallet) setValue('walletId', defaultWallet._id)
     if (selectedCategory) setValue('categoryId', selectedCategory._id)
-  }, [setValue, selectedWallet, selectedCategory])
+  }, [setValue, selectedWallet, defaultWallet, selectedCategory])
 
   useEffect(
     () => () => {
@@ -170,6 +175,13 @@ function CreateTransactionPage() {
           text1: tSuccess('Transaction created'),
         })
 
+        const reviewStatus = await AsyncStorage.getItem('reviewStatus')
+        if (reviewStatus === 'ready' && (await StoreReview.isAvailableAsync())) {
+          await StoreReview.requestReview()
+          await AsyncStorage.setItem('reviewStatus', 'done')
+        }
+
+        if (inProgress && step === 5) dispatch(setStep(6))
         dispatch(refresh())
         router.back()
       } catch (err: any) {
@@ -184,7 +196,7 @@ function CreateTransactionPage() {
         setSaving(false)
       }
     },
-    [dispatch, handleValidate, tError, tSuccess]
+    [dispatch, handleValidate, tError, tSuccess, inProgress, step]
   )
 
   return (
@@ -200,7 +212,22 @@ function CreateTransactionPage() {
         desc={t('Transactions keep track of your finances effectively')}
       />
 
-      <View className="mt-6 flex-col gap-6">
+      <View className="relative mt-6 flex-col gap-6">
+        {inProgress && step === 5 && (
+          <>
+            <View
+              className="absolute z-10 w-full rounded-lg border-2 border-sky-500 bg-sky-500/10"
+              style={{ height: 80, top: -8 }}
+              pointerEvents="none"
+            />
+            <View
+              className="absolute z-10 w-full rounded-lg border-2 border-sky-500 bg-sky-500/10"
+              style={{ height: 80, top: 80 }}
+              pointerEvents="none"
+            />
+          </>
+        )}
+
         {/* MARK: Name */}
         <CustomInput
           id="name"
@@ -240,6 +267,7 @@ function CreateTransactionPage() {
                 activeOpacity={0.7}
                 className="mt-1.5 h-12 w-full flex-row items-center gap-2 rounded-lg border border-primary bg-white px-3"
                 onPress={() => {
+                  if (inProgress && step === 5) return
                   setOpenType(!openType)
                   clearErrors('type')
                 }}
@@ -301,6 +329,7 @@ function CreateTransactionPage() {
             activeOpacity={0.7}
             className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
             onPress={() => {
+              if (inProgress && step === 5) return
               router.push(`/category-picker?type=${form.type}`)
               clearErrors('categoryId')
             }}
@@ -335,14 +364,17 @@ function CreateTransactionPage() {
             activeOpacity={0.7}
             className="h-12 flex-row items-center justify-between gap-2 rounded-lg border border-primary bg-white px-21/2"
             onPress={() => {
+              if (inProgress && step === 5) return
               router.push('/wallet-picker')
               clearErrors('walletId')
             }}
           >
-            {selectedWallet ? (
+            {selectedWallet || defaultWallet ? (
               <View className="flex-row items-center gap-2">
-                <Text className="text-base text-black">{selectedWallet.icon}</Text>
-                <Text className="text-base font-semibold text-black">{selectedWallet.name}</Text>
+                <Text className="text-base text-black">{(selectedWallet || defaultWallet)?.icon}</Text>
+                <Text className="text-base font-semibold text-black">
+                  {(selectedWallet || defaultWallet)?.name}
+                </Text>
               </View>
             ) : (
               <Text className="text-base font-semibold text-black">{t('Select wallet')}</Text>
@@ -370,6 +402,7 @@ function CreateTransactionPage() {
             )}
             <TouchableWithoutFeedback
               onPress={() => {
+                if (inProgress && step === 5) return
                 setOpenDate(!openDate)
                 clearErrors('date')
               }}
@@ -406,6 +439,7 @@ function CreateTransactionPage() {
             </Text>
             <TouchableWithoutFeedback
               onPress={() => {
+                if (inProgress && step === 5) return
                 setOpenDate(!openDate)
                 clearErrors('date')
               }}
@@ -447,9 +481,11 @@ function CreateTransactionPage() {
         onCancel={router.back}
         onAccept={handleSubmit(handleCreateTransaction)}
         loading={saving}
+        inTutorial={inProgress && step === 5}
       />
 
       <Separator className="my-8 h-0" />
+      {inProgress && step === 5 && <Separator className="my-32 h-0" />}
     </DrawerWrapper>
   )
 }

@@ -8,6 +8,7 @@ const initialState = {
   toWallet: null as IWallet | null,
   selectedWallet: null as IWallet | null,
   ofWallet: null as IWallet | null,
+  defaultWallet: null as IWallet | null,
 
   // category
   categoryToEdit: null as ICategory | null,
@@ -51,6 +52,9 @@ export const screen = createSlice({
     },
     setOfWallet: (state, action: PayloadAction<IWallet | null>) => {
       state.ofWallet = action.payload
+    },
+    setDefaultWallet: (state, action: PayloadAction<IWallet | null>) => {
+      state.defaultWallet = action.payload
     },
 
     // category
@@ -110,6 +114,7 @@ export const {
   setToWallet,
   setSelectedWallet,
   setOfWallet,
+  setDefaultWallet,
 
   // category
   setCategoryToEdit,

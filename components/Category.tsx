@@ -4,7 +4,6 @@ import { setCategoryToEdit, setSelectedCategory } from '@/lib/reducers/screenRed
 import { checkTranType, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { deleteCategoryApi } from '@/requests/categoryRequests'
-import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import {
   LucideBarChart2,
@@ -17,6 +16,7 @@ import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import BlurView from './BlurView'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import Text from './Text'
@@ -83,8 +83,8 @@ function Category({ category, hideMenu, className }: CategoryProps) {
       <View className="w-full max-w-[170px]">
         <View
           className={cn(
-            'border-b-[40px] border-l-[40px]',
             border,
+            'border-b-[40px] border-l-[40px]',
             'border-l-transparent border-r-transparent'
           )}
         />
@@ -101,7 +101,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
         <View className="flex-row items-center gap-2">
           {/* MARK: Amount */}
           {currency && (
-            <Text className={cn('font-body text-lg font-bold text-white', hideMenu && 'pr-21/2')}>
+            <Text className={cn('font-body text-lg font-semibold text-white', hideMenu && 'pr-21/2')}>
               {formatCurrency(currency, category.amount)}
             </Text>
           )}
@@ -127,6 +127,7 @@ function Category({ category, hideMenu, className }: CategoryProps) {
                     className="px-1 py-2"
                     tint="prominent"
                     intensity={90}
+                    noBlur
                   >
                     {/* MARK: Create Transaction */}
                     <TouchableOpacity
@@ -181,9 +182,9 @@ function Category({ category, hideMenu, className }: CategoryProps) {
 
                     {category.deletable && (
                       <ConfirmDialog
-                        label="Delete Wallet"
-                        desc="Are you sure you want to delete this wallet?"
-                        confirmLabel="Delete"
+                        label={t('Delete category')}
+                        desc={`${t('All budgets of this category will be deleted')}. ${t('Are you sure you want to delete this category?')}`}
+                        confirmLabel={t('Delete')}
                         onConfirm={handleDeleteCategory}
                         trigger={
                           <Button

@@ -103,7 +103,8 @@
     "Version": "संस्करण",
     "Username": "उपयोगकर्ता नाम",
     "Please upgrade to Premium to unlock this feature": "इस सुविधा को अनलॉक करने के लिए कृपया प्रीमियम में अपग्रेड करें",
-    "Upgrade Now": "अब अपग्रेड करें"
+    "Upgrade Now": "अब अपग्रेड करें",
+    "Biometric Lock": "बायोमेट्रिक लॉक"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "आपके पास अभी कोई बजट नहीं है, अब एक बनाएँ!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "नमस्ते",
     "What can you do?": "आप क्या कर सकते हैं?",
-    "My most expensive expense this month": "इस महीने मेरा सबसे महंगा खर्च",
+    "My most expensive expense this month?": "इस महीने मेरा सबसे महंगा खर्च क्या है?",
     "How to limit my spending": "मेरे खर्च को कैसे सीमित करें",
     "An Error Happens": "एक त्रुटि हुई",
     "Try again": "पुनः प्रयास करें",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "हमारे समर्थन पृष्ठ को देखें या आगे की सहायता के लिए हमसे संपर्क करें",
     "Go to Support": "समर्थन पर जाएँ",
     "Deewas": "दीवास",
-    "All rights reserved": "सभी अधिकार सुरक्षित"
+    "All rights reserved": "सभी अधिकार सुरक्षित",
+    "Restart tutorial": "ट्यूटोरियल पुनः आरंभ करें",
+    "Are you sure you want to restart the tutorial?": "क्या आप वाकई ट्यूटोरियल पुनः आरंभ करना चाहते हैं?",
+    "No": "नहीं",
+    "Yes": "हाँ"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "लेनदेन जोड़ें",
     "Set Budget": "बजट सेट करें",
     "Edit": "संपादन",
-    "Delete": "हटाएँ"
+    "Delete": "हटाएँ",
+    "Delete category": "श्रेणी हटाएँ",
+    "All budgets of this category will be deleted": "इस श्रेणी के सभी बजट हटा दिए जाएंगे",
+    "Are you sure you want to delete this category?": "क्या आप वाकई इस श्रेणी को हटाना चाहते हैं?"
   },
   "categoryGroup": {
     "Categories": "श्रेणियाँ",
@@ -1077,6 +1085,51 @@
     "Cancel": "रद्द करें",
     "Please upgrade to Premium to export data": "डेटा निर्यात करने के लिए कृपया प्रीमियम में अपग्रेड करें",
     "Upgrade Now": "अब अपग्रेड करें"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "ट्यूटोरियल खत्म करें",
+    "Skip Tutorial": "ट्यूटोरियल छोड़ें",
+    "Cancel": "रद्द करें",
+    "Skip": "छोड़ें",
+    "Are you sure you want to skip the tutorial?": "क्या आप वाकई ट्यूटोरियल छोड़ना चाहते हैं?",
+    "Stay on Track": "सही रास्ते पर बने रहें",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "आप सही रास्ते पर हैं! जारी रखने के लिए चरणों का पालन करें या यदि आप चाहें तो छोड़ दें",
+    "Step 1": "चरण 1",
+    "Step 2": "चरण 2",
+    "Step 3": "चरण 3",
+    "Step 4": "चरण 4",
+    "Step 5": "चरण 5",
+    "Step 6": "चरण 6",
+    "Step 7": "चरण 7",
+    "Step 8": "चरण 8",
+    "Step 9": "चरण 9",
+    "Step 10": "चरण 10",
+    "Step 11": "चरण 11",
+    "Create a Wallet": "एक वॉलेट बनाएं",
+    "Name Your Wallet": "अपने वॉलेट का नाम दें",
+    "Add a Transaction": "एक लेनदेन जोड़ें",
+    "Record a Transaction": "एक लेनदेन रिकॉर्ड करें",
+    "Complete Your Transaction": "अपना लेनदेन पूरा करें",
+    "Create a Budget": "एक बजट बनाएं",
+    "Set Up a Budget": "एक बजट सेट करें",
+    "Finalize Your Budget": "अपना बजट अंतिम रूप दें",
+    "Your Finance Assistant": "आपका वित्त सहायक",
+    "Ask Deewas a Question": "दीवास से एक प्रश्न पूछें",
+    "Welcome to Deewas!": "दीवास में आपका स्वागत है!",
+    "Tap the 'New Wallet' button to set up your first wallet": "अपना पहला वॉलेट सेट करने के लिए 'नया वॉलेट' बटन पर टैप करें",
+    "Enter a name for your wallet and tap 'Save' to continue": "अपने वॉलेट के लिए एक नाम दर्ज करें और जारी रखने के लिए 'सहेजें' पर टैप करें",
+    "Go to the 'Transactions' screen to view and manage your transactions": "अपने लेनदेन देखने और प्रबंधित करने के लिए 'लेनदेन' स्क्रीन पर जाएं",
+    "Tap 'Add Transaction' to log your first transaction": "अपना पहला लेनदेन लॉग करने के लिए 'लेनदेन जोड़ें' पर टैप करें",
+    "Enter the name and amount for your transaction, then tap 'Save'": "अपने लेनदेन के लिए नाम और राशि दर्ज करें, फिर 'सहेजें' पर टैप करें",
+    "Visit the 'Budgets' tab to start managing your finances": "अपने वित्त का प्रबंधन शुरू करने के लिए 'बजट' टैब पर जाएं",
+    "Tap 'Create Budget' to define your spending plan": "अपनी खर्च योजना को परिभाषित करने के लिए 'बजट बनाएं' पर टैप करें",
+    "Enter the name and amount for your budget, then tap 'Save'": "अपने बजट के लिए नाम और राशि दर्ज करें, फिर 'सहेजें' पर टैप करें",
+    "Ask Deewas": "दीवास से पूछें",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "अपने AI सहायक से चैट करने के लिए 'दीवास' स्क्रीन पर जाएं",
+    "What’s my most expensive expense this month?": "इस महीने मेरा सबसे महंगा खर्च क्या है?",
+    "You’re all set!": "आप पूरी तरह तैयार हैं!",
+    "Thank you for choosing Deewas": "दीवास चुनने के लिए धन्यवाद",
+    "Let’s manage your finances together!": "आइए मिलकर अपने वित्त का प्रबंधन करें!"
   },
   "success": {
     "Sign In Success": "साइन इन सफल",

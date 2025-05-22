@@ -9,6 +9,7 @@ import { Tabs } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { capitalize } from '@/lib/string'
+import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
 import { LucideChevronLeft, LucidePlus } from 'lucide-react-native'
@@ -56,7 +57,7 @@ function CategoriesPage() {
       return acc
     }, {})
 
-    const order = ['expense', 'income', 'invest', 'saving']
+    const order = ['expense', 'income', 'saving', 'invest']
     const results = Object.entries(groups)
       .sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))
       .map(([key, value]) => [key, value])
@@ -157,7 +158,10 @@ function CategoriesPage() {
 
       {/* MARK: Banner Ads */}
       {!isPremium && (
-        <View className="absolute bottom-2.5 z-20 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary">
+        <View
+          className="absolute bottom-2.5 left-1/2 z-20 max-h-[60px] -translate-x-1/2 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
+          style={{ width: SCREEN_WIDTH - 21 }}
+        >
           <BannerAd
             unitId={adUnitId}
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

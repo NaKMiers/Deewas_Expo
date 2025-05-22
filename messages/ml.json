@@ -103,7 +103,8 @@
     "Version": "പതിപ്പ്",
     "Username": "ഉപയോക്തൃനാമം",
     "Please upgrade to Premium to unlock this feature": "ഈ ഫീച്ചർ അൺലോക്ക് ചെയ്യാൻ ദയവായി പ്രീമിയത്തിലേക്ക് അപ്ഗ്രേഡ് ചെയ്യുക",
-    "Upgrade Now": "ഇപ്പോൾ അപ്ഗ്രേഡ് ചെയ്യുക"
+    "Upgrade Now": "ഇപ്പോൾ അപ്ഗ്രേഡ് ചെയ്യുക",
+    "Biometric Lock": "ബയോമെട്രിക് ലോക്ക്"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "നിനക്ക് ഇതുവരെ ബജറ്റുകൾ ഇല്ല, ഇപ്പോൾ ഒന്ന് സൃഷ്ടിക്കുക!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "ഹലോ",
     "What can you do?": "നിനക്ക് എന്താണ് ചെയ്യാൻ കഴിയുക?",
-    "My most expensive expense this month": "ഈ മാസത്തെ എന്റെ ഏറ്റവും ചെലവേറിയ ചെലവ്",
+    "My most expensive expense this month?": "ഈ മാസത്തിലെ എന്റെ ഏറ്റവും വിലയേറിയ ചെലവ്?",
     "How to limit my spending": "എന്റെ ചെലവ് എങ്ങനെ പരിമിതപ്പെടുത്താം",
     "An Error Happens": "ഒരു പിശക് സംഭവിച്ചു",
     "Try again": "വീണ്ടും ശ്രമിക്കുക",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "ഞങ്ങളുടെ പിന്തുണ പേജ് പരിശോധിക്കുക അല്ലെങ്കിൽ കൂടുതൽ സഹായത്തിനായി ഞങ്ങളെ ബന്ധപ്പെടുക",
     "Go to Support": "പിന്തുണയിലേക്ക് പോകുക",
     "Deewas": "ദീവാസ്",
-    "All rights reserved": "എല്ലാ അവകാശങ്ങളും നീക്കിവച്ചിരിക്കുന്നു"
+    "All rights reserved": "എല്ലാ അവകാശങ്ങളും നീക്കിവച്ചിരിക്കുന്നു",
+    "Restart tutorial": "ട്യൂട്ടോറിയൽ പുനരാരംഭിക്കുക",
+    "Are you sure you want to restart the tutorial?": "നിങ്ങൾക്ക് ട്യൂട്ടോറിയൽ പുനരാരംഭിക്കണമെന്ന് ഉറപ്പാണോ?",
+    "No": "ഇല്ല",
+    "Yes": "അതെ"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "ഇടപാട് ചേർക്കുക",
     "Set Budget": "ബജറ്റ് സജ്ജീകരിക്കുക",
     "Edit": "എഡിറ്റ്",
-    "Delete": "ഡിലീറ്റ്"
+    "Delete": "ഡിലീറ്റ്",
+    "Delete category": "വിഭാഗം ഡിലീറ്റ് ചെയ്യുക",
+    "All budgets of this category will be deleted": "ഈ വിഭാഗത്തിന്റെ എല്ലാ ബജറ്റുകളും ഡിലീറ്റ് ചെയ്യപ്പെടും",
+    "Are you sure you want to delete this category?": "ഈ വിഭാഗം ഡിലീറ്റ് ചെയ്യാൻ ഉറപ്പാണോ?"
   },
   "categoryGroup": {
     "Categories": "വിഭാഗങ്ങൾ",
@@ -1077,6 +1085,51 @@
     "Cancel": "റദ്ദാക്കുക",
     "Please upgrade to Premium to export data": "ഡാറ്റ എക്സ്പോർട്ട് ചെയ്യാൻ ദയവായി പ്രീമിയത്തിലേക്ക് അപ്ഗ്രേഡ് ചെയ്യുക",
     "Upgrade Now": "ഇപ്പോൾ അപ്ഗ്രേഡ് ചെയ്യുക"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "ട്യൂട്ടോറിയൽ പൂർത്തിയാക്കുക",
+    "Skip Tutorial": "ട്യൂട്ടോറിയൽ ഒഴിവാക്കുക",
+    "Cancel": "റദ്ദാക്കുക",
+    "Skip": "ഒഴിവാക്കുക",
+    "Are you sure you want to skip the tutorial?": "നിങ്ങൾക്ക് ട്യൂട്ടോറിയൽ ഒഴിവാക്കണമെന്ന് ഉറപ്പാണോ?",
+    "Stay on Track": "ശരിയായ പാതയിൽ തുടരുക",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "നിങ്ങൾ മുന്നോട്ട് പോകുന്നു! തുടരാൻ ഘട്ടങ്ങൾ പാലിക്കുക അല്ലെങ്കിൽ ആവശ്യമെങ്കിൽ ഒഴിവാക്കുക",
+    "Step 1": "ഘട്ടം 1",
+    "Step 2": "ഘട്ടം 2",
+    "Step 3": "ഘട്ടം 3",
+    "Step 4": "ഘട്ടം 4",
+    "Step 5": "ഘട്ടം 5",
+    "Step 6": "ഘട്ടം 6",
+    "Step 7": "ഘട്ടം 7",
+    "Step 8": "ഘട്ടം 8",
+    "Step 9": "ഘട്ടം 9",
+    "Step 10": "ഘട്ടം 10",
+    "Step 11": "ഘട്ടം 11",
+    "Create a Wallet": "ഒരു വാലറ്റ് ഉണ്ടാക്കുക",
+    "Name Your Wallet": "നിങ്ങളുടെ വാലറ്റിന് പേര് നൽകുക",
+    "Add a Transaction": "ഒരു ഇടപാട് ചേർക്കുക",
+    "Record a Transaction": "ഒരു ഇടപാട് രേഖപ്പെടുത്തുക",
+    "Complete Your Transaction": "നിങ്ങളുടെ ഇടപാട് പൂർത്തിയാക്കുക",
+    "Create a Budget": "ഒരു ബഡ്ജറ്റ് ഉണ്ടാക്കുക",
+    "Set Up a Budget": "ഒരു ബഡ്ജറ്റ് സജ്ജീകരിക്കുക",
+    "Finalize Your Budget": "നിങ്ങളുടെ ബഡ്ജറ്റ് അന്തിമമാക്കുക",
+    "Your Finance Assistant": "നിങ്ങളുടെ സാമ്പത്തിക സഹായി",
+    "Ask Deewas a Question": "ദീവാസിനോട് ഒരു ചോദ്യം ചോദിക്കുക",
+    "Welcome to Deewas!": "ദീവാസിലേക്ക് സ്വാഗതം!",
+    "Tap the 'New Wallet' button to set up your first wallet": "നിങ്ങളുടെ ആദ്യത്തെ വാലറ്റ് സജ്ജീകരിക്കാൻ 'പുതിയ വാലറ്റ്' ബട്ടൺ ടാപ്പ് ചെയ്യുക",
+    "Enter a name for your wallet and tap 'Save' to continue": "നിങ്ങളുടെ വാലറ്റിന് ഒരു പേര് നൽകി തുടരാൻ 'സേവ്' ടാപ്പ് ചെയ്യുക",
+    "Go to the 'Transactions' screen to view and manage your transactions": "നിങ്ങളുടെ ഇടപാടുകൾ കാണാനും നിയന്ത്രിക്കാനും 'ഇടപാടുകൾ' സ്ക്രീനിലേക്ക് പോകുക",
+    "Tap 'Add Transaction' to log your first transaction": "നിങ്ങളുടെ ആദ്യത്തെ ഇടപാട് രേഖപ്പെടുത്താൻ 'ഇടപാട് ചേർക്കുക' ടാപ്പ് ചെയ്യുക",
+    "Enter the name and amount for your transaction, then tap 'Save'": "നിങ്ങളുടെ ഇടപാടിന്റെ പേരും തുകയും നൽകുക, തുടർന്ന് 'സേവ്' ടാപ്പ് ചെയ്യുക",
+    "Visit the 'Budgets' tab to start managing your finances": "നിങ്ങളുടെ സാമ്പത്തികം കൈകാര്യം ചെയ്യാൻ 'ബഡ്ജറ്റുകൾ' ടാബ് സന്ദർശിക്കുക",
+    "Tap 'Create Budget' to define your spending plan": "നിങ്ങളുടെ ചെലവ് പദ്ധതി നിർവചിക്കാൻ 'ബഡ്ജറ്റ് ഉണ്ടാക്കുക' ടാപ്പ് ചെയ്യുക",
+    "Enter the name and amount for your budget, then tap 'Save'": "നിങ്ങളുടെ ബഡ്ജറ്റിന്റെ പേരും തുകയും നൽകുക, തുടർന്ന് 'സേവ്' ടാപ്പ് ചെയ്യുക",
+    "Ask Deewas": "ദീവാസിനോട് ചോദിക്കുക",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "നിങ്ങളുടെ AI അസിസ്റ്റന്റുമായി ചാറ്റ് ചെയ്യാൻ 'ദീവാസ്' സ്ക്രീനിലേക്ക് പോകുക",
+    "What’s my most expensive expense this month?": "ഈ മാസം എന്റെ ഏറ്റവും ചെലവേറിയ ചിലവ് ഏതാണ്?",
+    "You’re all set!": "നിങ്ങൾ തയ്യാറാണ്!",
+    "Thank you for choosing Deewas": "ദീവാസ് തിരഞ്ഞെടുത്തതിന് നന്ദി",
+    "Let’s manage your finances together!": "നമുക്ക് ഒരുമിച്ച് നിങ്ങളുടെ സാമ്പത്തികം കൈകാര്യം ചെയ്യാം!"
   },
   "success": {
     "Sign In Success": "സൈൻ ഇൻ വിജയം",

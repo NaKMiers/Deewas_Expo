@@ -103,7 +103,8 @@
     "Version": "ورژن",
     "Username": "صارف نام",
     "Please upgrade to Premium to unlock this feature": "اس فیچر کو ان لاک کرنے کے لیے براہ کرم پریمیم میں اپ گریڈ کریں",
-    "Upgrade Now": "اب اپ گریڈ کریں"
+    "Upgrade Now": "اب اپ گریڈ کریں",
+    "Biometric Lock": "بایومیٹرک لاک"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "آپ کے پاس ابھی کوئی بجٹ نہیں ہے، ابھی ایک بنائیں!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "ہیلو",
     "What can you do?": "آپ کیا کر سکتے ہیں؟",
-    "My most expensive expense this month": "اس مہینے میرا سب سے مہنگا خرچ",
+    "My most expensive expense this month?": "اس مہینے میرا سب سے مہنگا خرچ؟",
     "How to limit my spending": "اپنے اخراجات کو کیسے محدود کریں",
     "An Error Happens": "ایک خرابی واقع ہوئی",
     "Try again": "دوبارہ کوشش کریں",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "ہمارے سپورٹ صفحے کو چیک کریں یا مزید مدد کے لیے ہم سے رابطہ کریں",
     "Go to Support": "سپورٹ پر جائیں",
     "Deewas": "دیواس",
-    "All rights reserved": "تمام حقوق محفوظ ہیں"
+    "All rights reserved": "تمام حقوق محفوظ ہیں",
+    "Restart tutorial": "ٹیوٹوریل دوبارہ شروع کریں",
+    "Are you sure you want to restart the tutorial?": "کیا آپ واقعی ٹیوٹوریل دوبارہ شروع کرنا چاہتے ہیں؟",
+    "No": "نہیں",
+    "Yes": "ہاں"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "ٹرانزیکشن شامل کریں",
     "Set Budget": "بجٹ سیٹ کریں",
     "Edit": "ترمیم کریں",
-    "Delete": "حذف کریں"
+    "Delete": "حذف کریں",
+    "Delete category": "زمرہ حذف کریں",
+    "All budgets of this category will be deleted": "اس زمرے کے تمام بجٹ حذف کر دیے جائیں گے",
+    "Are you sure you want to delete this category?": "کیا آپ واقعی اس زمرے کو حذف کرنا چاہتے ہیں؟"
   },
   "categoryGroup": {
     "Categories": "زمرہ جات",
@@ -994,6 +1002,7 @@
     "Contact Customer Service": "کسٹمر سروس سے رابطہ کریں",
     "Subscription will be auto reviewed, cancel at any time": "سبسکرپشن خود بخود جائزہ لی جائے گی، کسی بھی وقت منسوخ کریں",
     "Start 1 Week Free Trial": "1 ہفتے کی مفت آزمائش شروع کریں",
+    "Go Premium Now": "پریمیم پر جائیں",
     "Restore purchase": "خریداری بحال کریں",
     "Privacy Policy": "رازداری کی پالیسی",
     "Terms of Conditions": "سروس کی شرائط",
@@ -1076,6 +1085,51 @@
     "Cancel": "منسوخ کریں",
     "Please upgrade to Premium to export data": "ڈیٹا ایکسپورٹ کرنے کے لیے براہ کرم پریمیم میں اپ گریڈ کریں",
     "Upgrade Now": "اب اپ گریڈ کریں"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "ٹیوٹوریل ختم کریں",
+    "Skip Tutorial": "ٹیوٹوریل چھوڑیں",
+    "Cancel": "منسوخ کریں",
+    "Skip": "چھوڑیں",
+    "Are you sure you want to skip the tutorial?": "کیا آپ واقعی ٹیوٹوریل چھوڑنا چاہتے ہیں؟",
+    "Stay on Track": "ٹریک پر رہیں",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "آپ راستے میں ہیں! جاری رکھنے کے لیے اقدامات پر عمل کریں یا اگر آپ چاہیں تو چھوڑ دیں۔",
+    "Step 1": "مرحلہ 1",
+    "Step 2": "مرحلہ 2",
+    "Step 3": "مرحلہ 3",
+    "Step 4": "مرحلہ 4",
+    "Step 5": "مرحلہ 5",
+    "Step 6": "مرحلہ 6",
+    "Step 7": "مرحلہ 7",
+    "Step 8": "مرحلہ 8",
+    "Step 9": "مرحلہ 9",
+    "Step 10": "مرحلہ 10",
+    "Step 11": "مرحلہ 11",
+    "Create a Wallet": "ایک پرس بنائیں",
+    "Name Your Wallet": "اپنے پرس کا نام دیں",
+    "Add a Transaction": "ایک لین دین شامل کریں",
+    "Record a Transaction": "ایک لین دین ریکارڈ کریں",
+    "Complete Your Transaction": "اپنے لین دین کو مکمل کریں",
+    "Create a Budget": "ایک بجٹ بنائیں",
+    "Set Up a Budget": "ایک بجٹ سیٹ اپ کریں",
+    "Finalize Your Budget": "اپنے بجٹ کو حتمی شکل دیں",
+    "Your Finance Assistant": "آپ کا مالی معاون",
+    "Ask Deewas a Question": "دیواس سے ایک سوال پوچھیں",
+    "Welcome to Deewas!": "دیواس میں خوش آمدید!",
+    "Tap the 'New Wallet' button to set up your first wallet": "اپنا پہلا پرس سیٹ اپ کرنے کے لیے 'نیا پرس' بٹن پر ٹیپ کریں",
+    "Enter a name for your wallet and tap 'Save' to continue": "اپنے پرس کے لیے ایک نام درج کریں اور جاری رکھنے کے لیے 'محفوظ کریں' پر ٹیپ کریں",
+    "Go to the 'Transactions' screen to view and manage your transactions": "اپنے لین دین کو دیکھنے اور منظم کرنے کے لیے 'لین دین' اسکرین پر جائیں",
+    "Tap 'Add Transaction' to log your first transaction": "اپنے پہلے لین دین کو لاگ کرنے کے لیے 'لین دین شامل کریں' پر ٹیپ کریں",
+    "Enter the name and amount for your transaction, then tap 'Save'": "اپنے لین دین کے لیے نام اور رقم درج کریں، پھر 'محفوظ کریں' پر ٹیپ کریں",
+    "Visit the 'Budgets' tab to start managing your finances": "اپنے مالیات کو منظم کرنا شروع کرنے کے لیے 'بجٹ' ٹیب پر جائیں",
+    "Tap 'Create Budget' to define your spending plan": "اپنی اخراجات کی منصوبہ بندی کی وضاحت کرنے کے لیے 'بجٹ بنائیں' پر ٹیپ کریں",
+    "Enter the name and amount for your budget, then tap 'Save'": "اپنے بجٹ کے لیے نام اور رقم درج کریں، پھر 'محفوظ کریں' پر ٹیپ کریں",
+    "Ask Deewas": "دیواس سے پوچھیں",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "اپنے AI اسسٹنٹ کے ساتھ چیٹ کرنے کے لیے 'دیواس' اسکرین پر جائیں",
+    "What’s my most expensive expense this month?": "اس مہینے میرا سب سے مہنگا خرچ کیا ہے؟",
+    "You’re all set!": "آپ تیار ہیں!",
+    "Thank you for choosing Deewas": "دیواس کو منتخب کرنے کے لیے آپ کا شکریہ",
+    "Let’s manage your finances together!": "آئیے مل کر اپنے مالیات کا انتظام کریں!"
   },
   "success": {
     "Sign In Success": "سائن ان کامیاب",

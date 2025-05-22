@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { setSelectedEmoji } from '@/lib/reducers/screenReducer'
+import { setStep } from '@/lib/reducers/tutorialReducer'
 import { createWalletApi } from '@/requests/walletRequests'
 import { router } from 'expo-router'
 import { LucideCircleOff } from 'lucide-react-native'
@@ -31,6 +32,7 @@ function CreateWalletPage() {
   // store
   const { wallets } = useAppSelector(state => state.wallet)
   const { selectedEmoji } = useAppSelector(state => state.screen)
+  const { inProgress, step } = useAppSelector(state => state.tutorial)
 
   // form
   const {
@@ -102,6 +104,7 @@ function CreateWalletPage() {
           text1: tSuccess('Wallet created'),
         })
 
+        if (inProgress) dispatch(setStep(3))
         dispatch(refresh())
         router.back()
       } catch (err: any) {
@@ -115,7 +118,7 @@ function CreateWalletPage() {
         setSaving(false)
       }
     },
-    [dispatch, validate, tError, tSuccess]
+    [dispatch, validate, tError, tSuccess, inProgress]
   )
 
   return (
@@ -126,7 +129,14 @@ function CreateWalletPage() {
           desc={t('Wallets are used to group your transactions by source of funds')}
         />
 
-        <View className="mt-6 flex-col gap-6">
+        <View className="relative mt-6 flex-col gap-6">
+          {inProgress && step === 2 && (
+            <View
+              className="absolute z-10 w-full rounded-lg border-2 border-sky-500 bg-sky-500/10"
+              style={{ height: 80, top: -8 }}
+              pointerEvents="none"
+            />
+          )}
           {/* MARK: Name */}
           <CustomInput
             id="name"
@@ -148,7 +158,10 @@ function CreateWalletPage() {
 
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => router.push('/emoji-picker')}
+              onPress={() => {
+                if (inProgress && step === 2) return
+                router.push('/emoji-picker')
+              }}
             >
               <ImageBackground
                 source={images.preBgVFlip}
@@ -181,9 +194,11 @@ function CreateWalletPage() {
           onCancel={router.back}
           onAccept={handleSubmit(handleCreateWallet)}
           loading={saving}
+          inTutorial={inProgress && step === 2}
         />
 
         <Separator className="my-8 h-0" />
+        {inProgress && step === 1 && <Separator className="my-32 h-0" />}
       </View>
     </DrawerWrapper>
   )

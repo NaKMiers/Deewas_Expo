@@ -12,7 +12,7 @@ import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Text from './Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select'
-import { BlurView } from 'expo-blur'
+import BlurView from './BlurView'
 
 interface SettingsBoxProps {
   className?: string

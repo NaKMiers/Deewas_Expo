@@ -15,12 +15,9 @@
     },
     "assetBundlePatterns": ["**/*"],
     "extra": {
-      "webServerUrl": "http://localhost:3000",
-      "router": {
-        "origin": false
-      },
+      "router": {},
       "eas": {
-        "projectId": "dccda830-c021-4285-859c-64a37fb44284"
+        "projectId": "063bc0fc-2319-4f93-9ff7-66c28038ad5d"
       }
     },
     "ios": {
@@ -28,10 +25,10 @@
       "bundleIdentifier": "com.nakmiers.deewas",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSMicrophoneUsageDescription": "Allows use of microphone for voice text input",
-        "NSSpeechRecognitionUsageDescription": "Allows the app to recognize speech for text input",
-        "NSFaceIDUsageDescription": "We need access to Face ID to unlock your wallet",
-        "NSPhotoLibraryUsageDescription": "This app may access your photo library for uploading receipts or personal finance images"
+        "NSMicrophoneUsageDescription": "Deewas uses the microphone to let you talk to your AI assistant. For example, you can ask about your finances or add new transactions using your voice.",
+        "NSSpeechRecognitionUsageDescription": "Deewas uses speech recognition to understand your voice and convert it into text so you can interact with your AI assistant, manage your finances, and perform actions like adding transactions or checking your budget.",
+        "NSFaceIDUsageDescription": "Deewas uses Face ID to securely verify your identity when you enable biometric authentication to protect your financial data.",
+        "NSPhotoLibraryUsageDescription": "Deewas may access your photo library to allow uploading receipts or images for personal finance tracking."
       }
     },
     "android": {
@@ -39,11 +36,17 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "splash": {
+        "image": "./assets/images/splash-icon.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#ffffff"
+      },
       "package": "com.nakmiers.deewas",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.USE_FINGERPRINT",
-        "android.permission.USE_BIOMETRIC"
+        "android.permission.USE_BIOMETRIC",
+        "com.android.vending.BILLING"
       ]
     },
     "web": {
@@ -53,14 +56,8 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "extraProguardRules": "-dontwarn com.reactnative.voice.**"
-          }
-        }
-      ],
+      "expo-localization",
+      "expo-build-properties",
       [
         "@react-native-google-signin/google-signin",
         {

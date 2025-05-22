@@ -1,3 +1,4 @@
+import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
 import MonthYearPicker from '@/components/MonthYearPicker'
 import NoItemsFound from '@/components/NoItemsFound'
@@ -24,7 +25,6 @@ import {
   startOfMonth,
   subMonths,
 } from 'date-fns'
-import { BlurView } from 'expo-blur'
 import * as Haptics from 'expo-haptics'
 import { router } from 'expo-router'
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react-native'

@@ -7,12 +7,12 @@ import { memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
+import BlurView from './BlurView'
 import Icon from './Icon'
 import Text from './Text'
 import TransactionCategoryGroup from './TransactionCategoryGroup'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
-import { BlurView } from 'expo-blur'
 
 interface ITransactionTypeGroupProps {
   type: TransactionType
@@ -97,6 +97,7 @@ function TransactionTypeGroup({ type, categoryGroups, className }: ITransactionT
                   className="px-1 py-2"
                   tint="prominent"
                   intensity={90}
+                  noBlur
                 >
                   {/* MARK: Create Transaction */}
                   <TouchableOpacity

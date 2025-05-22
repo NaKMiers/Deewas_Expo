@@ -53,7 +53,7 @@ function TransactionCategoryGroup({
             router.push('/create-transaction')
           }}
           activeOpacity={0.7}
-          className="h-8 flex-row items-center gap-2 rounded-md border border-secondary px-2"
+          className="h-8 flex-row items-center gap-2 rounded-md border border-primary/10 px-2"
         >
           <Text className="font-semibold">{t('Add Transaction')}</Text>
         </TouchableOpacity>

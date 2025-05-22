@@ -1,10 +1,10 @@
 import { images } from '@/assets/images/images'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Image from '../Image'
 import Text from '../Text'
 import { Separator } from '../ui/separator'
-import { memo } from 'react'
 
 function Slide2({ onChange }: { onChange: (value: any) => void }) {
   const { t: translate } = useTranslation()

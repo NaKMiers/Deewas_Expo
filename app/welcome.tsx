@@ -1,5 +1,4 @@
 import { images } from '@/assets/images/images'
-import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
@@ -9,7 +8,7 @@ import useLanguage from '@/hooks/useLanguage'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { Redirect, router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 function WelcomePage() {

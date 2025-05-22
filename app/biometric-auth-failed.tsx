@@ -1,12 +1,11 @@
 import { images } from '@/assets/images/images'
 import Icon from '@/components/Icon'
-import Image from '@/components/Image'
 import { useAuth } from '@/components/providers/AuthProvider'
 import { Separator } from '@/components/ui/separator'
 import { Redirect, router, useNavigation } from 'expo-router'
 import { LucideLogOut, LucideScanFace } from 'lucide-react-native'
 import React, { useEffect } from 'react'
-import { BackHandler, ImageBackground, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native'
 
 function BiometricAuthFailedPage() {
   // hooks

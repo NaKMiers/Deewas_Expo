@@ -103,7 +103,8 @@
     "Version": "பதிப்பு",
     "Username": "பயனர் பெயர்",
     "Please upgrade to Premium to unlock this feature": "இந்த அம்சத்தை திறக்க பிரீமியத்திற்கு மேம்படுத்தவும்",
-    "Upgrade Now": "இப்போது மேம்படுத்து"
+    "Upgrade Now": "இப்போது மேம்படுத்து",
+    "Biometric Lock": "உயிரியல் பூட்டு"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "உங்களிடம் இன்னும் எந்த பட்ஜெட்டும் இல்லை, இப்போது ஒன்றை உருவாக்கவும்!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "வணக்கம்",
     "What can you do?": "நீங்கள் என்ன செய்ய முடியும்?",
-    "My most expensive expense this month": "இந்த மாதம் எனது மிகவும் விலையுயர்ந்த செலவு",
+    "My most expensive expense this month?": "இந்த மாதத்தில் எனது மிகச் செலவான செலவு என்ன?",
     "How to limit my spending": "எனது செலவை எவ்வாறு கட்டுப்படுத்துவது",
     "An Error Happens": "ஒரு பிழை ஏற்பட்டது",
     "Try again": "மீண்டும் முயற்சி செய்",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "எங்கள் ஆதரவு பக்கத்தைப் பார்க்கவும் அல்லது மேலும் உதவிக்கு எங்களைத் தொடர்பு கொள்ளவும்",
     "Go to Support": "ஆதரவுக்குச் செல்",
     "Deewas": "தீவாஸ்",
-    "All rights reserved": "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை"
+    "All rights reserved": "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை",
+    "Restart tutorial": "பயிற்சியை மீண்டும் தொடங்கவும்",
+    "Are you sure you want to restart the tutorial?": "பயிற்சியை மீண்டும் தொடங்க நீங்கள் உறுதியாக இருக்கிறீர்களா?",
+    "No": "இல்லை",
+    "Yes": "ஆம்"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "பரிவர்த்தனை சேர்",
     "Set Budget": "பட்ஜெட் அமை",
     "Edit": "திருத்து",
-    "Delete": "நீக்கு"
+    "Delete": "நீக்கு",
+    "Delete category": "வகையை நீக்கு",
+    "All budgets of this category will be deleted": "இந்த வகையின் அனைத்து பட்ஜெட்களும் நீக்கப்படும்",
+    "Are you sure you want to delete this category?": "இந்த வகையை நீக்க விரும்புகிறீர்களா?"
   },
   "categoryGroup": {
     "Categories": "வகைகள்",
@@ -1077,6 +1085,51 @@
     "Cancel": "ரத்து செய்",
     "Please upgrade to Premium to export data": "தரவை ஏற்றுமதி செய்ய பிரீமியத்திற்கு மேம்படுத்தவும்",
     "Upgrade Now": "இப்போது மேம்படுத்து"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "பயிற்சியை முடிக்கவும்",
+    "Skip Tutorial": "பயிற்சியைத் தவிர்க்கவும்",
+    "Cancel": "ரத்துசெய்",
+    "Skip": "தவிர்",
+    "Are you sure you want to skip the tutorial?": "நீங்கள் பயிற்சியைத் தவிர்க்க விரும்புகிறீர்களா?",
+    "Stay on Track": "தடத்திலிருந்து விலகாமல் இருங்கள்",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "நீங்கள் உங்கள் வழியில் இருக்கிறீர்கள்! தொடர படிகளைப் பின்பற்றவும் அல்லது விரும்பினால் தவிர்க்கவும்",
+    "Step 1": "படி 1",
+    "Step 2": "படி 2",
+    "Step 3": "படி 3",
+    "Step 4": "படி 4",
+    "Step 5": "படி 5",
+    "Step 6": "படி 6",
+    "Step 7": "படி 7",
+    "Step 8": "படி 8",
+    "Step 9": "படி 9",
+    "Step 10": "படி 10",
+    "Step 11": "படி 11",
+    "Create a Wallet": "ஒரு பணப்பையை உருவாக்கவும்",
+    "Name Your Wallet": "உங்கள் பணப்பையை பெயரிடவும்",
+    "Add a Transaction": "ஒரு பரிவர்த்தனையைச் சேர்க்கவும்",
+    "Record a Transaction": "ஒரு பரிவர்த்தனையைப் பதிவு செய்யவும்",
+    "Complete Your Transaction": "உங்கள் பரிவர்த்தனையை முடிக்கவும்",
+    "Create a Budget": "ஒரு பட்ஜெட்டை உருவாக்கவும்",
+    "Set Up a Budget": "ஒரு பட்ஜெட்டை அமைக்கவும்",
+    "Finalize Your Budget": "உங்கள் பட்ஜெட்டை இறுதி செய்யவும்",
+    "Your Finance Assistant": "உங்கள் நிதி உதவியாளர்",
+    "Ask Deewas a Question": "தீவாஸிடம் ஒரு கேள்வி கேளுங்கள்",
+    "Welcome to Deewas!": "தீவாஸ்க்கு வரவேற்கிறோம்!",
+    "Tap the 'New Wallet' button to set up your first wallet": "உங்கள் முதல் பணப்பையை அமைக்க 'புதிய பணப்பை' பொத்தானைத் தட்டவும்",
+    "Enter a name for your wallet and tap 'Save' to continue": "உங்கள் பணப்பைக்கான பெயரை உள்ளிட்டு, தொடர 'சேமி' என்பதைத் தட்டவும்",
+    "Go to the 'Transactions' screen to view and manage your transactions": "உங்கள் பரிவர்த்தனைகளைப் பார்க்கவும் நிர்வகிக்கவும் 'பரிவர்த்தனைகள்' திரைக்குச் செல்லவும்",
+    "Tap 'Add Transaction' to log your first transaction": "உங்கள் முதல் பரிவர்த்தனையைப் பதிவு செய்ய 'பரிவர்த்தனை சேர்' என்பதைத் தட்டவும்",
+    "Enter the name and amount for your transaction, then tap 'Save'": "உங்கள் பரிவர்த்தனைக்கான பெயரையும் தொகையையும் உள்ளிட்டு, பின்னர் 'சேமி' என்பதைத் தட்டவும்",
+    "Visit the 'Budgets' tab to start managing your finances": "உங்கள் நிதிகளை நிர்வகிக்கத் தொடங்க 'பட்ஜெட்டுகள்' தாவலைப் பார்வையிடவும்",
+    "Tap 'Create Budget' to define your spending plan": "உங்கள் செலவுத் திட்டத்தை வரையறுக்க 'பட்ஜெட் உருவாக்கு' என்பதைத் தட்டவும்",
+    "Enter the name and amount for your budget, then tap 'Save'": "உங்கள் பட்ஜெட்டுக்கான பெயரையும் தொகையையும் உள்ளிட்டு, பின்னர் 'சேமி' என்பதைத் தட்டவும்",
+    "Ask Deewas": "தீவாஸிடம் கேளுங்கள்",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "உங்கள் AI உதவியாளருடன் அரட்டை அடிக்க 'தீவாஸ்' திரைக்குச் செல்லவும்",
+    "What’s my most expensive expense this month?": "இந்த மாதம் எனது மிகவும் விலையுயர்ந்த செலவு எது?",
+    "You’re all set!": "நீங்கள் தயாராகிவிட்டீர்கள்!",
+    "Thank you for choosing Deewas": "தீவாஸைத் தேர்ந்தெடுத்ததற்கு நன்றி",
+    "Let’s manage your finances together!": "உங்கள் நிதிகளை நாம் ஒன்றாக நிர்வகிப்போம்!"
   },
   "success": {
     "Sign In Success": "உள்நுழைவு வெற்றி",

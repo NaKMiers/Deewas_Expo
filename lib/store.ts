@@ -5,6 +5,7 @@ import loadReducer from './reducers/loadReducer'
 import screenReducer from './reducers/screenReducer'
 import settingsReducer from './reducers/settingsReducer'
 import transactionReducer from './reducers/transactionReducer'
+import tutorialReducer from './reducers/tutorialReducer'
 import userReducer from './reducers/userReducer'
 import walletReducer from './reducers/walletReducer'
 
@@ -13,6 +14,7 @@ export const makeStore = () => {
     reducer: {
       screen: screenReducer,
       load: loadReducer,
+      tutorial: tutorialReducer,
       settings: settingsReducer,
       wallet: walletReducer,
       category: categoryReducer,

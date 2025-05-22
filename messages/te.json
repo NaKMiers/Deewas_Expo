@@ -103,7 +103,8 @@
     "Version": "వెర్షన్",
     "Username": "వినియోగదారు పేరు",
     "Please upgrade to Premium to unlock this feature": "ఈ ఫీచర్‌ను అన్‌లాక్ చేయడానికి ప్రీమియంకు అప్‌గ్రేడ్ చేయండి",
-    "Upgrade Now": "ఇప్పుడే అప్‌గ్రేడ్ చేయండి"
+    "Upgrade Now": "ఇప్పుడే అప్‌గ్రేడ్ చేయండి",
+    "Biometric Lock": "బయోమెట్రిక్ లాక్"
   },
   "budgetPage": {
     "You don't have any budgets yet, create one now!": "మీరు ఇంకా ఎటువంటి బడ్జెట్‌లను సృష్టించలేదు, ఇప్పుడే ఒకటి సృష్టించండి!",
@@ -162,7 +163,7 @@
   "aiPage": {
     "Hello": "హలో",
     "What can you do?": "మీరు ఏమి చేయగలరు?",
-    "My most expensive expense this month": "ఈ నెలలో నా అత్యంత ఖరీదైన ఖర్చు",
+    "My most expensive expense this month?": "ఈ నెలలో నా అత్యంత ఖరీదైన ఖర్చు ఏమిటి?",
     "How to limit my spending": "నా ఖర్చును ఎలా పరిమితం చేయాలి",
     "An Error Happens": "ఒక లోపం సంభవించింది",
     "Try again": "మళ్లీ ప్రయత్నించండి",
@@ -483,7 +484,11 @@
     "Check out our support page or contact us for further assistance": "మా మద్దతు పేజీని తనిఖీ చేయండి లేదా మరింత సహాయం కోసం మమ్మల్ని సంప్రదించండి",
     "Go to Support": "మద్దతుకు వెళ్ళండి",
     "Deewas": "డీవాస్",
-    "All rights reserved": "అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి"
+    "All rights reserved": "అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి",
+    "Restart tutorial": "ట్యుటోరియల్‌ను తిరిగి ప్రారంభించు",
+    "Are you sure you want to restart the tutorial?": "మీరు ట్యుటోరియల్‌ను తిరిగి ప్రారంభించాలనుకుంటున్నారా?",
+    "No": "వద్దు",
+    "Yes": "అవును"
   },
   "NotFoundPage": {},
   "header": {
@@ -733,7 +738,10 @@
     "Add Transaction": "లావాదేవీ జోడించు",
     "Set Budget": "బడ్జెట్ సెట్ చేయి",
     "Edit": "సవరించు",
-    "Delete": "తొలగించు"
+    "Delete": "తొలగించు",
+    "Delete category": "వర్గాన్ని తొలగించు",
+    "All budgets of this category will be deleted": "ఈ వర్గానికి సంబంధించిన అన్ని బడ్జెట్‌లు తొలగించబడతాయి",
+    "Are you sure you want to delete this category?": "మీరు ఈ వర్గాన్ని తొలగించాలని ఖచ్చితంగా అనుకుంటున్నారా?"
   },
   "categoryGroup": {
     "Categories": "వర్గాలు",
@@ -1077,6 +1085,51 @@
     "Cancel": "రద్దు చేయి",
     "Please upgrade to Premium to export data": "డేటాను ఎగుమతి చేయడానికి దయచేసి ప్రీమియంకు అప్‌గ్రేడ్ చేయండి",
     "Upgrade Now": "ఇప్పుడే అప్‌గ్రేడ్ చేయండి"
+  },
+  "tutorialOverlay": {
+    "Finish Tutorial": "ట్యుటోరియల్ పూర్తి చేయండి",
+    "Skip Tutorial": "ట్యుటోరియల్ దాటవేయి",
+    "Cancel": "రద్దు చేయండి",
+    "Skip": "దాటవేయి",
+    "Are you sure you want to skip the tutorial?": "మీరు ట్యుటోరియల్‌ను దాటవేయాలనుకుంటున్నారా?",
+    "Stay on Track": "ట్రాక్‌లో ఉండండి",
+    "You're on your way! Follow the steps to continue or skip if you'd like": "మీరు సరైన మార్గంలో ఉన్నారు! కొనసాగడానికి దశలను అనుసరించండి లేదా మీరు కోరుకుంటే దాటవేయండి",
+    "Step 1": "దశ 1",
+    "Step 2": "దశ 2",
+    "Step 3": "దశ 3",
+    "Step 4": "దశ 4",
+    "Step 5": "దశ 5",
+    "Step 6": "దశ 6",
+    "Step 7": "దశ 7",
+    "Step 8": "దశ 8",
+    "Step 9": "దశ 9",
+    "Step 10": "దశ 10",
+    "Step 11": "దశ 11",
+    "Create a Wallet": "వాలెట్‌ను సృష్టించండి",
+    "Name Your Wallet": "మీ వాలెట్‌కు పేరు పెట్టండి",
+    "Add a Transaction": "లావాదేవీని జోడించండి",
+    "Record a Transaction": "లావాదేవీని రికార్డ్ చేయండి",
+    "Complete Your Transaction": "మీ లావాదేవీని పూర్తి చేయండి",
+    "Create a Budget": "బడ్జెట్‌ను సృష్టించండి",
+    "Set Up a Budget": "బడ్జెట్‌ను సెటప్ చేయండి",
+    "Finalize Your Budget": "మీ బడ్జెట్‌ను ఖరారు చేయండి",
+    "Your Finance Assistant": "మీ ఆర్థిక సహాయకుడు",
+    "Ask Deewas a Question": "దీవాస్‌ను ఒక ప్రశ్న అడగండి",
+    "Welcome to Deewas!": "దీవాస్‌కు స్వాగతం!",
+    "Tap the 'New Wallet' button to set up your first wallet": "మీ మొదటి వాలెట్‌ను సెటప్ చేయడానికి 'కొత్త వాలెట్' బటన్‌ను నొక్కండి",
+    "Enter a name for your wallet and tap 'Save' to continue": "మీ వాలెట్ కోసం ఒక పేరును నమోదు చేయండి మరియు కొనసాగించడానికి 'సేవ్' నొక్కండి",
+    "Go to the 'Transactions' screen to view and manage your transactions": "మీ లావాదేవీలను వీక్షించడానికి మరియు నిర్వహించడానికి 'లావాదేవీలు' స్క్రీన్‌కు వెళ్లండి",
+    "Tap 'Add Transaction' to log your first transaction": "మీ మొదటి లావాదేవీని లాగ్ చేయడానికి 'లావాదేవీని జోడించండి' నొక్కండి",
+    "Enter the name and amount for your transaction, then tap 'Save'": "మీ లావాదేవీ కోసం పేరు మరియు మొత్తాన్ని నమోదు చేయండి, ఆపై 'సేవ్' నొక్కండి",
+    "Visit the 'Budgets' tab to start managing your finances": "మీ ఆర్థిక విషయాలను నిర్వహించడం ప్రారంభించడానికి 'బడ్జెట్‌లు' ట్యాబ్‌ను సందర్శించండి",
+    "Tap 'Create Budget' to define your spending plan": "మీ ఖర్చుల ప్రణాళికను నిర్వచించడానికి 'బడ్జెట్‌ను సృష్టించండి' నొక్కండి",
+    "Enter the name and amount for your budget, then tap 'Save'": "మీ బడ్జెట్ కోసం పేరు మరియు మొత్తాన్ని నమోదు చేయండి, ఆపై 'సేవ్' నొక్కండి",
+    "Ask Deewas": "దీవాస్‌ను అడగండి",
+    "Go to the 'Deewas' screen to chat with your AI assistant": "మీ AI అసిస్టెంట్‌తో చాట్ చేయడానికి 'దీవాస్' స్క్రీన్‌కు వెళ్లండి",
+    "What’s my most expensive expense this month?": "ఈ నెలలో నా అత్యంత ఖరీదైన ఖర్చు ఏమిటి?",
+    "You’re all set!": "మీరు సిద్ధంగా ఉన్నారు!",
+    "Thank you for choosing Deewas": "దీవాస్‌ను ఎంచుకున్నందుకు ధన్యవాదాలు",
+    "Let’s manage your finances together!": "మీ ఆర్థిక విషయాలను కలిసి నిర్వహిద్దాం!"
   },
   "success": {
     "Sign In Success": "సైన్ ఇన్ విజయవంతమైంది",

@@ -2,10 +2,10 @@ import { buttonTextVariants, buttonVariants } from '@/components/ui/button'
 import { TextClassContext } from '@/components/ui/text'
 import { cn } from '@/lib/utils'
 import * as AlertDialogPrimitive from '@rn-primitives/alert-dialog'
-import { BlurView } from 'expo-blur'
 import * as React from 'react'
 import { Platform, StyleSheet, View, type ViewProps } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
+import BlurView from '../BlurView'
 
 const AlertDialog = AlertDialogPrimitive.Root
 
@@ -72,14 +72,14 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogPortal hostName={portalHost}>
       <AlertDialogOverlay>
         <BlurView
-          tint="prominent"
           intensity={30}
           className="overflow-hidden rounded-lg"
+          noBlur
         >
           <AlertDialogPrimitive.Content
             ref={ref}
             className={cn(
-              'z-50 max-w-lg gap-4 rounded-lg border border-border p-6 shadow-lg shadow-foreground/10 web:duration-200',
+              'z-50 max-w-lg gap-4 rounded-lg border border-primary/10 p-6 shadow-lg shadow-foreground/10 web:duration-200',
               open
                 ? 'web:animate-in web:fade-in-0 web:zoom-in-95'
                 : 'web:animate-out web:fade-out-0 web:zoom-out-95',
@@ -116,7 +116,7 @@ const AlertDialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Title
     ref={ref}
-    className={cn('native:text-xl text-lg font-semibold text-white', className)}
+    className={cn('native:text-xl text-lg font-semibold text-primary', className)}
     {...props}
   />
 ))
@@ -128,7 +128,7 @@ const AlertDialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Description
     ref={ref}
-    className={cn('native:text-base text-sm text-gray-300', className)}
+    className={cn('native:text-base text-sm text-muted-foreground', className)}
     {...props}
   />
 ))

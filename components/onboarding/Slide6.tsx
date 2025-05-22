@@ -2,12 +2,12 @@ import { images } from '@/assets/images/images'
 import { cn } from '@/lib/utils'
 import { router } from 'expo-router'
 import { LucideArrowRight } from 'lucide-react-native'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import Icon from '../Icon'
 import Image from '../Image'
 import Text from '../Text'
-import { memo } from 'react'
 
 function Slide6({ onPress }: { onPress: () => void }) {
   const { t: translate } = useTranslation()
