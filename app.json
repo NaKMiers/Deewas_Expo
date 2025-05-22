@@ -10,20 +10,41 @@
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "49c51709-12f2-49b0-b0ca-922808e6a375"
+      }
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lxopersy.jiji",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSMicrophoneUsageDescription": "Deewas uses the microphone to let you talk to your AI assistant. For example, you can ask about your finances or add new transactions using your voice.",
+        "NSSpeechRecognitionUsageDescription": "Deewas uses speech recognition to understand your voice and convert it into text so you can interact with your AI assistant, manage your finances, and perform actions like adding transactions or checking your budget.",
+        "NSFaceIDUsageDescription": "Deewas uses Face ID to securely verify your identity when you enable biometric authentication to protect your financial data.",
+        "NSPhotoLibraryUsageDescription": "Deewas may access your photo library to allow uploading receipts or images for personal finance tracking."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.lxopersy.jiji",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.USE_FINGERPRINT",
+        "android.permission.USE_BIOMETRIC",
+        "com.android.vending.BILLING"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -31,16 +52,11 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "49c51709-12f2-49b0-b0ca-922808e6a375"
-      }
     }
   }
 }
