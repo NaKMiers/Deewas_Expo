@@ -25,6 +25,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('latestTransactions.' + key)
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
+
   // store
   const { refreshPoint } = useAppSelector(state => state.load)
 

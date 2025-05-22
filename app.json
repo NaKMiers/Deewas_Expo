@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "jiji",
-    "slug": "jiji",
+    "name": "Deewas",
+    "slug": "deewas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "deewas",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -17,12 +17,12 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "49c51709-12f2-49b0-b0ca-922808e6a375"
+        "projectId": "063bc0fc-2319-4f93-9ff7-66c28038ad5d"
       }
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.lxopersy.jiji",
+      "bundleIdentifier": "com.nakmiers.deewas",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSMicrophoneUsageDescription": "Deewas uses the microphone to let you talk to your AI assistant. For example, you can ask about your finances or add new transactions using your voice.",
@@ -41,7 +41,7 @@
         "resizeMode": "cover",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.lxopersy.jiji",
+      "package": "com.nakmiers.deewas",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.USE_FINGERPRINT",

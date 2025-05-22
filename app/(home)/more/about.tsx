@@ -1,7 +1,6 @@
 import { images } from '@/assets/images/images'
 import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
-import Image from '@/components/Image'
 import Text from '@/components/Text'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -15,7 +14,7 @@ import {
   LucideWallet,
 } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 
 const features = [
   {

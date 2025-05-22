@@ -2,7 +2,6 @@ import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
-import Image from '@/components/Image'
 import { useRevenueCat } from '@/components/providers/RevenueCatProvider'
 import Text from '@/components/Text'
 import { Separator } from '@/components/ui/separator'
@@ -19,6 +18,7 @@ import {
   Alert,
   BackHandler,
   FlatList,
+  Image,
   ImageBackground,
   Linking,
   ScrollView,

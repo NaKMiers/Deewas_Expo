@@ -1,29 +1,97 @@
+import { images } from '@/assets/images/images'
+import TutorialOverlay from '@/components/dialogs/TutorialOverlay'
 import { useAuth } from '@/components/providers/AuthProvider'
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import { Redirect, Stack } from 'expo-router'
-import { useEffect } from 'react'
+import useInit from '@/hooks/useInit'
+import useLanguage from '@/hooks/useLanguage'
+import useSettings from '@/hooks/useSettings'
+import { useColorScheme } from '@/lib/useColorScheme'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Device from 'expo-device'
+import * as LocalAuthentication from 'expo-local-authentication'
+import { Redirect, router, Stack } from 'expo-router'
+import { useLayoutEffect, useState } from 'react'
+import { Image } from 'react-native'
 
-function AuthLayout() {
-  const { user, loading } = useAuth()
+function HomeLayout() {
+  // hooks
+  const { user, loading, onboarding } = useAuth()
+  const { isDarkColorScheme } = useColorScheme()
+  useLanguage()
+  useSettings()
+  useInit()
+  // useAppReviewPrompt()
 
-  useEffect(() => {
-    GoogleSignin.configure({
-      iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,
-      webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
-      profileImageSize: 150,
-    })
+  const [bioAuthenticating, setBioAuthenticating] = useState(false)
+
+  useLayoutEffect(() => {
+    const bioAuth = async () => {
+      // start loading
+      setBioAuthenticating(true)
+
+      try {
+        // check if biometric is supported
+        const isSupported = await LocalAuthentication.hasHardwareAsync()
+        if (!isSupported) return
+
+        const biometricRaw = await AsyncStorage.getItem('biometric')
+        const dfBio = biometricRaw ? JSON.parse(biometricRaw) : { open: false, isSupported }
+        if (!biometricRaw) await AsyncStorage.setItem('biometric', JSON.stringify(dfBio))
+
+        // check if biometric is turned on
+        if (!dfBio.open) return
+
+        // biometric authentication
+        const result: any = await LocalAuthentication.authenticateAsync({
+          promptMessage: 'Unlock Deewas',
+          fallbackLabel: 'Enter PIN',
+          cancelLabel: 'Cancel',
+        })
+
+        if (!result.success) {
+          router.replace('/biometric-auth-failed')
+        }
+      } catch (err: any) {
+        console.error(err)
+        router.replace('/biometric-auth-failed')
+      } finally {
+        // stop loading
+        setBioAuthenticating(false)
+      }
+    }
+
+    bioAuth()
   }, [])
 
-  if (loading) return null
-  if (user) return <Redirect href="/home" />
+  if (loading || bioAuthenticating) return null
+  if (!user) {
+    return onboarding ? <Redirect href="/auth/sign-in" /> : <Redirect href="/welcome" />
+  }
+
+  const isTablet = Device.deviceType === Device.DeviceType.TABLET
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="sign-in" />
-      <Stack.Screen name="sign-up" />
-      <Stack.Screen name="forgot-password" />
-    </Stack>
+    <>
+      <Image
+        source={isDarkColorScheme ? images.darkBG : images.lightBG}
+        resizeMode="cover"
+        className="h-full w-full"
+        style={{ position: 'absolute' }}
+      />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          presentation: !isTablet ? 'modal' : undefined,
+          animation: !isTablet ? 'slide_from_bottom' : undefined,
+          contentStyle: { backgroundColor: 'transparent' },
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(drawers)" />
+      </Stack>
+
+      <TutorialOverlay />
+    </>
   )
 }
 
-export default AuthLayout
+export default HomeLayout
