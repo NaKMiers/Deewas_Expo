@@ -83,7 +83,7 @@ function AIPage() {
       },
     })
   const { stop } = useCompletion()
-  const [containerRef, handleScroll, isAtBottom] = useScrollToBottom(messages, status === 'streaming')
+  const [containerRef, handleScroll, isAtBottom] = useScrollToBottom(messages)
   const dispatch = useAppDispatch()
 
   // states
