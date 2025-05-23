@@ -35,7 +35,7 @@ function Wallets({ className }: WalletProps) {
     <>
       {inProgress && step === 1 && <View className="absolute left-0 top-0 z-10 h-screen w-screen" />}
 
-      <View className={cn(className)}>
+      <View className={cn('flex-shrink-0', className)}>
         {/* Top */}
         <View className="mb-21/2 flex-row flex-wrap items-center justify-between gap-2">
           <Text className="pl-1 text-xl font-bold">{t('Wallets')}</Text>
@@ -65,7 +65,7 @@ function Wallets({ className }: WalletProps) {
         {/* MARK: Wallets */}
         {!loading ? (
           wallets.length > 0 ? (
-            <View className="flex-1">
+            <View className="flex-1 flex-shrink-0">
               <FlatList
                 horizontal
                 data={wallets}

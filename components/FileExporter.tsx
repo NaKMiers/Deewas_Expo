@@ -200,6 +200,7 @@ function FileExporter({ className }: FileExporterProps) {
           confirmLabel={t('Export')}
           cancelLabel={t('Cancel')}
           onConfirm={exportCSV}
+          className='flex-shrink-0'
           trigger={
             <TouchableOpacity
               activeOpacity={0.7}
@@ -225,6 +226,7 @@ function FileExporter({ className }: FileExporterProps) {
           confirmLabel={t('Export')}
           cancelLabel={t('Cancel')}
           onConfirm={exportExcel}
+          className='flex-shrink-0'
           trigger={
             <TouchableOpacity
               activeOpacity={0.7}

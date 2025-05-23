@@ -316,7 +316,7 @@ function History({ className }: HistoryProps) {
           </View>
 
           {/* MARK: Total & Include Transfer */}
-          <View className="flex-1 flex-row items-start justify-between">
+          <View className="flex-1 flex-shrink-0 flex-row items-start justify-between">
             <View className="flex-1">
               <Text className="font-semibold text-muted-foreground">
                 {t('Total') + ' '}

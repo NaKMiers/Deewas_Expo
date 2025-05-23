@@ -335,7 +335,7 @@ function PremiumPage() {
         <ImageBackground
           source={images.preBgVFlip}
           resizeMode="cover"
-          className="absolute bottom-0 left-0 z-20 w-full overflow-hidden rounded-t-3xl px-21 pb-10 pt-6 shadow-lg"
+          className="absolute bottom-0 left-0 z-20 w-full overflow-hidden rounded-t-3xl px-21 pb-6 pt-8 shadow-lg"
         >
           <View className="mx-auto w-full max-w-4xl">
             <View className="w-full flex-1 flex-row items-center justify-evenly gap-21/2">
@@ -429,8 +429,6 @@ function PremiumPage() {
               </Text>
             </TouchableOpacity>
           </View>
-
-          <Separator className="my-2 h-0" />
         </ImageBackground>
       </BlurView>
     </SafeAreaView>

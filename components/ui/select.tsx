@@ -6,8 +6,8 @@ import * as SelectPrimitive from '@rn-primitives/select'
 import { LucideChevronDown } from 'lucide-react-native'
 import * as React from 'react'
 import { Platform, StyleSheet } from 'react-native'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { ScrollView } from 'react-native-gesture-handler'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import BlurView from '../BlurView'
 
 type Option = SelectPrimitive.Option
