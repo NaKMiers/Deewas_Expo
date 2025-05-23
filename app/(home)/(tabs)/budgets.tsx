@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { setStep } from '@/lib/reducers/tutorialReducer'
 import { formatTimeRange } from '@/lib/time'
-import { cn } from '@/lib/utils'
+import { cn, getAdmobId } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
@@ -17,9 +17,9 @@ import { LucidePlus } from 'lucide-react-native'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
+const adUnitId = getAdmobId('BANNER')
 
 function BudgetsPage() {
   // hooks

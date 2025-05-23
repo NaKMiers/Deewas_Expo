@@ -8,13 +8,14 @@ import { Separator } from '@/components/ui/separator'
 import Wallets from '@/components/Wallets'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
+import { getAdmobId } from '@/lib/utils'
 import { LucidePlus } from 'lucide-react-native'
 import React, { useEffect } from 'react'
 import { RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
-import { AdEventType, AppOpenAd, BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { AdEventType, AppOpenAd, BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 
-const adBannerId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
-const adAppOpenId = __DEV__ ? TestIds.APP_OPEN : process.env.EXPO_PUBLIC_ADMOD_APPOPEN_ID!
+const adBannerId = getAdmobId('BANNER')
+const adAppOpenId = getAdmobId('APP_OPEN')
 
 const appOpenAd = AppOpenAd.createForAdRequest(adAppOpenId, {
   requestNonPersonalizedAdsOnly: true,

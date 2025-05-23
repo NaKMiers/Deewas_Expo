@@ -13,7 +13,7 @@ import { setSelectedWallet } from '@/lib/reducers/screenReducer'
 import { setTransactions } from '@/lib/reducers/transactionReducer'
 import { setStep } from '@/lib/reducers/tutorialReducer'
 import { toUTC } from '@/lib/time'
-import { cn } from '@/lib/utils'
+import { cn, getAdmobId } from '@/lib/utils'
 import { getMyTransactionsApi } from '@/requests'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import { router } from 'expo-router'
@@ -28,10 +28,10 @@ import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
 
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
+const adUnitId = getAdmobId('BANNER')
 
 function TransactionsPage() {
   // hooks

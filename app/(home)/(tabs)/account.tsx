@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { capitalize, shortName } from '@/lib/string'
 import { useColorScheme } from '@/lib/useColorScheme'
-import { cn } from '@/lib/utils'
+import { cn, getAdmobId } from '@/lib/utils'
 import { deleteAllDataApi, updateUserApi } from '@/requests'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
@@ -47,10 +47,10 @@ import {
   View,
 } from 'react-native'
 import { RefreshControl, TextInput } from 'react-native-gesture-handler'
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 import Toast from 'react-native-toast-message'
 
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
+const adUnitId = getAdmobId('BANNER')
 
 function AccountPage() {
   // hooks
@@ -401,6 +401,7 @@ function AccountPage() {
             </View>
           )}
 
+          {/* MARK: Ads */}
           {!isPremium && !adLoadFailed && (
             <View className="shadow-md">
               <BlurView

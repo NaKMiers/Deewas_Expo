@@ -9,6 +9,7 @@ import { Tabs } from '@/components/ui/tabs'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { capitalize } from '@/lib/string'
+import { getAdmobId } from '@/lib/utils'
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { router } from 'expo-router'
@@ -16,9 +17,9 @@ import { LucideChevronLeft, LucidePlus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : process.env.EXPO_PUBLIC_ADMOD_BANNER_ID!
+const adUnitId = getAdmobId('BANNER')
 
 function CategoriesPage() {
   // hooks
