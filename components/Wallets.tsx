@@ -65,7 +65,7 @@ function Wallets({ className }: WalletProps) {
         {/* MARK: Wallets */}
         {!loading ? (
           wallets.length > 0 ? (
-            <View className="flex-1">
+            <View className="flex-1 flex-shrink-0">
               <FlatList
                 horizontal
                 data={wallets}
