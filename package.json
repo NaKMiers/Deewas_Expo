@@ -21,6 +21,7 @@
     "@react-native-community/datetimepicker": "8.3.0",
     "@react-native-google-signin/google-signin": "^14.0.1",
     "@react-native-segmented-control/segmented-control": "2.5.7",
+    "@react-native-voice/voice": "^3.2.4",
     "@react-navigation/native": "^7.0.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@rn-primitives/accordion": "^1.2.0",

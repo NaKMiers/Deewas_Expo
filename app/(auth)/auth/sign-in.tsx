@@ -204,6 +204,8 @@ function SignInPage() {
 
   // MARK: Apple Sign In
   const handleAppleSignIn = useCallback(async () => {
+    if (Platform.OS !== 'ios') return
+
     // start loading
     setLoading(true)
 
@@ -216,6 +218,8 @@ function SignInPage() {
         ],
         nonce,
       })
+
+      console.log('Apple Sign In Credential:', credential)
 
       const { identityToken, user } = credential
       if (!identityToken || !user) {
@@ -252,6 +256,7 @@ function SignInPage() {
           type: 'error',
           text1: tError('An error occurred'),
         })
+        console.log(e)
       }
     } finally {
       // stop loading

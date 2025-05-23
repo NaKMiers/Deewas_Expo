@@ -348,8 +348,7 @@ function TransactionsPage() {
           activeOpacity={0.7}
           onPress={() => {
             dispatch(setSelectedWallet(selectedWallet))
-            router.push('/create-transaction')
-            if (inProgress && step === 4) dispatch(setStep(5))
+            inProgress && step === 4 ? dispatch(setStep(5)) : router.push('/create-transaction')
           }}
           className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
         >

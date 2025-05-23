@@ -2,7 +2,7 @@
   "expo": {
     "name": "Deewas",
     "slug": "deewas",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "deewas",
@@ -23,6 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nakmiers.deewas",
+      "usesAppleSignIn": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSMicrophoneUsageDescription": "Deewas uses the microphone to let you talk to your AI assistant. For example, you can ask about your finances or add new transactions using your voice.",
@@ -58,6 +59,7 @@
       "expo-router",
       "expo-localization",
       "expo-build-properties",
+      "expo-apple-authentication",
       [
         "@react-native-google-signin/google-signin",
         {
@@ -69,6 +71,13 @@
         {
           "iosAppId": "ca-app-pub-8539911634059441~9440395805",
           "androidAppId": "ca-app-pub-8539911634059441~4779337310"
+        }
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Allow Deewas to access the microphone",
+          "speechRecognitionPermission": "Allow Deewas to securely recognize user speech"
         }
       ]
     ],

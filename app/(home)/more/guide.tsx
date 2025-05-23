@@ -1,11 +1,12 @@
 import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
+import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { useAppDispatch } from '@/hooks/reduxHook'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import useSettings from '@/hooks/useSettings'
-import { setInProgress, setOpenTutorial } from '@/lib/reducers/tutorialReducer'
+import { setInProgress, setOpenTutorial, setStep } from '@/lib/reducers/tutorialReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
 import { router } from 'expo-router'
@@ -20,10 +21,18 @@ function GuidePage() {
   const t = (key: string) => translate('guidePage.' + key)
   const dispatch = useAppDispatch()
   const { refetch: refetchSettings } = useSettings()
+  const { isPremium } = useAuth()
 
+  // store
+  const { settings } = useSettings()
+  const wallets = useAppSelector(state => state.wallet.wallets)
+  const budgets = useAppSelector(state => state.budget.budgets)
+
+  // states
   const [activeTab, setActiveTab] = useState('transactions')
   const supportEmail = process.env.EXPO_PUBLIC_SUPPORT_EMAIL || 'deewas.now@gmail.com'
 
+  // values
   const tabs: any[] = [
     { key: 'transactions', title: t('Transactions') },
     { key: 'wallets', title: t('Wallets') },
@@ -155,12 +164,21 @@ function GuidePage() {
     },
   }
 
+  const isAllowToRestartTutorial =
+    !isPremium &&
+    settings?.firstLaunch &&
+    settings.freeTokensUsed < 5000 &&
+    wallets.length < 2 &&
+    budgets.length < 4
+
+  // MARK: Restart tutorial
   const handleRestartTutorial = useCallback(async () => {
     try {
       await updateMySettingsApi({ firstLaunch: false })
 
       dispatch(setOpenTutorial(true))
       dispatch(setInProgress(true))
+      dispatch(setStep(1))
       refetchSettings()
       router.replace('/home')
       router.back()
@@ -202,32 +220,34 @@ function GuidePage() {
 
               <Separator className="my-12" />
 
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() =>
-                  Alert.alert(
-                    t('Restart tutorial'),
-                    t('Are you sure you want to restart the tutorial?'),
-                    [
-                      { text: t('No') },
-                      {
-                        text: t('Yes'),
-                        onPress: handleRestartTutorial,
-                      },
-                    ]
-                  )
-                }
-                className="flex-row items-center justify-center gap-21/2 rounded-lg bg-primary p-4 shadow-md"
-              >
-                <Icon
-                  render={LucideRotateCcw}
-                  size={20}
-                  reverse
-                />
-                <Text className="text-lg font-semibold text-secondary">{t('Restart tutorial')}</Text>
-              </TouchableOpacity>
+              {isAllowToRestartTutorial && (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() =>
+                    Alert.alert(
+                      t('Restart tutorial'),
+                      t('Are you sure you want to restart the tutorial?'),
+                      [
+                        { text: t('No') },
+                        {
+                          text: t('Yes'),
+                          onPress: handleRestartTutorial,
+                        },
+                      ]
+                    )
+                  }
+                  className="flex-row items-center justify-center gap-21/2 rounded-lg bg-primary p-4 shadow-md"
+                >
+                  <Icon
+                    render={LucideRotateCcw}
+                    size={20}
+                    reverse
+                  />
+                  <Text className="text-lg font-semibold text-secondary">{t('Restart tutorial')}</Text>
+                </TouchableOpacity>
+              )}
 
-              <Separator className="my-12" />
+              {isAllowToRestartTutorial && <Separator className="my-12" />}
 
               {/* Guide Content with Tabs */}
               <View id="getting-started">

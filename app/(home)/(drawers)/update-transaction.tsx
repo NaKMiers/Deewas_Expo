@@ -129,7 +129,7 @@ function UpdateTransactionPage() {
       }
 
       // amount is required
-      if (!data.amount) {
+      if (!data.amount || +data.amount === 0) {
         setError('amount', {
           type: 'manual',
           message: t('Amount is required'),

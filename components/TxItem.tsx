@@ -20,7 +20,7 @@ import {
 import moment from 'moment'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Platform, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import BlurView from './BlurView'
 import ConfirmDialog from './dialogs/ConfirmDialog'

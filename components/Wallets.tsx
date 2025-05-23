@@ -45,10 +45,9 @@ function Wallets({ className }: WalletProps) {
             <View className={cn('z-10', inProgress && step === 1 && 'border-2 border-sky-500 p-1')}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => {
-                  router.push('/create-wallet')
-                  inProgress && step === 1 && dispatch(setStep(2))
-                }}
+                onPress={() =>
+                  inProgress && step === 1 ? dispatch(setStep(2)) : router.push('/create-wallet')
+                }
                 className="h-10 flex-row items-center gap-2 rounded-md border border-primary bg-primary px-3"
               >
                 <Text className="font-semibold text-secondary">{t('New Wallet')}</Text>

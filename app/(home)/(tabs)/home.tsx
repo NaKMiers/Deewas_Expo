@@ -28,6 +28,8 @@ function HomePage() {
   const { inProgress, step } = useAppSelector(state => state.tutorial)
 
   useEffect(() => {
+    if (!user || isPremium) return
+
     let timeoutId: any
 
     // Load and show AppOpen Ad when page mounts
@@ -96,7 +98,8 @@ function HomePage() {
               </View>
             </View>
           )}
-          <Separator className="my-16 h-0" />
+
+          <Separator className="my-8 h-0" />
         </ScrollView>
 
         <Creations

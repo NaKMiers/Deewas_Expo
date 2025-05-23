@@ -89,7 +89,7 @@ function CustomInput({
             type === 'password' ? 'pr-10' : ''
           )}
           value={value}
-          keyboardType={type === 'number' ? 'decimal-pad' : 'default'}
+          keyboardType={type === 'number' ? 'numeric' : 'default'}
           editable={disabled}
           secureTextEntry={type === 'password' && !showPW}
           placeholder={placeholder}

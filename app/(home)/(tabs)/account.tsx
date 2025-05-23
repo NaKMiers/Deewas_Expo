@@ -401,6 +401,22 @@ function AccountPage() {
             </View>
           )}
 
+          {!isPremium && !adLoadFailed && (
+            <View className="shadow-md">
+              <BlurView
+                intensity={90}
+                tint="prominent"
+                className="items-center justify-center overflow-hidden rounded-xl border border-primary/10"
+              >
+                <BannerAd
+                  unitId={adUnitId}
+                  size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
+                  onAdFailedToLoad={() => setAdLoadFailed(true)}
+                />
+              </BlurView>
+            </View>
+          )}
+
           {/* MARK: Settings & Exporter */}
           <SettingsBox isRequireInit />
 
@@ -438,23 +454,6 @@ function AccountPage() {
           <Text className="text-center font-medium text-muted-foreground">
             {t('Version')} {Constants.expoConfig?.version || '1.0.0'}
           </Text>
-
-          {/* MARK: Ads */}
-          {!isPremium && !adLoadFailed && (
-            <View className="shadow-md">
-              <BlurView
-                intensity={90}
-                tint="prominent"
-                className="items-center justify-center overflow-hidden rounded-xl border border-primary/10"
-              >
-                <BannerAd
-                  unitId={adUnitId}
-                  size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
-                  onAdFailedToLoad={() => setAdLoadFailed(true)}
-                />
-              </BlurView>
-            </View>
-          )}
 
           {/* MARK: Danger */}
           <ConfirmDialog

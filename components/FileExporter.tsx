@@ -189,10 +189,10 @@ function FileExporter({ className }: FileExporterProps) {
   }, [getAllData, flatData, cleanUpOldFiles, t, tError, data, isPremium])
 
   return (
-    <View className="flex-shrink-0 shadow-md">
+    <View className="shadow-md">
       <BlurView
         intensity={90}
-        className={cn('flex-shrink-0 overflow-hidden', className)}
+        className={cn('overflow-hidden', className)}
       >
         <ConfirmDialog
           label={t('Export CSV')}
@@ -200,7 +200,7 @@ function FileExporter({ className }: FileExporterProps) {
           confirmLabel={t('Export')}
           cancelLabel={t('Cancel')}
           onConfirm={exportCSV}
-          className='flex-shrink-0'
+          className="flex-shrink-0"
           trigger={
             <TouchableOpacity
               activeOpacity={0.7}
@@ -226,7 +226,7 @@ function FileExporter({ className }: FileExporterProps) {
           confirmLabel={t('Export')}
           cancelLabel={t('Cancel')}
           onConfirm={exportExcel}
-          className='flex-shrink-0'
+          className="flex-shrink-0"
           trigger={
             <TouchableOpacity
               activeOpacity={0.7}

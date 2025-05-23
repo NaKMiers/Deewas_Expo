@@ -151,8 +151,7 @@ function BudgetsPage() {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            router.push('/create-budget')
-            if (inProgress && step === 7) dispatch(setStep(8))
+            inProgress && step === 7 ? dispatch(setStep(8)) : router.push('/create-budget')
           }}
           className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
         >

@@ -30,13 +30,12 @@ function CommonFooter({
         <Text className="font-semibold text-primary">{cancelLabel}</Text>
       </TouchableOpacity>
       {onAccept && acceptLabel && (
-        <View className="relative">
-          {inTutorial && (
-            <View
-              className="absolute left-0 top-1/2 z-10 h-16 w-[calc(100%)] -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-sky-500 bg-sky-500/10"
-              pointerEvents="none"
-            />
+        <View
+          className={cn(
+            'relative',
+            inTutorial && 'rounded-lg border-2 border-sky-500 bg-sky-500/10 px-2 py-2'
           )}
+        >
           <TouchableOpacity
             className="h-12 min-w-[80px] items-center justify-center rounded-md border border-primary/10 bg-primary px-21/2"
             onPress={onAccept}

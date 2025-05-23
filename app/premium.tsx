@@ -21,12 +21,12 @@ import {
   Image,
   ImageBackground,
   Linking,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native'
 import { PACKAGE_TYPE, PurchasesPackage } from 'react-native-purchases'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const freeFeatures = [
   'Max 2 wallets',

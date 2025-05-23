@@ -47,7 +47,7 @@ import {
 let Voice: any = null
 
 if (Platform.OS === 'ios') {
-  // Voice = require('@react-native-voice/voice').default
+  Voice = require('@react-native-voice/voice').default
 }
 
 function AIPage() {
@@ -83,7 +83,7 @@ function AIPage() {
       },
     })
   const { stop } = useCompletion()
-  const [containerRef, handleScroll, isAtBottom] = useScrollToBottom(messages)
+  const [containerRef, handleScroll, isAtBottom] = useScrollToBottom(messages, status === 'streaming')
   const dispatch = useAppDispatch()
 
   // states

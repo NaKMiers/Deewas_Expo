@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Platform, TouchableOpacity, View } from 'react-native'
 import BlurView from '../BlurView'
+import { useAuth } from '../providers/AuthProvider'
 import Text from '../Text'
 import { Progress } from '../ui/progress'
 
@@ -19,10 +20,18 @@ function TutorialOverlay() {
   const { settings, refetch: refetchSettings } = useSettings()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('tutorialOverlay.' + key), [translate])
+  const { isPremium } = useAuth()
 
   // store
   const { open, step, inProgress } = useAppSelector(state => state.tutorial)
-
+  const wallets = useAppSelector(state => state.wallet.wallets)
+  const budgets = useAppSelector(state => state.budget.budgets)
+  const isAllowToRestartTutorial =
+    !isPremium &&
+    settings?.firstLaunch &&
+    settings.freeTokensUsed < 5000 &&
+    wallets.length < 2 &&
+    budgets.length < 4
   // states
   const [completed, setCompleted] = useState<boolean>(true)
 
@@ -51,7 +60,7 @@ function TutorialOverlay() {
         title: `${t('Step 2')}: ${t('Record a Transaction')}`,
         description: t("Tap 'Add Transaction' to log your first transaction"),
         route: '/transactions',
-        boxStyle: { bottom: Platform.OS === 'ios' ? 180 : 146 },
+        boxStyle: { bottom: Platform.OS === 'ios' ? 220 : 186 },
       },
       {
         step: 5,
@@ -118,10 +127,11 @@ function TutorialOverlay() {
 
     const curStep = steps[step - 1]
     if (curStep?.route && pathname !== curStep.route) {
-      Alert.alert(
-        t('Stay on Track'),
-        t("You're on your way! Follow the steps to continue or skip if you'd like")
-      )
+      // Alert.alert(
+      //   t('Stay on Track'),
+      //   t("You're on your way! Follow the steps to continue or skip if you'd like")
+      // )
+
       router.push(curStep.route as any)
     }
   }, [router, pathname, steps, step, inProgress, completed, t])
@@ -158,8 +168,13 @@ function TutorialOverlay() {
 
   return (
     <View
-      className="absolute w-full px-21/2"
-      style={{ bottom: Platform.OS === 'ios' ? 90 : 56, ...steps[step - 1].boxStyle }}
+      className="absolute w-full max-w-[500px] px-21/2"
+      style={{
+        left: '50%',
+        bottom: Platform.OS === 'ios' ? 90 : 56,
+        transform: [{ translateX: '-50%' }],
+        ...steps[step - 1].boxStyle,
+      }}
     >
       <BlurView
         className="items-center overflow-hidden rounded-xl border-2 border-sky-500 p-21"

@@ -23,6 +23,7 @@ import { format, isSameDay } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
 import { LucideChevronsUpDown } from 'lucide-react-native'
 import moment from 'moment'
+import { isNumeral } from 'numeral'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -115,7 +116,7 @@ function CreateBudgetPage() {
       let isValid = true
 
       // total is required
-      if (!data.total) {
+      if (!data.total || typeof +data.total !== 'number') {
         setError('total', {
           type: 'manual',
           message: t('Amount is required'),
@@ -124,7 +125,7 @@ function CreateBudgetPage() {
       }
 
       // total must be > 0
-      if (data.total <= 0) {
+      if (+data.total <= 0) {
         setError('total', {
           type: 'manual',
           message: t('Amount must be greater than 0'),
