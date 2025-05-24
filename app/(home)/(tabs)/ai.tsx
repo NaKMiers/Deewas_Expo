@@ -381,6 +381,8 @@ function AIPage() {
                     <TouchableOpacity
                       className="flex-1 flex-row rounded-lg border border-primary/10"
                       onPress={() => {
+                        if (inProgress && step === 10 && index !== 0) return
+
                         Keyboard.dismiss()
                         if (!checkTokenLimit()) return
                         append({ content: item, role: 'user' })
@@ -457,7 +459,10 @@ function AIPage() {
                         (status === 'streaming' || status === 'submitted') && 'opacity-50'
                       )}
                       disabled={status === 'streaming' || status === 'submitted'}
-                      onPress={() => router.push('/change-personality')}
+                      onPress={() => {
+                        if (inProgress && step === 10) return
+                        router.push('/change-personality')
+                      }}
                     >
                       <Text className="line-clamp-1 text-ellipsis font-semibold text-neutral-800">
                         {settings?.personalities && settings?.personalities?.length === 1

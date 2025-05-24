@@ -61,7 +61,7 @@ function PremiumLimitModal({
 
       <AlertDialogContent className="border-200/30 rounded-3xl border">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">{label}</AlertDialogTitle>
+          <AlertDialogTitle className="text-center text-secondary">{label}</AlertDialogTitle>
           {desc && <AlertDialogDescription className="text-center">{desc}</AlertDialogDescription>}
         </AlertDialogHeader>
 

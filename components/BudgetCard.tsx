@@ -109,6 +109,7 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                     className="px-1 py-2"
                     tint="prominent"
                     intensity={90}
+                    noBlur
                   >
                     {/* MARK: Duplicate */}
                     <TouchableOpacity

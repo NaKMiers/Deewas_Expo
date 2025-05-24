@@ -453,6 +453,7 @@ function SignUpPage() {
                     onFocus={() => clearErrors('password')}
                     errors={errors}
                     labelClassName="text-black"
+                    inputClassName="text-black"
                     containerClassName="bg-white"
                   />
                 </View>

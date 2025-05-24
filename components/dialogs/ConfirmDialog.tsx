@@ -56,7 +56,7 @@ function ConfirmDialog({
 
       <AlertDialogContent className="border-200/30 rounded-lg border">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-secondary">{label}</AlertDialogTitle>
+          <AlertDialogTitle className="text-primary">{label}</AlertDialogTitle>
           <AlertDialogDescription>{desc}</AlertDialogDescription>
         </AlertDialogHeader>
         <Separator className="h-px bg-slate-300/50" />

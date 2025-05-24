@@ -200,8 +200,7 @@ function AccountPage() {
                         )}
                         <TextInput
                           className={cn(
-                            'mb-1 w-[200px] rounded-lg bg-primary/20 px-21/2 py-2 font-medium tracking-wider text-primary',
-                            user.authType === 'local' && 'lowercase'
+                            'mb-1 w-[200px] rounded-lg bg-primary/20 px-21/2 py-2 font-medium tracking-wider text-primary'
                           )}
                           placeholder={t('Username') + '...'}
                           value={usnValue}

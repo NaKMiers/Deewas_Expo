@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Platform, TouchableOpacity, View } from 'react-native'
 import BlurView from '../BlurView'
-import { useAuth } from '../providers/AuthProvider'
 import Text from '../Text'
 import { Progress } from '../ui/progress'
 
@@ -20,18 +19,10 @@ function TutorialOverlay() {
   const { settings, refetch: refetchSettings } = useSettings()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('tutorialOverlay.' + key), [translate])
-  const { isPremium } = useAuth()
 
   // store
   const { open, step, inProgress } = useAppSelector(state => state.tutorial)
-  const wallets = useAppSelector(state => state.wallet.wallets)
-  const budgets = useAppSelector(state => state.budget.budgets)
-  const isAllowToRestartTutorial =
-    !isPremium &&
-    settings?.firstLaunch &&
-    settings.freeTokensUsed < 5000 &&
-    wallets.length < 2 &&
-    budgets.length < 4
+
   // states
   const [completed, setCompleted] = useState<boolean>(true)
 
@@ -60,7 +51,7 @@ function TutorialOverlay() {
         title: `${t('Step 2')}: ${t('Record a Transaction')}`,
         description: t("Tap 'Add Transaction' to log your first transaction"),
         route: '/transactions',
-        boxStyle: { bottom: Platform.OS === 'ios' ? 220 : 186 },
+        boxStyle: { bottom: Platform.OS === 'ios' ? 240 : 206 },
       },
       {
         step: 5,
@@ -79,7 +70,7 @@ function TutorialOverlay() {
         title: `${t('Step 3')}: ${t('Set Up a Budget')}`,
         description: t("Tap 'Create Budget' to define your spending plan"),
         route: '/budgets',
-        boxStyle: { bottom: Platform.OS === 'ios' ? 180 : 146 },
+        boxStyle: { bottom: Platform.OS === 'ios' ? 240 : 206 },
       },
       {
         step: 8,
