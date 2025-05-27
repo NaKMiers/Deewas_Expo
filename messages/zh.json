@@ -152,7 +152,8 @@
     "Select wallet": "选择钱包",
     "No transactions found for this wallet, just add one now!": "此钱包没有找到交易，现在添加一个！",
     "Add Transaction": "添加交易",
-    "All wallets": "所有钱包"
+    "All wallets": "所有钱包",
+    "Include transfers": "包括转账"
   },
   "wizardPage": {
     "Welcome": "欢迎",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "感谢您选择 Deewas",
     "Let’s manage your finances together!": "让我们一起管理您的财务！"
   },
+  "referralCode": {
+    "Referral Code": "推荐码",
+    "Enter your referral code to get 2 days of Premium for free": "输入您的推荐码以免费获得2天的高级版"
+  },
   "success": {
     "Sign In Success": "登录成功",
     "You have successfully signed in": "您已成功登录",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "成功删除所有数据",
     "Authentication successful": "认证成功",
     "Wallet updated": "钱包已更新",
-    "You have successfully logged in": "您已成功登录"
+    "You have successfully logged in": "您已成功登录",
+    "Referral code applied successfully": "推荐码已成功应用"
   },
   "error": {
     "Error": "错误",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "用户名必须至少5个字符",
     "Export Failed": "导出失败",
     "An error occurred while exporting CSV files": "导出CSV文件时发生错误",
-    "An error occurred while exporting Excel file": "导出Excel文件时发生错误"
+    "An error occurred while exporting Excel file": "导出Excel文件时发生错误",
+    "Failed to apply referral code": "应用推荐码失败"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "预算未找到",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "钱包限额已达，请升级到高级版以创建无限钱包",
     "WALLET_NOT_FOUND": "钱包未找到",
     "INVALID_BUDGET": "无效预算",
-    "TRANSACTION_NOT_FOUND": "交易未找到"
+    "TRANSACTION_NOT_FOUND": "交易未找到",
+    "SOMETHING_WENT_WRONG": "出了点问题",
+    "RFCODE_ALREADY_USED": "您已使用此推荐码",
+    "RFCODE_NOT_EXISTS": "推荐码不存在",
+    "RFCODE_OWNER_USED": "您不能使用自己的推荐码"
   }
 }

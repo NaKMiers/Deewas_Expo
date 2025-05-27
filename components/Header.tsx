@@ -46,7 +46,7 @@ function Header({ className }: HeaderProps) {
             className="flex-1"
             onPress={() => router.push('/home')}
           >
-            <Text className="text-nowrap line-clamp-1 text-ellipsis text-lg font-semibold tracking-wide text-secondary">
+            <Text className="text-nowrap line-clamp-1 text-ellipsis text-lg font-semibold tracking-tight text-secondary">
               {t('Hi')} {user ? shortName(user, 'User') : 'there'}! 👋
             </Text>
           </TouchableOpacity>

@@ -152,7 +152,8 @@
     "Select wallet": "వాలెట్‌ను ఎంచుకోండి",
     "No transactions found for this wallet, just add one now!": "ఈ వాలెట్ కోసం ఎటువంటి లావాదేవీలు కనుగొనబడలేదు, ఇప్పుడే ఒకటి జోడించండి!",
     "Add Transaction": "లావాదేవీ జోడించు",
-    "All wallets": "అన్ని వాలెట్‌లు"
+    "All wallets": "అన్ని వాలెట్‌లు",
+    "Include transfers": "మార్పిడి లావాదేవీలను చేర్చండి"
   },
   "wizardPage": {
     "Welcome": "స్వాగతం",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "దీవాస్‌ను ఎంచుకున్నందుకు ధన్యవాదాలు",
     "Let’s manage your finances together!": "మీ ఆర్థిక విషయాలను కలిసి నిర్వహిద్దాం!"
   },
+  "referralCode": {
+    "Referral Code": "రిఫరల్ కోడ్",
+    "Enter your referral code to get 2 days of Premium for free": "మీరు ఉచితంగా 2 రోజుల ప్రీమియం పొందడానికి మీ రిఫరల్ కోడ్‌ను నమోదు చేయండి"
+  },
   "success": {
     "Sign In Success": "సైన్ ఇన్ విజయవంతమైంది",
     "You have successfully signed in": "మీరు విజయవంతంగా సైన్ ఇన్ చేసారు",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "అన్ని డేటా విజయవంతంగా తొలగించబడింది",
     "Authentication successful": "ప్రమాణీకరణ విజయవంతమైంది",
     "Wallet updated": "వాలెట్ అప్‌డేట్ చేయబడింది",
-    "You have successfully logged in": "మీరు విజయవంతంగా లాగిన్ చేసారు"
+    "You have successfully logged in": "మీరు విజయవంతంగా లాగిన్ చేసారు",
+    "Referral code applied successfully": "రిఫరల్ కోడ్ విజయవంతంగా వర్తించబడింది"
   },
   "error": {
     "Error": "లోపం",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "వినియోగదారు పేరు కనీసం 5 అక్షరాలు ఉండాలి",
     "Export Failed": "ఎగుమతి విఫలమైంది",
     "An error occurred while exporting CSV files": "CSV ఫైళ్ళను ఎగుమతి చేస్తున్నప్పుడు లోపం సంభవించింది",
-    "An error occurred while exporting Excel file": "Excel ఫైల్‌ను ఎగుమతి చేస్తున్నప్పుడు లోపం సంభవించింది"
+    "An error occurred while exporting Excel file": "Excel ఫైల్‌ను ఎగుమతి చేస్తున్నప్పుడు లోపం సంభవించింది",
+    "Failed to apply referral code": "రిఫరల్ కోడ్‌ను వర్తించడంలో విఫలమైంది"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "బడ్జెట్ కనుగొనబడలేదు",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "వాలెట్ పరిమితి చేరుకుంది, అపరిమిత వాలెట్‌లను సృష్టించడానికి దయచేసి ప్రీమియంకు అప్‌గ్రేడ్ చేయండి",
     "WALLET_NOT_FOUND": "వాలెట్ కనుగొనబడలేదు",
     "INVALID_BUDGET": "చెల్లని బడ్జెట్",
-    "TRANSACTION_NOT_FOUND": "లావాదేవీ కనుగొనబడలేదు"
+    "TRANSACTION_NOT_FOUND": "లావాదేవీ కనుగొనబడలేదు",
+    "SOMETHING_WENT_WRONG": "ఏదో తప్పు జరిగింది",
+    "RFCODE_ALREADY_USED": "మీరు ఇప్పటికే ఈ రిఫరల్ కోడ్‌ను ఉపయోగించారు",
+    "RFCODE_NOT_EXISTS": "రిఫరల్ కోడ్ లేదు",
+    "RFCODE_OWNER_USED": "మీ స్వంత రిఫరల్ కోడ్‌ను ఉపయోగించలేరు"
   }
 }

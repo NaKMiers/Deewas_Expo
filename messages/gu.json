@@ -152,7 +152,8 @@
     "Select wallet": "વૉલેટ પસંદ કરો",
     "No transactions found for this wallet, just add one now!": "આ વૉલેટ માટે કોઈ ટ્રાન્ઝેક્શન મળ્યા નથી, હવે એક ઉમેરો!",
     "Add Transaction": "ટ્રાન્ઝેક્શન ઉમેરો",
-    "All wallets": "બધા વૉલેટ"
+    "All wallets": "બધા વૉલેટ",
+    "Include transfers": "ટ્રાન્સફર શામેલ કરો"
   },
   "wizardPage": {
     "Welcome": "સ્વાગત",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "દીવાસ પસંદ કરવા બદલ આભાર",
     "Let’s manage your finances together!": "ચાલો તમારા નાણાંનું એકસાથે સંચાલન કરીએ!"
   },
+  "referralCode": {
+    "Referral Code": "રેફરલ કોડ",
+    "Enter your referral code to get 2 days of Premium for free": "તમારો રેફરલ કોડ દાખલ કરો અને 2 દિવસ માટે મફત પ્રીમિયમ મેળવો"
+  },
   "success": {
     "Sign In Success": "સાઇન ઇન સફળ",
     "You have successfully signed in": "તમે સફળતાપૂર્વક સાઇન ઇન કર્યું છે",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "બધો ડેટા સફળતાપૂર્વક ભૂંસાઈ ગયો",
     "Authentication successful": "પ્રમાણીકરણ સફળ",
     "Wallet updated": "વૉલેટ અપડેટ કરવામાં આવ્યું",
-    "You have successfully logged in": "તમે સફળતાપૂર્વક લૉગ ઇન કર્યું છે"
+    "You have successfully logged in": "તમે સફળતાપૂર્વક લૉગ ઇન કર્યું છે",
+    "Referral code applied successfully": "રેફરલ કોડ સફળતાપૂર્વક લાગુ થયો છે"
   },
   "error": {
     "Error": "ભૂલ",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "વપરાશકર્તા નામ ઓછામાં ઓછું 5 અક્ષરોનું હોવું જોઈએ",
     "Export Failed": "નિકાસ નિષ્ફળ",
     "An error occurred while exporting CSV files": "CSV ફાઇલો નિકાસ કરતી વખતે ભૂલ આવી",
-    "An error occurred while exporting Excel file": "Excel ફાઇલ નિકાસ કરતી વખતે ભૂલ આવી"
+    "An error occurred while exporting Excel file": "Excel ફાઇલ નિકાસ કરતી વખતે ભૂલ આવી",
+    "Failed to apply referral code": "રેફરલ કોડ લાગુ કરવામાં નિષ્ફળ"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "બજેટ મળ્યું નથી",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "વૉલેટ મર્યાદા પહોંચી ગઈ, અમર્યાદિત વૉલેટ બનાવવા માટે કૃપા કરીને પ્રીમિયમમાં અપગ્રેડ કરો",
     "WALLET_NOT_FOUND": "વૉલેટ મળ્યું નથી",
     "INVALID_BUDGET": "અમાન્ય બજેટ",
-    "TRANSACTION_NOT_FOUND": "ટ્રાન્ઝેક્શન મળ્યું નથી"
+    "TRANSACTION_NOT_FOUND": "ટ્રાન્ઝેક્શન મળ્યું નથી",
+    "SOMETHING_WENT_WRONG": "કંઈક ખોટું થયું",
+    "RFCODE_ALREADY_USED": "તમે પહેલેથી જ આ રેફરલ કોડનો ઉપયોગ કરી લીધો છે",
+    "RFCODE_NOT_EXISTS": "રેફરલ કોડ અસ્તિત્વમાં નથી",
+    "RFCODE_OWNER_USED": "તમારા પોતાના રેફરલ કોડનો ઉપયોગ કરી શકતા નથી"
   }
 }

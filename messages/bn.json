@@ -152,7 +152,8 @@
     "Select wallet": "ওয়ালেট নির্বাচন করুন",
     "No transactions found for this wallet, just add one now!": "এই ওয়ালেটের জন্য কোনো লেনদেন পাওয়া যায়নি, এখনই একটি যোগ করুন!",
     "Add Transaction": "লেনদেন যোগ করুন",
-    "All wallets": "সমস্ত ওয়ালেট"
+    "All wallets": "সমস্ত ওয়ালেট",
+    "Include transfers": "স্থানান্তর অন্তর্ভুক্ত করুন"
   },
   "wizardPage": {
     "Welcome": "স্বাগতম",
@@ -1130,6 +1131,10 @@
     "Thank you for choosing Deewas": "Deewas বেছে নেওয়ার জন্য ধন্যবাদ",
     "Let’s manage your finances together!": "আসুন একসাথে আপনার অর্থ পরিচালনা করি!"
   },
+  "referralCode": {
+    "Referral Code": "রেফারেল কোড",
+    "Enter your referral code to get 2 days of Premium for free": "আপনার রেফারেল কোড লিখুন ২ দিনের প্রিমিয়াম ফ্রি পেতে"
+  },
   "success": {
     "Sign In Success": "সাইন ইন সফল",
     "You have successfully signed in": "আপনি সফলভাবে সাইন ইন করেছেন",
@@ -1155,7 +1160,8 @@
     "Erase all data successfully": "সমস্ত ডেটা সফলভাবে মুছে ফেলা হয়েছে",
     "Authentication successful": "প্রমাণীকরণ সফল",
     "Wallet updated": "ওয়ালেট আপডেট করা হয়েছে",
-    "You have successfully logged in": "আপনি সফলভাবে লগ ইন করেছেন"
+    "You have successfully logged in": "আপনি সফলভাবে লগ ইন করেছেন",
+    "Referral code applied successfully": "রেফারেল কোড সফলভাবে প্রয়োগ করা হয়েছে"
   },
   "error": {
     "Error": "ত্রুটি",
@@ -1206,7 +1212,8 @@
     "Username must be at least 5 characters": "ব্যবহারকারীর নাম কমপক্ষে ৫ অক্ষরের হতে হবে",
     "Export Failed": "রপ্তানি ব্যর্থ",
     "An error occurred while exporting CSV files": "CSV ফাইল রপ্তানি করার সময় একটি ত্রুটি ঘটেছে",
-    "An error occurred while exporting Excel file": "Excel ফাইল রপ্তানি করার সময় একটি ত্রুটি ঘটেছে"
+    "An error occurred while exporting Excel file": "Excel ফাইল রপ্তানি করার সময় একটি ত্রুটি ঘটেছে",
+    "Failed to apply referral code": "রেফারেল কোড প্রয়োগ করতে ব্যর্থ"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "বাজেট পাওয়া যায়নি",
@@ -1222,6 +1229,10 @@
     "WALLET_LIMIT_REACHED": "ওয়ালেট সীমা পৌঁছেছে, আনলিমিটেড ওয়ালেট তৈরি করতে প্রিমিয়ামে আপগ্রেড করুন",
     "WALLET_NOT_FOUND": "ওয়ালেট পাওয়া যায়নি",
     "INVALID_BUDGET": "অবৈধ বাজেট",
-    "TRANSACTION_NOT_FOUND": "লেনদেন পাওয়া যায়নি"
+    "TRANSACTION_NOT_FOUND": "লেনদেন পাওয়া যায়নি",
+    "SOMETHING_WENT_WRONG": "কিছু ভুল হয়েছে",
+    "RFCODE_ALREADY_USED": "আপনি ইতিমধ্যে এই রেফারেল কোডটি ব্যবহার করেছেন",
+    "RFCODE_NOT_EXISTS": "রেফারেল কোড বিদ্যমান নেই",
+    "RFCODE_OWNER_USED": "আপনি আপনার নিজস্ব রেফারেল কোড ব্যবহার করতে পারবেন না"
   }
 }

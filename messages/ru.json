@@ -152,7 +152,8 @@
     "Select wallet": "Выбрать кошелек",
     "No transactions found for this wallet, just add one now!": "Транзакции для этого кошелька не найдены, добавьте одну сейчас!",
     "Add Transaction": "Добавить транзакцию",
-    "All wallets": "Все кошельки"
+    "All wallets": "Все кошельки",
+    "Include transfers": "Включить переводы"
   },
   "wizardPage": {
     "Welcome": "Добро пожаловать",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Благодарим вас за выбор Deewas",
     "Let’s manage your finances together!": "Давайте управлять вашими финансами вместе!"
   },
+  "referralCode": {
+    "Referral Code": "Реферальный код",
+    "Enter your referral code to get 2 days of Premium for free": "Введите свой реферальный код, чтобы получить 2 дня Премиум бесплатно"
+  },
   "success": {
     "Sign In Success": "Успешный вход",
     "You have successfully signed in": "Вы успешно вошли",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Все данные успешно удалены",
     "Authentication successful": "Аутентификация успешна",
     "Wallet updated": "Кошелек обновлен",
-    "You have successfully logged in": "Вы успешно вошли"
+    "You have successfully logged in": "Вы успешно вошли",
+    "Referral code applied successfully": "Реферальный код успешно применен"
   },
   "error": {
     "Error": "Ошибка",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Имя пользователя должно содержать не менее 5 символов",
     "Export Failed": "Ошибка экспорта",
     "An error occurred while exporting CSV files": "Произошла ошибка при экспорте файлов CSV",
-    "An error occurred while exporting Excel file": "Произошла ошибка при экспорте файла Excel"
+    "An error occurred while exporting Excel file": "Произошла ошибка при экспорте файла Excel",
+    "Failed to apply referral code": "Не удалось применить реферальный код"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Бюджет не найден",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Достигнут лимит кошельков, пожалуйста, обновите до Премиум, чтобы создавать неограниченные кошельки",
     "WALLET_NOT_FOUND": "Кошелек не найден",
     "INVALID_BUDGET": "Недействительный бюджет",
-    "TRANSACTION_NOT_FOUND": "Транзакция не найдена"
+    "TRANSACTION_NOT_FOUND": "Транзакция не найдена",
+    "SOMETHING_WENT_WRONG": "Что-то пошло не так",
+    "RFCODE_ALREADY_USED": "Вы уже использовали этот реферальный код",
+    "RFCODE_NOT_EXISTS": "Реферальный код не существует",
+    "RFCODE_OWNER_USED": "Вы не можете использовать свой собственный реферальный код"
   }
 }

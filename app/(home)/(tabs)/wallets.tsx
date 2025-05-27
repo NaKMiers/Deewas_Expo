@@ -94,36 +94,40 @@ function WalletsPage() {
         <Separator className="my-24 h-0" />
       </ScrollView>
 
-      {/* MARK: Create Wallet */}
-      <TouchableOpacity
-        className="absolute right-21/2 z-20 h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
-        activeOpacity={0.7}
-        onPress={() => router.push('/create-wallet')}
-        style={{ bottom: adLoaded ? 78 : 10 }}
+      <View
+        className="absolute right-21/2 z-20 items-end"
+        style={{ bottom: 10 }}
       >
-        <Icon
-          render={LucidePlus}
-          size={20}
-          reverse
-        />
-        <Text className="font-semibold text-secondary">{t('Create Wallet')}</Text>
-      </TouchableOpacity>
-
-      {/* MARK: Banner Ads */}
-      {!isPremium && (
-        <View
-          className="absolute bottom-2.5 left-1/2 z-20 max-h-[60px] -translate-x-1/2 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
-          style={{ width: SCREEN_WIDTH - 21 }}
+        {/* MARK: Create Wallet */}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => router.push('/create-wallet')}
+          className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
         >
-          <BannerAd
-            unitId={adUnitId}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            onAdLoaded={() => setAdLoaded(true)}
-            onAdFailedToLoad={() => setAdLoaded(false)}
-            onAdClosed={() => setAdLoaded(false)}
+          <Icon
+            render={LucidePlus}
+            size={20}
+            reverse
           />
-        </View>
-      )}
+          <Text className="font-semibold text-secondary">{t('Create Wallet')}</Text>
+        </TouchableOpacity>
+
+        {/* MARK: Banner Ads */}
+        {!isPremium && (
+          <View
+            className="mt-4 max-h-[60px] flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
+            style={{ width: SCREEN_WIDTH - 21 }}
+          >
+            <BannerAd
+              unitId={adUnitId}
+              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+              onAdLoaded={() => setAdLoaded(true)}
+              onAdFailedToLoad={() => setAdLoaded(false)}
+              onAdClosed={() => setAdLoaded(false)}
+            />
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   )
 }

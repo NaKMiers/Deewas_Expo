@@ -152,7 +152,8 @@
     "Select wallet": "اختر محفظة",
     "No transactions found for this wallet, just add one now!": "لم يتم العثور على معاملات لهذه المحفظة، أضف واحدة الآن!",
     "Add Transaction": "إضافة معاملة",
-    "All wallets": "جميع المحافظ"
+    "All wallets": "جميع المحافظ",
+    "Include transfers": "تضمين التحويلات"
   },
   "wizardPage": {
     "Welcome": "مرحبًا",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "شكرًا لاختيارك Deewas",
     "Let’s manage your finances together!": "دعنا ندير أموالك معًا!"
   },
+  "referralCode": {
+    "Referral Code": "رمز الإحالة",
+    "Enter your referral code to get 2 days of Premium for free": "أدخل رمز الإحالة الخاص بك للحصول على يومين من Premium مجانًا"
+  },
   "success": {
     "Sign In Success": "نجاح تسجيل الدخول",
     "You have successfully signed in": "لقد سجلت الدخول بنجاح",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "تم محو جميع البيانات بنجاح",
     "Authentication successful": "التوثيق ناجح",
     "Wallet updated": "تم تحديث المحفظة",
-    "You have successfully logged in": "لقد سجلت الدخول بنجاح"
+    "You have successfully logged in": "لقد سجلت الدخول بنجاح",
+    "Referral code applied successfully": "تم تطبيق رمز الإحالة بنجاح"
   },
   "error": {
     "Error": "خطأ",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "يجب أن يتكون اسم المستخدم من 5 أحرف على الأقل",
     "Export Failed": "فشل التصدير",
     "An error occurred while exporting CSV files": "حدث خطأ أثناء تصدير ملفات CSV",
-    "An error occurred while exporting Excel file": "حدث خطأ أثناء تصدير ملف Excel"
+    "An error occurred while exporting Excel file": "حدث خطأ أثناء تصدير ملف Excel",
+    "Failed to apply referral code": "فشل في تطبيق رمز الإحالة"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "الميزانية غير موجودة",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "تم الوصول إلى الحد الأقصى للمحافظ، يرجى الترقية إلى الحساب المميز لإنشاء محافظ غير محدودة",
     "WALLET_NOT_FOUND": "المحفظة غير موجودة",
     "INVALID_BUDGET": "ميزانية غير صالحة",
-    "TRANSACTION_NOT_FOUND": "المعاملة غير موجودة"
+    "TRANSACTION_NOT_FOUND": "المعاملة غير موجودة",
+    "SOMETHING_WENT_WRONG": "حدث خطأ ما",
+    "RFCODE_ALREADY_USED": "لقد استخدمت رمز الإحالة هذا بالفعل",
+    "RFCODE_NOT_EXISTS": "رمز الإحالة غير موجود",
+    "RFCODE_OWNER_USED": "لا يمكنك استخدام رمز الإحالة الخاص بك"
   }
 }

@@ -152,7 +152,8 @@
     "Select wallet": "Geldbörse auswählen",
     "No transactions found for this wallet, just add one now!": "Keine Transaktionen für diese Geldbörse gefunden, füge jetzt eine hinzu!",
     "Add Transaction": "Transaktion hinzufügen",
-    "All wallets": "Alle Geldbörsen"
+    "All wallets": "Alle Geldbörsen",
+    "Include transfers": "Überweisungen einbeziehen"
   },
   "wizardPage": {
     "Welcome": "Willkommen",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Vielen Dank, dass Sie sich für Deewas entschieden haben",
     "Let’s manage your finances together!": "Lassen Sie uns gemeinsam Ihre Finanzen verwalten!"
   },
+  "referralCode": {
+    "Referral Code": "Empfehlungscode",
+    "Enter your referral code to get 2 days of Premium for free": "Gib deinen Empfehlungscode ein, um 2 Tage Premium kostenlos zu erhalten"
+  },
   "success": {
     "Sign In Success": "Anmeldung erfolgreich",
     "You have successfully signed in": "Du hast dich erfolgreich angemeldet",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Alle Daten erfolgreich gelöscht",
     "Authentication successful": "Authentifizierung erfolgreich",
     "Wallet updated": "Geldbörse aktualisiert",
-    "You have successfully logged in": "Du hast dich erfolgreich eingeloggt"
+    "You have successfully logged in": "Du hast dich erfolgreich eingeloggt",
+    "Referral code applied successfully": "Empfehlungscode erfolgreich angewendet"
   },
   "error": {
     "Error": "Fehler",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Benutzername muss mindestens 5 Zeichen lang sein",
     "Export Failed": "Export fehlgeschlagen",
     "An error occurred while exporting CSV files": "Ein Fehler ist beim Exportieren der CSV-Dateien aufgetreten",
-    "An error occurred while exporting Excel file": "Ein Fehler ist beim Exportieren der Excel-Datei aufgetreten"
+    "An error occurred while exporting Excel file": "Ein Fehler ist beim Exportieren der Excel-Datei aufgetreten",
+    "Failed to apply referral code": "Anwendung des Empfehlungscodes fehlgeschlagen"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Budget nicht gefunden",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Geldbörsenlimit erreicht, bitte upgrade auf Premium, um unbegrenzte Geldbörsen zu erstellen",
     "WALLET_NOT_FOUND": "Geldbörse nicht gefunden",
     "INVALID_BUDGET": "Ungültiges Budget",
-    "TRANSACTION_NOT_FOUND": "Transaktion nicht gefunden"
+    "TRANSACTION_NOT_FOUND": "Transaktion nicht gefunden",
+    "SOMETHING_WENT_WRONG": "Etwas ist schiefgelaufen",
+    "RFCODE_ALREADY_USED": "Du hast diesen Empfehlungscode bereits verwendet",
+    "RFCODE_NOT_EXISTS": "Empfehlungscode existiert nicht",
+    "RFCODE_OWNER_USED": "Du kannst deinen eigenen Empfehlungscode nicht verwenden"
   }
 }

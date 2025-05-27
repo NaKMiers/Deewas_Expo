@@ -152,7 +152,8 @@
     "Select wallet": "Chọn ví",
     "No transactions found for this wallet, just add one now!": "Không có giao dịch nào cho ví này, hãy thêm ngay!",
     "Add Transaction": "Thêm giao dịch",
-    "All wallets": "Tất cả ví"
+    "All wallets": "Tất cả ví",
+    "Include transfers": "Bao gồm chuyển khoản"
   },
   "wizardPage": {
     "Welcome": "Chào mừng",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Cảm ơn bạn đã chọn Deewas",
     "Let’s manage your finances together!": "Hãy cùng nhau quản lý tài chính của bạn!"
   },
+  "referralCode": {
+    "Referral Code": "Referral Code",
+    "Enter your referral code to get 2 days of Premium for free": "Nhập mã giới thiệu của bạn để nhận 2 ngày Premium miễn phí"
+  },
   "success": {
     "Sign In Success": "Đăng nhập thành công",
     "You have successfully signed in": "Bạn đã đăng nhập thành công",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Xóa tất cả dữ liệu thành công",
     "Authentication successful": "Xác thực thành công",
     "Wallet updated": "Đã cập nhật ví",
-    "You have successfully logged in": "Bạn đã đăng nhập thành công"
+    "You have successfully logged in": "Bạn đã đăng nhập thành công",
+    "Referral code applied successfully": "Mã giới thiệu đã được áp dụng thành công"
   },
   "error": {
     "Error": "Lỗi",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Tên người dùng phải có ít nhất 5 ký tự",
     "Export Failed": "Xuất dữ liệu thất bại",
     "An error occurred while exporting CSV files": "Đã xảy ra lỗi trong khi xuất tệp CSV",
-    "An error occurred while exporting Excel file": "Đã xảy ra lỗi trong khi xuất tệp Excel"
+    "An error occurred while exporting Excel file": "Đã xảy ra lỗi trong khi xuất tệp Excel",
+    "Failed to apply referral code": "Mã giới thiệu không hợp lệ"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Không tìm thấy ngân sách",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Đã đạt giới hạn ví, vui lòng nâng cấp lên Premium để tạo ví không giới hạn",
     "WALLET_NOT_FOUND": "Không tìm thấy ví",
     "INVALID_BUDGET": "Ngân sách không hợp lệ",
-    "TRANSACTION_NOT_FOUND": "Không tìm thấy giao dịch"
+    "TRANSACTION_NOT_FOUND": "Không tìm thấy giao dịch",
+    "SOMETHING_WENT_WRONG": "Có lỗi xảy ra",
+    "RFCODE_ALREADY_USED": "Bạn đã sử dụng mã giới thiệu này rồi",
+    "RFCODE_NOT_EXISTS": "Mã giới thiệu không tồn tại",
+    "RFCODE_OWNER_USED": "Bạn không thể sử dụng mã giới thiệu của chính mình"
   }
 }

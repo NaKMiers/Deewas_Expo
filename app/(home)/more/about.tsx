@@ -146,7 +146,7 @@ function AboutPage() {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   className="flex-row items-center justify-center rounded-lg bg-primary p-4 shadow-md"
-                  onPress={() => router.push('/home')}
+                  onPress={() => router.replace('/home')}
                 >
                   <Text className="text-xl font-semibold text-secondary">{t('Start Now')}</Text>
                 </TouchableOpacity>

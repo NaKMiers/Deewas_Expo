@@ -152,7 +152,8 @@
     "Select wallet": "பணப்பையை தேர்ந்தெடு",
     "No transactions found for this wallet, just add one now!": "இந்த பணப்பைக்கு எந்த பரிவர்த்தனைகளும் கிடைக்கவில்லை, இப்போது ஒன்றை சேர்க்கவும்!",
     "Add Transaction": "பரிவர்த்தனை சேர்",
-    "All wallets": "அனைத்து பணப்பைகள்"
+    "All wallets": "அனைத்து பணப்பைகள்",
+    "Include transfers": "மாற்றங்களை உள்ளடக்கவும்"
   },
   "wizardPage": {
     "Welcome": "வரவேற்பு",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "தீவாஸைத் தேர்ந்தெடுத்ததற்கு நன்றி",
     "Let’s manage your finances together!": "உங்கள் நிதிகளை நாம் ஒன்றாக நிர்வகிப்போம்!"
   },
+  "referralCode": {
+    "Referral Code": "குறிப்பு குறியீடு",
+    "Enter your referral code to get 2 days of Premium for free": "இலவசமாக 2 நாட்கள் பிரீமியத்தைப் பெற உங்கள் குறிப்பு குறியீட்டை உள்ளிடவும்"
+  },
   "success": {
     "Sign In Success": "உள்நுழைவு வெற்றி",
     "You have successfully signed in": "நீங்கள் வெற்றிகரமாக உள்நுழைந்துவிட்டீர்கள்",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "அனைத்து தரவும் வெற்றிகரமாக அழிக்கப்பட்டது",
     "Authentication successful": "அங்கீகாரம் வெற்றிகரமாக முடிந்தது",
     "Wallet updated": "பணப்பை புதுப்பிக்கப்பட்டது",
-    "You have successfully logged in": "நீங்கள் வெற்றிகரமாக உள்நுழைந்துவிட்டீர்கள்"
+    "You have successfully logged in": "நீங்கள் வெற்றிகரமாக உள்நுழைந்துவிட்டீர்கள்",
+    "Referral code applied successfully": "குறிப்பு குறியீடு வெற்றிகரமாக பயன்படுத்தப்பட்டது"
   },
   "error": {
     "Error": "பிழை",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "பயனர் பெயர் குறைந்தபட்சம் 5 எழுத்துகளாக இருக்க வேண்டும்",
     "Export Failed": "ஏற்றுமதி தோல்வியடைந்தது",
     "An error occurred while exporting CSV files": "CSV கோப்புகளை ஏற்றுமதி செய்யும் போது பிழை ஏற்பட்டது",
-    "An error occurred while exporting Excel file": "Excel கோப்பை ஏற்றுமதி செய்யும் போது பிழை ஏற்பட்டது"
+    "An error occurred while exporting Excel file": "Excel கோப்பை ஏற்றுமதி செய்யும் போது பிழை ஏற்பட்டது",
+    "Failed to apply referral code": "குறிப்பு குறியீட்டை பயன்படுத்த முடியவில்லை"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "பட்ஜெட் கிடைக்கவில்லை",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "பணப்பை வரம்பு எட்டப்பட்டது, வரம்பற்ற பணப்பைகளை உருவாக்க பிரீமியத்திற்கு மேம்படுத்தவும்",
     "WALLET_NOT_FOUND": "பணப்பை கிடைக்கவில்லை",
     "INVALID_BUDGET": "தவறான பட்ஜெட்",
-    "TRANSACTION_NOT_FOUND": "பரிவர்த்தனை கிடைக்கவில்லை"
+    "TRANSACTION_NOT_FOUND": "பரிவர்த்தனை கிடைக்கவில்லை",
+    "SOMETHING_WENT_WRONG": "ஏதோ தவறு நடந்தது",
+    "RFCODE_ALREADY_USED": "You have already used this referral code",
+    "RFCODE_NOT_EXISTS": "குறிப்பு குறியீடு இல்லை",
+    "RFCODE_OWNER_USED": "நீங்கள் உங்கள் சொந்த குறிப்பு குறியீட்டை பயன்படுத்த முடியாது"
   }
 }

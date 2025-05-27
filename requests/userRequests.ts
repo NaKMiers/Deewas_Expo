@@ -40,6 +40,26 @@ export const getUserStatsApi = async (query: string = '') => {
   return await res.json()
 }
 
+// [POST]: /user/referral-code
+export const applyReferralCodeApi = async (code: string) => {
+  const token = await getToken()
+  if (!token) throw new Error('No token found')
+
+  const res = await fetch(API + `/referral-code`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'POST',
+    body: JSON.stringify({ code, platform: Platform.OS }),
+  })
+
+  // check status
+  if (!res.ok) throw await res.json()
+
+  return await res.json()
+}
+
 // [PUT]: /user/update
 export const updateUserApi = async (data: any) => {
   const token = await getToken()

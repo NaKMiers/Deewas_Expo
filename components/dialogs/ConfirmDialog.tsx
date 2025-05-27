@@ -20,9 +20,9 @@ interface ConfirmDialogProps {
   trigger?: ReactNode
   label: string
   desc: string
-  confirmLabel: string
+  confirmLabel?: string
   cancelLabel?: string
-  onConfirm: () => void
+  onConfirm?: () => void
   disabled?: boolean
   className?: string
 }
@@ -64,12 +64,14 @@ function ConfirmDialog({
           <AlertDialogCancel className="mt-0 px-2 text-sm">
             <Text>{cancelLabel}</Text>
           </AlertDialogCancel>
-          <AlertDialogAction
-            className="bg mt-0 px-2 text-sm"
-            onPress={onConfirm}
-          >
-            <Text className="font-semibold text-secondary">{confirmLabel}</Text>
-          </AlertDialogAction>
+          {confirmLabel && onConfirm && (
+            <AlertDialogAction
+              className="bg mt-0 px-2 text-sm"
+              onPress={onConfirm}
+            >
+              <Text className="font-semibold text-secondary">{confirmLabel}</Text>
+            </AlertDialogAction>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

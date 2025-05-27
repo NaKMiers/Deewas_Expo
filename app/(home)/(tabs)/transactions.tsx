@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
 import { refresh, setRefreshing } from '@/lib/reducers/loadReducer'
 import { setSelectedWallet } from '@/lib/reducers/screenReducer'
@@ -57,6 +58,7 @@ function TransactionsPage() {
   const [search, setSearch] = useState<string>('')
   const [timeSegment, setTimeSegment] = useState<TimeUnit>('month')
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true)
+  const [isIncludeTransfer, setIsIncludeTransfer] = useState<boolean>(false)
 
   // ads states
   const [adLoaded, setAdLoaded] = useState<boolean>(false)
@@ -252,7 +254,7 @@ function TransactionsPage() {
           <View className="mt-21/2 flex-row items-center justify-end gap-2">
             {/* Search */}
             <View
-              className="w-full flex-1 flex-row"
+              className="w-full flex-1 flex-row overflow-hidden rounded-lg border border-primary/10"
               style={{ height: 42 }}
             >
               <Button
@@ -290,7 +292,7 @@ function TransactionsPage() {
             <Button
               variant="outline"
               size="icon"
-              className="h-12 w-12 flex-shrink-0 bg-secondary"
+              className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg border border-primary/10 bg-secondary"
               onPress={() => router.push('/calendar')}
             >
               <Icon
@@ -298,6 +300,16 @@ function TransactionsPage() {
                 size={20}
               />
             </Button>
+          </View>
+
+          <View className="mt-2 flex-row items-center justify-end gap-2">
+            <Text className="text-right font-semibold">{t('Include transfers')}</Text>
+            <Switch
+              checked={isIncludeTransfer}
+              onCheckedChange={() => setIsIncludeTransfer(!isIncludeTransfer)}
+              className={cn(isIncludeTransfer ? 'bg-primary' : 'bg-muted-foreground')}
+              style={{ transform: [{ scale: 0.9 }] }}
+            />
           </View>
 
           {isFirstRender ? (
@@ -316,6 +328,7 @@ function TransactionsPage() {
                   <TransactionTypeGroup
                     type={type}
                     categoryGroups={Object.entries(group).map(g => g[1])}
+                    includeTransfers={isIncludeTransfer}
                     key={type}
                   />
                 ))
@@ -338,44 +351,47 @@ function TransactionsPage() {
       {/* MARK: Create Transaction */}
       {inProgress && (step === 4 || step === 6) && <View className="absolute z-10 h-screen w-screen" />}
       <View
-        className={cn(
-          'absolute right-21/2 z-20',
-          inProgress && step === 4 && 'right-0 rounded-lg border-2 border-sky-500 bg-sky-500/10 p-21/2'
-        )}
-        style={{ bottom: adLoaded && !isPremium ? 78 : 10 }}
+        className="absolute right-21/2 z-20 items-end"
+        style={{ bottom: 10 }}
       >
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => {
-            dispatch(setSelectedWallet(selectedWallet))
-            inProgress && step === 4 ? dispatch(setStep(5)) : router.push('/create-transaction')
-          }}
-          className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
-        >
-          <Icon
-            render={LucidePlus}
-            size={20}
-            reverse
-          />
-          <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* MARK: Banner Ads */}
-      {!isPremium && (
         <View
-          className="absolute bottom-2.5 left-1/2 z-20 max-h-[60px] -translate-x-1/2 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
-          style={{ width: SCREEN_WIDTH - 21 }}
+          className={cn(
+            inProgress && step === 4 && 'right-0 rounded-lg border-2 border-sky-500 bg-sky-500/10 p-21/2'
+          )}
         >
-          <BannerAd
-            unitId={adUnitId}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            onAdLoaded={() => setAdLoaded(true)}
-            onAdFailedToLoad={() => setAdLoaded(false)}
-            onAdClosed={() => setAdLoaded(false)}
-          />
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              dispatch(setSelectedWallet(selectedWallet))
+              inProgress && step === 4 ? dispatch(setStep(5)) : router.push('/create-transaction')
+            }}
+            className="h-11 flex-row items-center justify-center gap-1 rounded-full bg-primary px-4"
+          >
+            <Icon
+              render={LucidePlus}
+              size={20}
+              reverse
+            />
+            <Text className="font-semibold text-secondary">{t('Add Transaction')}</Text>
+          </TouchableOpacity>
         </View>
-      )}
+
+        {/* MARK: Banner Ads */}
+        {!isPremium && (
+          <View
+            className="max-h-[60px4 mt-4 flex-row items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary"
+            style={{ width: SCREEN_WIDTH - 21 }}
+          >
+            <BannerAd
+              unitId={adUnitId}
+              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+              onAdLoaded={() => setAdLoaded(true)}
+              onAdFailedToLoad={() => setAdLoaded(false)}
+              onAdClosed={() => setAdLoaded(false)}
+            />
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   )
 }

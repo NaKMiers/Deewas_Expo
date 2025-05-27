@@ -7,6 +7,7 @@ import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import FileExporter from '@/components/FileExporter'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
+import ReferralCode from '@/components/ReferralCode'
 import SettingsBox from '@/components/SettingsBox'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,7 @@ import { capitalize, shortName } from '@/lib/string'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn, getAdmobId } from '@/lib/utils'
 import { deleteAllDataApi, updateUserApi } from '@/requests'
+import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
 import {
@@ -69,7 +71,7 @@ function AccountPage() {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [usnValue, setUsnValue] = useState<string>(shortName(user, ''))
   const [updating, setUpdating] = useState<boolean>(false)
-  const [error, setError] = useState<string>('')
+  const [nameError, setNameError] = useState<string>('')
   const [openPremiumModal, setOpenPremiumModal] = useState<boolean>(false)
 
   // ad states
@@ -105,7 +107,7 @@ function AccountPage() {
   const handleChangeUsername = useCallback(async () => {
     if (!user) return
     if (!usnValue.trim()) return
-    if (usnValue.trim().length < 5) return setError('Username must be at least 5 characters')
+    if (usnValue.trim().length < 5) return setNameError('Username must be at least 5 characters')
 
     // start loading
     setUpdating(true)
@@ -119,10 +121,12 @@ function AccountPage() {
 
       // reset
       setEditMode(false)
-      setError('')
+      setNameError('')
       refreshToken()
     } catch (err: any) {
-      err.errorCode === 'USERNAME_EXISTS' ? setError(err.message) : setError('Failed to change username')
+      err.errorCode === 'USERNAME_EXISTS'
+        ? setNameError(err.message)
+        : setNameError('Failed to change username')
     } finally {
       // stop loading
       setUpdating(false)
@@ -142,13 +146,13 @@ function AccountPage() {
         }
       >
         <View className="gap-21/2 p-21/2 md:p-21">
-          {/* MARK: Account */}
+          {/* MARK: User */}
           <View className="shadow-md">
             <BlurView
               intensity={90}
               className="overflow-hidden rounded-xl border border-primary/10 px-21 py-6 pb-21/2"
             >
-              <View className="w-full flex-row items-center gap-2 pb-2">
+              <View className="w-full flex-row items-center gap-4 pb-2">
                 {user.authType === 'google' && (
                   <View className="relative aspect-square max-w-[40px] flex-1 rounded-full shadow-sm">
                     <Image
@@ -193,9 +197,9 @@ function AccountPage() {
                       </>
                     ) : (
                       <View>
-                        {error && (
+                        {nameError && (
                           <Text className="mb-0.5 text-sm text-rose-500 drop-shadow-lg">
-                            {tError(error)}
+                            {tError(nameError)}
                           </Text>
                         )}
                         <TextInput
@@ -205,7 +209,7 @@ function AccountPage() {
                           placeholder={t('Username') + '...'}
                           value={usnValue}
                           onChangeText={value => setUsnValue(value)}
-                          onFocus={() => setError('')}
+                          onFocus={() => setNameError('')}
                         />
                       </View>
                     )}
@@ -219,7 +223,7 @@ function AccountPage() {
                       className="py-2.5"
                       onPress={() => {
                         setEditMode(!editMode)
-                        setError('')
+                        setNameError('')
                       }}
                     >
                       {editMode ? (
@@ -264,6 +268,16 @@ function AccountPage() {
             </BlurView>
           </View>
 
+          {/* MARK: Referral Code */}
+          <View className="shadow-md">
+            <BlurView
+              intensity={90}
+              className="overflow-hidden rounded-xl border border-primary/10 px-21 py-21/2"
+            >
+              <ReferralCode />
+            </BlurView>
+          </View>
+
           {/* MARK: Flash Sale */}
           {!isPremium && (
             <ImageBackground
@@ -280,16 +294,18 @@ function AccountPage() {
                 />
               </View>
 
-              <View
+              <TouchableOpacity
+                activeOpacity={0.7}
                 className="aspect-video flex-row justify-center shadow-md md:justify-start"
                 style={{ maxHeight: 200 }}
+                onPress={() => router.push('/premium')}
               >
                 <Image
                   source={images.flashSale}
                   resizeMode="cover"
                   className="h-full w-full rounded-3xl shadow-lg"
                 />
-              </View>
+              </TouchableOpacity>
             </ImageBackground>
           )}
 

@@ -43,6 +43,7 @@ declare interface ISettings {
 
   freeTokensUsed: number
   firstLaunch: boolean
+  referralCode?: string
 }
 
 declare type IFullSettings = ISettings & { user: IUser }
@@ -109,6 +110,18 @@ declare interface IWallet {
 }
 
 declare type IFullWallet = IWallet & { user: IUser }
+
+declare interface IReferralCode {
+  _id: string
+  createdAt: string
+  updatedAt: string
+
+  code: string
+  desc: string
+  owner: string
+  usedUsers: string[]
+  active: boolean
+}
 
 // Components
 declare type ChartType = 'bar' | 'line' | 'pie' | 'radar' | 'pyramid'

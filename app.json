@@ -72,13 +72,6 @@
           "iosAppId": "ca-app-pub-8539911634059441~9440395805",
           "androidAppId": "ca-app-pub-8539911634059441~4779337310"
         }
-      ],
-      [
-        "@react-native-voice/voice",
-        {
-          "microphonePermission": "Allow Deewas to access the microphone",
-          "speechRecognitionPermission": "Allow Deewas to securely recognize user speech"
-        }
       ]
     ],
     "experiments": {

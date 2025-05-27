@@ -152,7 +152,8 @@
     "Select wallet": "Pilih dompet",
     "No transactions found for this wallet, just add one now!": "Tidak ada transaksi yang ditemukan untuk dompet ini, tambahkan sekarang!",
     "Add Transaction": "Tambah Transaksi",
-    "All wallets": "Semua dompet"
+    "All wallets": "Semua dompet",
+    "Include transfers": "Termasuk transfer"
   },
   "wizardPage": {
     "Welcome": "Selamat Datang",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Terima kasih telah memilih Deewas",
     "Let’s manage your finances together!": "Mari kelola keuangan Anda bersama!"
   },
+  "referralCode": {
+    "Referral Code": "Kode Rujukan",
+    "Enter your referral code to get 2 days of Premium for free": "Masukkan kode rujukan Anda untuk mendapatkan 2 hari Premium gratis"
+  },
   "success": {
     "Sign In Success": "Masuk Berhasil",
     "You have successfully signed in": "Anda telah berhasil masuk",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Semua data berhasil dihapus",
     "Authentication successful": "Autentikasi berhasil",
     "Wallet updated": "Dompet diperbarui",
-    "You have successfully logged in": "Anda telah berhasil masuk"
+    "You have successfully logged in": "Anda telah berhasil masuk",
+    "Referral code applied successfully": "Kode rujukan berhasil diterapkan"
   },
   "error": {
     "Error": "Kesalahan",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Nama pengguna harus minimal 5 karakter",
     "Export Failed": "Ekspor Gagal",
     "An error occurred while exporting CSV files": "Terjadi kesalahan saat mengekspor file CSV",
-    "An error occurred while exporting Excel file": "Terjadi kesalahan saat mengekspor file Excel"
+    "An error occurred while exporting Excel file": "Terjadi kesalahan saat mengekspor file Excel",
+    "Failed to apply referral code": "Gagal menerapkan kode rujukan"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Anggaran tidak ditemukan",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Batas dompet tercapai, silakan tingkatkan ke Premium untuk membuat dompet tak terbatas",
     "WALLET_NOT_FOUND": "Dompet tidak ditemukan",
     "INVALID_BUDGET": "Anggaran tidak valid",
-    "TRANSACTION_NOT_FOUND": "Transaksi tidak ditemukan"
+    "TRANSACTION_NOT_FOUND": "Transaksi tidak ditemukan",
+    "SOMETHING_WENT_WRONG": "Terjadi kesalahan",
+    "RFCODE_ALREADY_USED": "Anda sudah menggunakan kode rujukan ini",
+    "RFCODE_NOT_EXISTS": "Kode rujukan tidak ada",
+    "RFCODE_OWNER_USED": "Anda tidak dapat menggunakan kode rujukan Anda sendiri"
   }
 }

@@ -152,7 +152,8 @@
     "Select wallet": "Selecionar carteira",
     "No transactions found for this wallet, just add one now!": "Nenhuma transação encontrada para esta carteira, adicione uma agora!",
     "Add Transaction": "Adicionar Transação",
-    "All wallets": "Todas as carteiras"
+    "All wallets": "Todas as carteiras",
+    "Include transfers": "Incluir transferências"
   },
   "wizardPage": {
     "Welcome": "Bem-vindo",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Obrigado por escolher o Deewas",
     "Let’s manage your finances together!": "Vamos gerenciar suas finanças juntos!"
   },
+  "referralCode": {
+    "Referral Code": "Código de Referência",
+    "Enter your referral code to get 2 days of Premium for free": "Cole seu código de referência para obter 2 dias de Premium grátis"
+  },
   "success": {
     "Sign In Success": "Login Bem-Sucedido",
     "You have successfully signed in": "Você fez login com sucesso",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Todos os Dados Apagados com Sucesso",
     "Authentication successful": "Autenticação Bem-Sucedida",
     "Wallet updated": "Carteira Atualizada",
-    "You have successfully logged in": "Você fez login com sucesso"
+    "You have successfully logged in": "Você fez login com sucesso",
+    "Referral code applied successfully": "Código de referência aplicado com sucesso"
   },
   "error": {
     "Error": "Erro",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "O nome de usuário deve ter pelo menos 5 caracteres",
     "Export Failed": "Falha na Exportação",
     "An error occurred while exporting CSV files": "Ocorreu um erro ao exportar arquivos CSV",
-    "An error occurred while exporting Excel file": "Ocorreu um erro ao exportar arquivo Excel"
+    "An error occurred while exporting Excel file": "Ocorreu um erro ao exportar arquivo Excel",
+    "Failed to apply referral code": "Falha ao aplicar código de referência"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Orçamento não encontrado",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Limite de carteiras atingido, por favor, atualize para Premium para criar carteiras ilimitadas",
     "WALLET_NOT_FOUND": "Carteira não encontrada",
     "INVALID_BUDGET": "Orçamento inválido",
-    "TRANSACTION_NOT_FOUND": "Transação não encontrada"
+    "TRANSACTION_NOT_FOUND": "Transação não encontrada",
+    "SOMETHING_WENT_WRONG": "Algo deu errado",
+    "RFCODE_ALREADY_USED": "Você já usou este código de referência",
+    "RFCODE_NOT_EXISTS": "O código de referência não existe",
+    "RFCODE_OWNER_USED": "Você não pode usar seu próprio código de referência"
   }
 }

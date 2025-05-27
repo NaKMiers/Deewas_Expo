@@ -152,7 +152,8 @@
     "Select wallet": "ウォレットを選択",
     "No transactions found for this wallet, just add one now!": "このウォレットにトランザクションが見つかりません、今すぐ追加してください！",
     "Add Transaction": "トランザクションを追加",
-    "All wallets": "すべてのウォレット"
+    "All wallets": "すべてのウォレット",
+    "Include transfers": "転送を含める"
   },
   "wizardPage": {
     "Welcome": "ようこそ",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Deewasをお選びいただきありがとうございます",
     "Let’s manage your finances together!": "一緒に財務を管理しましょう！"
   },
+  "referralCode": {
+    "Referral Code": "紹介コード",
+    "Enter your referral code to get 2 days of Premium for free": "紹介コードを入力して、2日間のプレミアムを無料で取得"
+  },
   "success": {
     "Sign In Success": "ログイン成功",
     "You have successfully signed in": "あなたは正常にログインしました",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "すべてのデータが正常に消去されました",
     "Authentication successful": "認証が成功しました",
     "Wallet updated": "ウォレットが更新されました",
-    "You have successfully logged in": "あなたは正常にログインしました"
+    "You have successfully logged in": "あなたは正常にログインしました",
+    "Referral code applied successfully": "紹介コードが正常に適用されました"
   },
   "error": {
     "Error": "エラー",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "ユーザー名は5文字以上である必要があります",
     "Export Failed": "エクスポートに失敗しました",
     "An error occurred while exporting CSV files": "CSVファイルのエクスポート中にエラーが発生しました",
-    "An error occurred while exporting Excel file": "Excelファイルのエクスポート中にエラーが発生しました"
+    "An error occurred while exporting Excel file": "Excelファイルのエクスポート中にエラーが発生しました",
+    "Failed to apply referral code": "紹介コードの適用に失敗しました"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "予算が見つかりません",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "ウォレットの上限に達しました。無制限にウォレットを作成するにはPremiumにアップグレードしてください",
     "WALLET_NOT_FOUND": "ウォレットが見つかりません",
     "INVALID_BUDGET": "無効な予算",
-    "TRANSACTION_NOT_FOUND": "取引が見つかりません"
+    "TRANSACTION_NOT_FOUND": "取引が見つかりません",
+    "SOMETHING_WENT_WRONG": "何か問題が発生しました",
+    "RFCODE_ALREADY_USED": "この紹介コードは既に使用されています",
+    "RFCODE_NOT_EXISTS": "紹介コードが存在しません",
+    "RFCODE_OWNER_USED": "あなた自身の紹介コードは使用できません"
   }
 }

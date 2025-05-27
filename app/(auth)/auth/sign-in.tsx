@@ -219,8 +219,6 @@ function SignInPage() {
         nonce,
       })
 
-      console.log('Apple Sign In Credential:', credential)
-
       const { identityToken, user } = credential
       if (!identityToken || !user) {
         Toast.show({

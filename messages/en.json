@@ -152,7 +152,8 @@
     "Select wallet": "Select wallet",
     "No transactions found for this wallet, just add one now!": "No transactions found for this wallet, just add one now!",
     "Add Transaction": "Add Transaction",
-    "All wallets": "All wallets"
+    "All wallets": "All wallets",
+    "Include transfers": "Include transfers"
   },
   "wizardPage": {
     "Welcome": "Welcome",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Thank you for choosing Deewas",
     "Let’s manage your finances together!": "Let’s manage your finances together!"
   },
+  "referralCode": {
+    "Referral Code": "Referral Code",
+    "Enter your referral code to get 2 days of Premium for free": "Enter your referral code to get 2 days of Premium for free"
+  },
   "success": {
     "Sign In Success": "Sign In Success",
     "You have successfully signed in": "You have successfully signed in",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Erase all data successfully",
     "Authentication successful": "Authentication successful",
     "Wallet updated": "Wallet updated",
-    "You have successfully logged in": "You have successfully logged in"
+    "You have successfully logged in": "You have successfully logged in",
+    "Referral code applied successfully": "Referral code applied successfully"
   },
   "error": {
     "Error": "Error",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Username must be at least 5 characters",
     "Export Failed": "Export Failed",
     "An error occurred while exporting CSV files": "An error occurred while exporting CSV files",
-    "An error occurred while exporting Excel file": "An error occurred while exporting Excel file"
+    "An error occurred while exporting Excel file": "An error occurred while exporting Excel file",
+    "Failed to apply referral code": "Failed to apply referral code"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Budget not found",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Wallet limit reached, please upgrade to Premium to create unlimited wallets",
     "WALLET_NOT_FOUND": "Wallet not found",
     "INVALID_BUDGET": "Invalid budget",
-    "TRANSACTION_NOT_FOUND": "Transaction not found"
+    "TRANSACTION_NOT_FOUND": "Transaction not found",
+    "SOMETHING_WENT_WRONG": "Something went wrong",
+    "RFCODE_ALREADY_USED": "You have already used this referral code",
+    "RFCODE_NOT_EXISTS": "Referral code does not exist",
+    "RFCODE_OWNER_USED": "You cannot use your own referral code"
   }
 }

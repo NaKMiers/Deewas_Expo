@@ -152,7 +152,8 @@
     "Select wallet": "वॉलेट चुनें",
     "No transactions found for this wallet, just add one now!": "इस वॉलेट के लिए कोई लेनदेन नहीं मिला, अभी एक जोड़ें!",
     "Add Transaction": "लेनदेन जोड़ें",
-    "All wallets": "सभी वॉलेट"
+    "All wallets": "सभी वॉलेट",
+    "Include transfers": "हस्तांतरण शामिल करें"
   },
   "wizardPage": {
     "Welcome": "स्वागत",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "दीवास चुनने के लिए धन्यवाद",
     "Let’s manage your finances together!": "आइए मिलकर अपने वित्त का प्रबंधन करें!"
   },
+  "referralCode": {
+    "Referral Code": "रेफरल कोड",
+    "Enter your referral code to get 2 days of Premium for free": "मुफ्त में 2 दिन के प्रीमियम के लिए अपना रेफरल कोड दर्ज करें"
+  },
   "success": {
     "Sign In Success": "साइन इन सफल",
     "You have successfully signed in": "आपने सफलतापूर्वक साइन इन किया है",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "सभी डेटा सफलतापूर्वक मिटाए गए",
     "Authentication successful": "प्रमाणीकरण सफल",
     "Wallet updated": "वॉलेट अपडेट किया गया",
-    "You have successfully logged in": "आपने सफलतापूर्वक लॉग इन किया है"
+    "You have successfully logged in": "आपने सफलतापूर्वक लॉग इन किया है",
+    "Referral code applied successfully": "रेफरल कोड सफलतापूर्वक लागू किया गया"
   },
   "error": {
     "Error": "त्रुटि",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "उपयोगकर्ता नाम कम से कम 5 अक्षरों का होना चाहिए",
     "Export Failed": "निर्यात विफल",
     "An error occurred while exporting CSV files": "CSV फ़ाइलें निर्यात करते समय एक त्रुटि हुई",
-    "An error occurred while exporting Excel file": "Excel फ़ाइल निर्यात करते समय एक त्रुटि हुई"
+    "An error occurred while exporting Excel file": "Excel फ़ाइल निर्यात करते समय एक त्रुटि हुई",
+    "Failed to apply referral code": "रेफरल कोड लागू करने में विफल"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "बजट नहीं मिला",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "वॉलेट सीमा तक पहुँच गई, कृपया असीमित वॉलेट बनाने के लिए प्रीमियम में अपग्रेड करें",
     "WALLET_NOT_FOUND": "वॉलेट नहीं मिला",
     "INVALID_BUDGET": "अमान्य बजट",
-    "TRANSACTION_NOT_FOUND": "लेनदेन नहीं मिला"
+    "TRANSACTION_NOT_FOUND": "लेनदेन नहीं मिला",
+    "SOMETHING_WENT_WRONG": "कुछ गलत हो गया",
+    "RFCODE_ALREADY_USED": "आप पहले ही इस रेफरल कोड का उपयोग कर चुके हैं",
+    "RFCODE_NOT_EXISTS": "रेफरल कोड मौजूद नहीं है",
+    "RFCODE_OWNER_USED": "आप अपना खुद का रेफरल कोड नहीं उपयोग कर सकते"
   }
 }

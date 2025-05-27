@@ -152,7 +152,8 @@
     "Select wallet": "Sélectionner un portefeuille",
     "No transactions found for this wallet, just add one now!": "Aucune transaction trouvée pour ce portefeuille, ajoutez-en une maintenant !",
     "Add Transaction": "Ajouter une transaction",
-    "All wallets": "Tous les portefeuilles"
+    "All wallets": "Tous les portefeuilles",
+    "Include transfers": "Inclure les transferts"
   },
   "wizardPage": {
     "Welcome": "Bienvenue",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Merci d'avoir choisi Deewas",
     "Let’s manage your finances together!": "Gérons vos finances ensemble !"
   },
+  "referralCode": {
+    "Referral Code": "Code de parrainage",
+    "Enter your referral code to get 2 days of Premium for free": "Entrez votre code de parrainage pour obtenir 2 jours de Premium gratuitement"
+  },
   "success": {
     "Sign In Success": "Connexion réussie",
     "You have successfully signed in": "Vous vous êtes connecté avec succès",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Suppression de toutes les données réussie",
     "Authentication successful": "Authentification réussie",
     "Wallet updated": "Portefeuille mis à jour",
-    "You have successfully logged in": "Vous vous êtes connecté avec succès"
+    "You have successfully logged in": "Vous vous êtes connecté avec succès",
+    "Referral code applied successfully": "Code de parrainage appliqué avec succès"
   },
   "error": {
     "Error": "Erreur",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Le nom d'utilisateur doit contenir au moins 5 caractères",
     "Export Failed": "Échec de l'exportation",
     "An error occurred while exporting CSV files": "Une erreur s'est produite lors de l'exportation des fichiers CSV",
-    "An error occurred while exporting Excel file": "Une erreur s'est produite lors de l'exportation du fichier Excel"
+    "An error occurred while exporting Excel file": "Une erreur s'est produite lors de l'exportation du fichier Excel",
+    "Failed to apply referral code": "Échec de l'application du code de parrainage"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Budget non trouvé",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Limite de portefeuilles atteinte, veuillez passer à Premium pour créer des portefeuilles illimités",
     "WALLET_NOT_FOUND": "Portefeuille non trouvé",
     "INVALID_BUDGET": "Budget invalide",
-    "TRANSACTION_NOT_FOUND": "Transaction non trouvée"
+    "TRANSACTION_NOT_FOUND": "Transaction non trouvée",
+    "SOMETHING_WENT_WRONG": "Une erreur s'est produite",
+    "RFCODE_ALREADY_USED": "Vous avez déjà utilisé ce code de parrainage",
+    "RFCODE_NOT_EXISTS": "Le code de parrainage n'existe pas",
+    "RFCODE_OWNER_USED": "Vous ne pouvez pas utiliser votre propre code de parrainage"
   }
 }

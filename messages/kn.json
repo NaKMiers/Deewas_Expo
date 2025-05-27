@@ -152,7 +152,8 @@
     "Select wallet": "ವಾಲೆಟ್ ಆಯ್ಕೆಮಾಡಿ",
     "No transactions found for this wallet, just add one now!": "ಈ ವಾಲೆಟ್‌ಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳು ಕಂಡುಬಂದಿಲ್ಲ, ಈಗ ಒಂದನ್ನು ಸೇರಿಸಿ!",
     "Add Transaction": "ವಹಿವಾಟು ಸೇರಿಸಿ",
-    "All wallets": "ಎಲ್ಲ ವಾಲೆಟ್‌ಗಳು"
+    "All wallets": "ಎಲ್ಲ ವಾಲೆಟ್‌ಗಳು",
+    "Include transfers": "ಹಸ್ತಾಂತರಗಳನ್ನು ಒಳಗೊಂಡಿರಿಸಿ"
   },
   "wizardPage": {
     "Welcome": "ಸ್ವಾಗತ",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "ದೀವಾಸ್ ಆಯ್ಕೆ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು",
     "Let’s manage your finances together!": "ನಿಮ್ಮ ಹಣಕಾಸುಗಳನ್ನು ಒಟ್ಟಾಗಿ ನಿರ್ವಹಿಸೋಣ!"
   },
+  "referralCode": {
+    "Referral Code": "ರೆಫರಲ್ ಕೋಡ್",
+    "Enter your referral code to get 2 days of Premium for free": "2 ದಿನಗಳ ಉಚಿತ ಪ್ರೀಮಿಯಂ ಪಡೆಯಲು ನಿಮ್ಮ ರೆಫರಲ್ ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ"
+  },
   "success": {
     "Sign In Success": "ಸೈನ್ ಇನ್ ಯಶಸ್ವಿಯಾಗಿದೆ",
     "You have successfully signed in": "ನೀವು ಯಶಸ್ವಿಯಾಗಿ ಸೈನ್ ಇನ್ ಆಗಿದ್ದೀರಿ",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "ಎಲ್ಲ ಡೇಟಾವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ",
     "Authentication successful": "ಪ್ರಮಾಣೀಕರಣ ಯಶಸ್ವಿಯಾಗಿದೆ",
     "Wallet updated": "ವಾಲೆಟ್ ನವೀಕರಿಸಲಾಗಿದೆ",
-    "You have successfully logged in": "ನೀವು ಯಶಸ್ವಿಯಾಗಿ ಲಾಗಿನ್ ಆಗಿದ್ದೀರಿ"
+    "You have successfully logged in": "ನೀವು ಯಶಸ್ವಿಯಾಗಿ ಲಾಗಿನ್ ಆಗಿದ್ದೀರಿ",
+    "Referral code applied successfully": "ರೆಫರಲ್ ಕೋಡ್ ಯಶಸ್ವಿಯಾಗಿ ಅನ್ವಯಿಸಲಾಗಿದೆ"
   },
   "error": {
     "Error": "ದೋಷ",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "ಬಳಕೆದಾರ ಹೆಸರು ಕನಿಷ್ಠ 5 ಅಕ್ಷರಗಳಿರಬೇಕು",
     "Export Failed": "ರಫ್ತು ವಿಫಲವಾಗಿದೆ",
     "An error occurred while exporting CSV files": "CSV ಫೈಲ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ",
-    "An error occurred while exporting Excel file": "Excel ಫೈಲ್‌ನ್ನು ರಫ್ತು ಮಾಡುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ"
+    "An error occurred while exporting Excel file": "Excel ಫೈಲ್‌ನ್ನು ರಫ್ತು ಮಾಡುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ",
+    "Failed to apply referral code": "ರೆಫರಲ್ ಕೋಡ್ ಅನ್ವಯಿಸಲು ವಿಫಲವಾಗಿದೆ"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "ಬಜೆಟ್ ಕಂಡುಬಂದಿಲ್ಲ",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "ವಾಲೆಟ್ ಮಿತಿಯನ್ನು ತಲುಪಲಾಗಿದೆ, ದಯವಿಟ್ಟು ಅನಿಯಮಿತ ವಾಲೆಟ್‌ಗಳನ್ನು ರಚಿಸಲು ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
     "WALLET_NOT_FOUND": "ವಾಲೆಟ್ ಕಂಡುಬಂದಿಲ್ಲ",
     "INVALID_BUDGET": "ಅಮಾನ್ಯ ಬಜೆಟ್",
-    "TRANSACTION_NOT_FOUND": "ವಹಿವಾಟು ಕಂಡುಬಂದಿಲ್ಲ"
+    "TRANSACTION_NOT_FOUND": "ವಹಿವಾಟು ಕಂಡುಬಂದಿಲ್ಲ",
+    "SOMETHING_WENT_WRONG": "ಏನೋ ತಪ್ಪಾಗಿದೆ",
+    "RFCODE_ALREADY_USED": "ನೀವು ಈ ರೆಫರಲ್ ಕೋಡ್ ಅನ್ನು ಈಗಾಗಲೇ ಬಳಸಿದ್ದೀರಿ",
+    "RFCODE_NOT_EXISTS": "ರೆಫರಲ್ ಕೋಡ್ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ",
+    "RFCODE_OWNER_USED": "ನೀವು ನಿಮ್ಮದೇ ರೆಫರಲ್ ಕೋಡ್ ಅನ್ನು ಬಳಸಲು ಸಾಧ್ಯವಿಲ್ಲ"
   }
 }

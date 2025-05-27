@@ -152,7 +152,8 @@
     "Select wallet": "വാലറ്റ് തിരഞ്ഞെടുക്കുക",
     "No transactions found for this wallet, just add one now!": "ഈ വാലറ്റിന് ഇടപാടുകൾ ഒന്നും കണ്ടെത്തിയില്ല, ഇപ്പോൾ ഒന്ന് ചേർക്കുക!",
     "Add Transaction": "ഇടപാട് ചേർക്കുക",
-    "All wallets": "എല്ലാ വാലറ്റുകളും"
+    "All wallets": "എല്ലാ വാലറ്റുകളും",
+    "Include transfers": "മാറ്റങ്ങൾ ഉൾപ്പെടുത്തുക"
   },
   "wizardPage": {
     "Welcome": "സ്വാഗതം",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "ദീവാസ് തിരഞ്ഞെടുത്തതിന് നന്ദി",
     "Let’s manage your finances together!": "നമുക്ക് ഒരുമിച്ച് നിങ്ങളുടെ സാമ്പത്തികം കൈകാര്യം ചെയ്യാം!"
   },
+  "referralCode": {
+    "Referral Code": "റഫറൽ കോഡ്",
+    "Enter your referral code to get 2 days of Premium for free": "സൗജന്യമായി 2 ദിവസത്തെ പ്രീമിയം ലഭിക്കാൻ നിങ്ങളുടെ റഫറൽ കോഡ് നൽകുക"
+  },
   "success": {
     "Sign In Success": "സൈൻ ഇൻ വിജയം",
     "You have successfully signed in": "നീ വിജയകരമായി സൈൻ ഇൻ ചെയ്തു",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "എല്ലാ ഡാറ്റയും വിജയകരമായി മായ്ച്ചു",
     "Authentication successful": "ഓതന്റിക്കേഷൻ വിജയകരമായി",
     "Wallet updated": "വാലറ്റ് അപ്ഡേറ്റ് ചെയ്തു",
-    "You have successfully logged in": "നീ വിജയകരമായി ലോഗിൻ ചെയ്തു"
+    "You have successfully logged in": "നീ വിജയകരമായി ലോഗിൻ ചെയ്തു",
+    "Referral code applied successfully": "റഫറൽ കോഡ് വിജയകരമായി പ്രയോഗിച്ചു"
   },
   "error": {
     "Error": "പിശക്",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "ഉപയോക്തൃനാമം കുറഞ്ഞത് 5 അക്ഷരങ്ങളെങ്കിലും ആയിരിക്കണം",
     "Export Failed": "എക്സ്പോർട്ട് പരാജയപ്പെട്ടു",
     "An error occurred while exporting CSV files": "CSV ഫയലുകൾ എക്സ്പോർട്ട് ചെയ്യുന്നതിനിടെ ഒരു പിശക് സംഭവിച്ചു",
-    "An error occurred while exporting Excel file": "Excel ഫയൽ എക്സ്പോർട്ട് ചെയ്യുന്നതിനിടെ ഒരു പിശക് സംഭവിച്ചു"
+    "An error occurred while exporting Excel file": "Excel ഫയൽ എക്സ്പോർട്ട് ചെയ്യുന്നതിനിടെ ഒരു പിശക് സംഭവിച്ചു",
+    "Failed to apply referral code": "റഫറൽ കോഡ് പ്രയോഗിക്കുന്നതിൽ പരാജയപ്പെട്ടു"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "ബജറ്റ് കണ്ടെത്തിയില്ല",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "വാലറ്റ് പരിധി എത്തി, പരിധിയില്ലാത്ത വാലറ്റുകൾ സൃഷ്ടിക്കാൻ ദയവായി പ്രീമിയത്തിലേക്ക് അപ്ഗ്രേഡ് ചെയ്യുക",
     "WALLET_NOT_FOUND": "വാലറ്റ് കണ്ടെത്തിയില്ല",
     "INVALID_BUDGET": "അസാധുവായ ബജറ്റ്",
-    "TRANSACTION_NOT_FOUND": "ഇടപാട് കണ്ടെത്തിയില്ല"
+    "TRANSACTION_NOT_FOUND": "ഇടപാട് കണ്ടെത്തിയില്ല",
+    "SOMETHING_WENT_WRONG": "എന്തോ കുഴപ്പം സംഭവിച്ചു",
+    "RFCODE_ALREADY_USED": "നിങ്ങൾ ഇതിനകം ഈ റഫറൽ കോഡ് ഉപയോഗിച്ചിട്ടുണ്ട്",
+    "RFCODE_NOT_EXISTS": "റഫറൽ കോഡ് നിലവിലില്ല",
+    "RFCODE_OWNER_USED": "നിങ്ങൾ നിങ്ങളുടെ സ്വന്തം റഫറൽ കോഡ് ഉപയോഗിക്കാൻ കഴിയില്ല"
   }
 }

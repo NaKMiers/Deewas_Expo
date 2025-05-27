@@ -51,7 +51,7 @@ function TutorialOverlay() {
         title: `${t('Step 2')}: ${t('Record a Transaction')}`,
         description: t("Tap 'Add Transaction' to log your first transaction"),
         route: '/transactions',
-        boxStyle: { bottom: Platform.OS === 'ios' ? 240 : 206 },
+        boxStyle: { bottom: Platform.OS === 'ios' ? 250 : 216 },
       },
       {
         step: 5,
@@ -70,14 +70,14 @@ function TutorialOverlay() {
         title: `${t('Step 3')}: ${t('Set Up a Budget')}`,
         description: t("Tap 'Create Budget' to define your spending plan"),
         route: '/budgets',
-        boxStyle: { bottom: Platform.OS === 'ios' ? 240 : 206 },
+        boxStyle: { bottom: Platform.OS === 'ios' ? 250 : 216 },
       },
       {
         step: 8,
         title: `${t('Step 3')}: ${t('Finalize Your Budget')}`,
         description: t("Enter the name and amount for your budget, then tap 'Save'"),
         route: '/create-budget',
-        boxStyle: { bottom: Platform.OS === 'ios' ? 180 : 146 },
+        boxStyle: { bottom: Platform.OS === 'ios' ? 80 : 46 },
       },
       {
         step: 9,
@@ -177,7 +177,7 @@ function TutorialOverlay() {
           className="h-2 bg-primary/20"
         />
 
-        <Text className="mt-4 text-xl font-bold">{steps[step - 1].title}</Text>
+        <Text className="mt-4 text-center text-xl font-bold">{steps[step - 1].title}</Text>
         <Text className="text-center text-base">{steps[step - 1].description}</Text>
 
         <TouchableOpacity

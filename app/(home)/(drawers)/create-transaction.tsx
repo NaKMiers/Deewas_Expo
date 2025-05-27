@@ -281,7 +281,7 @@ function CreateTransactionPage() {
                 <Text
                   className={cn('font-semibold capitalize text-black', checkTranType(form.type).color)}
                 >
-                  {form.type}
+                  {t(form.type)}
                 </Text>
               </TouchableOpacity>
             </View>

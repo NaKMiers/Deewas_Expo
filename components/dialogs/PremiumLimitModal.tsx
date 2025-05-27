@@ -2,7 +2,7 @@ import { images } from '@/assets/images/images'
 import { cn } from '@/lib/utils'
 import moment from 'moment'
 import { memo, ReactNode } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import Countdown from '../Countdown'
 import Image from '../Image'
 import Text from '../Text'
@@ -61,7 +61,9 @@ function PremiumLimitModal({
 
       <AlertDialogContent className="border-200/30 rounded-3xl border">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center text-secondary">{label}</AlertDialogTitle>
+          <AlertDialogTitle className={cn('text-center', Platform.OS === 'ios' && 'text-white')}>
+            {label}
+          </AlertDialogTitle>
           {desc && <AlertDialogDescription className="text-center">{desc}</AlertDialogDescription>}
         </AlertDialogHeader>
 
@@ -70,7 +72,7 @@ function PremiumLimitModal({
             timeType="loop"
             duration={7 * 24 * 60} // 7 days
             start={moment().startOf('week').toISOString()}
-            textClassName="text-white"
+            textClassName={cn('text-primary', Platform.OS === 'ios' && 'text-white')}
           />
 
           <View className="aspect-video w-full rounded-3xl bg-white shadow-lg">

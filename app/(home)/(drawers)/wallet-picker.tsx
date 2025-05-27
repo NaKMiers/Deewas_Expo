@@ -18,7 +18,8 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { LucideGalleryVerticalEnd, LucidePencil, LucidePlusSquare } from 'lucide-react-native'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 
 function WalletPickerPage() {
   // hooks
@@ -96,7 +97,6 @@ function WalletPickerPage() {
                   if (isFromWallet === 'true') dispatch(setFromWallet(wallet))
                   else if (isToWallet === 'true') dispatch(setToWallet(wallet))
                   else if (showAllOption === 'true') {
-                    console.log('showAllOption')
                     dispatch(setDefaultWallet(wallet))
                     dispatch(setOfWallet(wallet))
                   } else {

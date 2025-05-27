@@ -152,7 +152,8 @@
     "Select wallet": "지갑 선택",
     "No transactions found for this wallet, just add one now!": "이 지갑에 대한 거래가 없습니다. 지금 거래를 추가하세요!",
     "Add Transaction": "거래 추가",
-    "All wallets": "모든 지갑"
+    "All wallets": "모든 지갑",
+    "Include transfers": "이체 포함"
   },
   "wizardPage": {
     "Welcome": "환영합니다",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Deewas를 선택해 주셔서 감사합니다",
     "Let’s manage your finances together!": "함께 재정을 관리해 보아요!"
   },
+  "referralCode": {
+    "Referral Code": "추천 코드",
+    "Enter your referral code to get 2 days of Premium for free": "추천 코드를 입력하여 프리미엄 2일을 무료로 받으세요"
+  },
   "success": {
     "Sign In Success": "로그인 성공",
     "You have successfully signed in": "성공적으로 로그인했습니다",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "모든 데이터 삭제 성공",
     "Authentication successful": "인증 성공",
     "Wallet updated": "지갑 업데이트됨",
-    "You have successfully logged in": "성공적으로 로그인했습니다"
+    "You have successfully logged in": "성공적으로 로그인했습니다",
+    "Referral code applied successfully": "추천 코드가 성공적으로 적용되었습니다"
   },
   "error": {
     "Error": "오류",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "사용자 이름은 최소 5자 이상이어야 합니다",
     "Export Failed": "내보내기 실패",
     "An error occurred while exporting CSV files": "CSV 파일 내보내기 중 오류가 발생했습니다",
-    "An error occurred while exporting Excel file": "Excel 파일 내보내기 중 오류가 발생했습니다"
+    "An error occurred while exporting Excel file": "Excel 파일 내보내기 중 오류가 발생했습니다",
+    "Failed to apply referral code": "추천 코드 적용 실패"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "예산을 찾을 수 없습니다",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "지갑 제한에 도달했습니다. 무제한 지갑을 생성하려면 프리미엄으로 업그레이드하세요",
     "WALLET_NOT_FOUND": "지갑을 찾을 수 없습니다",
     "INVALID_BUDGET": "유효하지 않은 예산",
-    "TRANSACTION_NOT_FOUND": "거래를 찾을 수 없습니다"
+    "TRANSACTION_NOT_FOUND": "거래를 찾을 수 없습니다",
+    "SOMETHING_WENT_WRONG": "문제가 발생했습니다",
+    "RFCODE_ALREADY_USED": "이미 이 추천 코드를 사용했습니다",
+    "RFCODE_NOT_EXISTS": "추천 코드가 존재하지 않습니다",
+    "RFCODE_OWNER_USED": "자신의 추천 코드를 사용할 수 없습니다"
   }
 }

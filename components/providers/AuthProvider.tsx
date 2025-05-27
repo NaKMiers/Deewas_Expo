@@ -61,16 +61,16 @@ function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const storedToken = await AsyncStorage.getItem('token')
+        const { token } = await refreshTokenApi()
         const onboarding = await AsyncStorage.getItem('onboarding')
 
-        if (storedToken && !token) {
-          const decodedUser: IFullUser = jwtDecode(storedToken)
+        if (token) {
+          const decodedUser: IFullUser = jwtDecode(token)
           const isExpired = Date.now() >= decodedUser.exp * 1000
 
           // not expired
           if (!isExpired) {
-            dispatch(setToken(storedToken))
+            dispatch(setToken(token))
             dispatch(setUser(decodedUser))
             if (onboarding) {
               dispatch(setOnboarding(JSON.parse(onboarding)))
@@ -91,33 +91,25 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     loadUserData()
-  }, [dispatch, token])
+  }, [dispatch])
 
   // refresh token
-  const refreshToken = useCallback(
-    async (option: any = { reload: true }) => {
-      try {
-        const { token } = await refreshTokenApi()
+  const refreshToken = useCallback(async () => {
+    try {
+      const { token } = await refreshTokenApi()
 
-        // save token and user
-        await AsyncStorage.setItem('token', token)
-        dispatch(setToken(token))
+      console.log(token)
 
-        if (option.reload) {
-          const decodedUser: IFullUser = jwtDecode(token)
-          dispatch(setUser(decodedUser))
-        }
-      } catch (err: any) {
-        console.log(err)
-      }
-    },
-    [dispatch]
-  )
+      // save token and user
+      await AsyncStorage.setItem('token', token)
+      dispatch(setToken(token))
 
-  // refresh token
-  useEffect(() => {
-    refreshToken({ reload: false })
-  }, [refreshToken])
+      const decodedUser: IFullUser = jwtDecode(token)
+      dispatch(setUser(decodedUser))
+    } catch (err: any) {
+      console.log(err)
+    }
+  }, [dispatch])
 
   // load biometric values
   useEffect(() => {

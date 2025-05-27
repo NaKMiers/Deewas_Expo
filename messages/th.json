@@ -152,7 +152,8 @@
     "Select wallet": "เลือกกระเป๋าเงิน",
     "No transactions found for this wallet, just add one now!": "ไม่พบธุรกรรมสำหรับกระเป๋าเงินนี้ เพิ่มเลย!",
     "Add Transaction": "เพิ่มธุรกรรม",
-    "All wallets": "กระเป๋าเงินทั้งหมด"
+    "All wallets": "กระเป๋าเงินทั้งหมด",
+    "Include transfers": "รวมการโอน"
   },
   "wizardPage": {
     "Welcome": "ยินดีต้อนรับ",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "ขอบคุณที่เลือก Deewas",
     "Let’s manage your finances together!": "มาจัดการการเงินของคุณด้วยกันเถอะ!"
   },
+  "referralCode": {
+    "Referral Code": "รหัสแนะนำ",
+    "Enter your referral code to get 2 days of Premium for free": "ป้อนรหัสแนะนำของคุณเพื่อรับพรีเมียมฟรี 2 วัน"
+  },
   "success": {
     "Sign In Success": "ลงชื่อเข้าใช้สำเร็จ",
     "You have successfully signed in": "คุณลงชื่อเข้าใช้สำเร็จ",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "ลบข้อมูลทั้งหมดสำเร็จ",
     "Authentication successful": "ยืนยันตัวตนสำเร็จ",
     "Wallet updated": "อัปเดตกระเป๋าเงินสำเร็จ",
-    "You have successfully logged in": "คุณลงชื่อเข้าใช้สำเร็จ"
+    "You have successfully logged in": "คุณลงชื่อเข้าใช้สำเร็จ",
+    "Referral code applied successfully": "รหัสแนะนำถูกนำไปใช้สำเร็จ"
   },
   "error": {
     "Error": "ข้อผิดพลาด",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "ชื่อผู้ใช้ต้องมีอย่างน้อย 5 ตัวอักษร",
     "Export Failed": "ส่งออกล้มเหลว",
     "An error occurred while exporting CSV files": "เกิดข้อผิดพลาดขณะส่งออกไฟล์ CSV",
-    "An error occurred while exporting Excel file": "เกิดข้อผิดพลาดขณะส่งออกไฟล์ Excel"
+    "An error occurred while exporting Excel file": "เกิดข้อผิดพลาดขณะส่งออกไฟล์ Excel",
+    "Failed to apply referral code": "ไม่สามารถใช้รหัสแนะนำได้"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "ไม่พบงบประมาณ",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "ถึงขีดจำกัดกระเป๋าเงิน กรุณาอัปเกรดเป็นพรีเมียมเพื่อสร้างกระเป๋าเงินไม่จำกัด",
     "WALLET_NOT_FOUND": "ไม่พบกระเป๋าเงิน",
     "INVALID_BUDGET": "งบประมาณไม่ถูกต้อง",
-    "TRANSACTION_NOT_FOUND": "ไม่พบธุรกรรม"
+    "TRANSACTION_NOT_FOUND": "ไม่พบธุรกรรม",
+    "SOMETHING_WENT_WRONG": "เกิดข้อผิดพลาด",
+    "RFCODE_ALREADY_USED": "You have already used this referral code",
+    "RFCODE_NOT_EXISTS": "รหัสแนะนำไม่ถูกต้อง",
+    "RFCODE_OWNER_USED": "คุณไม่สามารถใช้รหัสแนะนำของตัวเองได้"
   }
 }

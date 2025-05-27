@@ -93,9 +93,9 @@ function Category({ category, hideMenu, className }: CategoryProps) {
 
       <View className="absolute left-0 top-0 h-full w-full flex-row items-center justify-between gap-2 pl-21/2">
         {/* MARK: Name */}
-        <View className="relative z-10 flex-row items-center gap-2">
+        <View className="relative z-10 flex-1 flex-row items-center gap-2">
           <Text>{category.icon}</Text>
-          <Text className="font-semibold text-secondary">{category.name}</Text>
+          <Text className="flex-1 text-ellipsis font-semibold text-secondary">{category.name}</Text>
         </View>
 
         <View className="flex-row items-center gap-2">

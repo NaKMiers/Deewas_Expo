@@ -290,7 +290,7 @@ function History({ className }: HistoryProps) {
 
           {/* MARK: Time Range */}
           <View className="my-2 flex-row gap-21/2">
-            <View className="flex-row items-center gap-21/2">
+            <View className="flex-1 flex-row items-center gap-21/2 overflow-hidden">
               <Text className="text-lg font-semibold capitalize">
                 {format(
                   new Date(dateRange.from),

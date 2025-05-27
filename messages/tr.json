@@ -152,7 +152,8 @@
     "Select wallet": "Cüzdan seç",
     "No transactions found for this wallet, just add one now!": "Bu cüzdan için işlem bulunamadı, şimdi bir tane ekleyin!",
     "Add Transaction": "İşlem Ekle",
-    "All wallets": "Tüm cüzdanlar"
+    "All wallets": "Tüm cüzdanlar",
+    "Include transfers": "Transferleri dahil et"
   },
   "wizardPage": {
     "Welcome": "Hoş Geldiniz",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Deewas'ı seçtiğiniz için teşekkür ederiz",
     "Let’s manage your finances together!": "Hadi finansınızı birlikte yönetelim!"
   },
+  "referralCode": {
+    "Referral Code": "Referans Kodu",
+    "Enter your referral code to get 2 days of Premium for free": "Referans kodunuzu girerek 2 gün ücretsiz"
+  },
   "success": {
     "Sign In Success": "Giriş Başarılı",
     "You have successfully signed in": "Başarıyla giriş yaptınız",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Tüm veriler başarıyla silindi",
     "Authentication successful": "Kimlik doğrulama başarılı",
     "Wallet updated": "Cüzdan güncellendi",
-    "You have successfully logged in": "Başarıyla oturum açtınız"
+    "You have successfully logged in": "Başarıyla oturum açtınız",
+    "Referral code applied successfully": "Referans kodu başarıyla uygulandı"
   },
   "error": {
     "Error": "Hata",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Kullanıcı adı en az 5 karakter olmalı",
     "Export Failed": "Dışa Aktarma Başarısız",
     "An error occurred while exporting CSV files": "CSV dosyaları dışa aktarılırken bir hata oluştu",
-    "An error occurred while exporting Excel file": "Excel dosyası dışa aktarılırken bir hata oluştu"
+    "An error occurred while exporting Excel file": "Excel dosyası dışa aktarılırken bir hata oluştu",
+    "Failed to apply referral code": "Referans kodu uygulanamadı"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Bütçe bulunamadı",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Cüzdan limitine ulaşıldı, sınırsız cüzdan oluşturmak için lütfen Premium’a yükseltin",
     "WALLET_NOT_FOUND": "Cüzdan bulunamadı",
     "INVALID_BUDGET": "Geçersiz bütçe",
-    "TRANSACTION_NOT_FOUND": "İşlem bulunamadı"
+    "TRANSACTION_NOT_FOUND": "İşlem bulunamadı",
+    "SOMETHING_WENT_WRONG": "Bir şeyler yanlış gitti",
+    "RFCODE_ALREADY_USED": "Bu referans kodunu zaten kullandınız",
+    "RFCODE_NOT_EXISTS": "Referans kodu mevcut değil",
+    "RFCODE_OWNER_USED": "Kendi referans kodunuzu kullanamazsınız"
   }
 }

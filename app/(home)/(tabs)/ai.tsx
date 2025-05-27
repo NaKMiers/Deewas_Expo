@@ -47,7 +47,7 @@ import {
 let Voice: any = null
 
 if (Platform.OS === 'ios') {
-  Voice = require('@react-native-voice/voice').default
+  // Voice = require('@react-native-voice/voice').default
 }
 
 function AIPage() {
@@ -128,7 +128,6 @@ function AIPage() {
 
   useEffect(() => {
     if (step === 10) {
-      console.log('12301912730127398')
       setTimeout(() => {
         setMessages([])
         stop()

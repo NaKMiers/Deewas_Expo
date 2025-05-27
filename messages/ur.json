@@ -152,7 +152,8 @@
     "Select wallet": "والٹ منتخب کریں",
     "No transactions found for this wallet, just add one now!": "اس والٹ کے لیے کوئی لین دین نہیں ملا، ابھی ایک شامل کریں!",
     "Add Transaction": "لین دین شامل کریں",
-    "All wallets": "تمام والٹس"
+    "All wallets": "تمام والٹس",
+    "Include transfers": "منتقلات شامل کریں"
   },
   "wizardPage": {
     "Welcome": "خوش آمدید",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "دیواس کو منتخب کرنے کے لیے آپ کا شکریہ",
     "Let’s manage your finances together!": "آئیے مل کر اپنے مالیات کا انتظام کریں!"
   },
+  "referralCode": {
+    "Referral Code": "ریفرل کوڈ",
+    "Enter your referral code to get 2 days of Premium for free": "اپنا ریفرل کوڈ درج کریں اور 2 دن کا پریمیم مفت حاصل کریں"
+  },
   "success": {
     "Sign In Success": "سائن ان کامیاب",
     "You have successfully signed in": "آپ نے کامیابی سے سائن ان کیا ہے",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "تمام ڈیٹا کامیابی سے مٹایا گیا",
     "Authentication successful": "تصدیق کامیاب",
     "Wallet updated": "بٹوہ اپ ڈیٹ کیا گیا",
-    "You have successfully logged in": "آپ نے کامیابی سے لاگ ان کیا ہے"
+    "You have successfully logged in": "آپ نے کامیابی سے لاگ ان کیا ہے",
+    "Referral code applied successfully": "ریفرل کوڈ کامیابی سے لاگو کیا گیا"
   },
   "error": {
     "Error": "خرابی",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "صارف نام کم از کم 5 حروف کا ہونا چاہیے",
     "Export Failed": "ایکسپورٹ ناکام",
     "An error occurred while exporting CSV files": "CSV فائلیں ایکسپورٹ کرتے وقت خرابی پیش آئی",
-    "An error occurred while exporting Excel file": "ایکسل فائل ایکسپورٹ کرتے وقت خرابی پیش آئی"
+    "An error occurred while exporting Excel file": "ایکسل فائل ایکسپورٹ کرتے وقت خرابی پیش آئی",
+    "Failed to apply referral code": "ریفرل کوڈ لاگو کرنے میں ناکامی"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "بجٹ نہیں ملا",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "بٹوہ کی حد تک پہنچ گئی، براہ کرم لامحدود بٹوے بنانے کے لیے پریمیم میں اپ گریڈ کریں",
     "WALLET_NOT_FOUND": "بٹوہ نہیں ملا",
     "INVALID_BUDGET": "غلط بجٹ",
-    "TRANSACTION_NOT_FOUND": "ٹرانزیکشن نہیں ملی"
+    "TRANSACTION_NOT_FOUND": "ٹرانزیکشن نہیں ملی",
+    "SOMETHING_WENT_WRONG": "کچھ غلط ہو گیا",
+    "RFCODE_ALREADY_USED": "آپ پہلے ہی اس ریفرل کوڈ کا استعمال کر چکے ہیں",
+    "RFCODE_NOT_EXISTS": "ریفرل کوڈ موجود نہیں ہے",
+    "RFCODE_OWNER_USED": "آپ اپنا ریفرل کوڈ استعمال نہیں کر سکتے"
   }
 }

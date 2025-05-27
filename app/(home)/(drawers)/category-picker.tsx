@@ -13,7 +13,8 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { LucidePencil, LucidePlusSquare } from 'lucide-react-native'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 
 function CategoryPicker() {
   // hooks

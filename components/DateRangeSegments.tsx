@@ -75,7 +75,7 @@ function DateRangeSegments({
           />
         </TouchableOpacity>
 
-        <View className="flex-row items-center gap-21/2">
+        <View className="flex-1 flex-row items-center justify-center gap-21/2">
           <Text className="text-lg font-semibold capitalize">
             {format(
               new Date(dateRange.from),

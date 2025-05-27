@@ -152,7 +152,8 @@
     "Select wallet": "Seleziona portafoglio",
     "No transactions found for this wallet, just add one now!": "Nessuna transazione trovata per questo portafoglio, aggiungine una ora!",
     "Add Transaction": "Aggiungi transazione",
-    "All wallets": "Tutti i portafogli"
+    "All wallets": "Tutti i portafogli",
+    "Include transfers": "Includi trasferimenti"
   },
   "wizardPage": {
     "Welcome": "Benvenuto",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Grazie per aver scelto Deewas",
     "Let’s manage your finances together!": "Gestiamo le tue finanze insieme!"
   },
+  "referralCode": {
+    "Referral Code": "Codice di riferimento",
+    "Enter your referral code to get 2 days of Premium for free": "Inserisci il tuo codice di riferimento per ottenere 2 giorni di Premium gratuitamente"
+  },
   "success": {
     "Sign In Success": "Accesso riuscito",
     "You have successfully signed in": "Hai effettuato l'accesso con successo",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Tutti i dati cancellati con successo",
     "Authentication successful": "Autenticazione riuscita",
     "Wallet updated": "Portafoglio aggiornato",
-    "You have successfully logged in": "Hai effettuato il login con successo"
+    "You have successfully logged in": "Hai effettuato il login con successo",
+    "Referral code applied successfully": "Codice di riferimento applicato con successo"
   },
   "error": {
     "Error": "Errore",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Il nome utente deve contenere almeno 5 caratteri",
     "Export Failed": "Esportazione fallita",
     "An error occurred while exporting CSV files": "Si è verificato un errore durante l'esportazione dei file CSV",
-    "An error occurred while exporting Excel file": "Si è verificato un errore durante l'esportazione del file Excel"
+    "An error occurred while exporting Excel file": "Si è verificato un errore durante l'esportazione del file Excel",
+    "Failed to apply referral code": "Impossibile applicare il codice di riferimento"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Budget non trovato",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Limite di portafogli raggiunto, aggiorna a Premium per creare portafogli illimitati",
     "WALLET_NOT_FOUND": "Portafoglio non trovato",
     "INVALID_BUDGET": "Budget non valido",
-    "TRANSACTION_NOT_FOUND": "Transazione non trovata"
+    "TRANSACTION_NOT_FOUND": "Transazione non trovata",
+    "SOMETHING_WENT_WRONG": "Qualcosa è andato storto",
+    "RFCODE_ALREADY_USED": "Hai già utilizzato questo codice di riferimento",
+    "RFCODE_NOT_EXISTS": "Il codice di riferimento non esiste",
+    "RFCODE_OWNER_USED": "Non puoi utilizzare il tuo stesso codice di riferimento"
   }
 }

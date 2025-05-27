@@ -152,7 +152,8 @@
     "Select wallet": "Selecteer portemonnee",
     "No transactions found for this wallet, just add one now!": "Geen transacties gevonden voor deze portemonnee, voeg er nu een toe!",
     "Add Transaction": "Transactie toevoegen",
-    "All wallets": "Alle portemonnees"
+    "All wallets": "Alle portemonnees",
+    "Include transfers": "Inclusief overboekingen"
   },
   "wizardPage": {
     "Welcome": "Welkom",
@@ -1131,6 +1132,10 @@
     "Thank you for choosing Deewas": "Bedankt dat je voor Deewas hebt gekozen",
     "Let’s manage your finances together!": "Laten we samen je financiën beheren!"
   },
+  "referralCode": {
+    "Referral Code": "Verwijzingscode",
+    "Enter your referral code to get 2 days of Premium for free": "Voer je verwijzingscode in om 2 dagen Premium gratis te krijgen"
+  },
   "success": {
     "Sign In Success": "Inloggen geslaagd",
     "You have successfully signed in": "Je bent succesvol ingelogd",
@@ -1156,7 +1161,8 @@
     "Erase all data successfully": "Alle gegevens succesvol gewist",
     "Authentication successful": "Authenticatie geslaagd",
     "Wallet updated": "Portemonnee bijgewerkt",
-    "You have successfully logged in": "Je bent succesvol ingelogd"
+    "You have successfully logged in": "Je bent succesvol ingelogd",
+    "Referral code applied successfully": "Verwijzingscode succesvol toegepast"
   },
   "error": {
     "Error": "Fout",
@@ -1207,7 +1213,8 @@
     "Username must be at least 5 characters": "Gebruikersnaam moet minimaal 5 tekens bevatten",
     "Export Failed": "Exporteren mislukt",
     "An error occurred while exporting CSV files": "Er is een fout opgetreden bij het exporteren van CSV-bestanden",
-    "An error occurred while exporting Excel file": "Er is een fout opgetreden bij het exporteren van het Excel-bestand"
+    "An error occurred while exporting Excel file": "Er is een fout opgetreden bij het exporteren van het Excel-bestand",
+    "Failed to apply referral code": "Kon verwijzingscode niet toepassen"
   },
   "ERROR_CODE": {
     "BUDGET_NOT_FOUND": "Budget niet gevonden",
@@ -1223,6 +1230,10 @@
     "WALLET_LIMIT_REACHED": "Portemonneelimiet bereikt, upgrade naar Premium om onbeperkte portemonnees aan te maken",
     "WALLET_NOT_FOUND": "Portemonnee niet gevonden",
     "INVALID_BUDGET": "Ongeldig budget",
-    "TRANSACTION_NOT_FOUND": "Transactie niet gevonden"
+    "TRANSACTION_NOT_FOUND": "Transactie niet gevonden",
+    "SOMETHING_WENT_WRONG": "Er is iets misgegaan",
+    "RFCODE_ALREADY_USED": "Je hebt deze verwijzingscode al gebruikt",
+    "RFCODE_NOT_EXISTS": "Verwijzingscode bestaat niet",
+    "RFCODE_OWNER_USED": "Je kunt je eigen verwijzingscode niet gebruiken"
   }
 }
