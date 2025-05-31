@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import useSettings from '@/hooks/useSettings'
 import { setInProgress, setOpenTutorial } from '@/lib/reducers/tutorialReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
@@ -8,6 +7,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Platform, TouchableOpacity, View } from 'react-native'
 import BlurView from '../BlurView'
+import { useInit } from '../providers/InitProvider'
 import Text from '../Text'
 import { Progress } from '../ui/progress'
 
@@ -16,7 +16,7 @@ function TutorialOverlay() {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const pathname = usePathname()
-  const { settings, refetch: refetchSettings } = useSettings()
+  const { settings, refreshSettings } = useInit()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('tutorialOverlay.' + key), [translate])
 
@@ -134,11 +134,24 @@ function TutorialOverlay() {
       dispatch(setOpenTutorial(false))
       dispatch(setInProgress(false))
       await updateMySettingsApi({ firstLaunch: true })
-      refetchSettings()
+      refreshSettings()
     } catch (err: any) {
       console.log(err)
     }
-  }, [dispatch, refetchSettings])
+  }, [dispatch, refreshSettings])
+
+  useEffect(() => {
+    // set firstLaunch to true when step 3 is completed
+    // but tutorial is still in progress
+    // this is to ensure that if user exits the tutorial at step 3,
+    // they won't see the tutorial again on next app launch
+    const completed = async () => {
+      await updateMySettingsApi({ firstLaunch: true })
+      refreshSettings()
+    }
+
+    if (step === 3) completed()
+  }, [step, refreshSettings])
 
   // Handle skip tutorial
   const handleSkip = useCallback(async () => {

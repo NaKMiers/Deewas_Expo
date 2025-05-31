@@ -511,7 +511,10 @@
     "Category": "వర్గం",
     "From - To": "నుండి - వరకు",
     "Cancel": "రద్దు చేయి",
-    "Save": "సేవ్"
+    "Save": "సేవ్",
+    "Please upgrade to Premium to create more budgets": "మరిన్ని బడ్జెట్‌లను సృష్టించడానికి దయచేసి ప్రీమియంకు అప్‌గ్రేడ్ చేయండి",
+    "You've reached the limit of 4 budgets": "మీరు 4 బడ్జెట్‌ల పరిమితిని చేరుకున్నారు",
+    "Upgrade Now": "ఇప్పుడే అప్‌గ్రేడ్ చేయండి"
   },
   "createCategoryPage": {
     "Name is required": "పేరు అవసరం",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "డీవాస్‌ను అన్‌లాక్ చేయండి",
     "Enter PIN": "PINని నమోదు చేయండి",
-    "Cancel": "రద్దు చేయి"
+    "Cancel": "రద్దు చేయి",
+    "Account Deleted": "ఖాతా తొలగించబడింది",
+    "Your account has been deleted": "మీ ఖాతా తొలగించబడింది",
+    "Please create a new account to continue using the app": "దయచేసి యాప్‌ను కొనసాగించడానికి కొత్త ఖాతాను సృష్టించండి",
+    "Sign Out": "సైన్ అవుట్"
   },
   "revenueCatProvider": {
     "Purchase Success": "కొనుగోలు విజయవంతమైంది",

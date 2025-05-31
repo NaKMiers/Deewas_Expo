@@ -511,7 +511,10 @@
     "Category": "類別",
     "From - To": "從 - 到",
     "Cancel": "取消",
-    "Save": "保存"
+    "Save": "保存",
+    "Please upgrade to Premium to create more budgets": "請升級到高級版以創建更多預算",
+    "You've reached the limit of 4 budgets": "您已達到 4 個預算的限制",
+    "Upgrade Now": "立即升級"
   },
   "createCategoryPage": {
     "Name is required": "名稱為必填項",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "解鎖 Deewas",
     "Enter PIN": "輸入 PIN 碼",
-    "Cancel": "取消"
+    "Cancel": "取消",
+    "Account Deleted": "帳戶已刪除",
+    "Your account has been deleted": "您的帳戶已被刪除",
+    "Please create a new account to continue using the app": "請創建一個新帳戶以繼續使用應用程式",
+    "Sign Out": "登出"
   },
   "revenueCatProvider": {
     "Purchase Success": "購買成功",

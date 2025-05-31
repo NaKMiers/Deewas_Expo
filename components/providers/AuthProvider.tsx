@@ -1,9 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { clearUser, setOnboarding, setToken, setUser } from '@/lib/reducers/userReducer'
+import { clearUser, setLoading, setOnboarding, setUser } from '@/lib/reducers/userReducer'
 import { refreshTokenApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
-import { router } from 'expo-router'
 import { jwtDecode } from 'jwt-decode'
 import moment from 'moment'
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
@@ -11,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import { Alert } from 'react-native'
 
 interface AuthContextValue {
-  token: string | null
   user: IFullUser | null
   isPremium: boolean
   loading: boolean
@@ -21,6 +19,7 @@ interface AuthContextValue {
   switchBiometric: (value?: -1 | 0 | 1) => Promise<void>
   biometric: { open: boolean; isSupported: boolean }
   loggingOut: boolean
+  isRefreshedToken: boolean
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -28,8 +27,9 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 function AuthProvider({ children }: { children: ReactNode }) {
   // hooks
   const dispatch = useAppDispatch()
-  const { token, user, loading, onboarding } = useAppSelector(state => state.user)
+  const { user, loading, onboarding } = useAppSelector(state => state.user)
   const { t: translate } = useTranslation()
+  const t = useCallback((key: string) => translate('authProvider.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
 
   // states
@@ -39,6 +39,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     isSupported: false,
   })
   const [loggingOut, setLoggingOut] = useState<boolean>(false)
+  const [isRefreshedToken, setIsRefreshedToken] = useState<boolean>(false)
 
   // check if user is premium
   useEffect(() => {
@@ -56,60 +57,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
         setIsPremium(false)
     }
   }, [user])
-
-  // load user data from AsyncStorage
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const { token } = await refreshTokenApi()
-        const onboarding = await AsyncStorage.getItem('onboarding')
-
-        if (token) {
-          const decodedUser: IFullUser = jwtDecode(token)
-          const isExpired = Date.now() >= decodedUser.exp * 1000
-
-          // not expired
-          if (!isExpired) {
-            dispatch(setToken(token))
-            dispatch(setUser(decodedUser))
-            if (onboarding) {
-              dispatch(setOnboarding(JSON.parse(onboarding)))
-            }
-          }
-          // expired
-          else {
-            await AsyncStorage.removeItem('token')
-            dispatch(clearUser())
-            router.replace('/auth/sign-in')
-          }
-        }
-      } catch (err) {
-        console.log(err)
-        await AsyncStorage.removeItem('token')
-        dispatch(clearUser())
-      }
-    }
-
-    loadUserData()
-  }, [dispatch])
-
-  // refresh token
-  const refreshToken = useCallback(async () => {
-    try {
-      const { token } = await refreshTokenApi()
-
-      console.log(token)
-
-      // save token and user
-      await AsyncStorage.setItem('token', token)
-      dispatch(setToken(token))
-
-      const decodedUser: IFullUser = jwtDecode(token)
-      dispatch(setUser(decodedUser))
-    } catch (err: any) {
-      console.log(err)
-    }
-  }, [dispatch])
 
   // load biometric values
   useEffect(() => {
@@ -178,8 +125,88 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setLoggingOut(false)
   }, [dispatch, switchBiometric])
 
+  // auto logout when user is deleted
+  useEffect(() => {
+    if (!user) return
+    if (user.isDeleted) {
+      Alert.alert(
+        t('Account Deleted'),
+        `${t('Your account has been deleted')}. ${t('Please create a new account to continue using the app')}.`,
+        [
+          {
+            text: t('Sign Out'),
+            onPress: logout,
+          },
+        ]
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t, user])
+
+  // refresh token
+  const refreshToken = useCallback(async () => {
+    try {
+      const { token } = await refreshTokenApi()
+
+      // save token and user
+      await AsyncStorage.setItem('token', token)
+      const decodedUser: IFullUser = jwtDecode(token)
+      dispatch(setUser(decodedUser))
+      setIsRefreshedToken(true)
+    } catch (err: any) {
+      console.log(err)
+    }
+  }, [dispatch])
+
+  useEffect(() => {
+    refreshToken()
+  }, [refreshToken])
+
+  // load user data from AsyncStorage
+  useEffect(() => {
+    const loadUserData = async () => {
+      // loading
+      dispatch(setLoading(true))
+
+      try {
+        const storedToken = await AsyncStorage.getItem('token')
+        const onboarding = await AsyncStorage.getItem('onboarding')
+
+        if (storedToken) {
+          const decodedUser: IFullUser = jwtDecode(storedToken)
+          const isExpired = Date.now() >= decodedUser.exp * 1000
+
+          // not expired
+          if (!isExpired) {
+            dispatch(setUser(decodedUser))
+            if (onboarding) {
+              dispatch(setOnboarding(JSON.parse(onboarding)))
+            }
+          }
+          // expired
+          else {
+            const { token: newToken } = await refreshTokenApi()
+            const decodedUser: IFullUser = jwtDecode(newToken)
+            await AsyncStorage.setItem('token', newToken)
+            dispatch(setUser(decodedUser))
+          }
+        }
+      } catch (err) {
+        console.log(err)
+        await AsyncStorage.removeItem('token')
+        await AsyncStorage.removeItem('messages')
+        dispatch(clearUser())
+      } finally {
+        // stop loading
+        dispatch(setLoading(false))
+        setIsRefreshedToken(false)
+      }
+    }
+
+    loadUserData()
+  }, [dispatch])
+
   const value: AuthContextValue = {
-    token,
     user,
     isPremium,
     onboarding,
@@ -189,6 +216,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     switchBiometric,
     biometric,
     loggingOut,
+    isRefreshedToken,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

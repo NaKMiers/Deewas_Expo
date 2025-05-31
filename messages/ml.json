@@ -511,7 +511,10 @@
     "Category": "വിഭാഗം",
     "From - To": "നിന്ന് - വരെ",
     "Cancel": "റദ്ദാക്കുക",
-    "Save": "സേവ്"
+    "Save": "സേവ്",
+    "Please upgrade to Premium to create more budgets": "കൂടുതൽ ബജറ്റുകൾ സൃഷ്ടിക്കാൻ ദയവായി പ്രീമിയത്തിലേക്ക് അപ്ഗ്രേഡ് ചെയ്യുക",
+    "You've reached the limit of 4 budgets": "നീ 4 ബജറ്റുകളുടെ പരിധി എത്തിയിരിക്കുന്നു",
+    "Upgrade Now": "ഇപ്പോൾ അപ്ഗ്രേഡ് ചെയ്യുക"
   },
   "createCategoryPage": {
     "Name is required": "പേര് ആവശ്യമാണ്",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "ദീവാസ് അൺലോക്ക് ചെയ്യുക",
     "Enter PIN": "പിൻ നൽകുക",
-    "Cancel": "റദ്ദാക്കുക"
+    "Cancel": "റദ്ദാക്കുക",
+    "Account Deleted": "അക്കൗണ്ട് ഡിലീറ്റ് ചെയ്തു",
+    "Your account has been deleted": "നിന്റെ അക്കൗണ്ട് ഡിലീറ്റ് ചെയ്തു",
+    "Please create a new account to continue using the app": "ആപ്പ് ഉപയോഗിക്കാൻ തുടരാൻ ദയവായി ഒരു പുതിയ അക്കൗണ്ട് സൃഷ്ടിക്കുക",
+    "Sign Out": "സൈൻ ഔട്ട്"
   },
   "revenueCatProvider": {
     "Purchase Success": "വാങ്ങൽ വിജയം",

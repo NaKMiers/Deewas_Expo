@@ -511,7 +511,10 @@
     "Category": "Категория",
     "From - To": "От - До",
     "Cancel": "Отмена",
-    "Save": "Сохранить"
+    "Save": "Сохранить",
+    "Please upgrade to Premium to create more budgets": "Пожалуйста, обновите до Премиум, чтобы создать больше бюджетов",
+    "You've reached the limit of 4 budgets": "Вы достигли лимита в 4 бюджета",
+    "Upgrade Now": "Обновить сейчас"
   },
   "createCategoryPage": {
     "Name is required": "Требуется название",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Разблокировать Deewas",
     "Enter PIN": "Введите PIN-код",
-    "Cancel": "Отмена"
+    "Cancel": "Отмена",
+    "Account Deleted": "Аккаунт удален",
+    "Your account has been deleted": "Ваш аккаунт был удален",
+    "Please create a new account to continue using the app": "Пожалуйста, создайте новый аккаунт, чтобы продолжить использование приложения",
+    "Sign Out": "Выйти"
   },
   "revenueCatProvider": {
     "Purchase Success": "Покупка успешна",

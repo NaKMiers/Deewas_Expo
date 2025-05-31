@@ -17,7 +17,7 @@ import { LucideCircleOff } from 'lucide-react-native'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, TouchableOpacity, View } from 'react-native'
+import { Alert, ImageBackground, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 function CreateWalletPage() {
@@ -52,6 +52,7 @@ function CreateWalletPage() {
   // states
   const form = watch()
   const [saving, setSaving] = useState<boolean>(false)
+  const [openPremiumModal, setOpenPremiumModal] = useState<boolean>(false)
 
   useEffect(() => {
     setValue('icon', selectedEmoji)
@@ -78,7 +79,15 @@ function CreateWalletPage() {
 
       // show paywall if not premium
       if (!isPremium && wallets.length >= 2 && isValid) {
-        router.push('/premium')
+        Alert.alert(
+          t('Please upgrade to Premium to create more wallets'),
+          t("You've reached the limit of 2 wallets"),
+          [
+            { text: t('Cancel') },
+            { text: t('Upgrade Now'), isPreferred: true, onPress: () => router.push('/premium') },
+          ]
+        )
+
         return false
       }
 

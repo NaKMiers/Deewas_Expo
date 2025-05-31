@@ -511,7 +511,10 @@
     "Category": "श्रेणी",
     "From - To": "से - तक",
     "Cancel": "रद्द करें",
-    "Save": "सहेजें"
+    "Save": "सहेजें",
+    "Please upgrade to Premium to create more budgets": "अधिक बजट बनाने के लिए कृपया प्रीमियम में अपग्रेड करें",
+    "You've reached the limit of 4 budgets": "आपने 4 बजट की सीमा तक पहुँच लिया है",
+    "Upgrade Now": "अब अपग्रेड करें"
   },
   "createCategoryPage": {
     "Name is required": "नाम आवश्यक है",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "दीवास अनलॉक करें",
     "Enter PIN": "पिन दर्ज करें",
-    "Cancel": "रद्द करें"
+    "Cancel": "रद्द करें",
+    "Account Deleted": "खाता हटाया गया",
+    "Your account has been deleted": "आपका खाता हटा दिया गया है",
+    "Please create a new account to continue using the app": "कृपया ऐप का उपयोग जारी रखने के लिए एक नया खाता बनाएं",
+    "Sign Out": "साइन आउट"
   },
   "revenueCatProvider": {
     "Purchase Success": "खरीदारी सफल",

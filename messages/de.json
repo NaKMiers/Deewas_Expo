@@ -511,7 +511,10 @@
     "Category": "Kategorie",
     "From - To": "Von - Bis",
     "Cancel": "Abbrechen",
-    "Save": "Speichern"
+    "Save": "Speichern",
+    "Please upgrade to Premium to create more budgets": "Bitte upgrade auf Premium, um weitere Budgets zu erstellen",
+    "You've reached the limit of 4 budgets": "Du hast das Limit von 4 Budgets erreicht",
+    "Upgrade Now": "Jetzt upgraden"
   },
   "createCategoryPage": {
     "Name is required": "Name erforderlich",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Deewas freischalten",
     "Enter PIN": "PIN eingeben",
-    "Cancel": "Abbrechen"
+    "Cancel": "Abbrechen",
+    "Account Deleted": "Account gelöscht",
+    "Your account has been deleted": "Dein Account wurde gelöscht",
+    "Please create a new account to continue using the app": "Bitte erstelle einen neuen Account, um die App weiterhin nutzen zu können",
+    "Sign Out": "Abmelden"
   },
   "revenueCatProvider": {
     "Purchase Success": "Kauf erfolgreich",

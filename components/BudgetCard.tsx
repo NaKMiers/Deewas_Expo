@@ -187,17 +187,19 @@ function BudgetCard({ begin, end, budget, hideMenu, className }: IBudgetCardProp
                 {t('Left')} {formatCurrency(currency, budget.total - budget.amount)}
               </Text>
             )}
-            <View
-              className="absolute top-0 h-full w-0.5 -translate-x-1/2 bg-white/50"
-              style={{ left: `${(spent / length) * 100}%` }}
-            >
+            {moment(begin).isSameOrBefore(moment()) && (
               <View
-                className="absolute left-1/2 top-7 -translate-x-1/2 rounded-sm bg-primary/10 px-0.5 py-0.5 text-[10px]"
-                style={{ width: 50 }}
+                className="absolute top-0 h-full w-0.5 -translate-x-1/2 bg-white/50"
+                style={{ left: `${(spent / length) * 100}%` }}
               >
-                <Text className="text-center text-sm">{t('Today')}</Text>
+                <View
+                  className="absolute left-1/2 top-7 -translate-x-1/2 rounded-sm bg-primary/10 px-0.5 py-0.5 text-[10px]"
+                  style={{ width: 50 }}
+                >
+                  <Text className="text-center text-sm">{t('Today')}</Text>
+                </View>
               </View>
-            </View>
+            )}
           </View>
         </View>
       </BlurView>

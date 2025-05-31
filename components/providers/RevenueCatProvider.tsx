@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/hooks/reduxHook'
-import { setToken, setUser } from '@/lib/reducers/userReducer'
+import { setUser } from '@/lib/reducers/userReducer'
 import { upgradePlanApi } from '@/requests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
@@ -21,7 +21,7 @@ const RevenueCatContext = createContext<RevenueCatProps | null>(null)
 
 function RevenueCatProvider({ children }: { children: ReactNode }) {
   // hooks
-  const { user } = useAuth()
+  const { user, isRefreshedToken } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('revenueCatProvider.' + key), [translate])
@@ -32,8 +32,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   // load all offerings a user can (currently) purchase
   const loadOfferings = useCallback(async () => {
-    console.log('Loading offerings...')
-
     try {
       const offerings = await Purchases.getOfferings()
       if (offerings.current) {
@@ -46,7 +44,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const init = async () => {
-      if (!user) return
+      if (!user || !isRefreshedToken) return
 
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
       const apiKey = Platform.select({
@@ -68,7 +66,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     }
 
     init()
-  }, [loadOfferings, user])
+  }, [loadOfferings, user, isRefreshedToken])
 
   // purchase a package
   const purchasePackage = useCallback(
@@ -88,7 +86,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
           // save token and user
           await AsyncStorage.setItem('token', token)
           dispatch(setUser(decodedUser))
-          dispatch(setToken(token))
 
           Alert.alert(t('Purchase Success'), t('You are now Premium!'))
           router.back()
@@ -121,7 +118,6 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
-        dispatch(setToken(token))
 
         Alert.alert(t('Restore Success'), t('Your Premium access has been restored!'))
         router.back()

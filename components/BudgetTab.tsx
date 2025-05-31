@@ -5,6 +5,7 @@ import { checkLevel, formatCurrency } from '@/lib/string'
 import { cn } from '@/lib/utils'
 import { differenceInDays } from 'date-fns'
 import { router } from 'expo-router'
+import moment from 'moment'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, TouchableOpacity, View } from 'react-native'
@@ -100,7 +101,11 @@ function BudgetTab({ value, begin, end, budgets, className }: IBudgetTabProps) {
         {/* MARK: Create Budget */}
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => router.push('/create-budget')}
+          onPress={() =>
+            router.push(
+              `/create-budget?initBegin=${moment(begin).toISOString()}&initEnd=${moment(end).toISOString()}`
+            )
+          }
           className="h-12 flex-row items-center justify-center rounded-full bg-primary px-21"
         >
           <Text className="font-semibold text-secondary">{t('Create Budget')}</Text>

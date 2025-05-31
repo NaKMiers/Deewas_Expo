@@ -511,7 +511,10 @@
     "Category": "Kategori",
     "From - To": "Dari - Hingga",
     "Cancel": "Batal",
-    "Save": "Simpan"
+    "Save": "Simpan",
+    "Please upgrade to Premium to create more budgets": "Silakan tingkatkan ke Premium untuk membuat lebih banyak anggaran",
+    "You've reached the limit of 4 budgets": "Anda telah mencapai batas 4 anggaran",
+    "Upgrade Now": "Tingkatkan Sekarang"
   },
   "createCategoryPage": {
     "Name is required": "Nama diperlukan",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Buka Deewas",
     "Enter PIN": "Masukkan PIN",
-    "Cancel": "Batal"
+    "Cancel": "Batal",
+    "Account Deleted": "Akun Dihapus",
+    "Your account has been deleted": "Akun Anda telah dihapus",
+    "Please create a new account to continue using the app": "Silakan buat akun baru untuk melanjutkan menggunakan aplikasi",
+    "Sign Out": "Keluar"
   },
   "revenueCatProvider": {
     "Purchase Success": "Pembelian Berhasil",

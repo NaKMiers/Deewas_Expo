@@ -1,11 +1,11 @@
 import BlurView from '@/components/BlurView'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
+import { useInit } from '@/components/providers/InitProvider'
 import Text from '@/components/Text'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import useSettings from '@/hooks/useSettings'
 import { setInProgress, setOpenTutorial, setStep } from '@/lib/reducers/tutorialReducer'
 import { cn } from '@/lib/utils'
 import { updateMySettingsApi } from '@/requests'
@@ -20,11 +20,10 @@ function GuidePage() {
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('guidePage.' + key)
   const dispatch = useAppDispatch()
-  const { refetch: refetchSettings } = useSettings()
+  const { refreshSettings, settings } = useInit()
   const { isPremium } = useAuth()
 
   // store
-  const { settings } = useSettings()
   const wallets = useAppSelector(state => state.wallet.wallets)
   const budgets = useAppSelector(state => state.budget.budgets)
 
@@ -179,13 +178,13 @@ function GuidePage() {
       dispatch(setOpenTutorial(true))
       dispatch(setInProgress(true))
       dispatch(setStep(1))
-      refetchSettings()
+      refreshSettings()
       router.replace('/home')
       router.back()
     } catch (err: any) {
       console.log(err)
     }
-  }, [dispatch, refetchSettings])
+  }, [dispatch, refreshSettings])
 
   return (
     <SafeAreaView className="flex-1">

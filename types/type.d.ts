@@ -80,6 +80,7 @@ declare interface IUser {
 
   avatar: string
   name: string
+  isDeleted: boolean
   initiated: boolean
 
   plan: string

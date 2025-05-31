@@ -1,4 +1,3 @@
-import useSettings from '@/hooks/useSettings'
 import { cn } from '@/lib/utils'
 import { applyReferralCodeApi } from '@/requests'
 import { LucideHelpCircle, LucideSend } from 'lucide-react-native'
@@ -10,6 +9,7 @@ import Toast from 'react-native-toast-message'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Icon from './Icon'
 import { useAuth } from './providers/AuthProvider'
+import { useInit } from './providers/InitProvider'
 import Text from './Text'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -18,7 +18,7 @@ function ReferralCode() {
   // hooks
   const { refreshToken } = useAuth()
   const { t: translate } = useTranslation()
-  const { settings, refetch: refetchSettings } = useSettings()
+  const { refreshSettings, settings } = useInit()
   const t = useCallback((key: string) => translate('referralCode.' + key), [translate])
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
@@ -57,7 +57,7 @@ function ReferralCode() {
           text1: t('Referral Code'),
           text2: tSuccess('Referral code applied successfully'),
         })
-        refetchSettings()
+        refreshSettings()
         refreshToken()
       } catch (err: any) {
         console.log(err)
@@ -70,7 +70,7 @@ function ReferralCode() {
         setSending(false)
       }
     },
-    [refetchSettings, refreshToken, setError, t, tSuccess, tError, tERROR_CODE]
+    [refreshSettings, refreshToken, setError, t, tSuccess, tError, tERROR_CODE]
   )
 
   return (

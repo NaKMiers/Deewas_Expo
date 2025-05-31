@@ -511,7 +511,10 @@
     "Category": "カテゴリ",
     "From - To": "開始 - 終了",
     "Cancel": "キャンセル",
-    "Save": "保存"
+    "Save": "保存",
+    "Please upgrade to Premium to create more budgets": "さらに予算を作成するにはプレミアムにアップグレードしてください",
+    "You've reached the limit of 4 budgets": "4つの予算の上限に達しました",
+    "Upgrade Now": "今すぐアップグレード"
   },
   "createCategoryPage": {
     "Name is required": "名前が必要です",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Deewasを解除",
     "Enter PIN": "PINを入力",
-    "Cancel": "キャンセル"
+    "Cancel": "キャンセル",
+    "Account Deleted": "アカウントが削除されました",
+    "Your account has been deleted": "あなたのアカウントは削除されました",
+    "Please create a new account to continue using the app": "アプリを引き続き使用するには、新しいアカウントを作成してください",
+    "Sign Out": "サインアウト"
   },
   "revenueCatProvider": {
     "Purchase Success": "購入成功",

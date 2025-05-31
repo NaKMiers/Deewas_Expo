@@ -21,7 +21,7 @@ interface LatestTransactionsProps {
 function LatestTransactions({ className }: LatestTransactionsProps) {
   // hooks
   const dispatch = useAppDispatch()
-  const { user } = useAuth()
+  const { user, isRefreshedToken } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('latestTransactions.' + key)
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
@@ -35,7 +35,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
   const [loading, setLoading] = useState<boolean>(false)
 
   const getLatestTransactions = useCallback(async () => {
-    if (!user) return
+    if (!user || !isRefreshedToken) return
 
     // start loading
     setLoading(true)

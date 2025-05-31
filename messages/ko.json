@@ -511,7 +511,10 @@
     "Category": "카테고리",
     "From - To": "시작 - 종료",
     "Cancel": "취소",
-    "Save": "저장"
+    "Save": "저장",
+    "Please upgrade to Premium to create more budgets": "더 많은 예산을 생성하려면 프리미엄으로 업그레이드하세요",
+    "You've reached the limit of 4 budgets": "예산 4개 제한에 도달했습니다",
+    "Upgrade Now": "지금 업그레이드"
   },
   "createCategoryPage": {
     "Name is required": "이름이 필요합니다",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Deewas 잠금 해제",
     "Enter PIN": "핀 입력",
-    "Cancel": "취소"
+    "Cancel": "취소",
+    "Account Deleted": "계정 삭제됨",
+    "Your account has been deleted": "계정이 삭제되었습니다",
+    "Please create a new account to continue using the app": "앱을 계속 사용하려면 새 계정을 생성하세요",
+    "Sign Out": "로그아웃"
   },
   "revenueCatProvider": {
     "Purchase Success": "구매 성공",

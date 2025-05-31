@@ -511,7 +511,10 @@
     "Category": "ವರ್ಗ",
     "From - To": "ಪ್ರಾರಂಭ - ಅಂತ್ಯ",
     "Cancel": "ರದ್ದುಮಾಡಿ",
-    "Save": "ಉಳಿಸಿ"
+    "Save": "ಉಳಿಸಿ",
+    "Please upgrade to Premium to create more budgets": "ಹೆಚ್ಚಿನ ಬಜೆಟ್‌ಗಳನ್ನು ರಚಿಸಲು ದಯವಿಟ್ಟು ಪ್ರೀಮಿಯಂಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ",
+    "You've reached the limit of 4 budgets": "ನೀವು 4 ಬಜೆಟ್‌ಗಳ ಮಿತಿಯನ್ನು ತಲುಪಿದ್ದೀರಿ",
+    "Upgrade Now": "ಈಗ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ"
   },
   "createCategoryPage": {
     "Name is required": "ಹೆಸರು ಅಗತ್ಯವಿದೆ",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "ದೀವಾಸ್ ಅನ್‌ಲಾಕ್ ಮಾಡಿ",
     "Enter PIN": "ಪಿನ್ ನಮೂದಿಸಿ",
-    "Cancel": "ರದ್ದುಮಾಡಿ"
+    "Cancel": "ರದ್ದುಮಾಡಿ",
+    "Account Deleted": "ಖಾತೆ ಅಳಿಸಲಾಗಿದೆ",
+    "Your account has been deleted": "ನಿಮ್ಮ ಖಾತೆ ಅಳಿಸಲಾಗಿದೆ",
+    "Please create a new account to continue using the app": "ಆ್ಯಪ್ ಅನ್ನು ಮುಂದುವರಿಸಲು ದಯವಿಟ್ಟು ಹೊಸ ಖಾತೆ ರಚಿಸಿ",
+    "Sign Out": "ಸೈನ್ ಔಟ್"
   },
   "revenueCatProvider": {
     "Purchase Success": "ಖರೀದಿ ಯಶಸ್ವಿಯಾಗಿದೆ",

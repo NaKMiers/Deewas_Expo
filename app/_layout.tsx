@@ -1,6 +1,4 @@
-import DrawerProvider from '@/components/providers/DrawerProvider'
-import RevenueCatProvider from '@/components/providers/RevenueCatProvider'
-import StoreProvider from '@/components/providers/StoreProvider'
+import Providers from '@/components/providers/Providers'
 import { NAV_THEME } from '@/constants/constants'
 import '@/global.scss'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
@@ -8,6 +6,7 @@ import { useColorScheme } from '@/lib/useColorScheme'
 import '@/polyfills'
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native'
 import { PortalHost } from '@rn-primitives/portal'
+import * as Device from 'expo-device'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
@@ -15,7 +14,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Platform, View } from 'react-native'
 import 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
-import * as Device from 'expo-device'
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -98,32 +96,28 @@ function RootLayout() {
       }}
     >
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StoreProvider>
-          <DrawerProvider>
-            <RevenueCatProvider>
-              <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <Providers>
+          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
 
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(home)" />
-                <Stack.Screen name="(auth)" />
-                <Stack.Screen name="(policies)" />
-                <Stack.Screen name="welcome" />
-                <Stack.Screen name="onboarding" />
-                <Stack.Screen
-                  name="premium"
-                  options={{
-                    presentation: !isTablet ? 'modal' : undefined,
-                    animation: !isTablet ? 'slide_from_bottom' : undefined,
-                    contentStyle: { backgroundColor: 'transparent' },
-                  }}
-                />
-                <Stack.Screen name="biometric-auth-failed" />
-              </Stack>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(home)" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(policies)" />
+            <Stack.Screen name="welcome" />
+            <Stack.Screen name="onboarding" />
+            <Stack.Screen
+              name="premium"
+              options={{
+                presentation: !isTablet ? 'modal' : undefined,
+                animation: !isTablet ? 'slide_from_bottom' : undefined,
+                contentStyle: { backgroundColor: 'transparent' },
+              }}
+            />
+            <Stack.Screen name="biometric-auth-failed" />
+          </Stack>
 
-              <PortalHost />
-            </RevenueCatProvider>
-          </DrawerProvider>
-        </StoreProvider>
+          <PortalHost />
+        </Providers>
 
         <Toast />
       </ThemeProvider>

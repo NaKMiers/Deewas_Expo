@@ -5,7 +5,7 @@ import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAppDispatch } from '@/hooks/reduxHook'
-import { setToken, setUser } from '@/lib/reducers/userReducer'
+import { setUser } from '@/lib/reducers/userReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { signInAppleApi, signInCredentialsApi, signInGoogleApi } from '@/requests'
@@ -104,7 +104,6 @@ function SignInPage() {
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
-        dispatch(setToken(token))
 
         // show success message
         Toast.show({
@@ -156,7 +155,6 @@ function SignInPage() {
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
-        dispatch(setToken(token))
 
         // show success message
         Toast.show({
@@ -234,7 +232,6 @@ function SignInPage() {
       // save token and user
       await AsyncStorage.setItem('token', token)
       dispatch(setUser(decodedUser))
-      dispatch(setToken(token))
 
       // show success message
       Toast.show({
@@ -245,8 +242,8 @@ function SignInPage() {
 
       // go home
       router.replace('/home')
-    } catch (e: any) {
-      if (e.code === 'ERR_REQUEST_CANCELED') {
+    } catch (err: any) {
+      if (err.code === 'ERR_REQUEST_CANCELED') {
         // handle that the user canceled the sign-in flow
       } else {
         // handle other errors
@@ -254,7 +251,7 @@ function SignInPage() {
           type: 'error',
           text1: tError('An error occurred'),
         })
-        console.log(e)
+        console.log(err)
       }
     } finally {
       // stop loading

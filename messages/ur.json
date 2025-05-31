@@ -511,7 +511,10 @@
     "Category": "زمرہ",
     "From - To": "سے - تک",
     "Cancel": "منسوخ",
-    "Save": "محفوظ کریں"
+    "Save": "محفوظ کریں",
+    "Please upgrade to Premium to create more budgets": "مزید بجٹس بنانے کے لیے براہ کرم پریمیم میں اپ گریڈ کریں",
+    "You've reached the limit of 4 budgets": "آپ نے 4 بجٹس کی حد تک پہنچ گئے ہیں",
+    "Upgrade Now": "اب اپ گریڈ کریں"
   },
   "createCategoryPage": {
     "Name is required": "نام درکار ہے",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "دیواس کھولیں",
     "Enter PIN": "پن درج کریں",
-    "Cancel": "منسوخ کریں"
+    "Cancel": "منسوخ کریں",
+    "Account Deleted": "اکاؤنٹ حذف ہو گیا",
+    "Your account has been deleted": "آپ کا اکاؤنٹ حذف ہو گیا ہے",
+    "Please create a new account to continue using the app": "براہ کرم ایپ کو استعمال جاری رکھنے کے لیے نیا اکاؤنٹ بنائیں",
+    "Sign Out": "سائن آؤٹ"
   },
   "revenueCatProvider": {
     "Purchase Success": "خریداری کامیاب",

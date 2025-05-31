@@ -510,7 +510,10 @@
     "Category": "বিভাগ",
     "From - To": "শুরু - শেষ",
     "Cancel": "বাতিল",
-    "Save": "সংরক্ষণ"
+    "Save": "সংরক্ষণ",
+    "Please upgrade to Premium to create more budgets": "আরও বাজেট তৈরি করতে প্রিমিয়ামে আপগ্রেড করুন",
+    "You've reached the limit of 4 budgets": "আপনি ৪টি বাজেটের সীমায় পৌঁছেছেন",
+    "Upgrade Now": "এখন আপগ্রেড করুন"
   },
   "createCategoryPage": {
     "Name is required": "নাম প্রয়োজন",
@@ -1059,7 +1062,11 @@
   "authProvider": {
     "Unlock Deewas": "দীওয়াস আনলক করুন",
     "Enter PIN": "পিন লিখুন",
-    "Cancel": "বাতিল"
+    "Cancel": "বাতিল",
+    "Account Deleted": "অ্যাকাউন্ট মুছে ফেলা হয়েছে",
+    "Your account has been deleted": "আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে",
+    "Please create a new account to continue using the app": "অ্যাপ ব্যবহার চালিয়ে যেতে একটি নতুন অ্যাকাউন্ট তৈরি করুন",
+    "Sign Out": "সাইন আউট"
   },
   "revenueCatProvider": {
     "Purchase Success": "ক্রয় সফল",

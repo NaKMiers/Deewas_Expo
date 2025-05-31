@@ -511,7 +511,10 @@
     "Category": "الفئة",
     "From - To": "من - إلى",
     "Cancel": "إلغاء",
-    "Save": "حفظ"
+    "Save": "حفظ",
+    "Please upgrade to Premium to create more budgets": "يرجى الترقية إلى الحساب المميز لإنشاء المزيد من الميزانيات",
+    "You've reached the limit of 4 budgets": "لقد وصلت إلى الحد الأقصى وهو 4 ميزانيات",
+    "Upgrade Now": "الترقية الآن"
   },
   "createCategoryPage": {
     "Name is required": "الاسم مطلوب",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "فتح ديواس",
     "Enter PIN": "أدخل رمز PIN",
-    "Cancel": "إلغاء"
+    "Cancel": "إلغاء",
+    "Account Deleted": "تم حذف الحساب",
+    "Your account has been deleted": "تم حذف حسابك",
+    "Please create a new account to continue using the app": "يرجى إنشاء حساب جديد لمتابعة استخدام التطبيق",
+    "Sign Out": "تسجيل الخروج"
   },
   "revenueCatProvider": {
     "Purchase Success": "نجاح الشراء",

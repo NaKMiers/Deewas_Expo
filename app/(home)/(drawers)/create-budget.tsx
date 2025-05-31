@@ -23,7 +23,6 @@ import { format, isSameDay } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
 import { LucideChevronsUpDown } from 'lucide-react-native'
 import moment from 'moment'
-import { isNumeral } from 'numeral'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -162,7 +161,15 @@ function CreateBudgetPage() {
 
       // show paywall if not premium
       if (!isPremium && budgets.length >= 4 && isValid) {
-        router.push('/premium')
+        Alert.alert(
+          t('Please upgrade to Premium to create more budgets'),
+          t("You've reached the limit of 4 budgets"),
+          [
+            { text: t('Cancel') },
+            { text: t('Upgrade Now'), isPreferred: true, onPress: () => router.push('/premium') },
+          ]
+        )
+
         return false
       }
 

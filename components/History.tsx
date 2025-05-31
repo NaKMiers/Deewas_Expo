@@ -32,7 +32,7 @@ const timeUnits: TimeUnit[] = ['week', 'month', 'year']
 
 function History({ className }: HistoryProps) {
   // hooks
-  const { user } = useAuth()
+  const { user, isRefreshedToken } = useAuth()
   const { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('history.' + key), [translate])
   const dispatch = useAppDispatch()
@@ -58,7 +58,7 @@ function History({ className }: HistoryProps) {
 
   // get history
   const getHistory = useCallback(async () => {
-    if (!user) return
+    if (!user || !isRefreshedToken) return
 
     // start loading
     setLoading(true)

@@ -511,7 +511,10 @@
     "Category": "Categorie",
     "From - To": "Van - Tot",
     "Cancel": "Annuleren",
-    "Save": "Opslaan"
+    "Save": "Opslaan",
+    "Please upgrade to Premium to create more budgets": "Upgrade naar Premium om meer budgetten aan te maken",
+    "You've reached the limit of 4 budgets": "Je hebt de limiet van 4 budgetten bereikt",
+    "Upgrade Now": "Nu upgraden"
   },
   "createCategoryPage": {
     "Name is required": "Naam is vereist",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Deewas ontgrendelen",
     "Enter PIN": "Voer PIN in",
-    "Cancel": "Annuleren"
+    "Cancel": "Annuleren",
+    "Account Deleted": "Account verwijderd",
+    "Your account has been deleted": "Je account is verwijderd",
+    "Please create a new account to continue using the app": "Maak een nieuw account aan om de app te blijven gebruiken",
+    "Sign Out": "Uitloggen"
   },
   "revenueCatProvider": {
     "Purchase Success": "Aankoop geslaagd",

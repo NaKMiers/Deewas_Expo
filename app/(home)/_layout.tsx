@@ -1,9 +1,7 @@
 import { images } from '@/assets/images/images'
 import TutorialOverlay from '@/components/dialogs/TutorialOverlay'
 import { useAuth } from '@/components/providers/AuthProvider'
-import useInit from '@/hooks/useInit'
 import useLanguage from '@/hooks/useLanguage'
-import useSettings from '@/hooks/useSettings'
 import { useColorScheme } from '@/lib/useColorScheme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Device from 'expo-device'
@@ -17,8 +15,6 @@ function HomeLayout() {
   const { user, loading, onboarding } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
   useLanguage()
-  useSettings()
-  useInit()
 
   const [bioAuthenticating, setBioAuthenticating] = useState(false)
 

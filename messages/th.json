@@ -511,7 +511,10 @@
     "Category": "หมวดหมู่",
     "From - To": "จาก - ถึง",
     "Cancel": "ยกเลิก",
-    "Save": "บันทึก"
+    "Save": "บันทึก",
+    "Please upgrade to Premium to create more budgets": "กรุณาอัปเกรดเป็นพรีเมียมเพื่อสร้างงบประมาณเพิ่มเติม",
+    "You've reached the limit of 4 budgets": "คุณถึงขีดจำกัด 4 งบประมาณแล้ว",
+    "Upgrade Now": "อัปเกรดตอนนี้"
   },
   "createCategoryPage": {
     "Name is required": "ต้องระบุชื่อ",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "ปลดล็อกดีวาส",
     "Enter PIN": "ป้อน PIN",
-    "Cancel": "ยกเลิก"
+    "Cancel": "ยกเลิก",
+    "Account Deleted": "บัญชีถูกลบ",
+    "Your account has been deleted": "บัญชีของคุณถูกลบแล้ว",
+    "Please create a new account to continue using the app": "กรุณาสร้างบัญชีใหม่เพื่อดำเนินการต่อในการใช้แอป",
+    "Sign Out": "ออกจากระบบ"
   },
   "revenueCatProvider": {
     "Purchase Success": "ซื้อสำเร็จ",

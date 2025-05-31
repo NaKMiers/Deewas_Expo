@@ -5,11 +5,11 @@ import BlurView from '@/components/BlurView'
 import PremiumLimitModal from '@/components/dialogs/PremiumLimitModal'
 import Icon from '@/components/Icon'
 import { useAuth } from '@/components/providers/AuthProvider'
+import { useInit } from '@/components/providers/InitProvider'
 import Text from '@/components/Text'
 import { personalities } from '@/constants'
 import { languages } from '@/constants/settings'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import useSettings from '@/hooks/useSettings'
 import { refresh } from '@/lib/reducers/loadReducer'
 import { setClearChat } from '@/lib/reducers/screenReducer'
 import { setStep } from '@/lib/reducers/tutorialReducer'
@@ -47,7 +47,7 @@ import {
 let Voice: any = null
 
 if (Platform.OS === 'ios') {
-  // Voice = require('@react-native-voice/voice').default
+  Voice = require('@react-native-voice/voice').default
 }
 
 function AIPage() {
@@ -55,7 +55,7 @@ function AIPage() {
 
   // hooks
   const { isPremium } = useAuth()
-  const { refetch: refetchSettings } = useSettings()
+  const { refreshSettings } = useInit()
   const { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('aiPage.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
@@ -102,6 +102,7 @@ function AIPage() {
   // get token
   useEffect(() => {
     if (token) return
+
     const fetchToken = async () => {
       const token = await getToken()
       if (!token) {
@@ -150,9 +151,9 @@ function AIPage() {
     if (isPremium) return
 
     if (status === 'ready') {
-      refetchSettings()
+      refreshSettings()
     }
-  }, [refetchSettings, status, isPremium])
+  }, [refreshSettings, status, isPremium])
 
   // auto clear chat after change personality
   useFocusEffect(

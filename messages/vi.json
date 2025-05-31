@@ -511,7 +511,10 @@
     "Category": "Danh mục",
     "From - To": "Từ ngày - Đến ngày",
     "Cancel": "Hủy",
-    "Save": "Lưu"
+    "Save": "Lưu",
+    "Please upgrade to Premium to create more budgets": "Vui lòng nâng cấp lên Premium để tạo thêm ngân sách",
+    "You've reached the limit of 4 budgets": "Bạn đã đạt giới hạn 4 ngân sách",
+    "Upgrade Now": "Nâng cấp ngay"
   },
   "createCategoryPage": {
     "Name is required": "Tên danh mục không được trống",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Mở khóa Deewas",
     "Enter PIN": "Nhập mã PIN",
-    "Cancel": "Hủy"
+    "Cancel": "Hủy",
+    "Account Deleted": "Tài khoản đã bị xóa",
+    "Your account has been deleted": "Tài khoản của bạn đã bị xóa",
+    "Please create a new account to continue using the app": "Vui lòng tạo tài khoản mới để tiếp tục sử dụng ứng dụng",
+    "Sign Out": "Đăng xuất"
   },
   "revenueCatProvider": {
     "Purchase Success": "Mua thành công",
@@ -1133,7 +1140,7 @@
     "Let’s manage your finances together!": "Hãy cùng nhau quản lý tài chính của bạn!"
   },
   "referralCode": {
-    "Referral Code": "Referral Code",
+    "Referral Code": "Mã giới thiệu",
     "Enter your referral code to get 2 days of Premium for free": "Nhập mã giới thiệu của bạn để nhận 2 ngày Premium miễn phí"
   },
   "success": {

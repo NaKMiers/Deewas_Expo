@@ -511,7 +511,10 @@
     "Category": "Kategori",
     "From - To": "Başlangıç - Bitiş",
     "Cancel": "İptal",
-    "Save": "Kaydet"
+    "Save": "Kaydet",
+    "Please upgrade to Premium to create more budgets": "Daha fazla bütçe oluşturmak için lütfen Premium’a yükseltin",
+    "You've reached the limit of 4 budgets": "4 bütçe limitine ulaştınız",
+    "Upgrade Now": "Şimdi Yükselt"
   },
   "createCategoryPage": {
     "Name is required": "İsim gerekli",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "Deewas’ı Aç",
     "Enter PIN": "PIN Gir",
-    "Cancel": "İptal"
+    "Cancel": "İptal",
+    "Account Deleted": "Hesap Silindi",
+    "Your account has been deleted": "Hesabınız silindi",
+    "Please create a new account to continue using the app": "Uygulamayı kullanmaya devam etmek için lütfen yeni bir hesap oluşturun",
+    "Sign Out": "Çıkış Yap"
   },
   "revenueCatProvider": {
     "Purchase Success": "Satın Alma Başarılı",

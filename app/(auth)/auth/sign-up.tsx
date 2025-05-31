@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { commonEmailMistakes } from '@/constants/mistakes'
 import { useAppDispatch } from '@/hooks/reduxHook'
-import { setToken, setUser } from '@/lib/reducers/userReducer'
+import { setUser } from '@/lib/reducers/userReducer'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn } from '@/lib/utils'
 import { registerCredentialsApi, signInAppleApi, signInGoogleApi, updateMySettingsApi } from '@/requests'
@@ -144,7 +144,6 @@ function SignUpPage() {
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
-        dispatch(setToken(token))
 
         // currency at onboarding
         const currency = await AsyncStorage.getItem('currency')
@@ -173,7 +172,7 @@ function SignUpPage() {
         Toast.show({
           type: 'error',
           text1: tError('Sign Up Failed'),
-          text2: err.message,
+          text2: tError(err.message),
         })
       } finally {
         // stop loading
@@ -209,7 +208,6 @@ function SignUpPage() {
         // save token and user
         await AsyncStorage.setItem('token', token)
         dispatch(setUser(decodedUser))
-        dispatch(setToken(token))
 
         if (isNewUser) {
           // currency at onboarding
@@ -248,7 +246,7 @@ function SignUpPage() {
           text1: tError('Failed to sign up with Google'),
         })
       }
-    } catch (err) {
+    } catch (err: any) {
       if (isErrorWithCode(err)) {
         switch (err.code) {
           case statusCodes.IN_PROGRESS:
@@ -312,7 +310,6 @@ function SignUpPage() {
       // save token and user
       await AsyncStorage.setItem('token', token)
       dispatch(setUser(decodedUser))
-      dispatch(setToken(token))
 
       // show success message
       Toast.show({
@@ -323,8 +320,8 @@ function SignUpPage() {
 
       // go home
       router.replace('/home')
-    } catch (e: any) {
-      if (e.code === 'ERR_REQUEST_CANCELED') {
+    } catch (err: any) {
+      if (err.code === 'ERR_REQUEST_CANCELED') {
         // handle that the user canceled the sign-in flow
       } else {
         // handle other errors

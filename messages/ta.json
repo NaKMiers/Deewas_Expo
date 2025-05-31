@@ -511,7 +511,10 @@
     "Category": "வகை",
     "From - To": "முதல் - வரை",
     "Cancel": "ரத்து செய்",
-    "Save": "சேமி"
+    "Save": "சேமி",
+    "Please upgrade to Premium to create more budgets": "மேலும் பட்ஜெட்களை உருவாக்க பிரீமியத்திற்கு மேம்படுத்தவும்",
+    "You've reached the limit of 4 budgets": "நீங்கள் 4 பட்ஜெட்களின் வரம்பை அடைந்துவிட்டீர்கள்",
+    "Upgrade Now": "இப்போது மேம்படுத்து"
   },
   "createCategoryPage": {
     "Name is required": "பெயர் தேவை",
@@ -1060,7 +1063,11 @@
   "authProvider": {
     "Unlock Deewas": "தீவாஸைத் திற",
     "Enter PIN": "பின்னை உள்ளிடவும்",
-    "Cancel": "ரத்து செய்"
+    "Cancel": "ரத்து செய்",
+    "Account Deleted": "கணக்கு நீக்கப்பட்டது",
+    "Your account has been deleted": "உங்கள் கணக்கு நீக்கப்பட்டுள்ளது",
+    "Please create a new account to continue using the app": "தயவுசெய்து செயலியை தொடர பயன்படுத்த புதிய கணக்கை உருவாக்கவும்",
+    "Sign Out": "வெளியேறு"
   },
   "revenueCatProvider": {
     "Purchase Success": "கொள்முதல் வெற்றி",
