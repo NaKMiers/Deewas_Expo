@@ -21,7 +21,7 @@ const RevenueCatContext = createContext<RevenueCatProps | null>(null)
 
 function RevenueCatProvider({ children }: { children: ReactNode }) {
   // hooks
-  const { user, isRefreshedToken } = useAuth()
+  const { user } = useAuth()
   const dispatch = useAppDispatch()
   const { t: translate } = useTranslation()
   const t = useCallback((key: string) => translate('revenueCatProvider.' + key), [translate])
@@ -44,9 +44,9 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const init = async () => {
-      if (!user || !isRefreshedToken) return
+      if (!user?._id) return
 
-      Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
+      Purchases.setLogLevel(LOG_LEVEL.ERROR)
       const apiKey = Platform.select({
         ios: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY,
         android: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY,
@@ -66,7 +66,7 @@ function RevenueCatProvider({ children }: { children: ReactNode }) {
     }
 
     init()
-  }, [loadOfferings, user, isRefreshedToken])
+  }, [loadOfferings, user?._id])
 
   // purchase a package
   const purchasePackage = useCallback(

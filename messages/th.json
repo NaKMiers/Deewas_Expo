@@ -1,7 +1,8 @@
 {
   "metaData": {
     "title": "ดีวาส",
-    "description": "ตัวจัดการค่าใช้จ่ายส่วนตัวที่มีฟีเจอร์ AI อันทรงพลังและอินเทอร์เฟซที่ใช้งานง่าย"
+    "description": "ตัวจัดการค่าใช้จ่ายส่วนตัวที่มีฟีเจอร์ AI อันทรงพลังและอินเทอร์เฟซที่ใช้งานง่าย",
+    "Deewas is your all-in-one finance app with an AI that fits your vibe, helping you track, save, and grow": "ดีวาสเป็นแอปการเงินครบวงจรที่มี AI ที่เข้ากับสไตล์ของคุณ ช่วยให้คุณติดตาม เก็บออม และเติบโต"
   },
   "signInPage": {
     "Sign In to Deewas": "ลงชื่อเข้าใช้ดีวาส",

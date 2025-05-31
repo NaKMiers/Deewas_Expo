@@ -24,7 +24,7 @@ const InitContext = createContext<InitContextValue | undefined>(undefined)
 function InitProvider({ children }: { children: ReactNode }) {
   // hooks
   const dispatch = useAppDispatch()
-  const { user, isRefreshedToken } = useAuth()
+  const { user } = useAuth()
 
   // store
   const { refreshPoint } = useAppSelector(state => state.load)
@@ -35,7 +35,7 @@ function InitProvider({ children }: { children: ReactNode }) {
 
   // fetch wallets, categories, and budgets
   const init = useCallback(async () => {
-    if (!user || !isRefreshedToken) return
+    if (!user?._id) return
 
     // start loading
     dispatch(setWalletLoading(true))
@@ -59,11 +59,12 @@ function InitProvider({ children }: { children: ReactNode }) {
       dispatch(setSettingsLoading(false))
       dispatch(setRefreshing(false))
     }
-  }, [dispatch, user, isRefreshedToken])
+  }, [dispatch, user?._id])
 
   // get settings
   const getSettings = useCallback(async () => {
-    if (!user || !isRefreshedToken) return
+    if (!user?._id) return
+    console.log('getSettings...')
 
     // start loading
     dispatch(setSettingsLoading(true))
@@ -78,7 +79,7 @@ function InitProvider({ children }: { children: ReactNode }) {
       // stop loading
       dispatch(setSettingsLoading(false))
     }
-  }, [dispatch, user, isRefreshedToken])
+  }, [dispatch, user?._id])
 
   // watch refresh point change event
   useEffect(() => {

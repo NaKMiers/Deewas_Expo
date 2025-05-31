@@ -21,7 +21,7 @@ interface LatestTransactionsProps {
 function LatestTransactions({ className }: LatestTransactionsProps) {
   // hooks
   const dispatch = useAppDispatch()
-  const { user, isRefreshedToken } = useAuth()
+  const { user } = useAuth()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('latestTransactions.' + key)
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
@@ -35,7 +35,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
   const [loading, setLoading] = useState<boolean>(false)
 
   const getLatestTransactions = useCallback(async () => {
-    if (!user || !isRefreshedToken) return
+    if (!user?._id) return
 
     // start loading
     setLoading(true)
@@ -56,7 +56,7 @@ function LatestTransactions({ className }: LatestTransactionsProps) {
       setLoading(false)
       dispatch(setRefreshing(false))
     }
-  }, [dispatch, tError, user, limit])
+  }, [dispatch, tError, user?._id, limit])
 
   // get latest transactions
   useEffect(() => {

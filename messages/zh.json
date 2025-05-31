@@ -1,7 +1,8 @@
 {
   "metaData": {
     "title": "Deewas",
-    "description": "具有强大AI功能和简单用户界面的个人费用管理器"
+    "description": "具有强大AI功能和简单用户界面的个人费用管理器",
+    "Deewas is your all-in-one finance app with an AI that fits your vibe, helping you track, save, and grow": "Deewas 是您的全能财务应用，配备适合您风格的 AI，帮助您跟踪、储蓄和增长"
   },
   "signInPage": {
     "Sign In to Deewas": "登录 Deewas",

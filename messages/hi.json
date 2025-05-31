@@ -1,7 +1,8 @@
 {
   "metaData": {
     "title": "दीवास",
-    "description": "शक्तिशाली AI सुविधाओं और सरल उपयोगकर्ता इंटरफ़ेस के साथ व्यक्तिगत खर्च प्रबंधक"
+    "description": "शक्तिशाली AI सुविधाओं और सरल उपयोगकर्ता इंटरफ़ेस के साथ व्यक्तिगत खर्च प्रबंधक",
+    "Deewas is your all-in-one finance app with an AI that fits your vibe, helping you track, save, and grow": "दीवास आपका ऑल-इन-वन वित्त ऐप है जिसमें एक AI है जो आपकी वाइब के अनुसार फिट बैठता है, जो आपको ट्रैक करने, बचत करने और बढ़ने में मदद करता है"
   },
   "signInPage": {
     "Sign In to Deewas": "दीवास में साइन इन करें",

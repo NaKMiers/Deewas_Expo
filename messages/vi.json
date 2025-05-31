@@ -1,7 +1,8 @@
 {
   "metaData": {
     "title": "Deewas",
-    "description": "Công cụ uản lý chi tiêu cá nhân với các tính năng AI mạnh mẽ và giao diện đơn giản"
+    "description": "Công cụ uản lý chi tiêu cá nhân với các tính năng AI mạnh mẽ và giao diện đơn giản",
+    "Deewas is your all-in-one finance app with an AI that fits your vibe, helping you track, save, and grow": "Deewas là ứng dụng tài chính tất cả trong một với AI phù hợp với phong cách của bạn, giúp bạn theo dõi, tiết kiệm và phát triển"
   },
   "signInPage": {
     "Sign In to Deewas": "Đăng nhập Deewas",

@@ -1,7 +1,8 @@
 {
   "metaData": {
     "title": "Deewas",
-    "description": "Gestionnaire de dépenses personnelles avec des fonctionnalités IA puissantes et une interface utilisateur simple"
+    "description": "Gestionnaire de dépenses personnelles avec des fonctionnalités IA puissantes et une interface utilisateur simple",
+    "Deewas is your all-in-one finance app with an AI that fits your vibe, helping you track, save, and grow": "Deewas est votre application financière tout-en-un avec une IA qui correspond à votre style, vous aidant à suivre, économiser et développer"
   },
   "signInPage": {
     "Sign In to Deewas": "Se connecter à Deewas",

@@ -1,7 +1,8 @@
 {
   "metaData": {
     "title": "ديواس",
-    "description": "مدير النفقات الشخصية مع ميزات ذكاء اصطناعي قوية وواجهة مستخدم بسيطة"
+    "description": "مدير النفقات الشخصية مع ميزات ذكاء اصطناعي قوية وواجهة مستخدم بسيطة",
+    "Deewas is your all-in-one finance app with an AI that fits your vibe, helping you track, save, and grow": "ديواس هو تطبيقك الشامل للتمويل مع ذكاء اصطناعي يتناسب مع أسلوبك، يساعدك على تتبع أموالك، الادخار، والنمو"
   },
   "signInPage": {
     "Sign In to Deewas": "تسجيل الدخول إلى ديواس",

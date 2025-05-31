@@ -19,7 +19,6 @@ interface AuthContextValue {
   switchBiometric: (value?: -1 | 0 | 1) => Promise<void>
   biometric: { open: boolean; isSupported: boolean }
   loggingOut: boolean
-  isRefreshedToken: boolean
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -39,7 +38,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     isSupported: false,
   })
   const [loggingOut, setLoggingOut] = useState<boolean>(false)
-  const [isRefreshedToken, setIsRefreshedToken] = useState<boolean>(false)
 
   // check if user is premium
   useEffect(() => {
@@ -145,6 +143,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   // refresh token
   const refreshToken = useCallback(async () => {
+    if (!user?._id) return
+
     try {
       const { token } = await refreshTokenApi()
 
@@ -152,12 +152,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
       await AsyncStorage.setItem('token', token)
       const decodedUser: IFullUser = jwtDecode(token)
       dispatch(setUser(decodedUser))
-      setIsRefreshedToken(true)
     } catch (err: any) {
       console.log(err)
     }
-  }, [dispatch])
+  }, [dispatch, user?._id])
 
+  // auto refresh token every time open the app
   useEffect(() => {
     refreshToken()
   }, [refreshToken])
@@ -199,12 +199,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
       } finally {
         // stop loading
         dispatch(setLoading(false))
-        setIsRefreshedToken(false)
       }
     }
 
     loadUserData()
-  }, [dispatch])
+  }, [dispatch, refreshToken])
 
   const value: AuthContextValue = {
     user,
@@ -216,7 +215,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     switchBiometric,
     biometric,
     loggingOut,
-    isRefreshedToken,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
