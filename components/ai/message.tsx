@@ -76,7 +76,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of wallets
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -90,7 +90,7 @@ function Message({ role, content, parts }: MessageProps) {
               showsHorizontalScrollIndicator={false}
               snapToInterval={isLarge ? CHAT_MAX_WIDTH / 2 : SCREEN_WIDTH - 21}
               decelerationRate="fast"
-              className={cn('-mx-21/2 mb-21/2', !message && 'mt-21/2')}
+              className={cn('-mx-21/2 mb-21', !message && 'mt-21/2')}
               renderItem={({ item: wallet }: { item: IWallet }) => (
                 <View
                   className="px-21/2"
@@ -125,7 +125,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -136,7 +136,7 @@ function Message({ role, content, parts }: MessageProps) {
             <WalletCard
               wallet={wallet}
               hideMenu
-              className={cn('mb-21/2', !message && 'mt-21/2')}
+              className={cn('mb-21', !message && 'mt-21/2')}
             />
           </View>
         )
@@ -187,7 +187,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the source and destination wallets
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -201,7 +201,7 @@ function Message({ role, content, parts }: MessageProps) {
               showsHorizontalScrollIndicator={false}
               snapToInterval={isLarge ? CHAT_MAX_WIDTH - 21 : SCREEN_WIDTH - 21}
               decelerationRate="fast"
-              className={cn('-mx-21/2 mb-21/2', !message && 'mt-21/2')}
+              className={cn('-mx-21/2 mb-21', !message && 'mt-21/2')}
               renderItem={({ item: wallet }: { item: IWallet }) => (
                 <View
                   className="px-21/2"
@@ -234,24 +234,22 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of wallets
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
                 role={role}
               />
             )}
-            {categories.map((c: ICategory) => (
-              <View
-                className="mb-1"
-                key={c._id}
-              >
+            <View className={cn('mb-21 gap-1', !message && 'mt-21/2')}>
+              {categories.map((c: ICategory) => (
                 <Category
                   category={c}
                   hideMenu
+                  key={c._id}
                 />
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         )
       }
@@ -272,7 +270,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -282,7 +280,7 @@ function Message({ role, content, parts }: MessageProps) {
 
             <Category
               category={category}
-              className={cn('mb-21/2', !message && 'mt-21/2')}
+              className={cn('mb-21', !message && 'mt-21/2')}
               hideMenu
             />
           </View>
@@ -323,7 +321,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of wallets
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -331,17 +329,14 @@ function Message({ role, content, parts }: MessageProps) {
               />
             )}
             {budgets.map((b: IFullBudget) => (
-              <View
-                className="mb-1"
+              <BudgetCard
+                budget={b}
+                begin={b.begin}
+                end={b.end}
+                hideMenu
                 key={b._id}
-              >
-                <BudgetCard
-                  budget={b}
-                  begin={b.begin}
-                  end={b.end}
-                  hideMenu
-                />
-              </View>
+                className="mb-1"
+              />
             ))}
           </View>
         )
@@ -362,7 +357,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -375,7 +370,7 @@ function Message({ role, content, parts }: MessageProps) {
               begin={budget.begin}
               end={budget.end}
               hideMenu
-              className={cn('mb-21/2', !message && 'mt-21/2')}
+              className={cn('mb-21', !message && 'mt-21/2')}
             />
           </View>
         )
@@ -415,7 +410,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show a list of transactions
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -454,7 +449,7 @@ function Message({ role, content, parts }: MessageProps) {
 
         // show the wallet details
         return (
-          <View className="flex-col">
+          <View>
             {message && (
               <BasicMessage
                 content={message}
@@ -465,7 +460,7 @@ function Message({ role, content, parts }: MessageProps) {
             <Transaction
               transaction={transaction}
               hideMenu
-              className={cn('mb-21/2', !message && 'mt-21/2')}
+              className={cn('mb-21', !message && 'mt-21/2')}
             />
           </View>
         )
@@ -511,7 +506,7 @@ function BasicMessage({ role, content }: MessageProps) {
     >
       <View
         className={cn(
-          'flex-col gap-1 py-1.5',
+          'gap-1 py-1.5',
           role === 'assistant'
             ? 'flex-1'
             : 'items-end rounded-[26px] rounded-br-xl border border-primary/5 bg-secondary px-4'

@@ -36,11 +36,12 @@ import Toast from 'react-native-toast-message'
 function SignInPage() {
   // hooks
   const dispatch = useAppDispatch()
-  let { t: translate } = useTranslation()
+  let { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('signInPage.' + key), [translate])
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { isDarkColorScheme } = useColorScheme()
+  const locale = i18n.language
 
   // states
   const [loading, setLoading] = useState<boolean>(false)
@@ -149,7 +150,7 @@ function SignInPage() {
           return
         }
 
-        const { token } = await signInGoogleApi(idToken, user.id)
+        const { token } = await signInGoogleApi(idToken, user.id, locale)
         const decodedUser: IFullUser = jwtDecode(token)
 
         // save token and user
@@ -198,7 +199,7 @@ function SignInPage() {
       // stop loading
       setLoading(false)
     }
-  }, [dispatch, t, tError, tSuccess])
+  }, [dispatch, t, tError, tSuccess, locale])
 
   // MARK: Apple Sign In
   const handleAppleSignIn = useCallback(async () => {
@@ -226,7 +227,7 @@ function SignInPage() {
         return
       }
 
-      const { token } = await signInAppleApi(identityToken, user, nonce)
+      const { token } = await signInAppleApi(identityToken, user, nonce, locale)
       const decodedUser: IFullUser = jwtDecode(token)
 
       // save token and user
@@ -257,7 +258,7 @@ function SignInPage() {
       // stop loading
       setLoading(false)
     }
-  }, [dispatch, tError, tSuccess])
+  }, [dispatch, tError, tSuccess, locale])
 
   return (
     <View className="flex-1 bg-primary-foreground">

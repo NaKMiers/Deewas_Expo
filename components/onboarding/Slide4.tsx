@@ -46,6 +46,7 @@ function Slide4({ onChange }: { onChange: (value: any) => void }) {
                 const key = c.label + c.value + c.symbol + c.locale
                 return key.toLowerCase().includes(search.toLowerCase())
               })
+              .sort((a, b) => a.label.localeCompare(b.label))
               .map(currency => (
                 <TouchableOpacity
                   className={cn(

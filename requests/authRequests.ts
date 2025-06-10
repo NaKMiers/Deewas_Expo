@@ -17,10 +17,10 @@ export const signInCredentialsApi = async (data: any) => {
 }
 
 // [POST]: /auth/sign-up/credentials
-export const registerCredentialsApi = async (data: any) => {
+export const registerCredentialsApi = async (data: any, locale: string) => {
   const res = await fetch(API + '/sign-up/credentials', {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, locale }),
   })
 
   // check status
@@ -30,10 +30,10 @@ export const registerCredentialsApi = async (data: any) => {
 }
 
 // [POST]: /auth/sign-in/google
-export const signInGoogleApi = async (idToken: string, googleUserId: string) => {
+export const signInGoogleApi = async (idToken: string, googleUserId: string, locale: string) => {
   const res = await fetch(API + '/sign-in/google', {
     method: 'POST',
-    body: JSON.stringify({ idToken, googleUserId }),
+    body: JSON.stringify({ idToken, googleUserId, locale }),
   })
 
   // check status
@@ -43,10 +43,15 @@ export const signInGoogleApi = async (idToken: string, googleUserId: string) => 
 }
 
 // [POST]: /auth/sign-in/apple
-export const signInAppleApi = async (idToken: string, appleUserId: string, nonce: string) => {
+export const signInAppleApi = async (
+  idToken: string,
+  appleUserId: string,
+  nonce: string,
+  locale: string
+) => {
   const res = await fetch(API + '/sign-in/apple', {
     method: 'POST',
-    body: JSON.stringify({ idToken, appleUserId, nonce }),
+    body: JSON.stringify({ idToken, appleUserId, nonce, locale }),
   })
 
   // check status

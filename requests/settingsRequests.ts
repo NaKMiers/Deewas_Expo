@@ -60,7 +60,7 @@ export const updateMySettingsApi = async (data: any) => {
 }
 
 // [DELETE]: /settings/delete-all
-export const deleteAllDataApi = async () => {
+export const deleteAllDataApi = async (locale: string) => {
   const token = await getToken()
   if (!token) throw new Error('No token found')
 
@@ -70,6 +70,7 @@ export const deleteAllDataApi = async () => {
       Authorization: `Bearer ${token}`,
     },
     method: 'DELETE',
+    body: JSON.stringify({ locale }),
   })
 
   // check status

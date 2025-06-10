@@ -9,10 +9,10 @@ import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import BlurView from './BlurView'
 import ConfirmDialog from './dialogs/ConfirmDialog'
 import Text from './Text'
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select'
-import BlurView from './BlurView'
 
 interface SettingsBoxProps {
   className?: string
@@ -71,11 +71,12 @@ interface BoxProps {
 function Box({ type, desc, list, init, className }: BoxProps) {
   // hooks
   const dispatch = useAppDispatch()
-  const { t: translate } = useTranslation()
+  const { t: translate, i18n } = useTranslation()
   const t = (key: string) => translate('settingsBox.' + key)
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { changeLanguage } = useLanguage()
+  const locale = i18n.language
 
   // states
   const [loading, setLoading] = useState<boolean>(false)
@@ -96,7 +97,7 @@ function Box({ type, desc, list, init, className }: BoxProps) {
           currency: value,
         })
 
-        const { message } = await deleteAllDataApi()
+        const { message } = await deleteAllDataApi(locale)
         Toast.show({
           type: 'success',
           text1: message,
@@ -126,7 +127,7 @@ function Box({ type, desc, list, init, className }: BoxProps) {
         setLoading(false)
       }
     },
-    [dispatch, tError, tSuccess, nextSelected]
+    [dispatch, tError, tSuccess, nextSelected, locale]
   )
 
   // handle change option

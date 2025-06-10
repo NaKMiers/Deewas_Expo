@@ -1,6 +1,7 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
+import { useInit } from '@/components/providers/InitProvider'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -37,11 +38,12 @@ import Toast from 'react-native-toast-message'
 function SignUpPage() {
   // hooks
   const dispatch = useAppDispatch()
-  let { t: translate } = useTranslation()
+  let { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('signUpPage.' + key), [translate])
   const tSuccess = useCallback((key: string) => translate('success.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { isDarkColorScheme } = useColorScheme()
+  const locale = i18n.language
 
   // states
   const [loading, setLoading] = useState<boolean>(false)
@@ -138,12 +140,13 @@ function SignUpPage() {
       setLoading(true)
 
       try {
-        const { token } = await registerCredentialsApi(data)
+        const { token } = await registerCredentialsApi(data, locale)
+
+        console.log('locale-token', token)
         const decodedUser: IFullUser = jwtDecode(token)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
-        dispatch(setUser(decodedUser))
 
         // currency at onboarding
         const currency = await AsyncStorage.getItem('currency')
@@ -162,8 +165,10 @@ function SignUpPage() {
         Toast.show({
           type: 'success',
           text1: tSuccess('Sign Up Success'),
-          text2: tSuccess('You have successfully registered'),
+          text2: tSuccess('You have successfully signed up'),
         })
+
+        dispatch(setUser(decodedUser))
 
         // go home
         router.replace('/home')
@@ -179,7 +184,7 @@ function SignUpPage() {
         setLoading(false)
       }
     },
-    [dispatch, handleValidate, tError, tSuccess]
+    [dispatch, handleValidate, tError, tSuccess, locale]
   )
 
   // MARK: Google Sign Up
@@ -202,12 +207,11 @@ function SignUpPage() {
           return
         }
 
-        const { token, isNewUser } = await signInGoogleApi(idToken, user.id)
+        const { token, isNewUser } = await signInGoogleApi(idToken, user.id, locale)
         const decodedUser: IFullUser = jwtDecode(token)
 
         // save token and user
         await AsyncStorage.setItem('token', token)
-        dispatch(setUser(decodedUser))
 
         if (isNewUser) {
           // currency at onboarding
@@ -237,6 +241,8 @@ function SignUpPage() {
             text2: tSuccess('You have successfully signed in'),
           })
         }
+
+        dispatch(setUser(decodedUser))
 
         // go home
         router.replace('/home')
@@ -278,7 +284,7 @@ function SignUpPage() {
       // stop loading
       setLoading(false)
     }
-  }, [dispatch, t, tError, tSuccess])
+  }, [dispatch, t, tError, tSuccess, locale])
 
   // MARK: Apple Sign In
   const handleAppleSignIn = useCallback(async () => {
@@ -304,19 +310,42 @@ function SignUpPage() {
         return
       }
 
-      const { token } = await signInAppleApi(identityToken, user, nonce)
+      const { token, isNewUser } = await signInAppleApi(identityToken, user, nonce, locale)
       const decodedUser: IFullUser = jwtDecode(token)
 
       // save token and user
       await AsyncStorage.setItem('token', token)
-      dispatch(setUser(decodedUser))
 
-      // show success message
-      Toast.show({
-        type: 'success',
-        text1: tSuccess('Sign In Success'),
-        text2: tSuccess('You have successfully logged in'),
-      })
+      if (isNewUser) {
+        // currency at onboarding
+        const currency = await AsyncStorage.getItem('currency')
+        const personalities = await AsyncStorage.getItem('personalities')
+
+        if (currency || personalities) {
+          const data = {
+            currency: currency ? JSON.parse(currency) : 'USD',
+            personalities: personalities ? JSON.parse(personalities) : [0],
+          }
+
+          await updateMySettingsApi(data)
+        }
+
+        // show success message
+        Toast.show({
+          type: 'success',
+          text1: tSuccess('Sign Up Success'),
+          text2: tSuccess('You have successfully signed up'),
+        })
+      } else {
+        // show success message
+        Toast.show({
+          type: 'success',
+          text1: tSuccess('Sign In Success'),
+          text2: tSuccess('You have successfully signed in'),
+        })
+      }
+
+      dispatch(setUser(decodedUser))
 
       // go home
       router.replace('/home')
@@ -334,7 +363,7 @@ function SignUpPage() {
       // stop loading
       setLoading(false)
     }
-  }, [dispatch, tError, tSuccess])
+  }, [dispatch, tError, tSuccess, locale])
 
   return (
     <View className="flex-1 bg-primary-foreground">
@@ -385,7 +414,7 @@ function SignUpPage() {
                       className="h-5 w-5"
                       resizeMode="contain"
                     />
-                    <Text className="font-semibold text-black">{t('Sign In with Google')}</Text>
+                    <Text className="font-semibold text-black">{t('Sign Up with Google')}</Text>
                   </Button>
                   {Platform.OS === 'ios' && (
                     <Button
@@ -399,7 +428,7 @@ function SignUpPage() {
                         className="h-5 w-5"
                         resizeMode="contain"
                       />
-                      <Text className="font-semibold text-white">{t('Sign In with Apple')}</Text>
+                      <Text className="font-semibold text-white">{t('Sign Up with Apple')}</Text>
                     </Button>
                   )}
                 </View>

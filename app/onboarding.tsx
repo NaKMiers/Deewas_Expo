@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 function OnboardingPage() {
   // hooks
-  const { user } = useAuth()
+  const { user, onboarding } = useAuth()
   const dispatch = useAppDispatch()
 
   // refs
@@ -38,7 +38,8 @@ function OnboardingPage() {
   const handleSendReport = useCallback(async () => {
     try {
       const onboardingData = await AsyncStorage.getItem('onboarding')
-      if (!onboardingData) {
+
+      if (onboardingData) {
         await sendReportApi(form)
       }
 
@@ -124,6 +125,7 @@ function OnboardingPage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
+  else if (onboarding) return <Redirect href="/auth/sign-in" />
 
   return (
     <SafeAreaView className="flex-1 bg-primary-foreground">

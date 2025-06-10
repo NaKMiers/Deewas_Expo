@@ -20,7 +20,6 @@ import { capitalize, shortName } from '@/lib/string'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { cn, getAdmobId } from '@/lib/utils'
 import { deleteAllDataApi, updateUserApi } from '@/requests'
-import { TouchableWithoutFeedback } from '@gorhom/bottom-sheet'
 import Constants from 'expo-constants'
 import { Redirect, router } from 'expo-router'
 import {
@@ -57,11 +56,12 @@ const adUnitId = getAdmobId('BANNER')
 function AccountPage() {
   // hooks
   const { user, isPremium, logout, switchBiometric, biometric, refreshToken, loggingOut } = useAuth()
-  const { t: translate } = useTranslation()
+  const { t: translate, i18n } = useTranslation()
   const t = useCallback((key: string) => translate('accountPage.' + key), [translate])
   const tError = useCallback((key: string) => translate('error.' + key), [translate])
   const { colorScheme, setColorScheme } = useColorScheme()
   const dispatch = useAppDispatch()
+  const locale = i18n.language
 
   // store
   const { refreshing } = useAppSelector(state => state.load)
@@ -83,7 +83,7 @@ function AccountPage() {
     setDeleting(true)
 
     try {
-      const { message } = await deleteAllDataApi()
+      const { message } = await deleteAllDataApi(locale)
       Toast.show({
         type: 'success',
         text1: message,
@@ -101,7 +101,7 @@ function AccountPage() {
       setDeleting(false)
       dispatch(setRefreshing(false))
     }
-  }, [dispatch])
+  }, [dispatch, locale])
 
   // handle update settings
   const handleChangeUsername = useCallback(async () => {

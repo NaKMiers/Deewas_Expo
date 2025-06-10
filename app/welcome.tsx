@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 function WelcomePage() {
   // hooks
-  const { user } = useAuth()
+  const { user, onboarding } = useAuth()
   const { isDarkColorScheme } = useColorScheme()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('welcomePage.' + key)
@@ -21,6 +21,7 @@ function WelcomePage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
+  else if (onboarding) return <Redirect href="/auth/sign-in" />
 
   return (
     <View className="flex-1 bg-primary-foreground">
