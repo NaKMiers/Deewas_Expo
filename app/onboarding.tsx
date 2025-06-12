@@ -125,7 +125,7 @@ function OnboardingPage() {
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
-  else if (onboarding) return <Redirect href="/auth/sign-in" />
+  // else if (onboarding) return <Redirect href="/auth/sign-in" />
 
   return (
     <SafeAreaView className="flex-1 bg-primary-foreground">

@@ -107,6 +107,7 @@ function HomeLayout() {
       >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="(drawers)" />
+        <Stack.Screen name="more" />
       </Stack>
 
       <TutorialOverlay />

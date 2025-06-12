@@ -2,7 +2,7 @@
   "expo": {
     "name": "Deewas",
     "slug": "deewas",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "deewas",
@@ -17,7 +17,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5f5c940c-7327-4704-b9bf-285571e6ce0e"
+        "projectId": "2eaf875b-63f5-494d-a75c-40480880500b"
       }
     },
     "ios": {

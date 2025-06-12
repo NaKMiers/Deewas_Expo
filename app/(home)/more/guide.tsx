@@ -179,8 +179,8 @@ function GuidePage() {
       dispatch(setInProgress(true))
       dispatch(setStep(1))
       refreshSettings()
-      router.replace('/home')
       router.back()
+      router.replace('/home')
     } catch (err: any) {
       console.log(err)
     }

@@ -49,8 +49,6 @@ function InitProvider({ children }: { children: ReactNode }) {
       dispatch(setCategories(categories))
       dispatch(setBudgets(budgets))
       dispatch(setSettings(settings))
-
-      console.log('initApi response:', { wallets, categories, budgets, settings })
     } catch (err: any) {
       console.log(err)
     } finally {
@@ -66,7 +64,6 @@ function InitProvider({ children }: { children: ReactNode }) {
   // get settings
   const getSettings = useCallback(async () => {
     if (!user?._id) return
-    console.log('getSettings...')
 
     // start loading
     dispatch(setSettingsLoading(true))

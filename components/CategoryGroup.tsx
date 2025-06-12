@@ -24,7 +24,10 @@ function CategoryGroup({ categories, type, className }: CategoryGroupProps) {
 
   // values
   const { Icon: renderIcon, border, background } = checkTranType(type)
-  categories = categories.sort((a, b) => a.name.localeCompare(b.name))
+  categories = categories = categories.sort((a, b) => {
+    if (a.deletable === b.deletable) return a.name.localeCompare(b.name)
+    return a.deletable ? -1 : 1
+  })
 
   return (
     <TabsContent

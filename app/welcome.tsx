@@ -1,14 +1,12 @@
 import { images } from '@/assets/images/images'
+import LanguageSelector from '@/components/LanguageSelector'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Text from '@/components/Text'
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { languages } from '@/constants/settings'
-import useLanguage from '@/hooks/useLanguage'
 import { useColorScheme } from '@/lib/useColorScheme'
 import { Redirect, router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 function WelcomePage() {
@@ -17,7 +15,6 @@ function WelcomePage() {
   const { isDarkColorScheme } = useColorScheme()
   const { t: translate } = useTranslation()
   const t = (key: string) => translate('welcomePage.' + key)
-  const { changeLanguage, language } = useLanguage()
 
   // go home if user is logged in
   if (user) return <Redirect href="/home" />
@@ -33,34 +30,7 @@ function WelcomePage() {
       />
       <SafeAreaView className="flex-1">
         {/* Language */}
-        <View className="flex-row items-center justify-end px-21/2 py-21/2 md:px-21">
-          <Select
-            value={language}
-            onValueChange={option => {
-              if (!option) return
-              changeLanguage(option.value)
-            }}
-          >
-            <SelectTrigger
-              className="border-transparent bg-transparent"
-              style={{ height: 36 }}
-            >
-              <Text>{language.label}</Text>
-            </SelectTrigger>
-
-            <SelectContent className="border-transparent bg-secondary shadow-none">
-              <ScrollView>
-                {languages.map((item, index) => (
-                  <SelectItem
-                    value={item.value}
-                    label={item.label}
-                    key={index}
-                  />
-                ))}
-              </ScrollView>
-            </SelectContent>
-          </Select>
-        </View>
+        <LanguageSelector />
 
         {/* Main */}
         <View className="mx-auto max-w-[500px] flex-1">

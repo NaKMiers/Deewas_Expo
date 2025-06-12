@@ -1,6 +1,7 @@
 import icons from '@/assets/icons/icons'
 import { images } from '@/assets/images/images'
 import CustomInput from '@/components/CustomInput'
+import LanguageSelector from '@/components/LanguageSelector'
 import { useInit } from '@/components/providers/InitProvider'
 import Text from '@/components/Text'
 import { Button } from '@/components/ui/button'
@@ -33,6 +34,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 
 function SignUpPage() {
@@ -142,7 +144,6 @@ function SignUpPage() {
       try {
         const { token } = await registerCredentialsApi(data, locale)
 
-        console.log('locale-token', token)
         const decodedUser: IFullUser = jwtDecode(token)
 
         // save token and user
@@ -379,140 +380,144 @@ function SignUpPage() {
           className="h-screen flex-1 items-center justify-center"
           keyboardVerticalOffset={21}
         >
-          <View className="h-screen w-screen flex-1 items-center justify-center px-21">
-            <Text className="mb-21 items-end text-center text-4xl font-bold tracking-wider">
-              DEEWAS
-              <Text className="text-[40px] font-bold text-green-500">.</Text>
-            </Text>
+          <SafeAreaView className="flex-1 gap-2">
+            <LanguageSelector className="py-0" />
 
-            <View
-              className={cn(
-                'w-full max-w-[400px] overflow-hidden rounded-2xl border border-secondary bg-white text-black'
-              )}
-            >
-              <View className="px-10 py-8">
-                {/* MARK: Header */}
-                <Text className="text-center text-lg font-semibold text-black">
-                  {t('Sign Up to Deewas')}
-                </Text>
-                <Text className="text-center text-muted-foreground">
-                  {t('Welcome! Please fill in the details to get started')}
-                </Text>
+            <View className="h-screen w-screen flex-1 items-center justify-center px-21">
+              <Text className="mb-21 items-end text-center text-4xl font-bold tracking-wider">
+                DEEWAS
+                <Text className="text-[40px] font-bold text-green-500">.</Text>
+              </Text>
 
-                <Separator className="my-6 h-0" />
+              <View
+                className={cn(
+                  'w-full max-w-[400px] overflow-hidden rounded-2xl border border-secondary bg-white text-black'
+                )}
+              >
+                <View className="px-10 py-8">
+                  {/* MARK: Header */}
+                  <Text className="text-center text-lg font-semibold text-black">
+                    {t('Sign Up to Deewas')}
+                  </Text>
+                  <Text className="text-center text-muted-foreground">
+                    {t('Welcome! Please fill in the details to get started')}
+                  </Text>
 
-                {/* MARK: Social Sign In */}
-                <View className="items-center justify-center gap-2">
-                  <Button
-                    className="h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
-                    onPress={handleGoogleSignUp}
-                    disabled={loading}
-                  >
-                    <Image
-                      source={icons.google}
-                      alt="Google"
-                      className="h-5 w-5"
-                      resizeMode="contain"
-                    />
-                    <Text className="font-semibold text-black">{t('Sign Up with Google')}</Text>
-                  </Button>
-                  {Platform.OS === 'ios' && (
+                  <Separator className="my-6 h-0" />
+
+                  {/* MARK: Social Sign In */}
+                  <View className="items-center justify-center gap-2">
                     <Button
-                      className="h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
-                      onPress={handleAppleSignIn}
+                      className="h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-white shadow-sm shadow-black/10"
+                      onPress={handleGoogleSignUp}
                       disabled={loading}
                     >
                       <Image
-                        source={icons.apple}
+                        source={icons.google}
                         alt="Google"
                         className="h-5 w-5"
                         resizeMode="contain"
                       />
-                      <Text className="font-semibold text-white">{t('Sign Up with Apple')}</Text>
+                      <Text className="font-semibold text-black">{t('Sign Up with Google')}</Text>
                     </Button>
-                  )}
-                </View>
+                    {Platform.OS === 'ios' && (
+                      <Button
+                        className="h-8 w-full flex-row items-center justify-center gap-2 border border-border bg-black shadow-sm shadow-black/10"
+                        onPress={handleAppleSignIn}
+                        disabled={loading}
+                      >
+                        <Image
+                          source={icons.apple}
+                          alt="Google"
+                          className="h-5 w-5"
+                          resizeMode="contain"
+                        />
+                        <Text className="font-semibold text-white">{t('Sign Up with Apple')}</Text>
+                      </Button>
+                    )}
+                  </View>
 
-                <View className="my-6 flex-row items-center gap-3">
-                  <View className="h-px flex-1 border border-muted-foreground/10" />
-                  <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
-                  <View className="h-px flex-1 border border-muted-foreground/10" />
-                </View>
+                  <View className="my-6 flex-row items-center gap-3">
+                    <View className="h-px flex-1 border border-muted-foreground/10" />
+                    <Text className="flex-shrink-0 text-muted-foreground">{t('or')}</Text>
+                    <View className="h-px flex-1 border border-muted-foreground/10" />
+                  </View>
 
-                <View className="flex-col gap-6">
-                  {/* MARK: Username */}
-                  <CustomInput
-                    id="username"
-                    label={t('Username')}
-                    value={form.username}
-                    placeholder="..."
-                    onChange={setValue}
-                    onFocus={() => clearErrors('username')}
-                    errors={errors}
-                    labelClassName="text-black"
-                    inputClassName="text-black"
-                    containerClassName="bg-white"
-                  />
+                  <View className="flex-col gap-6">
+                    {/* MARK: Username */}
+                    <CustomInput
+                      id="username"
+                      label={t('Username')}
+                      value={form.username}
+                      placeholder="..."
+                      onChange={setValue}
+                      onFocus={() => clearErrors('username')}
+                      errors={errors}
+                      labelClassName="text-black"
+                      inputClassName="text-black"
+                      containerClassName="bg-white"
+                    />
 
-                  {/* MARK: Email */}
-                  <CustomInput
-                    id="email"
-                    label={t('Email')}
-                    value={form.email}
-                    placeholder="..."
-                    onChange={setValue}
-                    onFocus={() => clearErrors('email')}
-                    errors={errors}
-                    labelClassName="text-black"
-                    inputClassName="text-black"
-                    containerClassName="bg-white"
-                  />
+                    {/* MARK: Email */}
+                    <CustomInput
+                      id="email"
+                      label={t('Email')}
+                      value={form.email}
+                      placeholder="..."
+                      onChange={setValue}
+                      onFocus={() => clearErrors('email')}
+                      errors={errors}
+                      labelClassName="text-black"
+                      inputClassName="text-black"
+                      containerClassName="bg-white"
+                    />
 
-                  {/* MARK: Password */}
-                  <CustomInput
-                    id="password"
-                    label={t('Password')}
-                    value={form.password}
-                    type="password"
-                    placeholder="..."
-                    onChange={setValue}
-                    onFocus={() => clearErrors('password')}
-                    errors={errors}
-                    labelClassName="text-black"
-                    inputClassName="text-black"
-                    containerClassName="bg-white"
-                  />
-                </View>
+                    {/* MARK: Password */}
+                    <CustomInput
+                      id="password"
+                      label={t('Password')}
+                      value={form.password}
+                      type="password"
+                      placeholder="..."
+                      onChange={setValue}
+                      onFocus={() => clearErrors('password')}
+                      errors={errors}
+                      labelClassName="text-black"
+                      inputClassName="text-black"
+                      containerClassName="bg-white"
+                    />
+                  </View>
 
-                {/* MARK: Submit Button */}
-                <TouchableOpacity
-                  className={cn(
-                    'mt-6 h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
-                    loading && 'opacity-50'
-                  )}
-                  onPress={handleSubmit(handleCredentialSignUp)}
-                  disabled={loading}
-                  style={{ marginTop: 36 }}
-                >
-                  {loading ? (
-                    <ActivityIndicator />
-                  ) : (
-                    <Text className="font-semibold text-white">{t('Sign Up')}</Text>
-                  )}
-                </TouchableOpacity>
-              </View>
-
-              {/* MARK: Footer */}
-              <View className="border-y border-muted-foreground/50 bg-neutral-100">
-                <View className="flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
-                  <Text className="text-black">{t('Already have an account?')}</Text>
-                  <TouchableOpacity onPress={() => router.replace('/auth/sign-in')}>
-                    <Text className="font-semibold text-black underline">{t('Sign In')}</Text>
+                  {/* MARK: Submit Button */}
+                  <TouchableOpacity
+                    className={cn(
+                      'mt-6 h-12 w-full flex-row items-center justify-center rounded-full bg-neutral-900',
+                      loading && 'opacity-50'
+                    )}
+                    onPress={handleSubmit(handleCredentialSignUp)}
+                    disabled={loading}
+                    style={{ marginTop: 36 }}
+                  >
+                    {loading ? (
+                      <ActivityIndicator />
+                    ) : (
+                      <Text className="font-semibold text-white">{t('Sign Up')}</Text>
+                    )}
                   </TouchableOpacity>
+                </View>
+
+                {/* MARK: Footer */}
+                <View className="border-y border-muted-foreground/50 bg-neutral-100">
+                  <View className="flex-row items-center justify-center gap-1.5 px-2 py-5 text-center text-black">
+                    <Text className="text-black">{t('Already have an account?')}</Text>
+                    <TouchableOpacity onPress={() => router.replace('/auth/sign-in')}>
+                      <Text className="font-semibold text-black underline">{t('Sign In')}</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
+          </SafeAreaView>
         </KeyboardAvoidingView>
       </ScrollView>
     </View>

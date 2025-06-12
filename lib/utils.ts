@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 // if web and dev, use local server
 export const BASE_URL =
-  __DEV__ && Platform.OS !== 'web' ? 'http://172.20.10.3:3000' : process.env.EXPO_PUBLIC_WEB_SERVER_URL
+  __DEV__ && Platform.OS !== 'web' ? 'http://192.168.2.11:3000' : process.env.EXPO_PUBLIC_WEB_SERVER_URL
 
 export const getToken = async () => {
   const token = await AsyncStorage.getItem('token')
